@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import {
   ChatBubbleLeftIcon,
   CheckCircleIcon,
@@ -7,7 +7,7 @@ import {
   LightBulbIcon,
 } from "@heroicons/react/24/outline";
 
-const GeneratedQuestions = ({ questions }) => {
+function GeneratedQuestionsComponent({ questions }) {
   const [selectedQuestions, setSelectedQuestions] = useState(new Set());
 
   const toggleQuestion = (index) => {
@@ -20,22 +20,32 @@ const GeneratedQuestions = ({ questions }) => {
     setSelectedQuestions(newSelected);
   };
 
-  if (!questions || questions.length === 0) return null;
+  if (!questions || questions.length === 0)
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
+        <p className="text-gray-500 text-center">
+          Upload a resume to generate interview questions.
+        </p>
+      </div>
+    );
 
   const categories = {
     technical: {
       icon: DocumentTextIcon,
       title: "Technical Competency",
+      description: "Questions focused on technical skills and knowledge",
       questions: questions.filter((q) => q.type === "technical"),
     },
     behavioral: {
       icon: UserGroupIcon,
       title: "Behavioral & Cultural Fit",
+      description: "Questions about work style and team collaboration",
       questions: questions.filter((q) => q.type === "behavioral"),
     },
     experience: {
       icon: LightBulbIcon,
       title: "Experience Validation",
+      description: "Questions based on past work experience",
       questions: questions.filter((q) => q.type === "experience"),
     },
   };
@@ -70,9 +80,14 @@ const GeneratedQuestions = ({ questions }) => {
               <div key={key} className="bg-gray-50 rounded-lg p-6">
                 <div className="flex items-center mb-4">
                   <CategoryIcon className="h-5 w-5 text-blue-500 mr-2" />
-                  <h3 className="text-lg font-medium text-gray-700">
-                    {category.title}
-                  </h3>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-700">
+                      {category.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {category.description}
+                    </p>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   {category.questions.map((question, index) => (
@@ -104,16 +119,11 @@ const GeneratedQuestions = ({ questions }) => {
                                 : "text-gray-700"
                             }`}
                           >
-                            {question.text}
+                            {question.question}
                           </p>
                           {question.context && (
                             <p className="mt-2 text-sm text-gray-500">
-                              Based on: {question.context}
-                            </p>
-                          )}
-                          {question.rationale && (
-                            <p className="mt-2 text-sm text-gray-400">
-                              Assessment Goal: {question.rationale}
+                              {question.context}
                             </p>
                           )}
                         </div>
@@ -129,12 +139,16 @@ const GeneratedQuestions = ({ questions }) => {
 
       <div className="mt-6 p-4 bg-blue-50 rounded-lg">
         <p className="text-sm text-blue-600">
-          Pro Tip: Select questions to create your interview script. Questions
-          are tailored based on the candidate's profile and role requirements.
+          Pro Tip: Select questions to create your interview script. These
+          questions are automatically generated and tailored based on the
+          candidate's resume.
         </p>
       </div>
     </div>
   );
-};
+}
+
+const GeneratedQuestions = memo(GeneratedQuestionsComponent);
+GeneratedQuestions.displayName = "GeneratedQuestions";
 
 export default GeneratedQuestions;

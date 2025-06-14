@@ -10,7 +10,7 @@ const ACCEPT_CONFIG = {
   ],
 };
 
-const ResumeUpload = memo(({ onFileUpload }) => {
+function ResumeUploadComponent({ onFileUpload }) {
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -70,6 +70,9 @@ const ResumeUpload = memo(({ onFileUpload }) => {
       </div>
     </div>
   );
-});
+}
+
+const ResumeUpload = memo(ResumeUploadComponent);
+ResumeUpload.displayName = "ResumeUpload";
 
 export default ResumeUpload;
