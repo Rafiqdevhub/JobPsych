@@ -10,7 +10,9 @@ const ACCEPT_CONFIG = {
   ],
 };
 
-function ResumeUploadComponent({ onFileUpload }) {
+// Define the component as an arrow function
+const ResumeUploadComponent = ({ onFileUpload }) => {
+  // Define callbacks inside the component body
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -21,6 +23,7 @@ function ResumeUploadComponent({ onFileUpload }) {
     [onFileUpload]
   );
 
+  // Use dropzone hook inside the component body
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: ACCEPT_CONFIG,
@@ -70,9 +73,13 @@ function ResumeUploadComponent({ onFileUpload }) {
       </div>
     </div>
   );
-}
+};
 
+// Create memoized version of the component
 const ResumeUpload = memo(ResumeUploadComponent);
+
+// Add display name for better debugging
 ResumeUpload.displayName = "ResumeUpload";
 
+// Export the memoized component
 export default ResumeUpload;

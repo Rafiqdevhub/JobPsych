@@ -66,7 +66,12 @@ const App = () => {
         "https://jobpsych-backend.vercel.app/api/analyze-resume",
         {
           method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
           body: formData,
+          credentials: "include",
+          mode: "cors",
         }
       );
 
