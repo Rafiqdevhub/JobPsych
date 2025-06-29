@@ -62,18 +62,13 @@ const App = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        "https://jobpsych-backend.vercel.app/api/analyze-resume",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
-          body: formData,
-          credentials: "include",
-          mode: "cors",
-        }
-      );
+      const response = await fetch("http://localhost:8000/api/analyze-resume", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

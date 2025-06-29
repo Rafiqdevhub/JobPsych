@@ -10,8 +10,8 @@ const ACCEPT_CONFIG = {
   ],
 };
 
-// Define the component as an arrow function
-const ResumeUploadComponent = ({ onFileUpload }) => {
+// Define the component as a function declaration
+function ResumeUploadComponent({ onFileUpload }) {
   // Define callbacks inside the component body
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -73,7 +73,7 @@ const ResumeUploadComponent = ({ onFileUpload }) => {
       </div>
     </div>
   );
-};
+}
 
 // Create memoized version of the component
 const ResumeUpload = memo(ResumeUploadComponent);
@@ -81,5 +81,4 @@ const ResumeUpload = memo(ResumeUploadComponent);
 // Add display name for better debugging
 ResumeUpload.displayName = "ResumeUpload";
 
-// Export the memoized component
 export default ResumeUpload;

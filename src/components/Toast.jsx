@@ -28,7 +28,7 @@ const ICON_STYLES = {
   success: "text-green-500 animate-bounce",
 };
 
-const ToastComponent = ({ message, type = "error", show, onClose }) => {
+function ToastComponent({ message, type = "error", show, onClose }) {
   useEffect(() => {
     if (show) {
       const timer = setTimeout(() => {
@@ -93,7 +93,7 @@ const ToastComponent = ({ message, type = "error", show, onClose }) => {
       </div>
     </Transition>
   );
-};
+}
 
 // Create memoized version of the component
 const Toast = memo(ToastComponent);
@@ -101,5 +101,4 @@ const Toast = memo(ToastComponent);
 // Add display name for better debugging
 Toast.displayName = "Toast";
 
-// Export the memoized component
 export default Toast;
