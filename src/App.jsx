@@ -116,7 +116,6 @@ const App = () => {
         originalError: null,
       });
     } catch (error) {
-      console.error("Error analyzing resume:", error);
       const errorMessage = formatErrorMessage(error.message);
       const errorType = getErrorType(error.message);
       const errorCategory = getErrorCategory(error.message);
@@ -165,22 +164,41 @@ const App = () => {
     });
   };
 
+  const shouldShowAsToast = () => {
+    if (!error.show) return false;
+    const result =
+      error.type === "success" ||
+      (error.type === "warning" && error.category === "file");
+    return result;
+  };
+
+  const shouldShowAsErrorComponent = () => {
+    if (!error.show) return false;
+    const result =
+      error.type === "error" &&
+      error.category &&
+      ["network", "server", "upload"].includes(error.category);
+
+    return result;
+  };
+
   const renderToast = () => {
-    if (!error.show || error.type !== "success") return null;
+    if (!shouldShowAsToast()) return null;
 
     try {
       return (
         <Toast
+          key="app-toast"
           show={true}
           message={error.message}
           type={error.type}
           onClose={closeToast}
         />
       );
-    } catch (toastError) {
-      console.warn("Toast component failed, using fallback:", toastError);
+    } catch {
       return (
         <SimpleToast
+          key="app-simple-toast"
           show={true}
           message={error.message}
           type={error.type}
@@ -203,8 +221,9 @@ const App = () => {
   };
 
   const renderErrorComponent = () => {
-    if (!error.show || error.type === "success") return null;
+    if (!shouldShowAsErrorComponent()) return null;
 
+    // Only show for serious errors: network, server, upload
     switch (error.category) {
       case "network":
         return (
@@ -257,9 +276,8 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
-      {renderToast()}
-
-      {error.show && error.category && renderErrorComponent()}
+      {/* Only render toast if we're not showing an error component */}
+      {!shouldShowAsErrorComponent() && renderToast()}
 
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] animate-[wave_10s_linear_infinite] motion-safe:transform-none"></div>
@@ -316,8 +334,10 @@ const App = () => {
               <p className="text-gray-500 animate-pulse">Analyzing resume...</p>
             </div>
           </div>
-        ) : error.show && error.category ? (
-          <div className="py-8">{renderErrorComponent()}</div>
+        ) : shouldShowAsErrorComponent() ? (
+          <div key="app-error-component" className="py-8">
+            {renderErrorComponent()}
+          </div>
         ) : (
           <div className="relative space-y-8 z-10">
             <div
