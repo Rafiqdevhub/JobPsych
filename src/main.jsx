@@ -1,21 +1,28 @@
-import { StrictMode } from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import React from "react";
 import "./index.css";
 import App from "./App.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 // Register Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js")
-      .then(() => {})
-      .catch(() => {});
+      .then(() => {
+        // Service Worker registered successfully
+      })
+      .catch((error) => {
+        console.error("Service Worker registration failed:", error);
+      });
   });
 }
 
-createRoot(document.getElementById("root")).render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>
 );

@@ -1,11 +1,81 @@
 import React, { Fragment, useEffect, memo } from "react";
-import { Transition } from "@headlessui/react";
-import {
-  XCircleIcon,
-  ExclamationTriangleIcon,
-  CheckCircleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+
+// Fallback icons as SVG elements to avoid dependency issues
+const XCircleIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+const ExclamationTriangleIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+    />
+  </svg>
+);
+
+const CheckCircleIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+const XMarkIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
+);
+
+// Simple Transition component fallback
+const SimpleTransition = ({ show, children, className = "" }) => {
+  if (!show) return null;
+  return (
+    <div className={`transition-all duration-300 ${className}`}>{children}</div>
+  );
+};
 
 const ICONS = {
   error: XCircleIcon,
@@ -30,7 +100,7 @@ const ICON_STYLES = {
 
 function ToastComponent({ message, type = "error", show, onClose }) {
   useEffect(() => {
-    if (show) {
+    if (show && onClose) {
       const timer = setTimeout(() => {
         onClose();
       }, 5000);
@@ -38,37 +108,34 @@ function ToastComponent({ message, type = "error", show, onClose }) {
     }
   }, [show, onClose]);
 
-  const Icon = ICONS[type];
+  // Early return if component should not render
+  if (!show) return null;
+
+  const Icon = ICONS[type] || XCircleIcon;
 
   return (
-    <Transition
+    <SimpleTransition
       show={show}
-      as={Fragment}
-      enter="transform ease-out duration-300 transition"
-      enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-      enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-      leave="transition ease-in duration-100"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
+      className="fixed top-4 right-4 z-50 w-full max-w-md transform-gpu"
     >
-      <div className="fixed top-4 right-4 z-50 w-full max-w-md transform-gpu">
-        <div
-          className={`rounded-xl border-2 p-4 ${STYLES[type]} hover:scale-102 transition-all duration-300 ease-in-out`}
-          style={{ boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)" }}
-        >
-          <div className="flex items-center space-x-3">
-            <div className="flex-shrink-0 relative">
-              <div className="absolute -inset-1 rounded-full blur-sm opacity-30 bg-current"></div>
-              <Icon
-                className={`h-6 w-6 relative ${ICON_STYLES[type]}`}
-                aria-hidden="true"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold tracking-wide leading-5">
-                {message}
-              </p>
-            </div>
+      <div
+        className={`rounded-xl border-2 p-4 ${STYLES[type]} hover:scale-102 transition-all duration-300 ease-in-out`}
+        style={{ boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)" }}
+      >
+        <div className="flex items-center space-x-3">
+          <div className="flex-shrink-0 relative">
+            <div className="absolute -inset-1 rounded-full blur-sm opacity-30 bg-current"></div>
+            <Icon
+              className={`h-6 w-6 relative ${ICON_STYLES[type]}`}
+              aria-hidden="true"
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold tracking-wide leading-5">
+              {message || "An error occurred"}
+            </p>
+          </div>
+          {onClose && (
             <div className="flex-shrink-0">
               <button
                 type="button"
@@ -88,10 +155,10 @@ function ToastComponent({ message, type = "error", show, onClose }) {
                 />
               </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
-    </Transition>
+    </SimpleTransition>
   );
 }
 

@@ -1,24 +1,46 @@
 import "./index.css";
 import React, { useState } from "react";
 import ResumeUpload from "./components/ResumeUpload";
+import SimpleResumeUpload from "./components/SimpleResumeUpload";
 import ResumeDetails from "./components/ResumeDetails";
 import GeneratedQuestions from "./components/GeneratedQuestions";
 import Toast from "./components/Toast";
-import { formatErrorMessage, getErrorType } from "./utils/errorHandler";
+import SimpleToast from "./components/SimpleToast";
+import NetworkError from "./components/NetworkError";
+import LoadingError from "./components/LoadingError";
+import {
+  formatErrorMessage,
+  getErrorType,
+  getErrorCategory,
+  shouldShowRetry,
+  shouldShowReset,
+  ERROR_TYPES,
+} from "./utils/errorHandler";
+import { API_ENDPOINTS } from "./utils/api";
 
 const App = () => {
   const [resumeData, setResumeData] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentFile, setCurrentFile] = useState(null);
   const [error, setError] = useState({
     show: false,
     message: "",
     type: "error",
+    category: null,
+    originalError: null,
   });
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
-    setError({ show: false, message: "", type: "error" });
+    setCurrentFile(file);
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
 
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     if (file.size > MAX_FILE_SIZE) {
@@ -27,6 +49,8 @@ const App = () => {
         message:
           "The file is too large (max 5MB). Please upload a smaller file or compress the current one.",
         type: "warning",
+        category: "file",
+        originalError: "File too large",
       });
       setIsLoading(false);
       return;
@@ -53,6 +77,8 @@ const App = () => {
         show: true,
         message: "Please upload a PDF or Word document (DOC/DOCX).",
         type: "warning",
+        category: "file",
+        originalError: "File type not supported",
       });
       setIsLoading(false);
       return;
@@ -62,7 +88,7 @@ const App = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("http://localhost:8000/api/analyze-resume", {
+      const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -72,7 +98,7 @@ const App = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to analyze resume");
+        throw new Error(errorData.detail || `Server error: ${response.status}`);
       }
 
       const data = await response.json();
@@ -84,29 +110,157 @@ const App = () => {
         message:
           "Resume successfully analyzed! Scroll down to view the results.",
         type: "success",
+        category: null,
+        originalError: null,
       });
     } catch (error) {
       console.error("Error analyzing resume:", error);
       const errorMessage = formatErrorMessage(error.message);
       const errorType = getErrorType(error.message);
+      const errorCategory = getErrorCategory(error.message);
+
       setError({
         show: true,
         message: errorMessage,
-        type: errorType,
+        type:
+          errorType === ERROR_TYPES.VALIDATION || errorType === ERROR_TYPES.FILE
+            ? "warning"
+            : "error",
+        category: errorCategory,
+        originalError: error.message,
       });
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleRetry = () => {
+    if (currentFile) {
+      handleFileUpload(currentFile);
+    }
+  };
+
+  const handleReset = () => {
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
+    setResumeData(null);
+    setQuestions([]);
+    setCurrentFile(null);
+  };
+
+  const closeToast = () => {
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
+  };
+
+  const renderToast = () => {
+    if (!error.show || error.type !== "success") return null;
+
+    try {
+      return (
+        <Toast
+          show={true}
+          message={error.message}
+          type={error.type}
+          onClose={closeToast}
+        />
+      );
+    } catch (toastError) {
+      console.warn("Toast component failed, using fallback:", toastError);
+      return (
+        <SimpleToast
+          show={true}
+          message={error.message}
+          type={error.type}
+          onClose={closeToast}
+        />
+      );
+    }
+  };
+
+  const renderResumeUpload = () => {
+    try {
+      return <ResumeUpload onFileUpload={handleFileUpload} />;
+    } catch (uploadError) {
+      console.warn(
+        "ResumeUpload component failed, using fallback:",
+        uploadError
+      );
+      return <SimpleResumeUpload onFileUpload={handleFileUpload} />;
+    }
+  };
+
+  // Render error components based on error category
+  const renderErrorComponent = () => {
+    if (!error.show || error.type === "success") return null;
+
+    switch (error.category) {
+      case "network":
+        return (
+          <NetworkError
+            title="Connection Problem"
+            message={error.message}
+            onRetry={
+              shouldShowRetry(getErrorType(error.originalError))
+                ? handleRetry
+                : null
+            }
+            type="network"
+          />
+        );
+      case "server":
+        return (
+          <NetworkError
+            title="Server Error"
+            message={error.message}
+            onRetry={
+              shouldShowRetry(getErrorType(error.originalError))
+                ? handleRetry
+                : null
+            }
+            type="server"
+          />
+        );
+      case "upload":
+        return (
+          <LoadingError
+            title="Upload Failed"
+            message={error.message}
+            onRetry={
+              shouldShowRetry(getErrorType(error.originalError))
+                ? handleRetry
+                : null
+            }
+            onReset={
+              shouldShowReset(getErrorType(error.originalError))
+                ? handleReset
+                : null
+            }
+            type="upload"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
-      <Toast
-        show={error.show}
-        message={error.message}
-        type={error.type}
-        onClose={() => setError({ show: false, message: "", type: "error" })}
-      />
+      {/* Safe Toast rendering */}
+      {renderToast()}
+
+      {/* Show error components for serious errors */}
+      {error.show && error.category && renderErrorComponent()}
 
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] animate-[wave_10s_linear_infinite] motion-safe:transform-none"></div>
@@ -163,6 +317,9 @@ const App = () => {
               <p className="text-gray-500 animate-pulse">Analyzing resume...</p>
             </div>
           </div>
+        ) : error.show && error.category ? (
+          // Show error component instead of normal content for serious errors
+          <div className="py-8">{renderErrorComponent()}</div>
         ) : (
           <div className="relative space-y-8 z-10">
             <div
@@ -172,7 +329,7 @@ const App = () => {
               <div className="relative left-[calc(50%-20rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blue-100 to-blue-50 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
             </div>
 
-            <ResumeUpload onFileUpload={handleFileUpload} />
+            {renderResumeUpload()}
             {resumeData && <ResumeDetails resumeData={resumeData} />}
             {questions.length > 0 && (
               <GeneratedQuestions questions={questions} />

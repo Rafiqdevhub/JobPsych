@@ -1,6 +1,23 @@
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import { useDropzone } from "react-dropzone";
-import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+
+// Inline CloudArrowUpIcon to avoid external dependency issues
+const CloudArrowUpIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+    />
+  </svg>
+);
 
 const ACCEPT_CONFIG = {
   "application/pdf": [".pdf"],
@@ -12,23 +29,45 @@ const ACCEPT_CONFIG = {
 
 // Define the component as a function declaration
 function ResumeUploadComponent({ onFileUpload }) {
-  // Define callbacks inside the component body
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      if (file) {
-        onFileUpload(file);
-      }
-    },
-    [onFileUpload]
-  );
+  // Define onDrop function without useCallback to avoid hook issues
+  const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file && onFileUpload) {
+      onFileUpload(file);
+    }
+  };
 
   // Use dropzone hook inside the component body
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: ACCEPT_CONFIG,
-    multiple: false,
-  });
+  let dropzoneProps;
+  try {
+    const dropzone = useDropzone({
+      onDrop,
+      accept: ACCEPT_CONFIG,
+      multiple: false,
+    });
+    dropzoneProps = dropzone;
+  } catch (error) {
+    console.warn("Dropzone hook failed, using fallback:", error);
+    // Fallback when dropzone fails
+    dropzoneProps = {
+      getRootProps: () => ({
+        onClick: () => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = ".pdf,.doc,.docx";
+          input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) onDrop([file]);
+          };
+          input.click();
+        },
+      }),
+      getInputProps: () => ({ style: { display: "none" } }),
+      isDragActive: false,
+    };
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = dropzoneProps;
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl">
