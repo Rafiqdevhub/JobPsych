@@ -1,4 +1,3 @@
-// Error types enumeration
 export const ERROR_TYPES = {
   NETWORK: "network",
   SERVER: "server",
@@ -8,7 +7,6 @@ export const ERROR_TYPES = {
   UNKNOWN: "unknown",
 };
 
-// Error message mappings
 const ERROR_MESSAGES = {
   "validation errors for ResumeData":
     "Unable to analyze some parts of your resume. Please make sure your resume is properly formatted and contains the necessary information.",
@@ -76,11 +74,7 @@ export const getErrorType = (error) => {
     return ERROR_TYPES.TIMEOUT;
   }
 
-  return lowerError.includes("validation") ||
-    lowerError.includes("file type") ||
-    lowerError.includes("file too large")
-    ? "warning"
-    : "error";
+  return ERROR_TYPES.UNKNOWN;
 };
 
 export const getErrorCategory = (error) => {

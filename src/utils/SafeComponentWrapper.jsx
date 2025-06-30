@@ -1,6 +1,5 @@
 import React from "react";
 
-// Safe component wrapper that prevents hook call issues
 export function SafeComponentWrapper({ children, fallback = null }) {
   try {
     return React.isValidElement(children) ? children : fallback;
@@ -10,7 +9,6 @@ export function SafeComponentWrapper({ children, fallback = null }) {
   }
 }
 
-// Higher-order component to wrap components safely
 export function withErrorBoundary(Component, fallbackComponent = null) {
   return function WrappedComponent(props) {
     try {

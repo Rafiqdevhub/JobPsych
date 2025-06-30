@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, memo } from "react";
+import React, { Fragment } from "react";
 
-// Fallback icons as SVG elements to avoid dependency issues
 const XCircleIcon = ({ className, ...props }) => (
   <svg
     className={className}
@@ -69,7 +68,6 @@ const XMarkIcon = ({ className, ...props }) => (
   </svg>
 );
 
-// Simple Transition component fallback
 const SimpleTransition = ({ show, children, className = "" }) => {
   if (!show) return null;
   return (
@@ -98,17 +96,13 @@ const ICON_STYLES = {
   success: "text-green-500 animate-bounce",
 };
 
-function ToastComponent({ message, type = "error", show, onClose }) {
-  useEffect(() => {
-    if (show && onClose) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [show, onClose]);
+function Toast({ message, type = "error", show, onClose }) {
+  if (show && onClose) {
+    setTimeout(() => {
+      onClose();
+    }, 5000);
+  }
 
-  // Early return if component should not render
   if (!show) return null;
 
   const Icon = ICONS[type] || XCircleIcon;
@@ -161,11 +155,5 @@ function ToastComponent({ message, type = "error", show, onClose }) {
     </SimpleTransition>
   );
 }
-
-// Create memoized version of the component
-const Toast = memo(ToastComponent);
-
-// Add display name for better debugging
-Toast.displayName = "Toast";
 
 export default Toast;

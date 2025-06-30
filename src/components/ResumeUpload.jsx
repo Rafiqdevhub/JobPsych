@@ -1,7 +1,5 @@
-import React, { memo } from "react";
-import { useDropzone } from "react-dropzone";
+import React from "react";
 
-// Inline CloudArrowUpIcon to avoid external dependency issues
 const CloudArrowUpIcon = ({ className, ...props }) => (
   <svg
     className={className}
@@ -19,55 +17,54 @@ const CloudArrowUpIcon = ({ className, ...props }) => (
   </svg>
 );
 
-const ACCEPT_CONFIG = {
-  "application/pdf": [".pdf"],
-  "application/msword": [".doc"],
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-    ".docx",
-  ],
-};
+function ResumeUpload({ onFileUpload }) {
+  // Handle file drop
+  const handleFileDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer?.files;
+    if (files && files[0] && onFileUpload) {
+      const file = files[0];
+      const allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain",
+      ];
 
-// Define the component as a function declaration
-function ResumeUploadComponent({ onFileUpload }) {
-  // Define onDrop function without useCallback to avoid hook issues
-  const onDrop = (acceptedFiles) => {
-    const file = acceptedFiles[0];
+      if (allowedTypes.includes(file.type)) {
+        onFileUpload(file);
+      } else {
+        console.warn("Invalid file type:", file.type);
+      }
+    }
+  };
+
+  // Handle file input change
+  const handleFileInput = (e) => {
+    const file = e.target?.files?.[0];
     if (file && onFileUpload) {
       onFileUpload(file);
     }
   };
 
-  // Use dropzone hook inside the component body
-  let dropzoneProps;
-  try {
-    const dropzone = useDropzone({
-      onDrop,
-      accept: ACCEPT_CONFIG,
-      multiple: false,
-    });
-    dropzoneProps = dropzone;
-  } catch (error) {
-    console.warn("Dropzone hook failed, using fallback:", error);
-    // Fallback when dropzone fails
-    dropzoneProps = {
-      getRootProps: () => ({
-        onClick: () => {
-          const input = document.createElement("input");
-          input.type = "file";
-          input.accept = ".pdf,.doc,.docx";
-          input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) onDrop([file]);
-          };
-          input.click();
-        },
-      }),
-      getInputProps: () => ({ style: { display: "none" } }),
-      isDragActive: false,
-    };
-  }
+  // Handle drag over
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
-  const { getRootProps, getInputProps, isDragActive } = dropzoneProps;
+  // Handle drag enter
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+  };
+
+  // Handle click to open file dialog
+  const handleClick = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pdf,.doc,.docx";
+    input.onchange = handleFileInput;
+    input.click();
+  };
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl">
@@ -75,28 +72,15 @@ function ResumeUploadComponent({ onFileUpload }) {
         Review Candidate Resume
       </h2>
       <div
-        {...getRootProps()}
-        className={`p-10 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all duration-300 transform hover:scale-[1.02]
-          ${
-            isDragActive
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 hover:border-blue-400 hover:bg-blue-50/30"
-          }`}
+        onDrop={handleFileDrop}
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragEnter}
+        onClick={handleClick}
+        className="p-10 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all duration-300 transform hover:scale-[1.02] border-gray-300 hover:border-blue-400 hover:bg-blue-50/30"
       >
-        <input {...getInputProps()} />
-        <CloudArrowUpIcon
-          className={`mx-auto h-12 w-12 transition-colors duration-300 ${
-            isDragActive ? "text-blue-500" : "text-gray-400"
-          }`}
-        />
-        <p
-          className={`mt-4 text-base transition-colors duration-300 ${
-            isDragActive ? "text-blue-600" : "text-gray-600"
-          }`}
-        >
-          {isDragActive
-            ? "Drop candidate's resume here..."
-            : "Upload candidate's resume (drag & drop or click)"}
+        <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400 transition-colors duration-300" />
+        <p className="mt-4 text-base text-gray-600 transition-colors duration-300">
+          Upload candidate's resume (drag & drop or click)
         </p>
         <p className="mt-2 text-xs text-gray-500">
           Accepts PDF, DOC, and DOCX formats
@@ -113,11 +97,5 @@ function ResumeUploadComponent({ onFileUpload }) {
     </div>
   );
 }
-
-// Create memoized version of the component
-const ResumeUpload = memo(ResumeUploadComponent);
-
-// Add display name for better debugging
-ResumeUpload.displayName = "ResumeUpload";
 
 export default ResumeUpload;

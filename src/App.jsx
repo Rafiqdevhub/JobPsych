@@ -92,8 +92,10 @@ const App = () => {
         method: "POST",
         headers: {
           Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
         body: formData,
+        mode: "cors",
       });
 
       if (!response.ok) {
@@ -200,7 +202,6 @@ const App = () => {
     }
   };
 
-  // Render error components based on error category
   const renderErrorComponent = () => {
     if (!error.show || error.type === "success") return null;
 
@@ -256,10 +257,8 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
-      {/* Safe Toast rendering */}
       {renderToast()}
 
-      {/* Show error components for serious errors */}
       {error.show && error.category && renderErrorComponent()}
 
       <div className="absolute inset-0 z-0">
@@ -318,7 +317,6 @@ const App = () => {
             </div>
           </div>
         ) : error.show && error.category ? (
-          // Show error component instead of normal content for serious errors
           <div className="py-8">{renderErrorComponent()}</div>
         ) : (
           <div className="relative space-y-8 z-10">
