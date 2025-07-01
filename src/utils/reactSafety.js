@@ -1,28 +1,26 @@
 import React from "react";
 
-export const safeUseEffect = (effect, deps) => {
+export const useSafeEffect = (effect, deps) => {
   try {
     return React.useEffect(effect, deps);
-  } catch (error) {
-    console.warn("useEffect error caught:", error);
+  } catch {
     if (typeof effect === "function") {
       try {
         const cleanup = effect();
         if (typeof cleanup === "function") {
           setTimeout(cleanup, 0);
         }
-      } catch (effectError) {
-        console.warn("Effect execution failed:", effectError);
+      } catch {
+        // Effect execution failed silently
       }
     }
   }
 };
 
-export const safeUseState = (initialState) => {
+export const useSafeState = (initialState) => {
   try {
     return React.useState(initialState);
-  } catch (error) {
-    console.warn("useState error caught:", error);
+  } catch {
     let currentState = initialState;
     const setState = (newState) => {
       currentState =
@@ -38,14 +36,13 @@ export const safeRender = (Component, props = {}, fallback = null) => {
       return React.createElement(Component, props);
     }
     return Component;
-  } catch (error) {
-    console.warn("Component render error:", error);
+  } catch {
     return fallback;
   }
 };
 
 export default {
-  safeUseEffect,
-  safeUseState,
+  useSafeEffect,
+  useSafeState,
   safeRender,
 };

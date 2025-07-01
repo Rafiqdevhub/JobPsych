@@ -1,11 +1,9 @@
 import React from "react";
 
-// Simple file upload component without external dependencies
 const SimpleResumeUpload = ({ onFileUpload }) => {
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file && onFileUpload) {
-      // Validate file type
       const allowedTypes = [
         "application/pdf",
         "application/msword",
@@ -23,7 +21,6 @@ const SimpleResumeUpload = ({ onFileUpload }) => {
         onFileUpload(file);
       } else {
         console.warn("Invalid file type uploaded:", file.type, fileExtension);
-        // Error will be handled by the parent component's validation
       }
     }
   };
@@ -32,7 +29,6 @@ const SimpleResumeUpload = ({ onFileUpload }) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file && onFileUpload) {
-      // Create a synthetic event to reuse the same validation logic
       handleFileSelect({ target: { files: [file] } });
     }
   };

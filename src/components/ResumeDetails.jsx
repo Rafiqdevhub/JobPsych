@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   BriefcaseIcon,
   AcademicCapIcon,
@@ -23,7 +24,6 @@ const ResumeDetails = ({ resumeData }) => {
         </h2>
       </div>
 
-      {/* Key Highlights */}
       {highlights && (
         <div className="mb-8 bg-blue-50 rounded-lg p-4">
           <div className="flex items-center mb-3">
@@ -42,7 +42,6 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
       )}
 
-      {/* Personal Information */}
       <div className="mb-8">
         <div className="flex items-center mb-4">
           <UserCircleIcon className="h-6 w-6 text-blue-500 mr-2" />
@@ -64,7 +63,6 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
       </div>
 
-      {/* Work Experience */}
       <div className="mb-8">
         <div className="flex items-center mb-4">
           <BriefcaseIcon className="h-6 w-6 text-blue-500 mr-2" />
@@ -100,7 +98,6 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
       </div>
 
-      {/* Skills Assessment */}
       <div className="mb-8">
         <div className="flex items-center mb-4">
           <ChartBarIcon className="h-6 w-6 text-blue-500 mr-2" />
@@ -122,7 +119,6 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
       </div>
 
-      {/* Education */}
       <div>
         <div className="flex items-center mb-4">
           <AcademicCapIcon className="h-6 w-6 text-blue-500 mr-2" />

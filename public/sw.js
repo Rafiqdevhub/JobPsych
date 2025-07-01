@@ -1,74 +1,43 @@
-// Service Worker for JobPsych PWA
-const CACHE_NAME = "jobpsych-cache-v1";
-const ASSETS_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/logo.svg",
-  "/manifest.json",
-  "/assets/",
-];
+// Service Worker Disabled - No Caching
+// This service worker is intentionally disabled to prevent caching issues
 
-// Install event - cache static assets
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
+const CACHE_NAME = "jobpsych-no-cache";
+
+self.addEventListener("install", (_event) => {
+  // Skip waiting and activate immediately
   self.skipWaiting();
 });
 
-// Activate event - cleanup old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
+    // Clear all existing caches
     caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
+      return Promise.all(cacheNames.map((name) => caches.delete(name)));
     })
   );
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener("fetch", (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) return;
-
-  // Handle API requests differently
-  if (event.request.url.includes("/api/")) {
-    event.respondWith(
-      fetch(event.request).catch(() => {
+  // Never use cache, always fetch from network
+  event.respondWith(
+    fetch(event.request).catch((error) => {
+      // For API calls that fail, return error response
+      if (event.request.url.includes("/api/")) {
         return new Response(
-          JSON.stringify({ error: "You are currently offline" }),
+          JSON.stringify({ error: "Network request failed" }),
           {
             status: 503,
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "Cache-Control": "no-cache, no-store, must-revalidate",
+              Pragma: "no-cache",
+              Expires: "0",
+            },
           }
         );
-      })
-    );
-    return;
-  }
-
-  // Cache-first strategy for static assets
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
       }
-      return fetch(event.request).then((response) => {
-        // Cache new resources
-        if (response.ok && response.type === "basic") {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return response;
-      });
+      throw error;
     })
   );
 });

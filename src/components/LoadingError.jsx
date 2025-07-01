@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   ExclamationCircleIcon,
   ArrowPathIcon,
@@ -112,7 +113,6 @@ const LoadingError = ({
             )}
           </div>
 
-          {/* Help Text */}
           <div className="mt-6 pt-4 border-t border-gray-100">
             <p className="text-xs text-gray-500">
               Need help? Make sure your resume is properly formatted and try

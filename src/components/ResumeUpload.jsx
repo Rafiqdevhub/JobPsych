@@ -18,7 +18,6 @@ const CloudArrowUpIcon = ({ className, ...props }) => (
 );
 
 function ResumeUpload({ onFileUpload }) {
-  // Handle file drop
   const handleFileDrop = (e) => {
     e.preventDefault();
     const files = e.dataTransfer?.files;
@@ -39,7 +38,6 @@ function ResumeUpload({ onFileUpload }) {
     }
   };
 
-  // Handle file input change
   const handleFileInput = (e) => {
     const file = e.target?.files?.[0];
     if (file && onFileUpload) {
@@ -47,17 +45,14 @@ function ResumeUpload({ onFileUpload }) {
     }
   };
 
-  // Handle drag over
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
-  // Handle drag enter
   const handleDragEnter = (e) => {
     e.preventDefault();
   };
 
-  // Handle click to open file dialog
   const handleClick = () => {
     const input = document.createElement("input");
     input.type = "file";
