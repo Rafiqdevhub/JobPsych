@@ -48,6 +48,27 @@ class ErrorBoundary extends React.Component {
     });
   };
 
+  handleUploadNew = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null,
+      retryCount: 0,
+    });
+
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("resumeData");
+        localStorage.removeItem("questions");
+        localStorage.removeItem("currentFile");
+      } catch (e) {
+        console.warn("Could not clear localStorage:", e);
+      }
+
+      window.location.reload();
+    }
+  };
+
   render() {
     if (this.state.hasError) {
       return (
@@ -85,9 +106,9 @@ class ErrorBoundary extends React.Component {
                 </h1>
 
                 <p className="text-gray-600 mb-6 leading-relaxed">
-                  We encountered an unexpected error while loading the
-                  application. Don't worry, this is usually temporary and can be
-                  fixed easily.
+                  We encountered an unexpected error while processing your
+                  resume. You can try again with the same file, upload a new
+                  resume, or reload the page to start fresh.
                 </p>
 
                 {this.state.error && (
@@ -123,6 +144,26 @@ class ErrorBoundary extends React.Component {
                   </button>
 
                   <button
+                    onClick={this.handleUploadNew}
+                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
+                  >
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    Upload New Resume
+                  </button>
+
+                  <button
                     onClick={this.handleReload}
                     className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
                   >
@@ -132,8 +173,8 @@ class ErrorBoundary extends React.Component {
 
                 <div className="mt-8 pt-6 border-t border-gray-100">
                   <p className="text-sm text-gray-500">
-                    If the problem persists, please try refreshing your browser
-                    or contact support.
+                    If the problem persists, try uploading a different resume
+                    file or contact support for assistance.
                   </p>
                   <div className="mt-2 flex items-center justify-center space-x-4 text-xs text-gray-400">
                     <span>Error ID: {Date.now()}</span>
