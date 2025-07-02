@@ -12,9 +12,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     // Clear all existing caches
     caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((name) => caches.delete(name))
-      );
+      return Promise.all(cacheNames.map((name) => caches.delete(name)));
     })
   );
   self.clients.claim();
@@ -30,11 +28,11 @@ self.addEventListener("fetch", (event) => {
           JSON.stringify({ error: "Network request failed" }),
           {
             status: 503,
-            headers: { 
+            headers: {
               "Content-Type": "application/json",
               "Cache-Control": "no-cache, no-store, must-revalidate",
-              "Pragma": "no-cache",
-              "Expires": "0"
+              Pragma: "no-cache",
+              Expires: "0",
             },
           }
         );

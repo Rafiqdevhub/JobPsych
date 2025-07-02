@@ -8,6 +8,7 @@ import Toast from "./components/Toast";
 import SimpleToast from "./components/SimpleToast";
 import NetworkError from "./components/NetworkError";
 import LoadingError from "./components/LoadingError";
+import RateLimitError from "./components/RateLimitError";
 import {
   formatErrorMessage,
   getErrorType,
@@ -99,8 +100,21 @@ const App = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || `Server error: ${response.status}`);
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = null;
+        }
+
+        const error = new Error(
+          errorData?.detail?.message ||
+            errorData?.detail ||
+            `Server error: ${response.status}`
+        );
+        error.response = response;
+        error.data = errorData;
+        throw error;
       }
 
       const data = await response.json();
@@ -116,19 +130,26 @@ const App = () => {
         originalError: null,
       });
     } catch (error) {
-      const errorMessage = formatErrorMessage(error.message);
-      const errorType = getErrorType(error.message);
-      const errorCategory = getErrorCategory(error.message);
+      const errorData = error.data || null;
+      const errorMessage = error.message;
+
+      const errorType = getErrorType(errorMessage, errorData);
+      const errorCategory = getErrorCategory(errorMessage);
+      const formattedMessage = formatErrorMessage(errorMessage, errorData);
 
       setError({
         show: true,
-        message: errorMessage,
+        message: formattedMessage,
         type:
-          errorType === ERROR_TYPES.VALIDATION || errorType === ERROR_TYPES.FILE
+          errorType === ERROR_TYPES.RATE_LIMIT
+            ? "rate_limit"
+            : errorType === ERROR_TYPES.VALIDATION ||
+              errorType === ERROR_TYPES.FILE
             ? "warning"
             : "error",
         category: errorCategory,
-        originalError: error.message,
+        originalError: errorMessage,
+        rateLimitData: errorData?.detail || null,
       });
     } finally {
       setIsLoading(false);
@@ -175,9 +196,10 @@ const App = () => {
   const shouldShowAsErrorComponent = () => {
     if (!error.show) return false;
     const result =
-      error.type === "error" &&
-      error.category &&
-      ["network", "server", "upload"].includes(error.category);
+      (error.type === "error" &&
+        error.category &&
+        ["network", "server", "upload"].includes(error.category)) ||
+      error.type === "rate_limit";
 
     return result;
   };
@@ -223,7 +245,15 @@ const App = () => {
   const renderErrorComponent = () => {
     if (!shouldShowAsErrorComponent()) return null;
 
-    // Only show for serious errors: network, server, upload
+    if (error.type === "rate_limit") {
+      return (
+        <RateLimitError
+          rateLimitData={error.rateLimitData}
+          onClose={() => setError({ show: false })}
+        />
+      );
+    }
+
     switch (error.category) {
       case "network":
         return (
@@ -276,7 +306,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 relative overflow-hidden">
-      {/* Only render toast if we're not showing an error component */}
       {!shouldShowAsErrorComponent() && renderToast()}
 
       <div className="absolute inset-0 z-0">

@@ -25,15 +25,29 @@ function ResumeUpload({ onFileUpload }) {
       const file = files[0];
       const allowedTypes = [
         "application/pdf",
-        "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/plain",
+        "application/msword",
+        "application/octet-stream",
+        "application/x-msword",
+        "application/vnd.ms-word",
+        "",
       ];
 
-      if (allowedTypes.includes(file.type)) {
+      const allowedExtensions = [".pdf", ".doc", ".docx"];
+      const fileExtension = file.name
+        .toLowerCase()
+        .substring(file.name.lastIndexOf("."));
+      const isValidExtension = allowedExtensions.includes(fileExtension);
+
+      if (allowedTypes.includes(file.type) || isValidExtension) {
         onFileUpload(file);
       } else {
-        console.warn("Invalid file type:", file.type);
+        console.warn(
+          "Invalid file type:",
+          file.type,
+          "Extension:",
+          fileExtension
+        );
       }
     }
   };

@@ -4,6 +4,7 @@ export const ERROR_TYPES = {
   VALIDATION: "validation",
   FILE: "file",
   TIMEOUT: "timeout",
+  RATE_LIMIT: "rate_limit",
   UNKNOWN: "unknown",
 };
 
@@ -20,6 +21,8 @@ const ERROR_MESSAGES = {
     "Unable to connect to the server. Please check your internet connection and try again.",
   "Failed to analyze resume":
     "We encountered an issue while analyzing your resume. Please try again or upload a different file.",
+  "Rate limit exceeded":
+    "Daily upload limit reached. You can upload 2 resumes per day.",
   500: "Server error occurred. Our team has been notified. Please try again later.",
   503: "Service temporarily unavailable. Please try again in a few moments.",
   timeout: "Request timed out. Please check your connection and try again.",
@@ -45,6 +48,15 @@ export const getErrorType = (error) => {
 
   const errorString = typeof error === "string" ? error : error.toString();
   const lowerError = errorString.toLowerCase();
+
+  // Check for rate limit first
+  if (
+    lowerError.includes("rate limit exceeded") ||
+    lowerError.includes("daily limit") ||
+    lowerError.includes("too many requests")
+  ) {
+    return ERROR_TYPES.RATE_LIMIT;
+  }
 
   if (
     lowerError.includes("network") ||
