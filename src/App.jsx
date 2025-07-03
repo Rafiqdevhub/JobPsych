@@ -91,10 +91,6 @@ const App = () => {
 
       const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
         body: formData,
         mode: "cors",
       });
@@ -118,8 +114,13 @@ const App = () => {
       }
 
       const data = await response.json();
-      setResumeData(data.resumeData);
-      setQuestions(data.questions);
+
+      const resumeData =
+        data.resumeData || data.analysis || data.resume_analysis || data;
+      const questions = data.questions || data.interview_questions || [];
+
+      setResumeData(resumeData);
+      setQuestions(questions);
 
       setError({
         show: true,

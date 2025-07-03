@@ -4,24 +4,16 @@ const RateLimitError = ({ rateLimitData, onClose }) => {
   const [timeRemaining, setTimeRemaining] = useState(null);
 
   useEffect(() => {
-    let resetTimeMs = null;
+    const calculateTimeUntilMidnightUTC = () => {
+      const now = new Date();
+      const nextMidnightUTC = new Date(now);
 
-    if (rateLimitData?.retry_after) {
-      resetTimeMs = Date.now() + rateLimitData.retry_after * 1000;
-    } else if (rateLimitData?.reset_in) {
-      const resetInStr = rateLimitData.reset_in;
-      const hoursMatch = resetInStr.match(/(\d+)h/);
-      const minutesMatch = resetInStr.match(/(\d+)m/);
+      nextMidnightUTC.setUTCHours(24, 0, 0, 0);
 
-      const hours = hoursMatch ? parseInt(hoursMatch[1]) : 0;
-      const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+      return nextMidnightUTC.getTime();
+    };
 
-      resetTimeMs = Date.now() + hours * 60 * 60 * 1000 + minutes * 60 * 1000;
-    } else if (rateLimitData?.reset_time) {
-      resetTimeMs = new Date(rateLimitData.reset_time).getTime();
-    }
-
-    if (!resetTimeMs) return;
+    const resetTimeMs = calculateTimeUntilMidnightUTC();
 
     const updateTimer = () => {
       const now = Date.now();
@@ -34,22 +26,45 @@ const RateLimitError = ({ rateLimitData, onClose }) => {
 
       const hours = Math.floor(remaining / (1000 * 60 * 60));
       const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      setTimeRemaining({ hours, minutes });
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      setTimeRemaining({ hours, minutes, seconds });
     };
 
     updateTimer();
-    const interval = setInterval(updateTimer, 60000);
+    const interval = setInterval(updateTimer, 1000);
 
     return () => clearInterval(interval);
   }, [rateLimitData]);
 
   const formatTimeRemaining = () => {
-    if (!timeRemaining) return rateLimitData?.reset_in || "soon";
+    if (!timeRemaining) return "soon";
 
-    if (timeRemaining.hours > 0) {
-      return `${timeRemaining.hours}h ${timeRemaining.minutes}m`;
+    const { hours, minutes, seconds } = timeRemaining;
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds}s`;
+    } else {
+      return `${seconds}s`;
     }
-    return `${timeRemaining.minutes}m`;
+  };
+
+  const getNextMidnightUTCString = () => {
+    const now = new Date();
+    const nextMidnightUTC = new Date(now);
+    nextMidnightUTC.setUTCHours(24, 0, 0, 0);
+
+    return nextMidnightUTC.toLocaleString("en-US", {
+      timeZone: "UTC",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    });
   };
 
   return (
@@ -141,8 +156,8 @@ const RateLimitError = ({ rateLimitData, onClose }) => {
             You can try again in: <strong>{formatTimeRemaining()}</strong>
           </p>
           <div style={{ fontSize: "12px", color: "#1e40af", opacity: 0.75 }}>
-            Your upload limit will reset in approximately{" "}
-            {formatTimeRemaining()}
+            Your upload limit resets daily at midnight UTC (
+            {getNextMidnightUTCString()})
           </div>
         </div>
 

@@ -43,17 +43,21 @@ export const formatErrorMessage = (error) => {
     : "An unexpected error occurred. Please try again later.";
 };
 
-export const getErrorType = (error) => {
+export const getErrorType = (error, errorData) => {
   if (!error) return ERROR_TYPES.UNKNOWN;
 
   const errorString = typeof error === "string" ? error : error.toString();
   const lowerError = errorString.toLowerCase();
 
-  // Check for rate limit first
   if (
     lowerError.includes("rate limit exceeded") ||
     lowerError.includes("daily limit") ||
-    lowerError.includes("too many requests")
+    lowerError.includes("too many requests") ||
+    lowerError.includes("upload limit") ||
+    (errorData?.detail &&
+      typeof errorData.detail === "object" &&
+      (errorData.detail.error?.includes("rate limit") ||
+        errorData.detail.message?.includes("daily limit")))
   ) {
     return ERROR_TYPES.RATE_LIMIT;
   }
