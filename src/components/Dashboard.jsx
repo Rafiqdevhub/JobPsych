@@ -22,6 +22,12 @@ import {
 } from "../utils/errorHandler";
 import { API_ENDPOINTS } from "../utils/api";
 import { shouldApplyRateLimits } from "../utils/env";
+import {
+  getRateLimitStatus,
+  transformRateLimitForUI,
+  canUploadMore,
+  getRecommendedAction,
+} from "../utils/rateLimitService";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -31,6 +37,8 @@ const Dashboard = () => {
   const [currentFile, setCurrentFile] = useState(null);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
+  const [rateLimitData, setRateLimitData] = useState(null);
+  const [rateLimitLoading, setRateLimitLoading] = useState(false);
 
   const [error, setError] = useState({
     show: false,
@@ -40,13 +48,45 @@ const Dashboard = () => {
     originalError: null,
   });
 
+  // Load rate limit status from backend
   useEffect(() => {
-    if (!user) {
+    const loadRateLimitStatus = async () => {
+      if (shouldApplyRateLimits()) {
+        try {
+          setRateLimitLoading(true);
+          const status = await getRateLimitStatus();
+          const transformedData = transformRateLimitForUI(status);
+          setRateLimitData(transformedData);
+
+          // Update local upload count to match backend
+          if (transformedData && transformedData.uploadsUsed !== undefined) {
+            setUploadCount(transformedData.uploadsUsed);
+          }
+        } catch (error) {
+          console.error("Failed to load rate limit status:", error);
+          // Fall back to localStorage count for anonymous users
+          if (!user) {
+            const storedCount = localStorage.getItem("resumeUploadCount");
+            if (storedCount) {
+              setUploadCount(parseInt(storedCount));
+            }
+          }
+        } finally {
+          setRateLimitLoading(false);
+        }
+      }
+    };
+
+    loadRateLimitStatus();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user && !shouldApplyRateLimits()) {
       const storedCount = localStorage.getItem("resumeUploadCount");
       if (storedCount) {
         setUploadCount(parseInt(storedCount));
       }
-    } else {
+    } else if (user) {
       setUploadCount(0);
     }
   }, [user]);
@@ -62,6 +102,37 @@ const Dashboard = () => {
   }, [uploadCount, user]);
 
   const handleFileUpload = async (file) => {
+    // Check rate limits before attempting upload
+    if (
+      shouldApplyRateLimits() &&
+      rateLimitData &&
+      !canUploadMore(rateLimitData)
+    ) {
+      const action = getRecommendedAction(rateLimitData);
+
+      if (action.action === "signup") {
+        setError({
+          show: true,
+          message: action.message,
+          type: "warning",
+          category: "rate_limit",
+          originalError: null,
+        });
+        setTimeout(() => setShowPricingModal(true), 1500);
+        return;
+      } else if (action.action === "upgrade") {
+        setError({
+          show: true,
+          message: action.message,
+          type: "warning",
+          category: "rate_limit",
+          originalError: null,
+        });
+        setTimeout(() => setShowPricingModal(true), 1500);
+        return;
+      }
+    }
+
     setIsLoading(true);
     setCurrentFile(file);
     setError({
@@ -135,7 +206,46 @@ const Dashboard = () => {
         }
 
         if (response.status === 429) {
-          throw new Error(error.message || "Rate limit exceeded");
+          // Handle rate limit error from backend
+          const rateLimitError = error.detail || error;
+
+          if (rateLimitError.requires_auth) {
+            // Anonymous user hit IP-based limit
+            setError({
+              show: true,
+              message:
+                rateLimitError.message ||
+                "Free limit exceeded. Sign up to continue!",
+              type: "warning",
+              category: "rate_limit",
+              originalError: rateLimitError,
+            });
+
+            setTimeout(() => {
+              setShowPricingModal(true);
+            }, 2000);
+          } else if (rateLimitError.requires_payment) {
+            // Authenticated user hit free tier limit
+            setError({
+              show: true,
+              message:
+                rateLimitError.message ||
+                "Free tier limit exceeded. Upgrade to continue!",
+              type: "warning",
+              category: "rate_limit",
+              originalError: rateLimitError,
+            });
+
+            setTimeout(() => {
+              setShowPricingModal(true);
+            }, 2000);
+          } else {
+            // General rate limit error
+            throw new Error(rateLimitError.message || "Rate limit exceeded");
+          }
+
+          setIsLoading(false);
+          return;
         } else {
           throw new Error(error.message || "Failed to analyze resume");
         }
@@ -179,44 +289,84 @@ const Dashboard = () => {
         setQuestions(questionsFromResponse);
       }
 
-      // In development mode, still count uploads but don't enforce limits
+      // Update upload count and handle rate limiting
       const newCount = uploadCount + 1;
       setUploadCount(newCount);
       localStorage.setItem("resumeUploadCount", newCount.toString());
 
+      // Refresh rate limit status from backend after successful upload
       if (shouldApplyRateLimits()) {
-        // Only show limit notifications in production mode
-        if (newCount === 1) {
-          setError({
-            show: true,
-            message:
-              "You have 1 free resume upload remaining. Sign up for unlimited access.",
-            type: "info",
-            category: "limit",
-            originalError: null,
-          });
-        } else if (newCount >= 2 && !user) {
-          setError({
-            show: true,
-            message:
-              "You've used all your free uploads. Please sign up to continue using JobPsych.",
-            type: "warning",
-            category: "limit",
-            originalError: null,
-          });
+        try {
+          const updatedStatus = await getRateLimitStatus();
+          const transformedData = transformRateLimitForUI(updatedStatus);
+          setRateLimitData(transformedData);
 
-          setTimeout(() => {
-            setShowPricingModal(true);
-          }, 1500);
+          // Show appropriate message based on backend status
+          if (transformedData && !transformedData.hasReachedLimit) {
+            const remaining = transformedData.remainingUploads;
+            if (remaining > 0 && !transformedData.isAuthenticated) {
+              setError({
+                show: true,
+                message: `You have ${remaining} free upload${
+                  remaining === 1 ? "" : "s"
+                } remaining. Sign up for more free analyses!`,
+                type: "info",
+                category: "limit",
+                originalError: null,
+              });
+            }
+          } else if (transformedData && transformedData.hasReachedLimit) {
+            const action = getRecommendedAction(transformedData);
+            setError({
+              show: true,
+              message: action.message,
+              type: "warning",
+              category: "rate_limit",
+              originalError: null,
+            });
+
+            setTimeout(() => {
+              setShowPricingModal(true);
+            }, 2000);
+          }
+        } catch (error) {
+          console.error("Failed to refresh rate limit status:", error);
+          // Fall back to local logic
+          if (newCount === 1 && !user) {
+            setError({
+              show: true,
+              message:
+                "You have 1 free resume upload remaining. Sign up for more free analyses!",
+              type: "info",
+              category: "limit",
+              originalError: null,
+            });
+          } else if (newCount >= 2 && !user) {
+            setError({
+              show: true,
+              message:
+                "You've used all your free uploads. Create an account to get 2 more free analyses!",
+              type: "warning",
+              category: "limit",
+              originalError: null,
+            });
+
+            setTimeout(() => {
+              setShowPricingModal(true);
+            }, 2000);
+          }
         }
-      } else if (newCount > 0) {
-        setError({
-          show: true,
-          message: `Development mode: Unlimited uploads (${newCount} so far)`,
-          type: "info",
-          category: "development",
-          originalError: null,
-        });
+      } else {
+        // Development mode - show informational message
+        if (newCount > 0) {
+          setError({
+            show: true,
+            message: `Development mode: Unlimited uploads (${newCount} so far)`,
+            type: "info",
+            category: "development",
+            originalError: null,
+          });
+        }
       }
 
       setIsLoading(false);
@@ -363,6 +513,44 @@ const Dashboard = () => {
     setShowPricingModal(true);
   };
 
+  const handlePlanSelect = (planId) => {
+    setShowPricingModal(false);
+
+    // Store the selected plan in localStorage for use after authentication
+    localStorage.setItem("selectedPlan", planId);
+
+    // Free plan flow
+    if (planId === "free") {
+      if (!user) {
+        // Need to authenticate for free plan
+        window.location.href = "/sign-up";
+      } else {
+        // Already authenticated, refresh rate limit status
+        const loadRateLimitStatus = async () => {
+          try {
+            const status = await getRateLimitStatus();
+            const transformedData = transformRateLimitForUI(status);
+            setRateLimitData(transformedData);
+          } catch (error) {
+            console.error("Failed to refresh rate limit status:", error);
+          }
+        };
+        loadRateLimitStatus();
+      }
+    } else {
+      // Paid plans (pro, etc.) flow
+      if (!user) {
+        // Store a flag to redirect to payment flow after authentication
+        localStorage.setItem("redirectToPayment", "true");
+        localStorage.setItem("selectedPaidPlan", planId);
+        window.location.href = "/sign-up";
+      } else {
+        // If signed in, redirect to payment processing page
+        window.location.href = `/payment?plan=${planId}`;
+      }
+    }
+  };
+
   const handleErrorClose = () => {
     setError({ ...error, show: false });
   };
@@ -480,32 +668,60 @@ const Dashboard = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              JobPsych Dashboard
+              Resume Analysis Dashboard
             </h1>
-            {user && (
-              <div className="mt-2 text-lg font-medium animate-fadeIn">
-                Welcome,{" "}
-                <span className="text-blue-200 font-semibold">
-                  {user.fullName || "User"}
-                </span>
-                ! Ready to analyze the resume?
+            <p className="text-blue-100 mt-2 text-lg">
+              Upload your resume and get personalized interview questions
+            </p>
+
+            {/* Rate Limit Status */}
+            {shouldApplyRateLimits() && rateLimitData && !rateLimitLoading && (
+              <div className="mt-3 flex items-center space-x-4">
+                {rateLimitData.isDevelopment ? (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    🔧 Development Mode - Unlimited
+                  </span>
+                ) : rateLimitData.tier === "premium" ? (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                    ⭐ Premium - Unlimited
+                  </span>
+                ) : (
+                  <span
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                      rateLimitData.remainingUploads > 0
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {rateLimitData.remainingUploads > 0
+                      ? `${rateLimitData.remainingUploads} upload${
+                          rateLimitData.remainingUploads === 1 ? "" : "s"
+                        } remaining`
+                      : "Upload limit reached"}
+                  </span>
+                )}
+
+                {rateLimitData.isAuthenticated && (
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    ✓ Signed In
+                  </span>
+                )}
               </div>
             )}
           </div>
           {user && user.imageUrl && (
-            <div className="mt-4 md:mt-0 bg-white p-1 rounded-full shadow-md transition-all duration-300 hover:shadow-lg hover:scale-110">
-              <img
-                src={user.imageUrl}
-                alt={user.fullName || "User profile"}
-                className="h-12 w-12 rounded-full object-cover"
-              />
-            </div>
+            <img
+              src={user.imageUrl}
+              alt="Profile"
+              className="h-12 w-12 rounded-full border-2 border-white shadow-md mt-4 md:mt-0"
+            />
           )}
         </div>
       </div>
+
       <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-6 hover:shadow-lg transition-shadow duration-300">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
           <svg
@@ -614,10 +830,11 @@ const Dashboard = () => {
           <GeneratedQuestions questions={questions} />
         </div>
       )}
-      = {error.show && renderErrorContent()}
+      {error.show && renderErrorContent()}
       <PricingModal
         isOpen={showPricingModal}
         onClose={() => setShowPricingModal(false)}
+        onSelectPlan={handlePlanSelect}
       />
     </div>
   );
@@ -630,7 +847,7 @@ const ProtectedDashboard = () => {
         <Dashboard />
       </SignedIn>
       <SignedOut>
-        <RedirectToSignIn />
+        <Dashboard />
       </SignedOut>
     </>
   );

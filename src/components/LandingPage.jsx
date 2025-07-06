@@ -4,13 +4,12 @@ import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
 import NavigationButton from "./NavigationButton";
 import { shouldApplyRateLimits } from "../utils/env";
-import PricingModal from "./PricingModal";
+import { DEFAULT_PLANS } from "../utils/paymentService";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();
   const [uploadCount, setUploadCount] = useState(0);
-  const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [plans] = useState(DEFAULT_PLANS);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -22,39 +21,23 @@ const LandingPage = () => {
   }, [isSignedIn]);
 
   const getDestination = () => {
-    if (isSignedIn || !shouldApplyRateLimits()) {
-      return "/dashboard";
-    } else if (uploadCount >= 2) {
-      return "/sign-up";
-    } else {
+    // In development mode, always go to dashboard
+    if (!shouldApplyRateLimits()) {
       return "/dashboard";
     }
-  };
 
-  const handlePlanSelect = (planId) => {
-    setSelectedPlan(planId);
-    setShowPricingModal(false);
+    // If signed in, always go to dashboard
+    if (isSignedIn) {
+      return "/dashboard";
+    }
 
-    // Store the selected plan in localStorage for use after authentication
-    localStorage.setItem("selectedPlan", planId);
-
-    // Free plan just needs authentication if not signed in
-    if (planId === "free") {
-      if (!isSignedIn) {
-        window.location.href = "/sign-up";
-      } else {
-        window.location.href = "/dashboard";
-      }
+    // For anonymous users, check upload count
+    if (uploadCount >= 2) {
+      // After 2 free uploads, redirect to pricing/authentication
+      return "/sign-up";
     } else {
-      // For paid plans, redirect to auth if not signed in
-      if (!isSignedIn) {
-        // Store a flag to redirect to payment flow after authentication
-        localStorage.setItem("redirectToPayment", "true");
-        window.location.href = "/sign-up";
-      } else {
-        // If signed in, redirect to payment processing page
-        window.location.href = `/payment?plan=${planId}`;
-      }
+      // Still have free uploads available
+      return "/dashboard";
     }
   };
 
@@ -85,7 +68,11 @@ const LandingPage = () => {
                 to={getDestination()}
                 className="rounded-md bg-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-md hover:bg-indigo-500 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 flex items-center cursor-pointer transition-all duration-300 relative"
               >
-                Upload the Resume for Analyzing
+                {isSignedIn
+                  ? "Upload Resume for Analysis"
+                  : uploadCount >= 2
+                  ? "Sign Up to Continue Analyzing"
+                  : "Upload Resume for Free Analysis"}
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
                 {shouldApplyRateLimits() && !isSignedIn && (
                   <span
@@ -105,8 +92,16 @@ const LandingPage = () => {
               {shouldApplyRateLimits() && !isSignedIn && (
                 <p className="text-xs text-indigo-800 font-medium">
                   {uploadCount >= 2
-                    ? "You've used all free uploads. Sign up to continue."
-                    : "Free users can upload up to 2 resumes for analysis."}
+                    ? "You've used all free uploads. Sign up to continue with 2 more free analyses."
+                    : `Free users can upload up to 2 resumes for analysis. ${
+                        uploadCount > 0 ? `${uploadCount} used.` : ""
+                      }`}
+                </p>
+              )}
+
+              {isSignedIn && (
+                <p className="text-xs text-indigo-800 font-medium">
+                  Welcome back! You have additional free uploads available.
                 </p>
               )}
             </div>
@@ -274,314 +269,299 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section id="pricing" className="py-24 sm:py-32 bg-white">
+      <section
+        id="pricing"
+        className="py-24 sm:py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+      >
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-indigo-600">
-              Pricing Plans
+            <h2 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
+              ✨ Flexible Plans
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Find the perfect plan for your needs
+              Try Free, Then Unlock Full Power
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Choose from our flexible pricing options. From free access to
-              premium features, we have a plan that fits your needs and budget.
+              Start with our free trial to experience JobPsych instantly, then
+              upgrade to Pro for unlimited access and advanced features.
             </p>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-            {/* Free Plan */}
-            <div className="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-gray-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-              <div className="p-8 sm:p-10">
-                <h3 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
-                  Free
-                </h3>
-                <p className="mt-4 text-base leading-7 text-gray-600">
-                  Perfect for trying out our service
-                </p>
-                <p className="mt-6 flex items-baseline gap-x-1">
-                  <span className="text-4xl font-bold tracking-tight text-gray-900">
-                    $0
-                  </span>
-                  <span className="text-sm font-semibold leading-6 text-gray-600">
-                    /forever
-                  </span>
-                </p>
-                <button
-                  onClick={() => handlePlanSelect("free")}
-                  className="mt-6 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Start Now
-                </button>
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-8 pt-0 sm:p-10 sm:pt-0">
-                <ul className="space-y-4 text-sm leading-6 text-gray-600">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    2 resume analyses per day
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Basic interview questions
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Standard processing time
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Email support
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-2">
+            {plans.map((plan, index) => (
+              <div
+                key={plan.id}
+                className={`relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl ${
+                  plan.popular
+                    ? "bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white scale-105"
+                    : "bg-white hover:bg-gradient-to-br hover:from-gray-50 hover:to-indigo-50"
+                }`}
+                style={{
+                  animationDelay: `${index * 200}ms`,
+                  animation: "fadeInUp 0.8s ease-out forwards",
+                }}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
+                    🚀 Most Popular
+                  </div>
+                )}
 
-            {/* Pro Plan */}
-            <div className="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-gray-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative">
-              <div className="absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-1 text-center text-sm font-medium text-white">
-                Popular
-              </div>
-              <div className="p-8 sm:p-10">
-                <h3 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
-                  Pro
-                </h3>
-                <p className="mt-4 text-base leading-7 text-gray-600">
-                  Great for job seekers and recruiters
-                </p>
-                <p className="mt-6 flex items-baseline gap-x-1">
-                  <span className="text-4xl font-bold tracking-tight text-gray-900">
-                    $29.99
-                  </span>
-                  <span className="text-sm font-semibold leading-6 text-gray-600">
-                    /month
-                  </span>
-                </p>
-                <button
-                  onClick={() => {
-                    setShowPricingModal(true);
-                    setSelectedPlan("pro");
-                  }}
-                  className="mt-6 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Subscribe Now
-                </button>
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-8 pt-0 sm:p-10 sm:pt-0">
-                <ul className="space-y-4 text-sm leading-6 text-gray-600">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    20 resume analyses per day
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Advanced interview questions
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Priority processing
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Detailed candidate insights
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Email & chat support
-                  </li>
-                </ul>
-              </div>
-            </div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div
+                    className={`p-3 rounded-full ${
+                      plan.popular ? "bg-white/20" : "bg-indigo-100"
+                    }`}
+                  >
+                    {plan.id === "free" ? (
+                      <svg
+                        className={`h-6 w-6 ${
+                          plan.popular ? "text-white" : "text-indigo-600"
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className={`h-6 w-6 ${
+                          plan.popular ? "text-white" : "text-indigo-600"
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <h3
+                    className={`text-2xl font-bold ${
+                      plan.popular ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    {plan.name}
+                  </h3>
+                </div>
 
-            {/* Premium Plan */}
-            <div className="flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-gray-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-              <div className="p-8 sm:p-10">
-                <h3 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
-                  Premium
-                </h3>
-                <p className="mt-4 text-base leading-7 text-gray-600">
-                  Perfect for HR teams and agencies
-                </p>
-                <p className="mt-6 flex items-baseline gap-x-1">
-                  <span className="text-4xl font-bold tracking-tight text-gray-900">
-                    $49.99
-                  </span>
-                  <span className="text-sm font-semibold leading-6 text-gray-600">
-                    /month
-                  </span>
-                </p>
-                <button
-                  onClick={() => {
-                    setShowPricingModal(true);
-                    setSelectedPlan("premium");
-                  }}
-                  className="mt-6 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                <div className="mb-6">
+                  <div className="flex items-baseline">
+                    <span
+                      className={`text-5xl font-extrabold tracking-tight ${
+                        plan.popular ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      {plan.price}
+                    </span>
+                    <span
+                      className={`ml-1 text-xl font-semibold ${
+                        plan.popular ? "text-white/80" : "text-gray-500"
+                      }`}
+                    >
+                      /{plan.period}
+                    </span>
+                  </div>
+                  <p
+                    className={`mt-4 text-lg ${
+                      plan.popular ? "text-white/90" : "text-gray-600"
+                    }`}
+                  >
+                    {plan.description}
+                  </p>
+                </div>
+
+                <NavigationButton
+                  to={plan.id === "free" ? "/dashboard" : "/sign-up"}
+                  className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${
+                    plan.popular
+                      ? "bg-white text-indigo-600 hover:bg-gray-100"
+                      : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  }`}
                 >
-                  Subscribe Now
-                </button>
-              </div>
-              <div className="flex flex-1 flex-col justify-between p-8 pt-0 sm:p-10 sm:pt-0">
-                <ul className="space-y-4 text-sm leading-6 text-gray-600">
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                  {plan.id === "free"
+                    ? "🚀 Start Free Trial"
+                    : "⭐ Start Pro Trial"}
+                </NavigationButton>
+
+                <ul className="space-y-4 flex-1">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li
+                      key={featureIndex}
+                      className="flex items-start space-x-3"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Unlimited resume analyses
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    AI-powered insights
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Custom question templates
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Team collaboration tools
-                  </li>
-                  <li className="flex gap-x-3">
-                    <svg
-                      className="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Priority support
-                  </li>
+                      <div
+                        className={`flex-shrink-0 mt-1 p-1 rounded-full ${
+                          plan.popular ? "bg-white/20" : "bg-indigo-100"
+                        }`}
+                      >
+                        <svg
+                          className={`h-4 w-4 ${
+                            plan.popular ? "text-white" : "text-indigo-600"
+                          }`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <span
+                        className={`text-base ${
+                          plan.popular ? "text-white/90" : "text-gray-600"
+                        }`}
+                      >
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
                 </ul>
+
+                {plan.id === "free" && (
+                  <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-2xl">🎯</span>
+                      <span className="text-sm font-semibold text-blue-800">
+                        Perfect for Testing JobPsych
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-blue-700">
+                      Try {DEFAULT_PLANS[0]?.resumeLimit || 2} resume analyses
+                      instantly - no account creation needed!
+                    </p>
+                  </div>
+                )}
+
+                {plan.id === "pro" && (
+                  <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-2xl">💼</span>
+                      <span className="text-sm font-semibold text-white">
+                        For HR Teams & Hiring Managers
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-white/90">
+                      Unlimited analyses, advanced AI features, and team
+                      collaboration tools.
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Enhanced Comparison Table */}
+          <div className="mt-20 overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-gray-200">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-8">
+              <h3 className="text-2xl font-bold text-white text-center">
+                Detailed Feature Comparison
+              </h3>
+              <p className="mt-2 text-indigo-100 text-center">
+                See exactly what's included in each plan
+              </p>
+            </div>
+            <div className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-6">
+                    Features
+                  </h4>
+                  <div className="space-y-6">
+                    <div className="text-sm text-gray-600 font-medium">
+                      Account Setup
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Resume Analyses
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Interview Questions
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Resume Parsing
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Skills Analysis
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Candidate Insights
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Export Reports
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Save & Organize
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Team Collaboration
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Analytics Dashboard
+                    </div>
+                    <div className="text-sm text-gray-600 font-medium">
+                      Priority Support
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-6">
+                    Free Trial
+                  </h4>
+                  <div className="space-y-6">
+                    <div className="text-green-600 font-semibold">
+                      ✓ No account needed
+                    </div>
+                    <div className="text-blue-600 font-bold text-lg">
+                      {DEFAULT_PLANS[0]?.resumeLimit || 2} analyses
+                    </div>
+                    <div className="text-green-600">✓ Basic questions</div>
+                    <div className="text-green-600">✓ Standard parsing</div>
+                    <div className="text-green-600">✓ Basic skills list</div>
+                    <div className="text-yellow-600">⚡ Limited insights</div>
+                    <div className="text-gray-400">✗ Not available</div>
+                    <div className="text-gray-400">✗ Not available</div>
+                    <div className="text-gray-400">✗ Not available</div>
+                    <div className="text-gray-400">✗ Not available</div>
+                    <div className="text-gray-400">✗ Community support</div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h4 className="text-lg font-semibold text-indigo-600 mb-6">
+                    Pro Plan
+                  </h4>
+                  <div className="space-y-6">
+                    <div className="text-green-600 font-semibold">
+                      ✓ Full account access
+                    </div>
+                    <div className="text-indigo-600 font-bold text-lg">
+                      Unlimited
+                    </div>
+                    <div className="text-green-600">
+                      ✓ AI-enhanced questions
+                    </div>
+                    <div className="text-green-600">✓ Advanced parsing</div>
+                    <div className="text-green-600">✓ Skills gap analysis</div>
+                    <div className="text-green-600">✓ Detailed insights</div>
+                    <div className="text-green-600">✓ PDF & Excel export</div>
+                    <div className="text-green-600">✓ Organize candidates</div>
+                    <div className="text-green-600">✓ Team sharing</div>
+                    <div className="text-green-600">✓ Performance metrics</div>
+                    <div className="text-green-600">✓ Email & chat support</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -660,13 +640,6 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-
-      {/* Pricing Modal */}
-      <PricingModal
-        isOpen={showPricingModal}
-        onClose={() => setShowPricingModal(false)}
-        onSelectPlan={handlePlanSelect}
-      />
     </div>
   );
 };
