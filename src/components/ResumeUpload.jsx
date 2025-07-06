@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
 const CloudArrowUpIcon = ({ className, ...props }) => (
   <svg
@@ -17,84 +17,149 @@ const CloudArrowUpIcon = ({ className, ...props }) => (
   </svg>
 );
 
-function ResumeUpload({ onFileUpload }) {
-  const handleFileDrop = (e) => {
-    e.preventDefault();
-    const files = e.dataTransfer?.files;
-    if (files && files[0] && onFileUpload) {
-      const file = files[0];
-      const allowedTypes = [
-        "application/pdf",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/msword",
-        "application/octet-stream",
-        "application/x-msword",
-        "application/vnd.ms-word",
-        "",
-      ];
+const DocumentIcon = ({ className, ...props }) => (
+  <svg
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+    />
+  </svg>
+);
 
-      const allowedExtensions = [".pdf", ".doc", ".docx"];
-      const fileExtension = file.name
-        .toLowerCase()
-        .substring(file.name.lastIndexOf("."));
-      const isValidExtension = allowedExtensions.includes(fileExtension);
+function ResumeUpload({ onFileUpload, isLoading = false, onError }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
 
-      if (allowedTypes.includes(file.type) || isValidExtension) {
+  const handleFileChange = (file) => {
+    if (!file) return;
+
+    const allowedTypes = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/msword",
+      "application/octet-stream",
+      "application/x-msword",
+      "application/vnd.ms-word",
+      "",
+    ];
+
+    const allowedExtensions = [".pdf", ".doc", ".docx"];
+    const fileExtension = file.name
+      .toLowerCase()
+      .substring(file.name.lastIndexOf("."));
+    const isValidExtension = allowedExtensions.includes(fileExtension);
+
+    if (allowedTypes.includes(file.type) || isValidExtension) {
+      setSelectedFile(file);
+      if (onFileUpload) {
         onFileUpload(file);
-      } else {
-        console.warn(
-          "Invalid file type:",
-          file.type,
-          "Extension:",
-          fileExtension
-        );
       }
+    } else {
+      if (onError) {
+        onError({
+          message: `Invalid file type: ${file.type}. Please upload a PDF or Word document.`,
+          type: "warning",
+          category: "file",
+        });
+      }
+      console.warn(
+        "Invalid file type:",
+        file.type,
+        "Extension:",
+        fileExtension
+      );
     }
   };
 
-  const handleFileInput = (e) => {
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (isLoading) return;
+
+    const files = e.dataTransfer?.files;
+    if (files?.[0]) {
+      handleFileChange(files[0]);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    if (isLoading) return;
+
     const file = e.target?.files?.[0];
-    if (file && onFileUpload) {
-      onFileUpload(file);
+    if (file) {
+      handleFileChange(file);
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-  };
-
-  const handleClick = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".pdf,.doc,.docx";
-    input.onchange = handleFileInput;
-    input.click();
+  const openFileDialog = () => {
+    if (!isLoading && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl">
+    <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
         Review Candidate Resume
       </h2>
+
       <div
-        onDrop={handleFileDrop}
-        onDragOver={handleDragOver}
-        onDragEnter={handleDragEnter}
-        onClick={handleClick}
-        className="p-10 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all duration-300 transform hover:scale-[1.02] border-gray-300 hover:border-blue-400 hover:bg-blue-50/30"
+        className={`relative p-10 border-2 border-dashed rounded-xl text-center cursor-pointer ${
+          isLoading
+            ? "bg-gray-100 border-gray-300 cursor-not-allowed"
+            : selectedFile
+            ? "bg-blue-50 border-blue-400"
+            : "border-gray-300 hover:border-blue-400 hover:bg-blue-50/30"
+        }`}
+        onClick={openFileDialog}
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnter={(e) => e.preventDefault()}
       >
-        <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400 transition-colors duration-300" />
-        <p className="mt-4 text-base text-gray-600 transition-colors duration-300">
-          Upload candidate's resume (drag & drop or click)
-        </p>
-        <p className="mt-2 text-xs text-gray-500">
-          Accepts PDF, DOC, and DOCX formats
-        </p>
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          onChange={handleInputChange}
+          accept=".pdf,.doc,.docx"
+          disabled={isLoading}
+        />
+
+        {isLoading ? (
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+            <p className="mt-4 text-base text-blue-600">Processing resume...</p>
+          </div>
+        ) : selectedFile ? (
+          <>
+            <DocumentIcon className="mx-auto h-12 w-12 text-blue-500" />
+            <p className="mt-4 text-base font-medium text-blue-700">
+              {selectedFile.name}
+            </p>
+            <p className="mt-2 text-xs text-gray-500">
+              {(selectedFile.size / 1024).toFixed(1)} KB
+            </p>
+          </>
+        ) : (
+          <>
+            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" />
+            <p className="mt-4 text-base text-gray-600">
+              Upload candidate's resume (drag & drop or click here)
+            </p>
+            <p className="mt-2 text-xs text-gray-500">
+              Accepts PDF, DOC, and DOCX formats
+            </p>
+          </>
+        )}
       </div>
+
       <div className="mt-4 text-center space-y-2">
         <p className="text-xs text-gray-400">
           Our AI will analyze the resume and help you prepare for the interview

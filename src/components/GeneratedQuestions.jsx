@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 function GeneratedQuestions({ questions }) {
   const [expandedCategories, setExpandedCategories] = useState({});
-  const [selectedQuestions, setSelectedQuestions] = useState({});
 
   const categories = {
     technical: {
@@ -78,25 +77,6 @@ function GeneratedQuestions({ questions }) {
       ...prev,
       [categoryKey]: !prev[categoryKey],
     }));
-  };
-
-  const toggleQuestion = (questionId) => {
-    setSelectedQuestions((prev) => ({
-      ...prev,
-      [questionId]: !prev[questionId],
-    }));
-  };
-
-  const expandAllCategories = () => {
-    const allExpanded = {};
-    Object.keys(categories).forEach((key) => {
-      allExpanded[key] = true;
-    });
-    setExpandedCategories(allExpanded);
-  };
-
-  const clearAllSelections = () => {
-    setSelectedQuestions({});
   };
 
   const ChatBubbleIcon = () => (
@@ -214,23 +194,13 @@ function GeneratedQuestions({ questions }) {
           </h2>
         </div>
         <div className="flex items-center space-x-4">
-          <span className="text-sm text-gray-500">
-            Click categories to expand, then select questions
+          <span className="text-sm text-gray-500 mr-2">
+            Click categories to expand and view questions
           </span>
-          <button
-            onClick={clearAllSelections}
-            className="px-3 py-1 text-sm text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors duration-200 border border-blue-200"
-          >
-            Clear All Selections
-          </button>
-          <button
-            onClick={expandAllCategories}
-            className="px-3 py-1 text-sm text-green-600 hover:text-green-700 hover:bg-green-50 rounded-md transition-colors duration-200 border border-green-200"
-          >
-            Expand All
-          </button>
         </div>
       </div>
+
+      {/* No debug UI */}
 
       <div className="space-y-4">
         {Object.entries(categories).map(([key, category]) => {
@@ -283,39 +253,20 @@ function GeneratedQuestions({ questions }) {
                     <div className="px-6 py-4 border-t border-gray-100">
                       <div className="space-y-3">
                         {category.questions.map((question, index) => {
-                          const questionKey = `${key}-${index}`;
-                          const isSelected = selectedQuestions[questionKey];
-
                           return (
                             <div
                               key={index}
-                              onClick={() => toggleQuestion(questionKey)}
-                              className={`p-4 rounded-lg transition-all duration-200 cursor-pointer border-2 hover:shadow-sm ${
-                                isSelected
-                                  ? "bg-blue-50 border-blue-200"
-                                  : "bg-gray-50 hover:bg-gray-100 border-transparent hover:border-blue-200"
-                              }`}
+                              className="p-4 rounded-lg transition-all duration-200 border-2 bg-gray-50 hover:bg-gray-100 border-transparent hover:border-gray-300"
                             >
-                              <div className="flex items-start space-x-3">
-                                <div className="flex-shrink-0 mt-1">
-                                  <input
-                                    type="checkbox"
-                                    checked={isSelected || false}
-                                    onChange={() => {}}
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="h-5 w-5 text-blue-500 rounded focus:ring-blue-500 focus:ring-2"
-                                  />
-                                </div>
-                                <div className="flex-1">
-                                  <p className="font-medium text-gray-700 leading-relaxed">
-                                    {question.question}
+                              <div className="flex-1">
+                                <p className="font-medium text-gray-700 leading-relaxed">
+                                  {question.question}
+                                </p>
+                                {question.context && (
+                                  <p className="mt-2 text-sm text-gray-500 italic">
+                                    💡 {question.context}
                                   </p>
-                                  {question.context && (
-                                    <p className="mt-2 text-sm text-gray-500 italic">
-                                      💡 {question.context}
-                                    </p>
-                                  )}
-                                </div>
+                                )}
                               </div>
                             </div>
                           );
@@ -343,8 +294,6 @@ function GeneratedQuestions({ questions }) {
             </h4>
             <ul className="text-sm text-blue-700 space-y-1">
               <li>• Click on category headers to expand and see questions</li>
-              <li>• Select individual questions by clicking on them</li>
-              <li>• Use "Expand All" to see all questions at once</li>
               <li>
                 • Questions are automatically tailored based on the candidate's
                 resume

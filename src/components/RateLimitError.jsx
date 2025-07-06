@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const RateLimitError = ({ rateLimitData, onClose }) => {
+const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
   const [timeRemaining, setTimeRemaining] = useState(null);
 
   useEffect(() => {
@@ -121,22 +121,46 @@ const RateLimitError = ({ rateLimitData, onClose }) => {
               marginTop: "12px",
             }}
           >
-            <p style={{ color: "#0c4a6e", fontSize: "14px", margin: "0" }}>
+            <p
+              style={{
+                color: "#0c4a6e",
+                fontSize: "14px",
+                margin: "0 0 16px 0",
+              }}
+            >
               💼 <strong>Need more resume analyses?</strong>
               <br />
-              Contact us at{" "}
-              <a
-                href="mailto:rafkhan9323@gmail.com"
-                style={{
-                  color: "#0369a1",
-                  textDecoration: "underline",
-                  fontWeight: "500",
-                }}
-              >
-                rafkhan9323@gmail.com
-              </a>{" "}
-              for additional quota or premium access.
+              Upgrade to a premium plan for unlimited access and advanced
+              features.
             </p>
+            <button
+              onClick={onUpgrade}
+              style={{
+                width: "100%",
+                backgroundColor: "#0369a1",
+                color: "white",
+                padding: "12px 16px",
+                borderRadius: "8px",
+                border: "none",
+                fontSize: "14px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = "#0284c7";
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = "#0369a1";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+              }}
+            >
+              🚀 View Pricing Plans
+            </button>
           </div>
         </div>
 

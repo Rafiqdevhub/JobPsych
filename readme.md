@@ -10,12 +10,13 @@ A modern React-based web application for analyzing resumes and generating tailor
 - **AI-Powered Analysis**: Get detailed resume analysis and improvement suggestions
 - **Interview Questions**: Generate custom interview questions based on your resume
 - **Real-time Feedback**: Instant analysis with loading states and progress indicators
+- **Subscription Plans**: Three-tier pricing system (Free, Pro, Premium) with upgrade options
 
 ### User Experience
 
 - **Mobile-Responsive**: Optimized for all device sizes
 - **Error Handling**: Comprehensive error handling with user-friendly messages
-- **Rate Limit Management**: Clear notifications about usage limits with countdown timers
+- **Rate Limit Management**: Clear notifications about usage limits with countdown timers and upgrade options
 - **Progressive Web App**: Works offline with service worker support
 - **No Caching**: Always fresh content with disabled browser caching
 
@@ -65,6 +66,7 @@ src/
 │   ├── ResumeDetails.jsx       # Resume analysis display
 │   ├── GeneratedQuestions.jsx  # Interview questions display
 │   ├── RateLimitError.jsx      # Rate limit notification modal
+│   ├── PricingModal.jsx        # Subscription pricing plans modal
 │   ├── Toast.jsx               # Success/error notifications
 │   ├── SimpleToast.jsx         # Fallback toast component
 │   ├── SimpleResumeUpload.jsx  # Fallback upload component
@@ -92,9 +94,39 @@ const API_BASE_URL = "https://your-backend-url.com";
 
 ### Rate Limiting
 
-- **Limit**: 2 resume uploads per 24 hours
+- **Free Plan**: 2 resume uploads per 24 hours
+- **Pro Plan**: 20 resume uploads per 24 hours
+- **Premium Plan**: Unlimited resume uploads
 - **Reset Time**: Daily at midnight UTC
-- **Behavior**: Shows countdown timer and contact information when limit reached
+- **Behavior**: Shows countdown timer and upgrade options when limit reached
+
+### Subscription Plans
+
+#### 🆓 Free Plan ($0/forever)
+
+- 2 resume analyses per day
+- Basic interview questions
+- Standard processing time
+- Email support
+
+#### 🚀 Pro Plan ($9.99/month)
+
+- 20 resume analyses per day
+- Advanced interview questions
+- Priority processing
+- Detailed candidate insights
+- Email & chat support
+- Export to PDF/Excel
+
+#### ⭐ Premium Plan ($19.99/month)
+
+- Unlimited resume analyses
+- AI-powered insights
+- Custom question templates
+- Team collaboration tools
+- Priority support
+- API access
+- White-label options
 
 ### Caching Policy
 

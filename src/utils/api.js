@@ -1,8 +1,6 @@
-const API_BASE_URL = "https://hr-resume-analyzer-backend.vercel.app/";
-// const API_BASE_URL = "http://localhost:8000";
-
 export const API_ENDPOINTS = {
-  ANALYZE_RESUME: `${API_BASE_URL}api/analyze-resume`,
+  ANALYZE_RESUME: "/api/analyze-resume",
+  GENERATE_QUESTIONS: "/api/generate-questions",
+  USER_AUTH: "/api/auth",
+  SUBSCRIPTION: "/api/subscription",
 };
-
-export { API_BASE_URL };

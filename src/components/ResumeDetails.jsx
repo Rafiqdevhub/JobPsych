@@ -10,10 +10,56 @@ import {
 } from "@heroicons/react/24/outline";
 
 const ResumeDetails = ({ resumeData }) => {
-  if (!resumeData) return null;
+  if (!resumeData) {
+    console.error("ResumeDetails: No resume data provided");
+    return null;
+  }
 
-  const { personalInfo, workExperience, education, skills, highlights } =
-    resumeData;
+  const {
+    personalInfo = {},
+    workExperience = [],
+    education = [],
+    skills = [],
+    highlights = [],
+  } = resumeData;
+
+  const isPersonalInfoEmpty =
+    !personalInfo || Object.keys(personalInfo).length === 0;
+  const isWorkExperienceEmpty = !workExperience || workExperience.length === 0;
+  const isEducationEmpty = !education || education.length === 0;
+  const isSkillsEmpty = !skills || skills.length === 0;
+
+  const isIncompleteData =
+    isPersonalInfoEmpty &&
+    isWorkExperienceEmpty &&
+    isEducationEmpty &&
+    isSkillsEmpty;
+
+  if (isIncompleteData) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
+        <div className="flex items-center mb-6">
+          <ClipboardDocumentCheckIcon className="h-6 w-6 text-blue-500 mr-2" />
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Resume Analysis
+          </h2>
+        </div>
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-6">
+          <p className="text-yellow-700">
+            The resume analysis could not be completed. This might be due to:
+          </p>
+          <ul className="list-disc list-inside mt-2 text-yellow-700">
+            <li>The resume format was not fully readable</li>
+            <li>Important sections might be missing from the resume</li>
+            <li>The file might be password protected or encrypted</li>
+          </ul>
+          <p className="mt-4 text-yellow-700">
+            Try uploading a different version or format of your resume.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 mt-8 transform transition-all duration-300 hover:shadow-xl">
@@ -51,14 +97,15 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
         <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
           <div className="grid md:grid-cols-2 gap-4">
-            {Object.entries(personalInfo).map(([key, value]) => (
-              <div key={key} className="flex flex-col">
-                <span className="text-sm text-gray-500 capitalize">
-                  {key.replace(/([A-Z])/g, " $1").trim()}
-                </span>
-                <span className="text-gray-800 font-medium">{value}</span>
-              </div>
-            ))}
+            {personalInfo &&
+              Object.entries(personalInfo).map(([key, value]) => (
+                <div key={key} className="flex flex-col">
+                  <span className="text-sm text-gray-500 capitalize">
+                    {key.replace(/([A-Z])/g, " $1").trim()}
+                  </span>
+                  <span className="text-gray-800 font-medium">{value}</span>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -71,30 +118,31 @@ const ResumeDetails = ({ resumeData }) => {
           </h3>
         </div>
         <div className="space-y-4">
-          {workExperience.map((exp, index) => (
-            <div
-              key={index}
-              className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200"
-            >
-              <h4 className="font-medium text-blue-600">{exp.title}</h4>
-              <p className="text-gray-700 font-medium">{exp.company}</p>
-              <p className="text-sm text-gray-500">{exp.duration}</p>{" "}
-              {exp.description && exp.description.length > 0 && (
-                <div className="mt-3">
-                  <p className="text-sm font-medium text-gray-600 mb-2">
-                    Description:
-                  </p>
-                  <ul className="list-disc list-inside space-y-1">
-                    {exp.description.map((desc, idx) => (
-                      <li key={idx} className="text-sm text-gray-600">
-                        {desc}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
+          {workExperience &&
+            workExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200"
+              >
+                <h4 className="font-medium text-blue-600">{exp.title}</h4>
+                <p className="text-gray-700 font-medium">{exp.company}</p>
+                <p className="text-sm text-gray-500">{exp.duration}</p>{" "}
+                {exp.description && exp.description.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-sm font-medium text-gray-600 mb-2">
+                      Description:
+                    </p>
+                    <ul className="list-disc list-inside space-y-1">
+                      {exp.description.map((desc, idx) => (
+                        <li key={idx} className="text-sm text-gray-600">
+                          {desc}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
 
@@ -107,14 +155,15 @@ const ResumeDetails = ({ resumeData }) => {
         </div>
         <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {skills.map((skill, index) => (
-              <div
-                key={index}
-                className="flex items-center px-3 py-2 bg-white rounded-lg border border-gray-200 shadow-sm"
-              >
-                <span className="text-sm text-gray-700">{skill}</span>
-              </div>
-            ))}
+            {skills &&
+              skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-center px-3 py-2 bg-white rounded-lg border border-gray-200 shadow-sm"
+                >
+                  <span className="text-sm text-gray-700">{skill}</span>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -127,28 +176,29 @@ const ResumeDetails = ({ resumeData }) => {
           </h3>
         </div>
         <div className="space-y-4">
-          {education.map((edu, index) => (
-            <div
-              key={index}
-              className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200"
-            >
-              {" "}
-              <h4 className="font-medium text-blue-600">{edu.degree}</h4>
-              <p className="text-gray-700">{edu.institution}</p>
-              <p className="text-sm text-gray-500">{edu.year}</p>
-              {edu.details && edu.details.length > 0 && (
-                <div className="mt-2">
-                  <ul className="list-disc list-inside space-y-1">
-                    {edu.details.map((detail, idx) => (
-                      <li key={idx} className="text-sm text-gray-600">
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
+          {education &&
+            education.map((edu, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200"
+              >
+                {" "}
+                <h4 className="font-medium text-blue-600">{edu.degree}</h4>
+                <p className="text-gray-700">{edu.institution}</p>
+                <p className="text-sm text-gray-500">{edu.year}</p>
+                {edu.details && edu.details.length > 0 && (
+                  <div className="mt-2">
+                    <ul className="list-disc list-inside space-y-1">
+                      {edu.details.map((detail, idx) => (
+                        <li key={idx} className="text-sm text-gray-600">
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
     </div>
