@@ -1,7 +1,127 @@
 import React, { useState } from "react";
+import NavigationButton from "./NavigationButton";
 
-function GeneratedQuestions({ questions }) {
+function GeneratedQuestions({ questions, isPlan = "pro" }) {
   const [expandedCategories, setExpandedCategories] = useState({});
+
+  // Function to limit questions based on plan type
+  const limitQuestionsByPlan = (questions, category, planType) => {
+    if (!questions) return [];
+
+    const filteredQuestions = questions.filter((q) => q.type === category);
+
+    // For free plan, only return the first question per category
+    if (planType === "free" && filteredQuestions.length > 0) {
+      return [filteredQuestions[0]];
+    }
+
+    return filteredQuestions;
+  };
+
+  // Function to count total available questions across all categories
+  const getTotalQuestionsCount = () => {
+    if (!questions) return 0;
+
+    // Count original questions, not the limited ones
+    const technicalQuestions = questions.filter(
+      (q) => q.type === "technical"
+    ).length;
+    const behavioralQuestions = questions.filter(
+      (q) => q.type === "behavioral"
+    ).length;
+    const experienceQuestions = questions.filter(
+      (q) => q.type === "experience"
+    ).length;
+
+    return technicalQuestions + behavioralQuestions + experienceQuestions;
+  };
+
+  // Function to render free plan banner
+  const renderFreePlanBanner = () => {
+    if (isPlan === "free") {
+      const totalQuestions = getTotalQuestionsCount();
+      const visibleQuestions = 3; // One per category
+      const hiddenQuestions = totalQuestions - visibleQuestions;
+
+      return (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 mb-6 rounded-lg shadow-sm border border-blue-200">
+          <div className="flex flex-col md:flex-row md:items-center">
+            <div className="flex-shrink-0 mb-3 md:mb-0">
+              <div className="bg-blue-100 p-2 rounded-full">
+                <svg
+                  className="h-8 w-8 text-blue-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="ml-0 md:ml-4 flex-grow">
+              <h3 className="text-md font-semibold text-blue-800">
+                Free Plan Preview
+              </h3>
+              <p className="mt-1 text-sm text-blue-700">
+                You're viewing{" "}
+                <span className="font-semibold">
+                  1 sample question per category
+                </span>
+                .
+                <span className="font-semibold text-indigo-700">
+                  {" "}
+                  Upgrade to Pro to unlock all {hiddenQuestions} additional
+                  interview questions.
+                </span>
+              </p>
+
+              <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between">
+                <div className="flex items-center mb-3 sm:mb-0">
+                  <div className="w-full max-w-[150px] bg-blue-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                      style={{
+                        width: `${(visibleQuestions / totalQuestions) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
+                  <span className="ml-2 text-xs text-blue-700">
+                    {visibleQuestions}/{totalQuestions} questions
+                  </span>
+                </div>
+
+                <button
+                  onClick={() =>
+                    window.dispatchEvent(new CustomEvent("open-pricing-modal"))
+                  }
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm inline-flex items-center transition-colors"
+                >
+                  Unlock All Questions
+                  <svg
+                    className="ml-1 h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const categories = {
     technical: {
@@ -22,9 +142,7 @@ function GeneratedQuestions({ questions }) {
       ),
       title: "Technical Competency",
       description: "Questions focused on technical skills and knowledge",
-      questions: questions
-        ? questions.filter((q) => q.type === "technical")
-        : [],
+      questions: limitQuestionsByPlan(questions, "technical", isPlan),
     },
     behavioral: {
       icon: () => (
@@ -44,9 +162,7 @@ function GeneratedQuestions({ questions }) {
       ),
       title: "Behavioral & Cultural Fit",
       description: "Questions about work style and team collaboration",
-      questions: questions
-        ? questions.filter((q) => q.type === "behavioral")
-        : [],
+      questions: limitQuestionsByPlan(questions, "behavioral", isPlan),
     },
     experience: {
       icon: () => (
@@ -66,9 +182,7 @@ function GeneratedQuestions({ questions }) {
       ),
       title: "Experience Validation",
       description: "Questions based on past work experience",
-      questions: questions
-        ? questions.filter((q) => q.type === "experience")
-        : [],
+      questions: limitQuestionsByPlan(questions, "experience", isPlan),
     },
   };
 
@@ -200,6 +314,9 @@ function GeneratedQuestions({ questions }) {
         </div>
       </div>
 
+      {/* Free plan banner */}
+      {renderFreePlanBanner()}
+
       {/* No debug UI */}
 
       <div className="space-y-4">
@@ -290,7 +407,7 @@ function GeneratedQuestions({ questions }) {
           </div>
           <div>
             <h4 className="text-sm font-semibold text-blue-800 mb-1">
-              Pro Tips:
+              {isPlan === "pro" ? "Pro Tips:" : "Tips:"}
             </h4>
             <ul className="text-sm text-blue-700 space-y-1">
               <li>• Click on category headers to expand and see questions</li>
@@ -298,6 +415,11 @@ function GeneratedQuestions({ questions }) {
                 • Questions are automatically tailored based on the candidate's
                 resume
               </li>
+              {isPlan === "free" && (
+                <li className="text-indigo-600 font-medium">
+                  • Upgrade to Pro to unlock all interview questions
+                </li>
+              )}
             </ul>
           </div>
         </div>

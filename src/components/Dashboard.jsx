@@ -14,6 +14,7 @@ import LoadingError from "./LoadingError";
 import RateLimitError from "./RateLimitError";
 import PricingModal from "./PricingModal";
 import NavigationButton from "./NavigationButton";
+import SimpleToast from "./SimpleToast";
 import {
   formatErrorMessage,
   getErrorCategory,
@@ -39,6 +40,7 @@ const Dashboard = () => {
   const [uploadCount, setUploadCount] = useState(0);
   const [rateLimitData, setRateLimitData] = useState(null);
   const [rateLimitLoading, setRateLimitLoading] = useState(false);
+  const [userPlanType, setUserPlanType] = useState("free"); // Default to free plan
 
   const [error, setError] = useState({
     show: false,
@@ -47,6 +49,30 @@ const Dashboard = () => {
     category: null,
     originalError: null,
   });
+
+  // State for the simple toast
+  const [showSimpleToast, setShowSimpleToast] = useState(false);
+  const [simpleToastMessage, setSimpleToastMessage] = useState("");
+
+  // Function to show a toast message
+  const showToast = (message) => {
+    setSimpleToastMessage(message);
+    setShowSimpleToast(true);
+    setTimeout(() => setShowSimpleToast(false), 5000);
+  };
+
+  // Listen for the custom event to open pricing modal
+  useEffect(() => {
+    const handleOpenPricingModal = () => {
+      setShowPricingModal(true);
+    };
+
+    window.addEventListener("open-pricing-modal", handleOpenPricingModal);
+
+    return () => {
+      window.removeEventListener("open-pricing-modal", handleOpenPricingModal);
+    };
+  }, []);
 
   // Load rate limit status from backend
   useEffect(() => {
@@ -61,6 +87,15 @@ const Dashboard = () => {
           // Update local upload count to match backend
           if (transformedData && transformedData.uploadsUsed !== undefined) {
             setUploadCount(transformedData.uploadsUsed);
+          }
+
+          // Determine the user's plan type
+          if (transformedData) {
+            if (transformedData.plan === "pro" || transformedData.isPro) {
+              setUserPlanType("pro");
+            } else {
+              setUserPlanType("free");
+            }
           }
         } catch (error) {
           console.error("Failed to load rate limit status:", error);
@@ -111,23 +146,13 @@ const Dashboard = () => {
       const action = getRecommendedAction(rateLimitData);
 
       if (action.action === "signup") {
-        setError({
-          show: true,
-          message: action.message,
-          type: "warning",
-          category: "rate_limit",
-          originalError: null,
-        });
+        showToast("You've reached your free plan limit. Sign up to continue!");
         setTimeout(() => setShowPricingModal(true), 1500);
         return;
       } else if (action.action === "upgrade") {
-        setError({
-          show: true,
-          message: action.message,
-          type: "warning",
-          category: "rate_limit",
-          originalError: null,
-        });
+        showToast(
+          "You've reached your upload limit. Upgrade to Pro for unlimited access!"
+        );
         setTimeout(() => setShowPricingModal(true), 1500);
         return;
       }
@@ -726,7 +751,7 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2 text-blue-600"
+            className="h-5 w-5 mr-2 text-indigo-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -740,6 +765,44 @@ const Dashboard = () => {
           </svg>
           Upload the Resume of the Candidate
         </h2>
+
+        {/* Free plan upload counter */}
+        {userPlanType === "free" && (
+          <div className="mb-4 bg-blue-50 p-3 rounded-md border border-blue-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-blue-500 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-blue-700">
+                  Free Plan: {uploadCount}/2 Resumes Used
+                </span>
+              </div>
+              <button
+                onClick={() => setShowPricingModal(true)}
+                className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Upgrade for Unlimited
+              </button>
+            </div>
+            <div className="mt-2 w-full bg-blue-200 rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-blue-600 h-1.5 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((uploadCount / 2) * 100, 100)}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
+
         <ResumeUpload
           onFileUpload={handleFileUpload}
           isLoading={isLoading}
@@ -827,7 +890,7 @@ const Dashboard = () => {
             </svg>
             Interview Questions
           </h2>
-          <GeneratedQuestions questions={questions} />
+          <GeneratedQuestions questions={questions} isPlan={userPlanType} />
         </div>
       )}
       {error.show && renderErrorContent()}
@@ -836,6 +899,19 @@ const Dashboard = () => {
         onClose={() => setShowPricingModal(false)}
         onSelectPlan={handlePlanSelect}
       />
+      {showSimpleToast && (
+        <SimpleToast
+          message={simpleToastMessage}
+          type="warning"
+          onClose={() => setShowSimpleToast(false)}
+        />
+      )}
+      {showSimpleToast && (
+        <SimpleToast
+          message={simpleToastMessage}
+          onClose={() => setShowSimpleToast(false)}
+        />
+      )}
     </div>
   );
 };

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 
-const SimpleToast = ({ message, type = "error", show, onClose }) => {
+const SimpleToast = ({ message, type = "error", show = true, onClose }) => {
   useEffect(() => {
-    if (show && onClose) {
+    if (onClose) {
       const timer = setTimeout(() => {
         onClose();
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [show, onClose]);
+  }, [onClose]);
 
-  if (!show) return null;
+  if (show === false) return null;
 
   const getStyles = () => {
     switch (type) {
