@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import NavigationButton from "./NavigationButton";
+import { useState } from "react";
 
 function GeneratedQuestions({ questions, isPlan = "pro" }) {
   const [expandedCategories, setExpandedCategories] = useState({});

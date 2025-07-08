@@ -5,16 +5,16 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
 import App from "./App.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import ToastProvider from "./components/ToastManager.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
+import ClerkAuth from "./components/ClerkAuth.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key");
 }
-
-import ClerkAuth from "./components/ClerkAuth.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +51,9 @@ root.render(
   <StrictMode>
     <ErrorBoundary>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
       </ClerkProvider>
     </ErrorBoundary>
   </StrictMode>

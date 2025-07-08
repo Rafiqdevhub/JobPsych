@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {
-  useUser,
-  SignedIn,
-  SignedOut,
-  RedirectToSignIn,
-} from "@clerk/clerk-react";
+import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
+import { useToast } from "./ToastManager";
 import Toast from "./Toast";
+import SimpleToast from "./SimpleToast";
 import NetworkError from "./NetworkError";
 import LoadingError from "./LoadingError";
 import RateLimitError from "./RateLimitError";
 import PricingModal from "./PricingModal";
 import NavigationButton from "./NavigationButton";
-import SimpleToast from "./SimpleToast";
 import {
   formatErrorMessage,
   getErrorCategory,
@@ -32,6 +28,7 @@ import {
 
 const Dashboard = () => {
   const { user } = useUser();
+  const { showWarning } = useToast();
   const [resumeData, setResumeData] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +37,7 @@ const Dashboard = () => {
   const [uploadCount, setUploadCount] = useState(0);
   const [rateLimitData, setRateLimitData] = useState(null);
   const [rateLimitLoading, setRateLimitLoading] = useState(false);
-  const [userPlanType, setUserPlanType] = useState("free");
-
+  const [userPlanType, setUserPlanType] = useState("free"); // Default to free plan
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -49,16 +45,9 @@ const Dashboard = () => {
     category: null,
     originalError: null,
   });
-
   const [showSimpleToast, setShowSimpleToast] = useState(false);
-  const [simpleToastMessage, setSimpleToastMessage] = useState("");
 
-  const showToast = (message) => {
-    setSimpleToastMessage(message);
-    setShowSimpleToast(true);
-    setTimeout(() => setShowSimpleToast(false), 5000);
-  };
-
+  // Listen for the custom event to open pricing modal
   useEffect(() => {
     const handleOpenPricingModal = () => {
       setShowPricingModal(true);
@@ -71,6 +60,7 @@ const Dashboard = () => {
     };
   }, []);
 
+  // Load rate limit status from backend
   useEffect(() => {
     const loadRateLimitStatus = async () => {
       if (shouldApplyRateLimits()) {
@@ -80,10 +70,12 @@ const Dashboard = () => {
           const transformedData = transformRateLimitForUI(status);
           setRateLimitData(transformedData);
 
+          // Update local upload count to match backend
           if (transformedData && transformedData.uploadsUsed !== undefined) {
             setUploadCount(transformedData.uploadsUsed);
           }
 
+          // Determine the user's plan type
           if (transformedData) {
             if (transformedData.plan === "pro" || transformedData.isPro) {
               setUserPlanType("pro");
@@ -93,6 +85,7 @@ const Dashboard = () => {
           }
         } catch (error) {
           console.error("Failed to load rate limit status:", error);
+          // Fall back to localStorage count for anonymous users
           if (!user) {
             const storedCount = localStorage.getItem("resumeUploadCount");
             if (storedCount) {
@@ -130,6 +123,7 @@ const Dashboard = () => {
   }, [uploadCount, user]);
 
   const handleFileUpload = async (file) => {
+    // Check rate limits before attempting upload
     if (
       shouldApplyRateLimits() &&
       rateLimitData &&
@@ -138,11 +132,13 @@ const Dashboard = () => {
       const action = getRecommendedAction(rateLimitData);
 
       if (action.action === "signup") {
-        showToast("You've reached your free plan limit. Sign up to continue!");
+        showWarning(
+          "You've reached your free plan limit. Sign up to continue!"
+        );
         setTimeout(() => setShowPricingModal(true), 1500);
         return;
       } else if (action.action === "upgrade") {
-        showToast(
+        showWarning(
           "You've reached your upload limit. Upgrade to Pro for unlimited access!"
         );
         setTimeout(() => setShowPricingModal(true), 1500);
@@ -223,9 +219,11 @@ const Dashboard = () => {
         }
 
         if (response.status === 429) {
+          // Handle rate limit error from backend
           const rateLimitError = error.detail || error;
 
           if (rateLimitError.requires_auth) {
+            // Anonymous user hit IP-based limit
             setError({
               show: true,
               message:
@@ -240,6 +238,7 @@ const Dashboard = () => {
               setShowPricingModal(true);
             }, 2000);
           } else if (rateLimitError.requires_payment) {
+            // Authenticated user hit free tier limit
             setError({
               show: true,
               message:
@@ -254,6 +253,7 @@ const Dashboard = () => {
               setShowPricingModal(true);
             }, 2000);
           } else {
+            // General rate limit error
             throw new Error(rateLimitError.message || "Rate limit exceeded");
           }
 
@@ -293,27 +293,28 @@ const Dashboard = () => {
 
       if (missingSections.length > 0) {
         // We'll still set the data and let the wrapper component handle displaying appropriate messages
-        console.warn(
-          `Missing sections in resume data: ${missingSections.join(", ")}`
-        );
       }
 
       setResumeData(resumeDataFromResponse);
 
+      // If questions are included in the response, set them as well
       if (questionsFromResponse && questionsFromResponse.length > 0) {
         setQuestions(questionsFromResponse);
       }
 
+      // Update upload count and handle rate limiting
       const newCount = uploadCount + 1;
       setUploadCount(newCount);
       localStorage.setItem("resumeUploadCount", newCount.toString());
 
+      // Refresh rate limit status from backend after successful upload
       if (shouldApplyRateLimits()) {
         try {
           const updatedStatus = await getRateLimitStatus();
           const transformedData = transformRateLimitForUI(updatedStatus);
           setRateLimitData(transformedData);
 
+          // Show appropriate message based on backend status
           if (transformedData && !transformedData.hasReachedLimit) {
             const remaining = transformedData.remainingUploads;
             if (remaining > 0 && !transformedData.isAuthenticated) {
@@ -343,6 +344,7 @@ const Dashboard = () => {
           }
         } catch (error) {
           console.error("Failed to refresh rate limit status:", error);
+          // Fall back to local logic
           if (newCount === 1 && !user) {
             setError({
               show: true,
@@ -368,6 +370,7 @@ const Dashboard = () => {
           }
         }
       } else {
+        // Development mode - show informational message
         if (newCount > 0) {
           setError({
             show: true,
@@ -526,12 +529,16 @@ const Dashboard = () => {
   const handlePlanSelect = (planId) => {
     setShowPricingModal(false);
 
+    // Store the selected plan in localStorage for use after authentication
     localStorage.setItem("selectedPlan", planId);
 
+    // Free plan flow
     if (planId === "free") {
       if (!user) {
+        // Need to authenticate for free plan
         window.location.href = "/sign-up";
       } else {
+        // Already authenticated, refresh rate limit status
         const loadRateLimitStatus = async () => {
           try {
             const status = await getRateLimitStatus();
@@ -544,11 +551,14 @@ const Dashboard = () => {
         loadRateLimitStatus();
       }
     } else {
+      // Paid plans (pro, etc.) flow
       if (!user) {
+        // Store a flag to redirect to payment flow after authentication
         localStorage.setItem("redirectToPayment", "true");
         localStorage.setItem("selectedPaidPlan", planId);
         window.location.href = "/sign-up";
       } else {
+        // If signed in, redirect to payment processing page
         window.location.href = `/payment?plan=${planId}`;
       }
     }
@@ -582,20 +592,60 @@ const Dashboard = () => {
           onClose={handleErrorClose}
         />
       );
-    } else if (error.category === "limit") {
-      return (
-        <Toast
-          type={error.type}
-          message={error.message}
-          onClose={handleErrorClose}
-        />
-      );
     } else {
+      // Use the enhanced Toast component for all other errors
       return (
         <Toast
           type={error.type}
+          title={error.category === "limit" ? "Upload Limit" : "Error"}
           message={error.message}
+          show={error.show}
           onClose={handleErrorClose}
+          duration={error.category === "limit" ? 4000 : 6000}
+          errorData={{
+            errorType: error.category,
+            errorCategory: error.category,
+            originalError: error.originalError,
+          }}
+          actions={
+            error.category === "limit"
+              ? [
+                  {
+                    label: "Sign Up",
+                    onClick: () => {
+                      handleErrorClose();
+                      setShowPricingModal(true);
+                    },
+                    variant: "primary",
+                  },
+                ]
+              : error.category === "file"
+              ? [
+                  {
+                    label: "Try Again",
+                    onClick: () => {
+                      handleErrorClose();
+                      // Reset the file input
+                      const fileInput =
+                        document.querySelector('input[type="file"]');
+                      if (fileInput) fileInput.value = "";
+                    },
+                    variant: "primary",
+                  },
+                ]
+              : [
+                  {
+                    label: "Retry",
+                    onClick: () => {
+                      handleErrorClose();
+                      if (currentFile) {
+                        handleFileUpload(currentFile);
+                      }
+                    },
+                    variant: "primary",
+                  },
+                ]
+          }
         />
       );
     }
@@ -680,6 +730,7 @@ const Dashboard = () => {
               Upload your resume and get personalized interview questions
             </p>
 
+            {/* Rate Limit Status */}
             {shouldApplyRateLimits() && rateLimitData && !rateLimitLoading && (
               <div className="mt-3 flex items-center space-x-4">
                 {rateLimitData.isDevelopment ? (
@@ -743,6 +794,7 @@ const Dashboard = () => {
           Upload the Resume of the Candidate
         </h2>
 
+        {/* Free plan upload counter */}
         {userPlanType === "free" && (
           <div className="mb-4 bg-blue-50 p-3 rounded-md border border-blue-100">
             <div className="flex items-center justify-between">
@@ -877,14 +929,8 @@ const Dashboard = () => {
       />
       {showSimpleToast && (
         <SimpleToast
-          message={simpleToastMessage}
+          message="Simple toast notification"
           type="warning"
-          onClose={() => setShowSimpleToast(false)}
-        />
-      )}
-      {showSimpleToast && (
-        <SimpleToast
-          message={simpleToastMessage}
           onClose={() => setShowSimpleToast(false)}
         />
       )}
