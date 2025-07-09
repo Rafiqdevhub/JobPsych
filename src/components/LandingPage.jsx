@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
 import NavigationButton from "./NavigationButton";
+import PricingModal from "./PricingModal";
 import { shouldApplyRateLimits } from "../utils/env";
 import { DEFAULT_PLANS } from "../utils/paymentService";
 
@@ -10,12 +11,28 @@ const LandingPage = () => {
   const { isSignedIn } = useUser();
   const [uploadCount, setUploadCount] = useState(0);
   const [plans] = useState(DEFAULT_PLANS);
+  const [showPricingModal, setShowPricingModal] = useState(false);
 
   useEffect(() => {
     if (!isSignedIn) {
       const storedCount = localStorage.getItem("resumeUploadCount");
       if (storedCount) {
         setUploadCount(parseInt(storedCount));
+      }
+    } else {
+      // User is signed in, check if they need to be redirected to payment
+      const redirectAfterAuth = localStorage.getItem("redirectAfterAuth");
+      const selectedPlan = localStorage.getItem("selectedPlan");
+
+      if (redirectAfterAuth === "payment" && selectedPlan) {
+        // Clear the flags
+        localStorage.removeItem("redirectAfterAuth");
+        // Redirect directly to payment page for authenticated user
+        window.location.href = `/payment?plan=${selectedPlan}`;
+      } else if (redirectAfterAuth === "pricing" && selectedPlan) {
+        // Legacy support - clear the flags and show pricing modal
+        localStorage.removeItem("redirectAfterAuth");
+        setShowPricingModal(true);
       }
     }
   }, [isSignedIn]);
@@ -38,6 +55,37 @@ const LandingPage = () => {
     } else {
       // Still have free uploads available
       return "/dashboard";
+    }
+  };
+
+  const handlePlanSelection = (planId) => {
+    if (planId === "free") {
+      // Free plan - just redirect to dashboard
+      window.location.href = "/dashboard";
+    } else {
+      // Pro plan - check authentication first
+      if (!isSignedIn) {
+        // Store the selected plan and redirect to authentication
+        localStorage.setItem("selectedPlan", planId);
+        localStorage.setItem("redirectAfterAuth", "payment");
+        window.location.href = "/sign-up";
+      } else {
+        // User is authenticated, redirect directly to payment
+        localStorage.setItem("selectedPlan", planId);
+        window.location.href = `/payment?plan=${planId}`;
+      }
+    }
+  };
+
+  const handlePricingModalPlanSelect = (selectedPlanId) => {
+    setShowPricingModal(false);
+
+    if (selectedPlanId === "free") {
+      window.location.href = "/dashboard";
+    } else {
+      // Store the selected plan and redirect to payment
+      localStorage.setItem("selectedPlan", selectedPlanId);
+      window.location.href = `/payment?plan=${selectedPlanId}`;
     }
   };
 
@@ -382,9 +430,9 @@ const LandingPage = () => {
                   </p>
                 </div>
 
-                <NavigationButton
-                  to={plan.id === "free" ? "/dashboard" : "/sign-up"}
-                  className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${
+                <button
+                  onClick={() => handlePlanSelection(plan.id)}
+                  className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none ${
                     plan.popular
                       ? "bg-white text-indigo-600 hover:bg-gray-100"
                       : "bg-indigo-600 text-white hover:bg-indigo-700"
@@ -393,7 +441,7 @@ const LandingPage = () => {
                   {plan.id === "free"
                     ? "🚀 Start Free Trial"
                     : "⭐ Start Pro Trial"}
-                </NavigationButton>
+                </button>
 
                 <ul className="space-y-4 flex-1">
                   {plan.features.map((feature, featureIndex) => (
@@ -538,6 +586,12 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      <PricingModal
+        isOpen={showPricingModal}
+        onClose={() => setShowPricingModal(false)}
+        onSelectPlan={handlePricingModalPlanSelect}
+      />
     </div>
   );
 };

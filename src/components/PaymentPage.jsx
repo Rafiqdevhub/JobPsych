@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { createPayment, fetchAvailablePlans } from "../utils/paymentService";
 import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
+import SimpleTestButton from "./SimpleTestButton";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
   const { user } = useUser();
@@ -17,10 +18,13 @@ const PaymentForm = ({ selectedPlan, planId }) => {
   // Fetch client secret when component mounts
   useEffect(() => {
     const getPaymentIntent = async () => {
-      if (planId === "free") return;
+      if (planId === "free") {
+        return;
+      }
 
       try {
         setIsProcessing(true);
+        setError(null);
 
         const paymentData = await createPayment(
           planId,
@@ -35,8 +39,13 @@ const PaymentForm = ({ selectedPlan, planId }) => {
           );
         }
 
+        if (!paymentData.data?.client_secret) {
+          throw new Error("No client secret received from payment service.");
+        }
+
         setClientSecret(paymentData.data.client_secret);
       } catch (err) {
+        console.error("Payment setup error:", err);
         setError(err.message || "Payment setup failed. Please try again.");
       } finally {
         setIsProcessing(false);
@@ -212,7 +221,37 @@ const PaymentForm = ({ selectedPlan, planId }) => {
       planId={planId}
       amount={selectedPlan.price.replace("$", "")}
     />
-  ) : null;
+  ) : error && error.includes("clientSecret") ? (
+    <div className="space-y-4">
+      <div className="bg-red-50 border border-red-200 rounded-md p-4">
+        <p className="text-sm text-red-600">
+          Payment system setup failed. Using test mode instead.
+        </p>
+      </div>
+      <SimpleTestButton
+        amount={selectedPlan.price.replace("$", "")}
+        onSuccess={handlePaymentSuccess}
+      />
+    </div>
+  ) : (
+    <div className="space-y-4">
+      <div className="flex justify-center items-center my-6 p-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mr-3"></div>
+        <p className="text-lg font-medium text-gray-700">
+          Setting up secure payment...
+        </p>
+      </div>
+      <div className="text-center">
+        <p className="text-sm text-gray-500 mb-4">
+          If payment setup takes too long, you can use test mode:
+        </p>
+        <SimpleTestButton
+          amount={selectedPlan.price.replace("$", "")}
+          onSuccess={handlePaymentSuccess}
+        />
+      </div>
+    </div>
+  );
 };
 
 const PaymentPage = () => {
@@ -222,14 +261,24 @@ const PaymentPage = () => {
   const [error] = useState(null);
   const [success, setSuccess] = useState(false);
   const [, setIsProcessing] = useState(false);
+  const [stripeError, setStripeError] = useState(null);
   const navigate = useNavigate();
   const [plans, setPlans] = useState({
-    free: { name: "Free", price: "$0", period: "forever" },
-    pro: { name: "Pro", price: "$29.99", period: "month" },
-    premium: { name: "Premium", price: "$49.99", period: "month" },
+    free: { name: "Free", price: "$0", period: "2 Resume Analyses" },
+    pro: { name: "Pro", price: "$50", period: "Unlimited" },
   });
 
   const selectedPlan = plans[planId] || plans.free;
+
+  // Check if Stripe is properly configured
+  useEffect(() => {
+    stripePromise.catch((err) => {
+      console.error("Stripe loading error:", err);
+      setStripeError(
+        "Payment system configuration error. Please contact support."
+      );
+    });
+  }, []);
 
   // Fetch actual plan data from the API
   useEffect(() => {
@@ -384,6 +433,36 @@ const PaymentPage = () => {
                     Payment failed
                   </p>
                   <p className="mt-1 text-sm text-red-700">{error}</p>
+                </div>
+              </div>
+            </div>
+          ) : stripeError ? (
+            <div className="bg-red-50 border border-red-200 rounded-md p-4 my-6">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-red-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-red-800">
+                    Payment System Error
+                  </p>
+                  <p className="mt-1 text-sm text-red-700">{stripeError}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-2 text-sm text-indigo-600 hover:text-indigo-500"
+                  >
+                    Reload page
+                  </button>
                 </div>
               </div>
             </div>

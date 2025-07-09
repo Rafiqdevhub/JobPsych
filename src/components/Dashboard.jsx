@@ -34,6 +34,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState(null);
   const [showPricingModal, setShowPricingModal] = useState(false);
+  const [showProOnlyModal, setShowProOnlyModal] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
   const [rateLimitData, setRateLimitData] = useState(null);
   const [rateLimitLoading, setRateLimitLoading] = useState(false);
@@ -49,8 +50,12 @@ const Dashboard = () => {
 
   // Listen for the custom event to open pricing modal
   useEffect(() => {
-    const handleOpenPricingModal = () => {
-      setShowPricingModal(true);
+    const handleOpenPricingModal = (event) => {
+      if (event.detail?.showProOnly) {
+        setShowProOnlyModal(true);
+      } else {
+        setShowPricingModal(true);
+      }
     };
 
     window.addEventListener("open-pricing-modal", handleOpenPricingModal);
@@ -918,7 +923,17 @@ const Dashboard = () => {
             </svg>
             Interview Questions
           </h2>
-          <GeneratedQuestions questions={questions} isPlan={userPlanType} />
+          <GeneratedQuestions
+            questions={questions}
+            isPlan={userPlanType}
+            onUpgradeClick={(mode) => {
+              if (mode === "pro-only") {
+                setShowProOnlyModal(true);
+              } else {
+                setShowPricingModal(true);
+              }
+            }}
+          />
         </div>
       )}
       {error.show && renderErrorContent()}
@@ -926,6 +941,13 @@ const Dashboard = () => {
         isOpen={showPricingModal}
         onClose={() => setShowPricingModal(false)}
         onSelectPlan={handlePlanSelect}
+        showProOnly={false}
+      />
+      <PricingModal
+        isOpen={showProOnlyModal}
+        onClose={() => setShowProOnlyModal(false)}
+        onSelectPlan={handlePlanSelect}
+        showProOnly={true}
       />
       {showSimpleToast && (
         <SimpleToast

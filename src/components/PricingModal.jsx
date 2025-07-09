@@ -5,7 +5,12 @@ import {
   DEFAULT_PLANS,
 } from "../utils/paymentService";
 
-const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
+const PricingModal = ({
+  isOpen,
+  onClose,
+  onSelectPlan,
+  showProOnly = false,
+}) => {
   const [plans, setPlans] = useState(DEFAULT_PLANS);
   const [loading, setLoading] = useState(true);
 
@@ -16,15 +21,26 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
           setLoading(true);
           const backendPlans = await fetchAvailablePlans();
           const transformedPlans = transformPlansForUI(backendPlans);
-          if (transformedPlans.length > 0) {
-            setPlans(transformedPlans);
+          let finalPlans =
+            transformedPlans.length > 0 ? transformedPlans : DEFAULT_PLANS;
+
+          // Filter to show only Pro plan if showProOnly is true
+          if (showProOnly) {
+            finalPlans = finalPlans.filter((plan) => plan.id === "pro");
           }
+
+          setPlans(finalPlans);
         } catch (error) {
           console.error(
             "Failed to load plans from backend, using defaults:",
             error
           );
-          // Keep using DEFAULT_PLANS
+          // Keep using DEFAULT_PLANS but filter if needed
+          let fallbackPlans = DEFAULT_PLANS;
+          if (showProOnly) {
+            fallbackPlans = DEFAULT_PLANS.filter((plan) => plan.id === "pro");
+          }
+          setPlans(fallbackPlans);
         } finally {
           setLoading(false);
         }
@@ -32,7 +48,7 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
 
       loadPlans();
     }
-  }, [isOpen]);
+  }, [isOpen, showProOnly]);
 
   if (!isOpen) return null;
 
@@ -118,7 +134,9 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
               marginBottom: "8px",
             }}
           >
-            Continue Analyzing Resumes
+            {showProOnly
+              ? "Upgrade to JobPsych Pro"
+              : "Continue Analyzing Resumes"}
           </h2>
           <p
             style={{
@@ -127,7 +145,9 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
               marginBottom: "8px",
             }}
           >
-            You've used your free uploads. Choose how to continue:
+            {showProOnly
+              ? "Unlock unlimited access to all interview questions and advanced features"
+              : "You've used your free uploads. Choose how to continue:"}
           </p>
           <div
             style={{
@@ -142,11 +162,12 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.8)",
                 margin: "0",
+                whiteSpace: showProOnly ? "normal" : "pre-line",
               }}
             >
-              ✨ Create a free account to get 2 more free analyses
-              <br />
-              🚀 Or upgrade to Pro for unlimited access
+              {showProOnly
+                ? "🚀 Get unlimited resume analyses and unlock all interview questions with Pro"
+                : "✨ Create a free account to get 2 more free analyses\n🚀 Or upgrade to Pro for unlimited access"}
             </p>
           </div>
         </div>
@@ -160,9 +181,9 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
+              gridTemplateColumns: showProOnly ? "1fr" : "repeat(2, 1fr)",
               gap: "24px",
-              maxWidth: "800px",
+              maxWidth: showProOnly ? "600px" : "800px",
               margin: "0 auto",
             }}
           >
@@ -438,7 +459,9 @@ const PricingModal = ({ isOpen, onClose, onSelectPlan }) => {
                       }
                     }}
                   >
-                    {plan.buttonText}
+                    {showProOnly && plan.id === "pro"
+                      ? "🚀 Upgrade to Pro Now"
+                      : plan.buttonText}
                   </button>
                 </div>
               ))

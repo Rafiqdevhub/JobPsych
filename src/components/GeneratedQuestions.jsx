@@ -1,6 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useUser } from "@clerk/clerk-react";
 
-function GeneratedQuestions({ questions, isPlan = "pro" }) {
+function GeneratedQuestions({ questions, isPlan = "pro", onUpgradeClick }) {
+  const { isSignedIn } = useUser();
   const [expandedCategories, setExpandedCategories] = useState({});
 
   // Function to limit questions based on plan type
@@ -77,42 +79,67 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                 </span>
               </p>
 
-              <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between">
-                <div className="flex items-center mb-3 sm:mb-0">
-                  <div className="w-full max-w-[150px] bg-blue-200 rounded-full h-2">
+              <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center">
+                  <div className="w-full max-w-[150px] bg-blue-200 rounded-full h-2 overflow-hidden">
                     <div
                       className="bg-blue-600 h-2 rounded-full transition-all duration-500"
                       style={{
-                        width: `${(visibleQuestions / totalQuestions) * 100}%`,
+                        width: `${Math.min(
+                          (visibleQuestions / totalQuestions) * 100,
+                          100
+                        )}%`,
                       }}
                     ></div>
                   </div>
-                  <span className="ml-2 text-xs text-blue-700">
+                  <span className="ml-2 text-xs text-blue-700 whitespace-nowrap">
                     {visibleQuestions}/{totalQuestions} questions
                   </span>
                 </div>
 
-                <button
-                  onClick={() =>
-                    window.dispatchEvent(new CustomEvent("open-pricing-modal"))
-                  }
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm inline-flex items-center transition-colors"
-                >
-                  Unlock All Questions
-                  <svg
-                    className="ml-1 h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                <div className="flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      // Check authentication first
+                      if (!isSignedIn) {
+                        // Redirect to sign-up page if not authenticated
+                        window.location.href = "/sign-up";
+                        return;
+                      }
+
+                      // If authenticated, show Pro-only pricing modal
+                      if (onUpgradeClick) {
+                        onUpgradeClick("pro-only");
+                      } else {
+                        window.dispatchEvent(
+                          new CustomEvent("open-pricing-modal", {
+                            detail: { showProOnly: true },
+                          })
+                        );
+                      }
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800 text-white font-medium py-2 px-4 rounded text-sm inline-flex items-center transition-colors cursor-pointer z-10 relative shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </button>
+                    {isSignedIn ? "Unlock All Questions" : "Sign Up to Unlock"}
+                    <svg
+                      className="ml-1 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
