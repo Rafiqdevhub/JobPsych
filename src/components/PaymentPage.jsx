@@ -5,7 +5,6 @@ import { Elements } from "@stripe/react-stripe-js";
 import { createPayment, fetchAvailablePlans } from "../utils/paymentService";
 import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
-import SimpleTestButton from "./SimpleTestButton";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
   const { user } = useUser();
@@ -15,7 +14,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch client secret when component mounts
   useEffect(() => {
     const getPaymentIntent = async () => {
       if (planId === "free") {
@@ -221,35 +219,12 @@ const PaymentForm = ({ selectedPlan, planId }) => {
       planId={planId}
       amount={selectedPlan.price.replace("$", "")}
     />
-  ) : error && error.includes("clientSecret") ? (
-    <div className="space-y-4">
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
-        <p className="text-sm text-red-600">
-          Payment system setup failed. Using test mode instead.
-        </p>
-      </div>
-      <SimpleTestButton
-        amount={selectedPlan.price.replace("$", "")}
-        onSuccess={handlePaymentSuccess}
-      />
-    </div>
   ) : (
-    <div className="space-y-4">
-      <div className="flex justify-center items-center my-6 p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mr-3"></div>
-        <p className="text-lg font-medium text-gray-700">
-          Setting up secure payment...
-        </p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-gray-500 mb-4">
-          If payment setup takes too long, you can use test mode:
-        </p>
-        <SimpleTestButton
-          amount={selectedPlan.price.replace("$", "")}
-          onSuccess={handlePaymentSuccess}
-        />
-      </div>
+    <div className="flex justify-center items-center my-6 p-4">
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mr-3"></div>
+      <p className="text-lg font-medium text-gray-700">
+        Setting up secure payment...
+      </p>
     </div>
   );
 };
@@ -313,7 +288,7 @@ const PaymentPage = () => {
 
   // Handle free plan activation automatically
   useEffect(() => {
-    if (planId === "free" && !success) {
+    if (planId === "free" && !success && isSignedIn) {
       // Free plan doesn't need payment processing
       setIsProcessing(true);
 
@@ -327,7 +302,7 @@ const PaymentPage = () => {
       setIsProcessing(false);
     }
     // For paid plans, the PaymentForm component handles the payment
-  }, [planId, navigate, success]);
+  }, [planId, navigate, success, isSignedIn]);
 
   // Redirect to sign-in if not authenticated
   useEffect(() => {
@@ -473,10 +448,28 @@ const PaymentPage = () => {
           )}
 
           <div className="mt-8 text-center">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 mb-4">
               🔒 Your payment is secured with SSL encryption. Your data is
               always protected.
             </p>
+            <button
+              onClick={() => navigate("/")}
+              className="inline-flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-md shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer border border-gray-300 transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Back to Home
+            </button>
           </div>
         </div>
       </div>

@@ -13,17 +13,14 @@ const ClerkAuth = ({ mode = "signIn" }) => {
   const { isSignedIn } = useUser();
   const navigate = useNavigate();
 
-  // Check if we need to redirect to payment page after auth
   useEffect(() => {
     if (isSignedIn) {
       const redirectToPayment = localStorage.getItem("redirectToPayment");
       const selectedPlan = localStorage.getItem("selectedPlan");
 
       if (redirectToPayment === "true" && selectedPlan) {
-        // Clean up the localStorage flags
         localStorage.removeItem("redirectToPayment");
 
-        // Redirect to payment page with the selected plan
         navigate(`/payment?plan=${selectedPlan}`);
       }
     }
@@ -47,8 +44,8 @@ const ClerkAuth = ({ mode = "signIn" }) => {
         )}
 
         <div className="mt-10 text-center">
-          <a
-            href="/"
+          <button
+            onClick={() => navigate("/")}
             id="back-to-home-button"
             className="inline-flex items-center justify-center px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer border border-indigo-500/30 active:bg-indigo-800 transition-all duration-200 transform hover:translate-y-[-2px]"
           >
@@ -65,7 +62,7 @@ const ClerkAuth = ({ mode = "signIn" }) => {
               />
             </svg>
             Back to Home
-          </a>
+          </button>
         </div>
       </div>
     </div>
