@@ -24,6 +24,7 @@ const PricingModal = ({
           let finalPlans =
             transformedPlans.length > 0 ? transformedPlans : DEFAULT_PLANS;
 
+          // Filter to show only Pro plan if showProOnly is true
           if (showProOnly) {
             finalPlans = finalPlans.filter((plan) => plan.id === "pro");
           }
@@ -34,6 +35,7 @@ const PricingModal = ({
             "Failed to load plans from backend, using defaults:",
             error
           );
+          // Keep using DEFAULT_PLANS but filter if needed
           let fallbackPlans = DEFAULT_PLANS;
           if (showProOnly) {
             fallbackPlans = DEFAULT_PLANS.filter((plan) => plan.id === "pro");
@@ -54,6 +56,8 @@ const PricingModal = ({
     if (onSelectPlan) {
       onSelectPlan(planId);
     }
+    // Here you would typically redirect to payment processing
+    // Payment integration will be added when backend is ready
   };
 
   return (

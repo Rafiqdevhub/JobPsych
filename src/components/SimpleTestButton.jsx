@@ -14,7 +14,7 @@ const SimpleTestButton = ({ amount, onSuccess }) => {
         status: "succeeded",
         amount: amount * 100, // in cents
       });
-    }, 2000);
+    }, 1500);
   };
 
   return (

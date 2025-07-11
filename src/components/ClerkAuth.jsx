@@ -8,19 +8,23 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import NavigationButton from "./NavigationButton";
 
 const ClerkAuth = ({ mode = "signIn" }) => {
   const { isSignedIn } = useUser();
   const navigate = useNavigate();
 
+  // Check if we need to redirect to payment page after auth
   useEffect(() => {
     if (isSignedIn) {
       const redirectToPayment = localStorage.getItem("redirectToPayment");
       const selectedPlan = localStorage.getItem("selectedPlan");
 
       if (redirectToPayment === "true" && selectedPlan) {
+        // Clean up the localStorage flags
         localStorage.removeItem("redirectToPayment");
 
+        // Redirect to payment page with the selected plan
         navigate(`/payment?plan=${selectedPlan}`);
       }
     }
@@ -44,25 +48,28 @@ const ClerkAuth = ({ mode = "signIn" }) => {
         )}
 
         <div className="mt-10 text-center">
-          <button
-            onClick={() => navigate("/")}
-            id="back-to-home-button"
-            className="inline-flex items-center justify-center px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer border border-indigo-500/30 active:bg-indigo-800 transition-all duration-200 transform hover:translate-y-[-2px]"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+          <div className="mb-6 relative z-10">
+            <NavigationButton
+              to="/"
+              className="inline-flex items-center gap-2 bg-blue-600 px-5 py-3 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              aria-label="Back to home page"
             >
-              <path
-                fillRule="evenodd"
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Back to Home
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span>Back to Home</span>
+            </NavigationButton>
+          </div>
         </div>
       </div>
     </div>
