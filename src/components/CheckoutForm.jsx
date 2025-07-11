@@ -9,22 +9,19 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
   const [stripeLoaded, setStripeLoaded] = useState(false);
   const [forceEnable, setForceEnable] = useState(false);
 
-  // Monitor Stripe loading status
+  // Detect when Stripe is ready
   useEffect(() => {
     if (stripe && elements) {
       setStripeLoaded(true);
     } else {
-      // If Stripe doesn't load within 10 seconds, enable anyway for testing
       const timeout = setTimeout(() => {
-        console.warn("Stripe loading timeout - enabling form anyway");
+        console.warn("Stripe took too long — enabling test mode");
         setForceEnable(true);
-      }, 10000);
-
+      }, 5000); // Reduced from 10s to 5s
       return () => clearTimeout(timeout);
     }
   }, [stripe, elements]);
 
-  // Clear card error when user starts typing
   const handleCardChange = (event) => {
     if (event.error) {
       setCardError(event.error.message);
@@ -35,39 +32,31 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // For testing/development - if Stripe isn't loaded, simulate payment
-    if ((!stripe || !elements) && forceEnable) {
-      setProcessing(true);
-      console.warn("Testing mode: Simulating payment success");
-      setTimeout(() => {
-        setProcessing(false);
-        onSuccess({ id: "test_payment_intent_" + Date.now() });
-      }, 2000);
-      return;
-    }
+    setCardError("");
 
     if (!stripe || !elements) {
-      setCardError(
-        "Payment system is still loading. Please wait a moment and try again."
-      );
+      if (forceEnable) {
+        console.warn("Simulating payment (Stripe not ready)");
+        setProcessing(true);
+        setTimeout(() => {
+          setProcessing(false);
+          onSuccess({ id: "test_payment_intent_" + Date.now() });
+        }, 1500);
+      } else {
+        setCardError("Payment system is still loading. Please wait a moment.");
+      }
       return;
     }
 
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
-      setCardError(
-        "Card element not found. Please refresh the page and try again."
-      );
+      setCardError("Card input not found. Please refresh and try again.");
       return;
     }
 
-    // Clear any existing errors
-    setCardError("");
     setProcessing(true);
 
     try {
-      // First, create payment method to validate card
       const { error: methodError, paymentMethod } =
         await stripe.createPaymentMethod({
           type: "card",
@@ -81,7 +70,6 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
         return;
       }
 
-      // Then confirm the payment
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: paymentMethod.id,
       });
@@ -94,29 +82,14 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
         onSuccess(result.paymentIntent);
       }
     } catch (error) {
-      console.error("Payment error:", error);
-      const errorMessage =
-        error.message || "An unexpected error occurred. Please try again.";
-      setCardError(errorMessage);
-      onError(errorMessage);
+      const msg = error.message || "Unexpected error. Please try again later.";
+      setCardError(msg);
+      onError(msg);
     } finally {
       setProcessing(false);
     }
   };
 
-  // Debug info for development
-  const debugInfo = {
-    stripeLoaded: !!stripe,
-    elementsLoaded: !!elements,
-    clientSecret: !!clientSecret,
-    processing,
-    cardError,
-    amount,
-    forceEnable,
-    readyForPayment: stripeLoaded || forceEnable,
-  };
-
-  // Show loading state while Stripe is initializing (but not if force enabled)
   if (!stripeLoaded && !forceEnable) {
     return (
       <div className="flex justify-center items-center my-6 p-4">
@@ -128,13 +101,6 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Debug panel - remove in production */}
-      {import.meta.env.DEV && (
-        <div className="bg-gray-50 p-3 rounded text-xs">
-          <strong>Debug Info:</strong> {JSON.stringify(debugInfo, null, 2)}
-        </div>
-      )}
-
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Card details
@@ -161,7 +127,7 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
             />
           ) : (
             <div className="p-2 text-gray-500 text-sm">
-              💳 Test Mode: Card field not available - payment will be simulated
+              💳 Test Mode: Card input not loaded — simulating payment
             </div>
           )}
         </div>
@@ -170,10 +136,10 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
             <p className="text-sm text-red-600">{cardError}</p>
           </div>
         )}
-        {(!stripe || !elements) && forceEnable && (
+        {forceEnable && !stripe && (
           <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
             <p className="text-sm text-yellow-700">
-              ⚠️ Testing mode: Stripe unavailable - payment will be simulated
+              ⚠️ Test mode: Stripe not ready, simulating payment
             </p>
           </div>
         )}
@@ -185,7 +151,7 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
         className={`w-full py-3 px-4 rounded-md text-white font-medium transition-all duration-200 ${
           processing
             ? "bg-indigo-400 cursor-not-allowed opacity-60"
-            : "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 hover:shadow-lg cursor-pointer"
+            : "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 hover:shadow-lg"
         } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 flex justify-center items-center`}
       >
         {processing ? (
@@ -210,11 +176,11 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            Processing Payment...
+            Processing...
           </>
         ) : (
           <>
-            {forceEnable && !stripe ? "🧪 Test Pay" : "🔒 Pay"} ${amount}
+            {forceEnable && !stripe ? "🧪 Simulate Pay" : "🔒 Pay"} ${amount}
           </>
         )}
       </button>

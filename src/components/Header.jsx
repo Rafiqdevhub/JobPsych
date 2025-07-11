@@ -17,22 +17,14 @@ const Header = () => {
             className="flex items-center space-x-4 bg-transparent border-0 group"
           >
             <div className="flex items-center relative overflow-visible">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
 
-              <div className="relative z-10 flex justify-center items-center h-14 w-14 rounded-full bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-2 shadow-lg border border-indigo-200/30 group-hover:shadow-indigo-200/50 transition-all duration-300">
-                <svg
-                  className="h-8 w-8 text-indigo-600 transform transition-all duration-300"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+              <div className="relative z-10 flex justify-center items-center h-14 w-14 p-1 transition-all duration-300">
+                <img
+                  src="/logo.png"
+                  alt="JobPsych Logo"
+                  className="h-14 w-14 object-contain transform transition-all duration-300 group-hover:scale-105"
+                />
               </div>
 
               <h1 className="ml-3 text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-600 bg-clip-text text-transparent transition-all duration-300 tracking-tight">
