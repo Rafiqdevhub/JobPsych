@@ -342,7 +342,6 @@ const TOAST_CONFIG = {
   },
 };
 
-// Helper function to determine toast type based on error data
 const getToastTypeFromError = (errorData) => {
   if (!errorData) return "error";
 

@@ -3,15 +3,105 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
 import NavigationButton from "./NavigationButton";
-import PricingModal from "./PricingModal";
 import { shouldApplyRateLimits } from "../utils/env";
-import { DEFAULT_PLANS } from "../utils/paymentService";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();
   const [uploadCount, setUploadCount] = useState(0);
-  const [plans] = useState(DEFAULT_PLANS);
-  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [isAnnual, setIsAnnual] = useState(false);
+
+  const enhancedPlans = [
+    {
+      name: "Free",
+      description: "Perfect for getting started",
+      price: { monthly: 0, annual: 0 },
+      highlight: "Most Popular",
+      features: [
+        "2 Resume analyses per month",
+        "Basic interview questions",
+        "Standard AI insights",
+        "Email support",
+        "Basic candidate reports",
+      ],
+      limitations: [
+        "Limited to 2 uploads per month",
+        "Basic question templates only",
+        "Standard processing speed",
+      ],
+      buttonText: "Start Free",
+      buttonStyle:
+        "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700",
+      popular: true,
+    },
+    {
+      name: "Pro",
+      description: "For growing teams and HR professionals",
+      price: { monthly: 49, annual: 39 },
+      highlight: "Best Value",
+      features: [
+        "Unlimited resume analyses",
+        "Advanced AI-powered questions",
+        "Deep candidate insights",
+        "Skills gap analysis",
+        "Priority email support",
+        "Advanced analytics dashboard",
+        "Custom question templates",
+        "Export reports to PDF/Excel",
+        "Team collaboration tools",
+      ],
+      limitations: [],
+      buttonText: "Start Pro Trial",
+      buttonStyle:
+        "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700",
+      popular: false,
+    },
+    {
+      name: "Enterprise",
+      description: "For large organizations",
+      price: { monthly: "Custom", annual: "Custom" },
+      highlight: "Enterprise Ready",
+      features: [
+        "Everything in Pro",
+        "Custom AI model training",
+        "Advanced integrations (ATS, HRIS)",
+        "Dedicated account manager",
+        "24/7 phone & email support",
+        "Custom branding",
+        "Advanced security & compliance",
+        "Bulk processing capabilities",
+        "Custom reporting & analytics",
+        "API access",
+      ],
+      limitations: [],
+      buttonText: "Contact Sales",
+      buttonStyle:
+        "bg-gradient-to-r from-gray-700 to-gray-800 text-white hover:from-gray-800 hover:to-gray-900",
+      popular: false,
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "How does the free plan work?",
+      answer:
+        "The free plan allows you to analyze up to 2 resumes per IP address with basic AI insights and interview questions. Perfect for trying out JobPsych's capabilities.",
+    },
+    {
+      question: "Can I upgrade or downgrade my plan anytime?",
+      answer:
+        "Yes! You can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.",
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer:
+        "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal for convenient billing.",
+    },
+    {
+      question: "Is my data secure?",
+      answer:
+        "Absolutely. We use enterprise-grade security with encryption at rest and in transit. All data is stored securely and never shared with third parties.",
+    },
+  ];
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -20,138 +110,168 @@ const LandingPage = () => {
         setUploadCount(parseInt(storedCount));
       }
     } else {
-      // User is signed in, check if they need to be redirected to payment
       const redirectAfterAuth = localStorage.getItem("redirectAfterAuth");
       const selectedPlan = localStorage.getItem("selectedPlan");
 
       if (redirectAfterAuth === "payment" && selectedPlan) {
-        // Clear the flags
         localStorage.removeItem("redirectAfterAuth");
-        // Redirect directly to payment page for authenticated user
         window.location.href = `/payment?plan=${selectedPlan}`;
       } else if (redirectAfterAuth === "pricing" && selectedPlan) {
-        // Legacy support - clear the flags and show pricing modal
         localStorage.removeItem("redirectAfterAuth");
-        setShowPricingModal(true);
+        window.location.href = `/payment?plan=${selectedPlan}`;
       }
     }
   }, [isSignedIn]);
 
   const getDestination = () => {
-    // In development mode, always go to dashboard
     if (!shouldApplyRateLimits()) {
       return "/dashboard";
     }
 
-    // If signed in, always go to dashboard
     if (isSignedIn) {
       return "/dashboard";
     }
 
-    // For anonymous users, check upload count
     if (uploadCount >= 2) {
-      // After 2 free uploads, redirect to pricing/authentication
       return "/sign-up";
     } else {
-      // Still have free uploads available
       return "/dashboard";
     }
   };
 
   const handlePlanSelection = (planId) => {
     if (planId === "free") {
-      // Free plan - just redirect to dashboard
       window.location.href = "/dashboard";
     } else {
-      // Pro plan - check authentication first
       if (!isSignedIn) {
-        // Store the selected plan and redirect to authentication
         localStorage.setItem("selectedPlan", planId);
         localStorage.setItem("redirectAfterAuth", "payment");
         window.location.href = "/sign-up";
       } else {
-        // User is authenticated, redirect directly to payment
         localStorage.setItem("selectedPlan", planId);
         window.location.href = `/payment?plan=${planId}`;
       }
     }
   };
 
-  const handlePricingModalPlanSelect = (selectedPlanId) => {
-    setShowPricingModal(false);
-
-    if (selectedPlanId === "free") {
-      window.location.href = "/dashboard";
-    } else {
-      // Store the selected plan and redirect to payment
-      localStorage.setItem("selectedPlan", selectedPlanId);
-      window.location.href = `/payment?plan=${selectedPlanId}`;
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
       <Header />
-      <section className="relative isolate overflow-hidden">
+      <section id="hero" className="relative isolate overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              JobPsych
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
+              <span className="mr-2">🚀</span>
+              AI-Powered Hiring Intelligence
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              AI-Powered Resume Screening for Smarter Hiring Decisions
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Optimize your job interviews with AI-powered resume analysis and
-              personalized interview questions.
-            </p>
-            <p className="mt-4 text-lg leading-8 text-gray-700 bg-indigo-50 p-4 rounded-lg shadow-inner">
-              <span className="font-semibold text-indigo-600">JobPsych</span> is
-              designed for HR professionals and hiring managers to streamline
-              the interview process. Upload candidate resumes, and our AI will
-              extract key information, analyze skills, and automatically
-              generate tailored interview questions based on the candidate's
-              experience and qualifications.
+
+            <p className="mt-6 text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
+              <span className="font-semibold text-indigo-600">
+                JobPsych reads between the lines
+              </span>{" "}
+              so you don't have to. Analyze resumes, spot top talent, and make
+              confident hiring calls in minutes.
             </p>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-y-3">
+            <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-700">
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-lg">⚡</span>
+                  <span className="font-medium">Instant Analysis</span>
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-lg">🎯</span>
+                  <span className="font-medium">Spot Top Talent</span>
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-lg">🧠</span>
+                  <span className="font-medium">AI-Powered Insights</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Enhanced CTA Buttons */}
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <NavigationButton
                 to={getDestination()}
-                className="rounded-md bg-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-md hover:bg-indigo-500 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 flex items-center cursor-pointer transition-all duration-300 relative"
+                className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
               >
-                {isSignedIn
-                  ? "Upload Resume for Analysis"
-                  : uploadCount >= 2
-                  ? "Sign Up to Continue Analyzing"
-                  : "Upload Resume for Free Analysis"}
-                <ArrowRightIcon className="ml-2 h-5 w-5" />
+                <span className="text-lg">✅</span>
+                <span className="relative z-10">
+                  {isSignedIn
+                    ? "Upload Resume for Analysis"
+                    : uploadCount >= 2
+                    ? "Sign Up to Continue"
+                    : "Try It for Free"}
+                </span>
+                <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                 {shouldApplyRateLimits() && !isSignedIn && (
                   <span
-                    className={`absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm ${
+                    className={`absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg ${
                       uploadCount >= 2 ? "bg-red-500" : "bg-green-500"
                     }`}
                   >
                     {uploadCount >= 2
                       ? "Limit reached"
-                      : `${2 - uploadCount} free ${
-                          2 - uploadCount === 1 ? "upload" : "uploads"
-                        } left`}
+                      : `${2 - uploadCount} free left`}
                   </span>
                 )}
               </NavigationButton>
 
+              {/* Secondary CTA - Go Pro */}
+              <NavigationButton
+                to="/sign-up"
+                className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
+              >
+                <span className="text-lg">🔒</span>
+                <span className="relative z-10">
+                  Go Pro – Get 20 Resume Scans/Month
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </NavigationButton>
+            </div>
+
+            {/* Status Messages */}
+            <div className="mt-6 space-y-2">
               {shouldApplyRateLimits() && !isSignedIn && (
-                <p className="text-xs text-indigo-800 font-medium">
+                <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
                   {uploadCount >= 2
-                    ? "You've used all free uploads. Sign up to continue with 2 more free analyses."
-                    : `Free users can upload up to 2 resumes for analysis. ${
-                        uploadCount > 0 ? `${uploadCount} used.` : ""
+                    ? "🎯 You've used all free uploads. Sign up to continue with 2 more free analyses."
+                    : `💡 Free users get 2 resume analyses. ${
+                        uploadCount > 0
+                          ? `${uploadCount} used, ${2 - uploadCount} remaining.`
+                          : "Start your first analysis now!"
                       }`}
                 </p>
               )}
 
               {isSignedIn && (
-                <p className="text-xs text-indigo-800 font-medium">
-                  Welcome back! You have additional free uploads available.
+                <p className="text-sm text-emerald-700 font-medium bg-emerald-50 px-4 py-2 rounded-lg inline-block">
+                  🎉 Welcome back! You have additional free uploads available.
                 </p>
               )}
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm text-gray-500">
+              <div className="flex items-center space-x-2">
+                <span className="text-green-500">✓</span>
+                <span>No Credit Card Required</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-green-500">✓</span>
+                <span>Bank-Level Security</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-green-500">✓</span>
+                <span>Instant Results</span>
+              </div>
             </div>
           </div>
         </div>
@@ -170,150 +290,225 @@ const LandingPage = () => {
       </section>
       <section
         id="features"
-        className="py-24 sm:py-32 bg-gradient-to-b from-white to-indigo-50"
+        className="py-24 sm:py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-indigo-600">
-              Streamline Your Hiring Process
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-6">
+              <span className="mr-2">🚀</span>
+              Powerful Features for Modern Hiring
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
+              Everything You Need for
+              <br />
+              <span className="text-indigo-600">Smart Hiring</span>
             </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Everything HR professionals need for effective interviews
+
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              JobPsych combines AI-powered analysis with intuitive design to
+              revolutionize your hiring process. Discover how our features can
+              transform your candidate evaluation workflow.
             </p>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              JobPsych analyzes candidate resumes and job descriptions to
-              generate tailored interview questions, saving hours of preparation
-              time. Our platform helps HR teams conduct more meaningful and
-              insightful interviews.
-            </p>
-            <div className="mt-8 p-6 bg-white rounded-xl shadow-md">
-              <h3 className="text-xl font-bold text-indigo-700 mb-4">
-                How It Works
-              </h3>
-              <ol className="list-decimal pl-6 text-left space-y-2 text-gray-700">
-                <li>
-                  <span className="font-medium">Upload Resumes</span> - Simply
-                  upload a candidate's resume in PDF or Word format
-                </li>
-                <li>
-                  <span className="font-medium">AI Analysis</span> - Our AI
-                  extracts key information, skills, and experience
-                </li>
-                <li>
-                  <span className="font-medium">Question Generation</span> -
-                  Receive tailored interview questions based on the candidate's
-                  background
-                </li>
-                <li>
-                  <span className="font-medium">Conduct Better Interviews</span>{" "}
-                  - Use our insights to focus on what matters for each role
-                </li>
-              </ol>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  🧠
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Smart Analysis
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  AI-Powered Resume Analysis
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Advanced AI algorithms analyze resumes to extract key skills,
+                  experience, and qualifications automatically.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  ❓
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Personalized Questions
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  Dynamic Interview Questions
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Generate personalized interview questions based on specific
+                  job roles and candidate backgrounds.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  📊
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Deep Insights
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  Candidate Insights
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Get comprehensive insights about candidate strengths,
+                  weaknesses, and cultural fit assessments.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  ⚡
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Lightning Fast
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  Real-time Processing
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Upload resumes and receive instant analysis results within
+                  seconds, not hours.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  🎯
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Strategic Hiring
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  Skills Gap Analysis
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Identify skill gaps and areas for improvement to make better
+                  hiring decisions.
+                </p>
+              </div>
+            </div>
+
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              <div className="relative z-10">
+                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  🔐
+                </div>
+
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
+                  Bank-level Security
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                  Secure & Private
+                </h3>
+
+                <p className="text-gray-600 leading-relaxed">
+                  Enterprise-grade security ensures all candidate data is
+                  protected with advanced encryption.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <svg
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                      />
-                    </svg>
-                  </div>
-                  Resume Analysis
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  Our AI parses your resume to identify key skills, experiences,
-                  and achievements to focus on during interviews.
-                </dd>
+
+          {/* How It Works Section */}
+          <div className="text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white">
+            <h3 className="text-3xl md:text-4xl font-bold mb-8">
+              How JobPsych Works
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">📄</span>
+                </div>
+                <h4 className="font-semibold mb-2">1. Upload Resume</h4>
+                <p className="text-white/90 text-sm">
+                  Simply upload a candidate's resume in PDF or Word format
+                </p>
               </div>
 
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <svg
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                      />
-                    </svg>
-                  </div>
-                  Tailored Questions
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  Get custom interview questions that highlight your strengths
-                  and help you prepare for potential challenges.
-                </dd>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🧠</span>
+                </div>
+                <h4 className="font-semibold mb-2">2. AI Analysis</h4>
+                <p className="text-white/90 text-sm">
+                  Our AI extracts key information, skills, and experience
+                </p>
               </div>
 
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <svg
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-                      />
-                    </svg>
-                  </div>
-                  Instant Feedback
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  Get immediate insights into how your resume aligns with job
-                  requirements and where you can improve.
-                </dd>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">❓</span>
+                </div>
+                <h4 className="font-semibold mb-2">3. Generate Questions</h4>
+                <p className="text-white/90 text-sm">
+                  Receive tailored interview questions based on the candidate's
+                  background
+                </p>
               </div>
 
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <svg
-                      className="h-6 w-6 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                      />
-                    </svg>
-                  </div>
-                  Privacy Focused
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  Your data is encrypted and secure. We never share your resume
-                  or personal information with third parties.
-                </dd>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🎯</span>
+                </div>
+                <h4 className="font-semibold mb-2">4. Better Interviews</h4>
+                <p className="text-white/90 text-sm">
+                  Use our insights to focus on what matters for each role
+                </p>
               </div>
-            </dl>
+            </div>
           </div>
+        </div>
+
+        {/* Background Decorations */}
+        <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-indigo-200/20 to-purple-200/20 rounded-full blur-xl"></div>
+          <div className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-200/20 to-blue-200/20 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-20 left-20 w-40 h-40 bg-gradient-to-r from-blue-200/20 to-indigo-200/20 rounded-full blur-xl"></div>
         </div>
       </section>
 
@@ -327,18 +522,51 @@ const LandingPage = () => {
               ✨ Flexible Plans
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Try Free, Then Unlock Full Power
+              Choose the Perfect Plan for Your Team
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Start with our free trial to experience JobPsych instantly, then
               upgrade to Pro for unlimited access and advanced features.
             </p>
+
+            {/* Annual/Monthly Toggle */}
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <span
+                className={`text-sm font-medium ${
+                  !isAnnual ? "text-indigo-600" : "text-gray-500"
+                }`}
+              >
+                Monthly
+              </span>
+              <button
+                onClick={() => setIsAnnual(!isAnnual)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                  isAnnual ? "bg-indigo-600" : "bg-gray-200"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    isAnnual ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-sm font-medium ${
+                  isAnnual ? "text-indigo-600" : "text-gray-500"
+                }`}
+              >
+                Annual
+                <span className="ml-1 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                  Save 20%
+                </span>
+              </span>
+            </div>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-2">
-            {plans.map((plan, index) => (
+          <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
+            {enhancedPlans.map((plan, index) => (
               <div
-                key={plan.id}
+                key={plan.name}
                 className={`relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl ${
                   plan.popular
                     ? "bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white scale-105"
@@ -351,7 +579,7 @@ const LandingPage = () => {
               >
                 {plan.popular && (
                   <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
-                    🚀 Most Popular
+                    🚀 {plan.highlight}
                   </div>
                 )}
 
@@ -361,7 +589,7 @@ const LandingPage = () => {
                       plan.popular ? "bg-white/20" : "bg-indigo-100"
                     }`}
                   >
-                    {plan.id === "free" ? (
+                    {plan.name === "Free" ? (
                       <svg
                         className={`h-6 w-6 ${
                           plan.popular ? "text-white" : "text-indigo-600"
@@ -377,7 +605,7 @@ const LandingPage = () => {
                           d="M13 10V3L4 14h7v7l9-11h-7z"
                         />
                       </svg>
-                    ) : (
+                    ) : plan.name === "Pro" ? (
                       <svg
                         className={`h-6 w-6 ${
                           plan.popular ? "text-white" : "text-indigo-600"
@@ -391,6 +619,22 @@ const LandingPage = () => {
                           strokeLinejoin="round"
                           strokeWidth={2}
                           d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className={`h-6 w-6 ${
+                          plan.popular ? "text-white" : "text-indigo-600"
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                         />
                       </svg>
                     )}
@@ -411,15 +655,21 @@ const LandingPage = () => {
                         plan.popular ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      {plan.price}
+                      {typeof plan.price.monthly === "number"
+                        ? `$${
+                            isAnnual ? plan.price.annual : plan.price.monthly
+                          }`
+                        : plan.price.monthly}
                     </span>
-                    <span
-                      className={`ml-1 text-xl font-semibold ${
-                        plan.popular ? "text-white/80" : "text-gray-500"
-                      }`}
-                    >
-                      /{plan.period}
-                    </span>
+                    {typeof plan.price.monthly === "number" && (
+                      <span
+                        className={`ml-1 text-xl font-semibold ${
+                          plan.popular ? "text-white/80" : "text-gray-500"
+                        }`}
+                      >
+                        /{isAnnual ? "year" : "month"}
+                      </span>
+                    )}
                   </div>
                   <p
                     className={`mt-4 text-lg ${
@@ -431,16 +681,14 @@ const LandingPage = () => {
                 </div>
 
                 <button
-                  onClick={() => handlePlanSelection(plan.id)}
+                  onClick={() => handlePlanSelection(plan.name.toLowerCase())}
                   className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none ${
                     plan.popular
                       ? "bg-white text-indigo-600 hover:bg-gray-100"
-                      : "bg-indigo-600 text-white hover:bg-indigo-700"
+                      : plan.buttonStyle
                   }`}
                 >
-                  {plan.id === "free"
-                    ? "🚀 Start Free Trial"
-                    : "⭐ Start Pro Trial"}
+                  {plan.buttonText}
                 </button>
 
                 <ul className="space-y-4 flex-1">
@@ -479,7 +727,7 @@ const LandingPage = () => {
                   ))}
                 </ul>
 
-                {plan.id === "free" && (
+                {plan.name === "Free" && (
                   <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                     <div className="flex items-center space-x-2">
                       <span className="text-2xl">🎯</span>
@@ -488,28 +736,74 @@ const LandingPage = () => {
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-blue-700">
-                      Try {DEFAULT_PLANS[0]?.resumeLimit || 2} resume analyses
-                      instantly - no account creation needed!
+                      Try 2 resume analyses instantly - no account creation
+                      needed!
                     </p>
                   </div>
                 )}
 
-                {plan.id === "pro" && (
-                  <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
+                {plan.name === "Pro" && !plan.popular && (
+                  <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-200">
                     <div className="flex items-center space-x-2">
                       <span className="text-2xl">💼</span>
-                      <span className="text-sm font-semibold text-white">
+                      <span className="text-sm font-semibold text-indigo-800">
                         For HR Teams & Hiring Managers
                       </span>
                     </div>
-                    <p className="mt-2 text-sm text-white/90">
+                    <p className="mt-2 text-sm text-indigo-700">
                       Unlimited analyses, advanced AI features, and team
                       collaboration tools.
                     </p>
                   </div>
                 )}
+
+                {plan.name === "Enterprise" && (
+                  <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-2xl">🏢</span>
+                      <span className="text-sm font-semibold text-gray-800">
+                        Enterprise Scale & Security
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-700">
+                      Custom solutions, dedicated support, and enterprise-grade
+                      security.
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mt-24">
+            <div className="mx-auto max-w-3xl text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                Frequently Asked Questions
+              </h3>
+              <p className="text-lg text-gray-600">
+                Everything you need to know about JobPsych and our pricing
+                plans.
+              </p>
+            </div>
+
+            <div className="mx-auto max-w-4xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {faqs.map((faq, index) => (
+                  <div
+                    key={index}
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100"
+                  >
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                      {faq.question}
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -586,12 +880,6 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-
-      <PricingModal
-        isOpen={showPricingModal}
-        onClose={() => setShowPricingModal(false)}
-        onSelectPlan={handlePricingModalPlanSelect}
-      />
     </div>
   );
 };

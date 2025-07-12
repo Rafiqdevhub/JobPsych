@@ -23,10 +23,27 @@ export const fetchAvailablePlans = async () => {
     }
 
     const data = await response.json();
+
+    // Validate the response structure
+    if (!data || typeof data !== "object") {
+      console.warn("Invalid API response format, returning fallback structure");
+      return {
+        success: false,
+        error: "Invalid response format",
+        data: null,
+      };
+    }
+
     return data;
   } catch (error) {
     console.error("Error fetching plans:", error);
-    throw new Error("Failed to fetch available plans. Please try again.");
+    // Return a consistent error structure instead of throwing
+    return {
+      success: false,
+      error:
+        error.message || "Failed to fetch available plans. Please try again.",
+      data: null,
+    };
   }
 };
 

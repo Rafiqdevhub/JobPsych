@@ -12,14 +12,8 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
   useEffect(() => {
     if (stripe && elements) {
       setStripeLoaded(true);
-      console.warn("CheckoutForm: Stripe and Elements are ready", {
-        clientSecret: !!clientSecret,
-        amount,
-        stripe: !!stripe,
-        elements: !!elements,
-      });
     }
-  }, [stripe, elements, clientSecret, amount]);
+  }, [stripe, elements]);
 
   // Clear card error when user starts typing
   const handleCardChange = (event) => {
@@ -125,14 +119,12 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
         </div>
       </div>
 
-      <div className="relative z-10">
-        <PaymentButton
-          clientSecret={clientSecret}
-          amount={amount}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      </div>
+      <PaymentButton
+        clientSecret={clientSecret}
+        amount={amount}
+        onSuccess={handlePaymentSuccess}
+        onError={handlePaymentError}
+      />
 
       <div className="mt-3 text-center">
         <p className="text-xs text-gray-500">

@@ -8,6 +8,19 @@ import {
 } from "@clerk/clerk-react";
 
 const Header = () => {
+  // Smooth scroll to section
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Account for fixed header
+      const elementPosition = element.offsetTop - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <header className="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md shadow-lg py-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,18 +48,23 @@ const Header = () => {
             </div>
           </NavigationButton>
           <div className="flex items-center space-x-6">
-            <div className="hidden md:flex flex-col items-end group relative">
-              <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative">
-                <p className="text-sm font-semibold bg-gradient-to-r from-gray-800 to-gray-800 bg-clip-text text-transparent transition-all duration-300 group-hover:text-indigo-600 tracking-wide">
-                  Smart Candidate Evaluation
-                </p>
-                <p className="text-xs text-gray-500 group-hover:text-indigo-500 transition-colors duration-300 mt-0.5">
-                  AI-Powered Interview Preparation
-                </p>
-                <div className="h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-1"></div>
-              </div>
-            </div>
+            <nav className="hidden lg:flex items-center space-x-1">
+              <button
+                onClick={() => scrollToSection("features")}
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-lg transition-all duration-300 cursor-pointer relative group"
+              >
+                <span className="relative z-10">Features</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+
+              <button
+                onClick={() => scrollToSection("pricing")}
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-lg transition-all duration-300 cursor-pointer relative group"
+              >
+                <span className="relative z-10">Pricing</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+            </nav>
 
             <div className="flex space-x-3">
               <SignedIn>

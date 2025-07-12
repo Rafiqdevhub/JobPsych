@@ -1,12 +1,10 @@
-const USE_LOCAL_BACKEND = false;
+const USE_LOCAL_BACKEND = "http://localhost:8000";
 
 // Base URL for the FastAPI backend
-export const BACKEND_API_BASE_URL = USE_LOCAL_BACKEND
-  ? "http://localhost:8000"
-  : "https://hr-resume-analyzer-backend.vercel.app";
+export const BACKEND_API_BASE_URL = USE_LOCAL_BACKEND;
 
 // Base URL for the payment API
-export const PAYMENT_API_BASE_URL = "https://jobpsych-payment.vercel.app";
+export const PAYMENT_API_BASE_URL = "http://localhost:5000";
 
 export const API_ENDPOINTS = {
   // Backend API endpoints

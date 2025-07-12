@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { Elements } from "@stripe/react-stripe-js";
-import { createPayment, fetchAvailablePlans } from "../utils/paymentService";
+import {
+  createPayment,
+  fetchAvailablePlans,
+  DEFAULT_PLANS,
+} from "../utils/paymentService";
 import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
 import SimpleTestButton from "./SimpleTestButton";
 import NavigationButton from "./NavigationButton";
+import PaymentDebug from "./PaymentDebug";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
   const { user } = useUser();
@@ -253,6 +258,10 @@ const PaymentForm = ({ selectedPlan, planId }) => {
           {isProcessing}
         </p>
       </div>
+
+      {/* Debug Component to test payment creation */}
+      <PaymentDebug plan={selectedPlan} />
+
       <div className="flex justify-center items-center my-6 p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mr-3"></div>
         <p className="text-lg font-medium text-gray-700">
@@ -299,6 +308,25 @@ const PaymentPage = () => {
 
   const selectedPlan = plans[planId] || plans.free;
 
+  // Helper function to create fallback plans
+  const createFallbackPlans = () => {
+    const freePlan = DEFAULT_PLANS.find((p) => p.id === "free");
+    const proPlan = DEFAULT_PLANS.find((p) => p.id === "pro");
+
+    return {
+      free: {
+        name: freePlan?.name || "Free Trial",
+        price: freePlan?.price || "$0",
+        period: freePlan?.period || "2 Resume Analyses",
+      },
+      pro: {
+        name: proPlan?.name || "JobPsych Pro",
+        price: proPlan?.price || "$50",
+        period: proPlan?.period || "50 Resume Analyses",
+      },
+    };
+  };
+
   useEffect(() => {
     stripePromise.catch((err) => {
       console.error("Stripe loading error:", err);
@@ -312,25 +340,49 @@ const PaymentPage = () => {
     const fetchPlans = async () => {
       try {
         const data = await fetchAvailablePlans();
+        console.warn("API Response:", data); // Debug log to see actual structure
 
-        if (data.success) {
+        // Check if the API call was successful and has expected structure
+        if (data.success && data.data && data.data.supported_plans) {
+          const { supported_plans } = data.data;
+
+          // Safely access plan properties with fallbacks
           const apiPlans = {
             free: {
-              name: data.data.plans.free.name,
+              name: "Free Trial",
               price: "$0",
-              period: "forever",
+              period: `${
+                supported_plans.free?.resumeLimit || 2
+              } Resume Analyses`,
+              features: supported_plans.free?.features || [],
             },
             pro: {
-              name: data.data.plans.pro.name,
-              price: `$${data.data.plans.pro.price}`,
-              period: "per user",
-              features: data.data.plans.pro.features,
+              name: "JobPsych Pro",
+              price: supported_plans.pro?.price
+                ? `$${supported_plans.pro.price}`
+                : "$50",
+              period:
+                supported_plans.pro?.resumeLimit === "unlimited"
+                  ? "Unlimited Resume Analyses"
+                  : `${supported_plans.pro?.resumeLimit || 50} Resume Analyses`,
+              features: supported_plans.pro?.features || [],
             },
           };
           setPlans(apiPlans);
+        } else {
+          // API failed or has unexpected structure, use default plans
+          console.warn(
+            "API failed or has unexpected structure:",
+            data.error || "Unknown error",
+            "Full response:",
+            data
+          );
+          setPlans(createFallbackPlans());
         }
       } catch (err) {
-        console.error("Failed to fetch plans:", err);
+        // This catch should rarely execute now since fetchAvailablePlans doesn't throw
+        console.error("Unexpected error in fetchPlans:", err);
+        setPlans(createFallbackPlans());
       }
     };
 

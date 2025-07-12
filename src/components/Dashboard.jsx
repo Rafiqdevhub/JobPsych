@@ -9,7 +9,6 @@ import SimpleToast from "./SimpleToast";
 import NetworkError from "./NetworkError";
 import LoadingError from "./LoadingError";
 import RateLimitError from "./RateLimitError";
-import PricingModal from "./PricingModal";
 import NavigationButton from "./NavigationButton";
 import {
   formatErrorMessage,
@@ -28,13 +27,11 @@ import {
 
 const Dashboard = () => {
   const { user } = useUser();
-  const { showWarning } = useToast();
+  const { showWarning, showSuccess } = useToast();
   const [resumeData, setResumeData] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState(null);
-  const [showPricingModal, setShowPricingModal] = useState(false);
-  const [showProOnlyModal, setShowProOnlyModal] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
   const [rateLimitData, setRateLimitData] = useState(null);
   const [rateLimitLoading, setRateLimitLoading] = useState(false);
@@ -48,14 +45,16 @@ const Dashboard = () => {
   });
   const [showSimpleToast, setShowSimpleToast] = useState(false);
 
+  // Helper function to redirect to payment
+  const redirectToPayment = (planId = "pro") => {
+    localStorage.setItem("selectedPlan", planId);
+    window.location.href = `/payment?plan=${planId}`;
+  };
+
   // Listen for the custom event to open pricing modal
   useEffect(() => {
-    const handleOpenPricingModal = (event) => {
-      if (event.detail?.showProOnly) {
-        setShowProOnlyModal(true);
-      } else {
-        setShowPricingModal(true);
-      }
+    const handleOpenPricingModal = (_event) => {
+      redirectToPayment();
     };
 
     window.addEventListener("open-pricing-modal", handleOpenPricingModal);
@@ -120,7 +119,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (!user && uploadCount >= 2 && shouldApplyRateLimits()) {
       const timer = setTimeout(() => {
-        setShowPricingModal(true);
+        redirectToPayment();
       }, 5000);
 
       return () => clearTimeout(timer);
@@ -140,13 +139,13 @@ const Dashboard = () => {
         showWarning(
           "You've reached your free plan limit. Sign up to continue!"
         );
-        setTimeout(() => setShowPricingModal(true), 1500);
+        setTimeout(() => redirectToPayment(), 1500);
         return;
       } else if (action.action === "upgrade") {
         showWarning(
           "You've reached your upload limit. Upgrade to Pro for unlimited access!"
         );
-        setTimeout(() => setShowPricingModal(true), 1500);
+        setTimeout(() => redirectToPayment(), 1500);
         return;
       }
     }
@@ -240,7 +239,7 @@ const Dashboard = () => {
             });
 
             setTimeout(() => {
-              setShowPricingModal(true);
+              redirectToPayment();
             }, 2000);
           } else if (rateLimitError.requires_payment) {
             // Authenticated user hit free tier limit
@@ -255,7 +254,7 @@ const Dashboard = () => {
             });
 
             setTimeout(() => {
-              setShowPricingModal(true);
+              redirectToPayment();
             }, 2000);
           } else {
             // General rate limit error
@@ -307,6 +306,11 @@ const Dashboard = () => {
         setQuestions(questionsFromResponse);
       }
 
+      // Show success toast
+      showSuccess(
+        "Resume uploaded successfully! Scroll down to see the analysis of your resume."
+      );
+
       // Update upload count and handle rate limiting
       const newCount = uploadCount + 1;
       setUploadCount(newCount);
@@ -323,15 +327,7 @@ const Dashboard = () => {
           if (transformedData && !transformedData.hasReachedLimit) {
             const remaining = transformedData.remainingUploads;
             if (remaining > 0 && !transformedData.isAuthenticated) {
-              setError({
-                show: true,
-                message: `You have ${remaining} free upload${
-                  remaining === 1 ? "" : "s"
-                } remaining. Sign up for more free analyses!`,
-                type: "info",
-                category: "limit",
-                originalError: null,
-              });
+              // Don't show popup for successful uploads - success message is already shown inline
             }
           } else if (transformedData && transformedData.hasReachedLimit) {
             const action = getRecommendedAction(transformedData);
@@ -344,21 +340,14 @@ const Dashboard = () => {
             });
 
             setTimeout(() => {
-              setShowPricingModal(true);
+              redirectToPayment();
             }, 2000);
           }
         } catch (error) {
           console.error("Failed to refresh rate limit status:", error);
           // Fall back to local logic
           if (newCount === 1 && !user) {
-            setError({
-              show: true,
-              message:
-                "You have 1 free resume upload remaining. Sign up for more free analyses!",
-              type: "info",
-              category: "limit",
-              originalError: null,
-            });
+            // Don't show popup for successful uploads - success message is already shown inline
           } else if (newCount >= 2 && !user) {
             setError({
               show: true,
@@ -370,21 +359,13 @@ const Dashboard = () => {
             });
 
             setTimeout(() => {
-              setShowPricingModal(true);
+              redirectToPayment();
             }, 2000);
           }
         }
       } else {
-        // Development mode - show informational message
-        if (newCount > 0) {
-          setError({
-            show: true,
-            message: `Development mode: Unlimited uploads (${newCount} so far)`,
-            type: "info",
-            category: "development",
-            originalError: null,
-          });
-        }
+        // Development mode - don't show popup for successful uploads
+        // Success message is already shown inline
       }
 
       setIsLoading(false);
@@ -528,45 +509,7 @@ const Dashboard = () => {
   };
 
   const handleUpgradeClick = () => {
-    setShowPricingModal(true);
-  };
-
-  const handlePlanSelect = (planId) => {
-    setShowPricingModal(false);
-
-    // Store the selected plan in localStorage for use after authentication
-    localStorage.setItem("selectedPlan", planId);
-
-    // Free plan flow
-    if (planId === "free") {
-      if (!user) {
-        // Need to authenticate for free plan
-        window.location.href = "/sign-up";
-      } else {
-        // Already authenticated, refresh rate limit status
-        const loadRateLimitStatus = async () => {
-          try {
-            const status = await getRateLimitStatus();
-            const transformedData = transformRateLimitForUI(status);
-            setRateLimitData(transformedData);
-          } catch (error) {
-            console.error("Failed to refresh rate limit status:", error);
-          }
-        };
-        loadRateLimitStatus();
-      }
-    } else {
-      // Paid plans (pro, etc.) flow
-      if (!user) {
-        // Store a flag to redirect to payment flow after authentication
-        localStorage.setItem("redirectToPayment", "true");
-        localStorage.setItem("selectedPaidPlan", planId);
-        window.location.href = "/sign-up";
-      } else {
-        // If signed in, redirect to payment processing page
-        window.location.href = `/payment?plan=${planId}`;
-      }
-    }
+    redirectToPayment();
   };
 
   const handleErrorClose = () => {
@@ -619,7 +562,7 @@ const Dashboard = () => {
                     label: "Sign Up",
                     onClick: () => {
                       handleErrorClose();
-                      setShowPricingModal(true);
+                      redirectToPayment();
                     },
                     variant: "primary",
                   },
@@ -821,7 +764,7 @@ const Dashboard = () => {
                 </span>
               </div>
               <button
-                onClick={() => setShowPricingModal(true)}
+                onClick={() => redirectToPayment()}
                 className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
               >
                 Upgrade for Unlimited
@@ -850,6 +793,7 @@ const Dashboard = () => {
           }}
         />
       </div>
+
       <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
         {resumeData ? (
           <div>
@@ -923,32 +867,10 @@ const Dashboard = () => {
             </svg>
             Interview Questions
           </h2>
-          <GeneratedQuestions
-            questions={questions}
-            isPlan={userPlanType}
-            onUpgradeClick={(mode) => {
-              if (mode === "pro-only") {
-                setShowProOnlyModal(true);
-              } else {
-                setShowPricingModal(true);
-              }
-            }}
-          />
+          <GeneratedQuestions questions={questions} isPlan={userPlanType} />
         </div>
       )}
       {error.show && renderErrorContent()}
-      <PricingModal
-        isOpen={showPricingModal}
-        onClose={() => setShowPricingModal(false)}
-        onSelectPlan={handlePlanSelect}
-        showProOnly={false}
-      />
-      <PricingModal
-        isOpen={showProOnlyModal}
-        onClose={() => setShowProOnlyModal(false)}
-        onSelectPlan={handlePlanSelect}
-        showProOnly={true}
-      />
       {showSimpleToast && (
         <SimpleToast
           message="Simple toast notification"
