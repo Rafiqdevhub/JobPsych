@@ -11,7 +11,6 @@ import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
 import SimpleTestButton from "./SimpleTestButton";
 import NavigationButton from "./NavigationButton";
-import PaymentDebug from "./PaymentDebug";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
   const { user } = useUser();
@@ -69,7 +68,7 @@ const PaymentForm = ({ selectedPlan, planId }) => {
     localStorage.setItem("subscriptionDate", new Date().toISOString());
 
     setTimeout(() => {
-      navigate("/dashboard", { replace: true });
+      navigate("/premium-dashboard", { replace: true });
     }, 1500);
   };
 
@@ -210,13 +209,13 @@ const PaymentForm = ({ selectedPlan, planId }) => {
             <button
               onClick={() => {
                 try {
-                  navigate("/dashboard");
+                  navigate("/premium-dashboard");
                 } catch (err) {
                   console.error(
                     "Manual navigation failed, using window.location",
                     err
                   );
-                  window.location.href = "/dashboard";
+                  window.location.href = "/premium-dashboard";
                 }
               }}
               className="mt-2 text-sm text-indigo-600 hover:text-indigo-500 underline"
@@ -258,9 +257,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
           {isProcessing}
         </p>
       </div>
-
-      {/* Debug Component to test payment creation */}
-      <PaymentDebug plan={selectedPlan} />
 
       <div className="flex justify-center items-center my-6 p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600 mr-3"></div>
@@ -340,13 +336,10 @@ const PaymentPage = () => {
     const fetchPlans = async () => {
       try {
         const data = await fetchAvailablePlans();
-        console.warn("API Response:", data); // Debug log to see actual structure
 
-        // Check if the API call was successful and has expected structure
         if (data.success && data.data && data.data.supported_plans) {
           const { supported_plans } = data.data;
 
-          // Safely access plan properties with fallbacks
           const apiPlans = {
             free: {
               name: "Free Trial",
@@ -370,18 +363,10 @@ const PaymentPage = () => {
           };
           setPlans(apiPlans);
         } else {
-          // API failed or has unexpected structure, use default plans
-          console.warn(
-            "API failed or has unexpected structure:",
-            data.error || "Unknown error",
-            "Full response:",
-            data
-          );
           setPlans(createFallbackPlans());
         }
       } catch (err) {
-        // This catch should rarely execute now since fetchAvailablePlans doesn't throw
-        console.error("Unexpected error in fetchPlans:", err);
+        console.error("Error fetching plans:", err);
         setPlans(createFallbackPlans());
       }
     };
@@ -391,18 +376,14 @@ const PaymentPage = () => {
 
   useEffect(() => {
     if (planId === "free" && !success) {
-      console.warn("PaymentPage: Auto-activating free plan");
       setIsProcessing(true);
 
       localStorage.setItem("userPlan", "free");
       localStorage.setItem("subscriptionActive", "true");
       localStorage.setItem("subscriptionDate", new Date().toISOString());
 
-      console.warn("PaymentPage: Free plan data saved to localStorage");
       setSuccess(true);
-      console.warn("PaymentPage: Redirecting to dashboard in 1.5 seconds...");
       setTimeout(() => {
-        console.warn("PaymentPage: Executing navigation to /dashboard");
         try {
           navigate("/dashboard");
         } catch (err) {
@@ -436,7 +417,6 @@ const PaymentPage = () => {
     );
   }
 
-  // Main payment page content
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-12">
       <div className="max-w-lg mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
@@ -498,13 +478,13 @@ const PaymentPage = () => {
                   <button
                     onClick={() => {
                       try {
-                        navigate("/dashboard");
+                        navigate("/premium-dashboard");
                       } catch (err) {
                         console.error(
                           "Manual navigation failed, using window.location",
                           err
                         );
-                        window.location.href = "/dashboard";
+                        window.location.href = "/premium-dashboard";
                       }
                     }}
                     className="mt-2 text-sm text-indigo-600 hover:text-indigo-500 underline"

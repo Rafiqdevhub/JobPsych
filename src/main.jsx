@@ -8,6 +8,7 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import ToastProvider from "./components/ToastManager.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Dashboard from "./components/Dashboard.jsx";
+import DashboardWrapper from "./components/DashboardWrapper.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import ClerkAuth from "./components/ClerkAuth.jsx";
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "premium-dashboard",
+        element: <DashboardWrapper />,
       },
       {
         path: "sign-in/*",

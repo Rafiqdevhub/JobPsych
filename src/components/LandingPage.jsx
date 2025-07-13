@@ -55,29 +55,6 @@ const LandingPage = () => {
         "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700",
       popular: false,
     },
-    {
-      name: "Enterprise",
-      description: "For large organizations",
-      price: { monthly: "Custom", annual: "Custom" },
-      highlight: "Enterprise Ready",
-      features: [
-        "Everything in Pro",
-        "Custom AI model training",
-        "Advanced integrations (ATS, HRIS)",
-        "Dedicated account manager",
-        "24/7 phone & email support",
-        "Custom branding",
-        "Advanced security & compliance",
-        "Bulk processing capabilities",
-        "Custom reporting & analytics",
-        "API access",
-      ],
-      limitations: [],
-      buttonText: "Contact Sales",
-      buttonStyle:
-        "bg-gradient-to-r from-gray-700 to-gray-800 text-white hover:from-gray-800 hover:to-gray-900",
-      popular: false,
-    },
   ];
 
   const faqs = [
@@ -148,8 +125,13 @@ const LandingPage = () => {
         localStorage.setItem("redirectAfterAuth", "payment");
         window.location.href = "/sign-up";
       } else {
-        localStorage.setItem("selectedPlan", planId);
-        window.location.href = `/payment?plan=${planId}`;
+        const userPlan = localStorage.getItem("userPlan");
+        if (userPlan === "pro") {
+          window.location.href = "/premium-dashboard";
+        } else {
+          localStorage.setItem("selectedPlan", planId);
+          window.location.href = `/payment?plan=${planId}`;
+        }
       }
     }
   };
@@ -194,19 +176,14 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {/* Enhanced CTA Buttons */}
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <NavigationButton
-                to={getDestination()}
+              <button
+                onClick={() => handlePlanSelection("free")}
                 className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
               >
                 <span className="text-lg">✅</span>
                 <span className="relative z-10">
-                  {isSignedIn
-                    ? "Upload Resume for Analysis"
-                    : uploadCount >= 2
-                    ? "Sign Up to Continue"
-                    : "Try It for Free"}
+                  Try It for Free - 2 Analyses
                 </span>
                 <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -222,22 +199,21 @@ const LandingPage = () => {
                       : `${2 - uploadCount} free left`}
                   </span>
                 )}
-              </NavigationButton>
+              </button>
 
-              {/* Secondary CTA - Go Pro */}
-              <NavigationButton
-                to="/sign-up"
+              <button
+                onClick={() => handlePlanSelection("pro")}
                 className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
               >
                 <span className="text-lg">🔒</span>
                 <span className="relative z-10">
                   Go Pro – Get 20 Resume Scans/Month
                 </span>
+                <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </NavigationButton>
+              </button>
             </div>
 
-            {/* Status Messages */}
             <div className="mt-6 space-y-2">
               {shouldApplyRateLimits() && !isSignedIn && (
                 <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
@@ -258,7 +234,6 @@ const LandingPage = () => {
               )}
             </div>
 
-            {/* Trust Indicators */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <span className="text-green-500">✓</span>
@@ -312,7 +287,6 @@ const LandingPage = () => {
             </p>
           </div>
 
-          {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -453,7 +427,6 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* How It Works Section */}
           <div className="text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white">
             <h3 className="text-3xl md:text-4xl font-bold mb-8">
               How JobPsych Works
@@ -504,7 +477,6 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Background Decorations */}
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
           <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-indigo-200/20 to-purple-200/20 rounded-full blur-xl"></div>
           <div className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-200/20 to-blue-200/20 rounded-full blur-2xl"></div>
@@ -529,7 +501,6 @@ const LandingPage = () => {
               upgrade to Pro for unlimited access and advanced features.
             </p>
 
-            {/* Annual/Monthly Toggle */}
             <div className="mt-8 flex justify-center items-center space-x-4">
               <span
                 className={`text-sm font-medium ${
@@ -563,7 +534,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
+          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-2">
             {enhancedPlans.map((plan, index) => (
               <div
                 key={plan.name}
@@ -753,21 +724,6 @@ const LandingPage = () => {
                     <p className="mt-2 text-sm text-indigo-700">
                       Unlimited analyses, advanced AI features, and team
                       collaboration tools.
-                    </p>
-                  </div>
-                )}
-
-                {plan.name === "Enterprise" && (
-                  <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl">🏢</span>
-                      <span className="text-sm font-semibold text-gray-800">
-                        Enterprise Scale & Security
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-700">
-                      Custom solutions, dedicated support, and enterprise-grade
-                      security.
                     </p>
                   </div>
                 )}

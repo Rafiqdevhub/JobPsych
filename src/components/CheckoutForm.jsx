@@ -8,20 +8,12 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
   const [cardError, setCardError] = useState("");
   const [stripeLoaded, setStripeLoaded] = useState(false);
 
-  // Monitor Stripe loading status
   useEffect(() => {
     if (stripe && elements) {
       setStripeLoaded(true);
-      console.warn("CheckoutForm: Stripe and Elements are ready", {
-        clientSecret: !!clientSecret,
-        amount,
-        stripe: !!stripe,
-        elements: !!elements,
-      });
     }
   }, [stripe, elements, clientSecret, amount]);
 
-  // Clear card error when user starts typing
   const handleCardChange = (event) => {
     if (event.error) {
       setCardError(event.error.message);
@@ -30,7 +22,6 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
     }
   };
 
-  // Handle payment errors from PaymentButton
   const handlePaymentError = (errorMessage) => {
     setCardError(errorMessage);
     if (onError) {
@@ -38,7 +29,6 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
     }
   };
 
-  // Handle payment success from PaymentButton
   const handlePaymentSuccess = (paymentIntent) => {
     setCardError("");
     if (onSuccess) {
@@ -46,7 +36,6 @@ const CheckoutForm = ({ clientSecret, onSuccess, onError, amount }) => {
     }
   };
 
-  // Show loading state while Stripe is initializing
   if (!stripeLoaded) {
     return (
       <div className="flex justify-center items-center my-6 p-4">
