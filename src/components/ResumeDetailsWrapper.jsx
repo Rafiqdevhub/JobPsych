@@ -1,11 +1,7 @@
 import React from "react";
 import ResumeDetails from "./ResumeDetails";
 
-const ResumeDetailsWrapper = ({
-  resumeData,
-  onGenerateQuestions,
-  isLoading,
-}) => {
+const ResumeDetailsWrapper = ({ resumeData, isLoading }) => {
   if (!resumeData) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
@@ -97,11 +93,7 @@ const ResumeDetailsWrapper = ({
   }
 
   return (
-    <ResumeDetails
-      resumeData={normalizedResumeData}
-      onGenerateQuestions={onGenerateQuestions}
-      isLoading={isLoading}
-    />
+    <ResumeDetails resumeData={normalizedResumeData} isLoading={isLoading} />
   );
 };
 

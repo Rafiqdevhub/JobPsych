@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
-import GeneratedQuestions from "./GeneratedQuestions";
 import { useToast } from "./ToastManager";
 import Toast from "./Toast";
 import SimpleToast from "./SimpleToast";
 import NetworkError from "./NetworkError";
 import LoadingError from "./LoadingError";
-import RateLimitError from "./RateLimitError";
 import NavigationButton from "./NavigationButton";
 import {
   formatErrorMessage,
@@ -17,25 +15,16 @@ import {
   shouldShowReset,
 } from "../utils/errorHandler";
 import { API_ENDPOINTS } from "../utils/api";
-import { shouldApplyRateLimits } from "../utils/env";
-import {
-  getRateLimitStatus,
-  transformRateLimitForUI,
-  canUploadMore,
-  getRecommendedAction,
-} from "../utils/rateLimitService";
 
 const Dashboard = () => {
   const { user } = useUser();
-  const { showWarning, showSuccess } = useToast();
+  const { showSuccess } = useToast();
   const [resumeData, setResumeData] = useState(null);
-  const [questions, setQuestions] = useState([]);
+  const [roleRecommendations, setRoleRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState(null);
-  const [uploadCount, setUploadCount] = useState(0);
-  const [rateLimitData, setRateLimitData] = useState(null);
-  const [rateLimitLoading, setRateLimitLoading] = useState(false);
-  const [userPlanType, setUserPlanType] = useState("free"); // Default to free plan
+  const [targetRole, setTargetRole] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -64,92 +53,7 @@ const Dashboard = () => {
     };
   }, []);
 
-  // Load rate limit status from backend
-  useEffect(() => {
-    const loadRateLimitStatus = async () => {
-      if (shouldApplyRateLimits()) {
-        try {
-          setRateLimitLoading(true);
-          const status = await getRateLimitStatus();
-          const transformedData = transformRateLimitForUI(status);
-          setRateLimitData(transformedData);
-
-          // Update local upload count to match backend
-          if (transformedData && transformedData.uploadsUsed !== undefined) {
-            setUploadCount(transformedData.uploadsUsed);
-          }
-
-          // Determine the user's plan type
-          if (transformedData) {
-            if (transformedData.plan === "pro" || transformedData.isPro) {
-              setUserPlanType("pro");
-            } else {
-              setUserPlanType("free");
-            }
-          }
-        } catch (error) {
-          console.error("Failed to load rate limit status:", error);
-          // Fall back to localStorage count for anonymous users
-          if (!user) {
-            const storedCount = localStorage.getItem("resumeUploadCount");
-            if (storedCount) {
-              setUploadCount(parseInt(storedCount));
-            }
-          }
-        } finally {
-          setRateLimitLoading(false);
-        }
-      }
-    };
-
-    loadRateLimitStatus();
-  }, [user]);
-
-  useEffect(() => {
-    if (!user && !shouldApplyRateLimits()) {
-      const storedCount = localStorage.getItem("resumeUploadCount");
-      if (storedCount) {
-        setUploadCount(parseInt(storedCount));
-      }
-    } else if (user) {
-      setUploadCount(0);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (!user && uploadCount >= 2 && shouldApplyRateLimits()) {
-      const timer = setTimeout(() => {
-        redirectToPayment();
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [uploadCount, user]);
-
   const handleFileUpload = async (file) => {
-    // Check rate limits before attempting upload
-    if (
-      shouldApplyRateLimits() &&
-      rateLimitData &&
-      !canUploadMore(rateLimitData)
-    ) {
-      const action = getRecommendedAction(rateLimitData);
-
-      if (action.action === "signup") {
-        showWarning(
-          "You've reached your free plan limit. Sign up to continue!"
-        );
-        setTimeout(() => redirectToPayment(), 1500);
-        return;
-      } else if (action.action === "upgrade") {
-        showWarning(
-          "You've reached your upload limit. Upgrade to Pro for unlimited access!"
-        );
-        setTimeout(() => redirectToPayment(), 1500);
-        return;
-      }
-    }
-
     setIsLoading(true);
     setCurrentFile(file);
     setError({
@@ -206,6 +110,14 @@ const Dashboard = () => {
       const formData = new FormData();
       formData.append("file", file);
 
+      // Add target role and job description if provided
+      if (targetRole.trim()) {
+        formData.append("target_role", targetRole.trim());
+      }
+      if (jobDescription.trim()) {
+        formData.append("job_description", jobDescription.trim());
+      }
+
       const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
         method: "POST",
         body: formData,
@@ -222,50 +134,7 @@ const Dashboard = () => {
           error = { message: errorText || "Unknown error occurred" };
         }
 
-        if (response.status === 429) {
-          // Handle rate limit error from backend
-          const rateLimitError = error.detail || error;
-
-          if (rateLimitError.requires_auth) {
-            // Anonymous user hit IP-based limit
-            setError({
-              show: true,
-              message:
-                rateLimitError.message ||
-                "Free limit exceeded. Sign up to continue!",
-              type: "warning",
-              category: "rate_limit",
-              originalError: rateLimitError,
-            });
-
-            setTimeout(() => {
-              redirectToPayment();
-            }, 2000);
-          } else if (rateLimitError.requires_payment) {
-            // Authenticated user hit free tier limit
-            setError({
-              show: true,
-              message:
-                rateLimitError.message ||
-                "Free tier limit exceeded. Upgrade to continue!",
-              type: "warning",
-              category: "rate_limit",
-              originalError: rateLimitError,
-            });
-
-            setTimeout(() => {
-              redirectToPayment();
-            }, 2000);
-          } else {
-            // General rate limit error
-            throw new Error(rateLimitError.message || "Rate limit exceeded");
-          }
-
-          setIsLoading(false);
-          return;
-        } else {
-          throw new Error(error.message || "Failed to analyze resume");
-        }
+        throw new Error(error.message || "Failed to analyze resume");
       }
 
       let responseData;
@@ -282,8 +151,10 @@ const Dashboard = () => {
         throw new Error("No data returned from API");
       }
 
+      // Extract data from unified response
       const resumeDataFromResponse = responseData.resumeData || responseData;
-      const questionsFromResponse = responseData.questions || [];
+      const roleRecommendationsFromResponse =
+        responseData.roleRecommendations || [];
 
       const requiredSections = [
         "personalInfo",
@@ -300,73 +171,14 @@ const Dashboard = () => {
       }
 
       setResumeData(resumeDataFromResponse);
-
-      // If questions are included in the response, set them as well
-      if (questionsFromResponse && questionsFromResponse.length > 0) {
-        setQuestions(questionsFromResponse);
-      }
+      setRoleRecommendations(roleRecommendationsFromResponse);
 
       // Show success toast
-      showSuccess(
-        "Resume uploaded successfully! Scroll down to see the analysis of your resume."
-      );
+      const successMessage = targetRole
+        ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
+        : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
 
-      // Update upload count and handle rate limiting
-      const newCount = uploadCount + 1;
-      setUploadCount(newCount);
-      localStorage.setItem("resumeUploadCount", newCount.toString());
-
-      // Refresh rate limit status from backend after successful upload
-      if (shouldApplyRateLimits()) {
-        try {
-          const updatedStatus = await getRateLimitStatus();
-          const transformedData = transformRateLimitForUI(updatedStatus);
-          setRateLimitData(transformedData);
-
-          // Show appropriate message based on backend status
-          if (transformedData && !transformedData.hasReachedLimit) {
-            const remaining = transformedData.remainingUploads;
-            if (remaining > 0 && !transformedData.isAuthenticated) {
-              // Don't show popup for successful uploads - success message is already shown inline
-            }
-          } else if (transformedData && transformedData.hasReachedLimit) {
-            const action = getRecommendedAction(transformedData);
-            setError({
-              show: true,
-              message: action.message,
-              type: "warning",
-              category: "rate_limit",
-              originalError: null,
-            });
-
-            setTimeout(() => {
-              redirectToPayment();
-            }, 2000);
-          }
-        } catch (error) {
-          console.error("Failed to refresh rate limit status:", error);
-          // Fall back to local logic
-          if (newCount === 1 && !user) {
-            // Don't show popup for successful uploads - success message is already shown inline
-          } else if (newCount >= 2 && !user) {
-            setError({
-              show: true,
-              message:
-                "You've used all your free uploads. Create an account to get 2 more free analyses!",
-              type: "warning",
-              category: "limit",
-              originalError: null,
-            });
-
-            setTimeout(() => {
-              redirectToPayment();
-            }, 2000);
-          }
-        }
-      } else {
-        // Development mode - don't show popup for successful uploads
-        // Success message is already shown inline
-      }
+      showSuccess(successMessage);
 
       setIsLoading(false);
     } catch (error) {
@@ -385,11 +197,8 @@ const Dashboard = () => {
 
           if (response.ok) {
             const data = await response.json();
-            setResumeData(data);
-
-            const newCount = uploadCount + 1;
-            setUploadCount(newCount);
-            localStorage.setItem("resumeUploadCount", newCount.toString());
+            setResumeData(data.resumeData || data);
+            setRoleRecommendations(data.roleRecommendations || []);
 
             setIsLoading(false);
             return;
@@ -399,89 +208,11 @@ const Dashboard = () => {
         }
       }
 
-      const isRateLimit =
-        error.message && error.message.toLowerCase().includes("rate limit");
-
       setError({
         show: true,
         message: formatErrorMessage(error),
         type: "error",
-        category: isRateLimit ? "rate_limit" : errorCategory || "unknown",
-        originalError: error,
-      });
-
-      setIsLoading(false);
-    }
-  };
-
-  const handleGenerateQuestions = async (jobDescription) => {
-    if (!resumeData) {
-      setError({
-        show: true,
-        message: "Please upload your resume first.",
-        type: "warning",
-        category: "validation",
-        originalError: null,
-      });
-      return;
-    }
-
-    if (questions && questions.length > 0) {
-      return;
-    }
-
-    setIsLoading(true);
-    setError({
-      show: false,
-      message: "",
-      type: "error",
-      category: null,
-      originalError: null,
-    });
-
-    try {
-      const resume_text = resumeData.resume_text || resumeData.resumeText || "";
-
-      const response = await fetch(API_ENDPOINTS.GENERATE_QUESTIONS, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          resume_text: resume_text,
-          job_description: jobDescription,
-        }),
-        mode: "cors",
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        let error;
-        try {
-          error = JSON.parse(errorText);
-        } catch {
-          error = { message: errorText || "Unknown error occurred" };
-        }
-
-        if (response.status === 429) {
-          throw new Error(error.message || "Rate limit exceeded");
-        } else {
-          throw new Error(error.message || "Failed to generate questions");
-        }
-      }
-
-      const data = await response.json();
-      const generatedQuestions = data.questions || data || [];
-      setQuestions(generatedQuestions);
-      setIsLoading(false);
-    } catch (error) {
-      const errorCategory = getErrorCategory(error);
-
-      setError({
-        show: true,
-        message: formatErrorMessage(error),
-        type: "error",
-        category: errorCategory,
+        category: errorCategory || "unknown",
         originalError: error,
       });
 
@@ -491,8 +222,10 @@ const Dashboard = () => {
 
   const handleReset = () => {
     setResumeData(null);
-    setQuestions([]);
+    setRoleRecommendations([]);
     setCurrentFile(null);
+    setTargetRole("");
+    setJobDescription("");
     setError({
       show: false,
       message: "",
@@ -506,10 +239,6 @@ const Dashboard = () => {
     if (currentFile) {
       await handleFileUpload(currentFile);
     }
-  };
-
-  const handleUpgradeClick = () => {
-    redirectToPayment();
   };
 
   const handleErrorClose = () => {
@@ -531,13 +260,6 @@ const Dashboard = () => {
           onClose={handleErrorClose}
           onRetry={shouldShowRetry(error.category) ? handleRetry : null}
           onReset={shouldShowReset(error.category) ? handleReset : null}
-        />
-      );
-    } else if (error.category === "rate_limit") {
-      return (
-        <RateLimitError
-          onUpgrade={handleUpgradeClick}
-          onClose={handleErrorClose}
         />
       );
     } else {
@@ -623,37 +345,6 @@ const Dashboard = () => {
           <span>Back to Home</span>
         </NavigationButton>
       </div>
-      {uploadCount >= 2 && (
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-yellow-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.485 3.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 3.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700">
-                You've used all your free uploads. You will be redirected to
-                sign up in a few seconds.{" "}
-                <NavigationButton
-                  to="/auth"
-                  className="font-medium underline text-yellow-700 hover:text-yellow-600 bg-transparent border-0 p-0"
-                >
-                  Sign up now
-                </NavigationButton>
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-lg p-6 mb-8 shadow-lg text-white transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <div>
@@ -675,43 +366,9 @@ const Dashboard = () => {
               Resume Analysis Dashboard
             </h1>
             <p className="text-blue-100 mt-2 text-lg">
-              Upload your resume and get personalized interview questions
+              Upload your resume and get role-specific analysis and career
+              recommendations
             </p>
-
-            {/* Rate Limit Status */}
-            {shouldApplyRateLimits() && rateLimitData && !rateLimitLoading && (
-              <div className="mt-3 flex items-center space-x-4">
-                {rateLimitData.isDevelopment ? (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    🔧 Development Mode - Unlimited
-                  </span>
-                ) : rateLimitData.tier === "premium" ? (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                    ⭐ Premium - Unlimited
-                  </span>
-                ) : (
-                  <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                      rateLimitData.remainingUploads > 0
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {rateLimitData.remainingUploads > 0
-                      ? `${rateLimitData.remainingUploads} upload${
-                          rateLimitData.remainingUploads === 1 ? "" : "s"
-                        } remaining`
-                      : "Upload limit reached"}
-                  </span>
-                )}
-
-                {rateLimitData.isAuthenticated && (
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    ✓ Signed In
-                  </span>
-                )}
-              </div>
-            )}
           </div>
           {user && user.imageUrl && (
             <img
@@ -742,42 +399,56 @@ const Dashboard = () => {
           Upload the Resume of the Candidate
         </h2>
 
-        {/* Free plan upload counter */}
-        {userPlanType === "free" && (
-          <div className="mb-4 bg-blue-50 p-3 rounded-md border border-blue-100">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-blue-500 mr-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm font-medium text-blue-700">
-                  Free Plan: {uploadCount}/2 Resumes Used
-                </span>
-              </div>
-              <button
-                onClick={() => redirectToPayment()}
-                className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
-              >
-                Upgrade for Unlimited
-              </button>
-            </div>
-            <div className="mt-2 w-full bg-blue-200 rounded-full h-1.5 overflow-hidden">
-              <div
-                className="bg-blue-600 h-1.5 rounded-full transition-all duration-500"
-                style={{ width: `${Math.min((uploadCount / 2) * 100, 100)}%` }}
-              ></div>
-            </div>
+        {/* Target Role and Job Description Form */}
+        <div className="mb-6 space-y-4 relative z-10">
+          <div>
+            <label
+              htmlFor="targetRole"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Target Role (Optional)
+            </label>
+            <input
+              id="targetRole"
+              name="targetRole"
+              type="text"
+              value={targetRole}
+              onChange={(e) => setTargetRole(e.target.value)}
+              placeholder="e.g., Software Engineer, Data Scientist, Product Manager"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              disabled={isLoading}
+              autoComplete="off"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Specify the role you're applying for to get targeted analysis and
+              career recommendations
+            </p>
           </div>
-        )}
+
+          <div>
+            <label
+              htmlFor="jobDescription"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Job Description (Optional)
+            </label>
+            <textarea
+              id="jobDescription"
+              name="jobDescription"
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              placeholder="Paste the job description here for more accurate role fit analysis..."
+              rows={4}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical bg-white"
+              disabled={isLoading}
+              autoComplete="off"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Provide job requirements to get better skill gap analysis and
+              recommendations
+            </p>
+          </div>
+        </div>
 
         <ResumeUpload
           onFileUpload={handleFileUpload}
@@ -816,7 +487,6 @@ const Dashboard = () => {
             </h2>
             <ResumeDetailsWrapper
               resumeData={resumeData}
-              onGenerateQuestions={handleGenerateQuestions}
               isLoading={isLoading}
             />
           </div>
@@ -843,17 +513,17 @@ const Dashboard = () => {
             </h3>
             <p className="mt-2 text-gray-500 max-w-md mx-auto">
               Upload your resume using the section above to get detailed
-              analysis and personalized interview questions.
+              analysis and career recommendations.
             </p>
           </div>
         )}
       </div>
-      {questions.length > 0 && (
+      {roleRecommendations.length > 0 && (
         <div className="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2 text-purple-600"
+              className="h-5 w-5 mr-2 text-emerald-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -862,12 +532,133 @@ const Dashboard = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
               />
             </svg>
-            Interview Questions
+            Role Recommendations
           </h2>
-          <GeneratedQuestions questions={questions} isPlan={userPlanType} />
+          <div className="space-y-4">
+            {roleRecommendations.map((role, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 rounded-lg border border-emerald-200"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-emerald-800 mb-2 flex items-center">
+                      <span className="bg-emerald-100 text-emerald-800 text-xs font-medium px-2 py-1 rounded-full mr-2">
+                        {Math.round(role.matchPercentage)}% Match
+                      </span>
+                      {role.roleName}
+                    </h3>
+                    <p className="text-gray-700 mb-3">{role.reasoning}</p>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-gray-800 mb-2 flex items-center">
+                          <svg
+                            className="h-4 w-4 mr-1 text-green-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          Matching Skills (Required)
+                        </h4>
+                        <div className="flex flex-wrap gap-1">
+                          {role.requiredSkills &&
+                            role.requiredSkills.map((skill, skillIndex) => (
+                              <span
+                                key={skillIndex}
+                                className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="font-medium text-gray-800 mb-2 flex items-center">
+                          <svg
+                            className="h-4 w-4 mr-1 text-orange-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Skills to Develop (Missing)
+                        </h4>
+                        <div className="flex flex-wrap gap-1">
+                          {role.missingSkills &&
+                            role.missingSkills.map((skill, skillIndex) => (
+                              <span
+                                key={skillIndex}
+                                className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Additional role information */}
+                    {(role.careerLevel ||
+                      role.salaryRange ||
+                      role.industryFit) && (
+                      <div className="mt-4 pt-3 border-t border-emerald-200">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          {role.careerLevel && (
+                            <div className="bg-blue-50 p-2 rounded-lg">
+                              <h5 className="text-xs font-medium text-gray-600 mb-1">
+                                Career Level
+                              </h5>
+                              <p className="text-sm font-semibold text-blue-800">
+                                {role.careerLevel}
+                              </p>
+                            </div>
+                          )}
+                          {role.salaryRange && (
+                            <div className="bg-green-50 p-2 rounded-lg">
+                              <h5 className="text-xs font-medium text-gray-600 mb-1">
+                                Salary Range
+                              </h5>
+                              <p className="text-sm font-semibold text-green-800">
+                                {role.salaryRange}
+                              </p>
+                            </div>
+                          )}
+                          {role.industryFit && (
+                            <div className="bg-purple-50 p-2 rounded-lg">
+                              <h5 className="text-xs font-medium text-gray-600 mb-1">
+                                Industry Fit
+                              </h5>
+                              <p className="text-sm font-semibold text-purple-800">
+                                {role.industryFit}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       {error.show && renderErrorContent()}

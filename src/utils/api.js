@@ -9,10 +9,6 @@ export const PAYMENT_API_BASE_URL = "http://localhost:5000";
 export const API_ENDPOINTS = {
   // Backend API endpoints
   ANALYZE_RESUME: `${BACKEND_API_BASE_URL}/api/analyze-resume`,
-  GENERATE_QUESTIONS: `${BACKEND_API_BASE_URL}/api/generate-questions`,
-  RATE_LIMIT_STATUS: `${BACKEND_API_BASE_URL}/api/rate-limit-status`,
-  SIGNUP_REQUIRED_INFO: `${BACKEND_API_BASE_URL}/api/auth/signup-required`,
-  UPGRADE_PLAN_INFO: `${BACKEND_API_BASE_URL}/api/upgrade-plan`,
 
   // Authentication endpoints
   USER_AUTH: "/api/auth",

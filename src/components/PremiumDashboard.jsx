@@ -15,16 +15,19 @@ import {
   CogIcon,
   UserCircleIcon,
   ChevronDownIcon,
-  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import {
   StarIcon as StarIconSolid,
   SparklesIcon as SparklesIconSolid,
 } from "@heroicons/react/24/solid";
 import ResumeUpload from "./ResumeUpload";
+import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
+import GeneratedQuestions from "./GeneratedQuestions";
 import Toast from "./Toast";
 import NavigationButton from "./NavigationButton";
 import { useClerk } from "@clerk/clerk-react";
+import { API_ENDPOINTS } from "../utils/api";
+import { formatErrorMessage, getErrorCategory } from "../utils/errorHandler";
 
 const PremiumDashboard = () => {
   const { user, isSignedIn } = useUser();
@@ -36,6 +39,18 @@ const PremiumDashboard = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
+  const [resumeData, setResumeData] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentFile, setCurrentFile] = useState(null);
+  const [error, setError] = useState({
+    show: false,
+    message: "",
+    type: "error",
+    category: null,
+    originalError: null,
+  });
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -76,24 +91,224 @@ const PremiumDashboard = () => {
     };
   }, [showProfileDropdown]);
 
-  const handleResumeUploaded = () => {
-    const newUploadCount = uploadCount + 1;
-    const newScansRemaining = Math.max(0, scansRemaining - 1);
+  const handleFileUpload = async (file) => {
+    setIsLoading(true);
+    setCurrentFile(file);
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
 
-    setUploadCount(newUploadCount);
-    setScansRemaining(newScansRemaining);
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      setError({
+        show: true,
+        message:
+          "The file is too large (max 5MB). Please upload a smaller file or compress the current one.",
+        type: "warning",
+        category: "file",
+        originalError: "File too large",
+      });
+      setIsLoading(false);
+      return;
+    }
 
-    localStorage.setItem(`uploadCount_${user?.id}`, newUploadCount.toString());
-    localStorage.setItem(
-      `scansRemaining_${user?.id}`,
-      newScansRemaining.toString()
-    );
+    const allowedTypes = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/msword",
+      "application/octet-stream",
+      "application/x-msword",
+      "application/vnd.ms-word",
+      "",
+    ];
 
-    setToastMessage(
-      "Resume analyzed successfully! Premium insights generated."
-    );
-    setToastType("success");
-    setShowToast(true);
+    const allowedExtensions = [".pdf", ".doc", ".docx"];
+    const fileExtension = file.name
+      .toLowerCase()
+      .substring(file.name.lastIndexOf("."));
+    const isValidExtension = allowedExtensions.includes(fileExtension);
+
+    if (!allowedTypes.includes(file.type) && !isValidExtension) {
+      setError({
+        show: true,
+        message: "Please upload a PDF or Word document (DOC/DOCX).",
+        type: "warning",
+        category: "file",
+        originalError: "File type not supported",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch {
+          error = { message: errorText || "Unknown error occurred" };
+        }
+
+        throw new Error(error.message || "Failed to analyze resume");
+      }
+
+      let responseData;
+      try {
+        responseData = await response.json();
+      } catch (jsonError) {
+        throw new Error(
+          "Failed to parse API response. The server may have returned invalid data.",
+          jsonError
+        );
+      }
+
+      if (!responseData) {
+        throw new Error("No data returned from API");
+      }
+
+      const resumeDataFromResponse = responseData.resumeData || responseData;
+      const questionsFromResponse = responseData.questions || [];
+
+      setResumeData(resumeDataFromResponse);
+
+      if (questionsFromResponse && questionsFromResponse.length > 0) {
+        setQuestions(questionsFromResponse);
+      }
+
+      const newUploadCount = uploadCount + 1;
+      const newScansRemaining = Math.max(0, scansRemaining - 1);
+
+      setUploadCount(newUploadCount);
+      setScansRemaining(newScansRemaining);
+
+      localStorage.setItem(
+        `uploadCount_${user?.id}`,
+        newUploadCount.toString()
+      );
+      localStorage.setItem(
+        `scansRemaining_${user?.id}`,
+        newScansRemaining.toString()
+      );
+
+      setToastMessage(
+        "Resume analyzed successfully! Premium insights generated. Scroll down to see the analysis."
+      );
+      setToastType("success");
+      setShowToast(true);
+
+      setIsLoading(false);
+    } catch (error) {
+      const errorCategory = getErrorCategory(error);
+
+      setError({
+        show: true,
+        message: formatErrorMessage(error),
+        type: "error",
+        category: errorCategory,
+        originalError: error,
+      });
+
+      setIsLoading(false);
+    }
+  };
+
+  const handleGenerateQuestions = async (jobDescription) => {
+    if (!resumeData) {
+      setError({
+        show: true,
+        message: "Please upload your resume first.",
+        type: "warning",
+        category: "validation",
+        originalError: null,
+      });
+      return;
+    }
+
+    if (questions && questions.length > 0) {
+      return;
+    }
+
+    setIsLoading(true);
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
+
+    try {
+      const resume_text = resumeData.resume_text || resumeData.resumeText || "";
+
+      const response = await fetch(API_ENDPOINTS.GENERATE_QUESTIONS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          resume_text: resume_text,
+          job_description: jobDescription,
+        }),
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch {
+          error = { message: errorText || "Unknown error occurred" };
+        }
+
+        throw new Error(error.message || "Failed to generate questions");
+      }
+
+      const data = await response.json();
+      const generatedQuestions = data.questions || data || [];
+      setQuestions(generatedQuestions);
+      setIsLoading(false);
+    } catch (error) {
+      const errorCategory = getErrorCategory(error);
+
+      setError({
+        show: true,
+        message: formatErrorMessage(error),
+        type: "error",
+        category: errorCategory,
+        originalError: error,
+      });
+
+      setIsLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setResumeData(null);
+    setQuestions([]);
+    setCurrentFile(null);
+    setError({
+      show: false,
+      message: "",
+      type: "error",
+      category: null,
+      originalError: null,
+    });
   };
 
   const handleToastClose = () => {
@@ -194,7 +409,7 @@ const PremiumDashboard = () => {
           <div className="relative profile-dropdown">
             <button
               onClick={toggleProfileDropdown}
-              className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
             >
               <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
@@ -238,9 +453,22 @@ const PremiumDashboard = () => {
                 <div className="py-1">
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm hover:shadow-md border border-transparent hover:border-red-200"
                   >
-                    <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
                     Sign Out
                   </button>
                 </div>
@@ -484,8 +712,18 @@ const PremiumDashboard = () => {
                 </div>
 
                 <ResumeUpload
-                  onResumeUploaded={handleResumeUploaded}
+                  onFileUpload={handleFileUpload}
+                  isLoading={isLoading}
                   isPremium={true}
+                  onError={(errorData) => {
+                    setError({
+                      show: true,
+                      message: errorData.message || "Error with file upload",
+                      type: errorData.type || "warning",
+                      category: errorData.category || "file",
+                      originalError: errorData,
+                    });
+                  }}
                 />
               </div>
             ) : (
@@ -526,7 +764,115 @@ const PremiumDashboard = () => {
             )}
           </div>
         </div>
+
+        {resumeData && (
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-8 py-6 border-b border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 mr-2 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+                Premium Resume Analysis Results
+              </h2>
+              <p className="text-gray-600">
+                Comprehensive analysis with AI-powered insights and
+                recommendations
+              </p>
+            </div>
+            <div className="p-8">
+              <ResumeDetailsWrapper
+                resumeData={resumeData}
+                onGenerateQuestions={handleGenerateQuestions}
+                isLoading={isLoading}
+                isPremium={true}
+              />
+            </div>
+          </div>
+        )}
+
+        {questions.length > 0 && (
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 mr-2 text-purple-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Premium Interview Questions
+              </h2>
+              <p className="text-gray-600">
+                Personalized interview questions based on your resume and job
+                requirements
+              </p>
+            </div>
+            <div className="p-8">
+              <GeneratedQuestions questions={questions} isPlan="pro" />
+            </div>
+          </div>
+        )}
       </div>
+
+      {error.show && (
+        <Toast
+          type={error.type}
+          title={error.category === "limit" ? "Upload Limit" : "Error"}
+          message={error.message}
+          show={error.show}
+          onClose={() => setError({ ...error, show: false })}
+          duration={error.category === "limit" ? 4000 : 6000}
+          errorData={{
+            errorType: error.category,
+            errorCategory: error.category,
+            originalError: error.originalError,
+          }}
+          actions={
+            error.category === "file"
+              ? [
+                  {
+                    label: "Try Again",
+                    onClick: () => {
+                      setError({ ...error, show: false });
+                      handleReset();
+                    },
+                    variant: "primary",
+                  },
+                ]
+              : [
+                  {
+                    label: "Retry",
+                    onClick: () => {
+                      setError({ ...error, show: false });
+                      if (currentFile) {
+                        handleFileUpload(currentFile);
+                      }
+                    },
+                    variant: "primary",
+                  },
+                ]
+          }
+        />
+      )}
 
       {showToast && (
         <Toast

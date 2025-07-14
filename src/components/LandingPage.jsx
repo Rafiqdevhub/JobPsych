@@ -8,49 +8,43 @@ import { shouldApplyRateLimits } from "../utils/env";
 const LandingPage = () => {
   const { isSignedIn } = useUser();
   const [uploadCount, setUploadCount] = useState(0);
-  const [isAnnual, setIsAnnual] = useState(false);
 
   const enhancedPlans = [
     {
-      name: "Free",
-      description: "Perfect for getting started",
+      name: "Role Suggestions",
+      description: "Free career guidance for job seekers",
       price: { monthly: 0, annual: 0 },
-      highlight: "Most Popular",
+      highlight: "100% Free",
       features: [
-        "2 Resume analyses per month",
-        "Basic interview questions",
-        "Standard AI insights",
-        "Email support",
-        "Basic candidate reports",
+        "Unlimited resume analysis",
+        "Target role specification",
+        "Job description matching",
+        "Role fit assessment",
+        "Career recommendations",
+        "Alternative role suggestions",
+        "Instant results",
       ],
-      limitations: [
-        "Limited to 2 uploads per month",
-        "Basic question templates only",
-        "Standard processing speed",
-      ],
-      buttonText: "Start Free",
+      limitations: [],
+      buttonText: "Start Free Analysis",
       buttonStyle:
         "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700",
       popular: true,
     },
     {
-      name: "Pro",
-      description: "For growing teams and HR professionals",
-      price: { monthly: 49, annual: 39 },
-      highlight: "Best Value",
+      name: "HireDisk",
+      description: "Advanced AI hiring intelligence for HR teams",
+      price: { monthly: 50 },
+      highlight: "For HR Teams",
       features: [
-        "Unlimited resume analyses",
-        "Advanced AI-powered questions",
+        "Everything in Role Suggestions",
+        "Advanced AI-powered screening",
+        "Dynamic interview questions",
         "Deep candidate insights",
-        "Skills gap analysis",
-        "Priority email support",
+        "Skills assessment reports",
         "Advanced analytics dashboard",
-        "Custom question templates",
-        "Export reports to PDF/Excel",
-        "Team collaboration tools",
       ],
       limitations: [],
-      buttonText: "Start Pro Trial",
+      buttonText: "Start HireDisk Trial",
       buttonStyle:
         "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700",
       popular: false,
@@ -59,24 +53,24 @@ const LandingPage = () => {
 
   const faqs = [
     {
-      question: "How does the free plan work?",
+      question: "What's the difference between Role Suggestions and HireDisk?",
       answer:
-        "The free plan allows you to analyze up to 2 resumes per IP address with basic AI insights and interview questions. Perfect for trying out JobPsych's capabilities.",
+        "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
     },
     {
-      question: "Can I upgrade or downgrade my plan anytime?",
+      question: "Is Role Suggestions really completely free?",
       answer:
-        "Yes! You can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.",
+        "Yes! Role Suggestions is 100% free with unlimited usage. Upload your resume, specify target roles, and get personalized career recommendations without any limits or hidden fees.",
     },
     {
-      question: "What payment methods do you accept?",
+      question: "What payment methods do you accept for HireDisk Pro?",
       answer:
-        "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal for convenient billing.",
+        "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal for convenient billing of HireDisk Pro subscriptions.",
     },
     {
       question: "Is my data secure?",
       answer:
-        "Absolutely. We use enterprise-grade security with encryption at rest and in transit. All data is stored securely and never shared with third parties.",
+        "Absolutely. We use enterprise-grade security with encryption at rest and in transit. All data is stored securely and never shared with third parties, whether you use Role Suggestions or HireDisk.",
     },
   ];
 
@@ -117,11 +111,16 @@ const LandingPage = () => {
   };
 
   const handlePlanSelection = (planId) => {
-    if (planId === "free") {
+    const normalizedPlanId = planId.toLowerCase();
+
+    if (
+      normalizedPlanId === "free" ||
+      normalizedPlanId === "role suggestions"
+    ) {
       window.location.href = "/dashboard";
-    } else {
+    } else if (normalizedPlanId === "pro" || normalizedPlanId === "hiredisk") {
       if (!isSignedIn) {
-        localStorage.setItem("selectedPlan", planId);
+        localStorage.setItem("selectedPlan", "pro");
         localStorage.setItem("redirectAfterAuth", "payment");
         window.location.href = "/sign-up";
       } else {
@@ -129,8 +128,8 @@ const LandingPage = () => {
         if (userPlan === "pro") {
           window.location.href = "/premium-dashboard";
         } else {
-          localStorage.setItem("selectedPlan", planId);
-          window.location.href = `/payment?plan=${planId}`;
+          localStorage.setItem("selectedPlan", "pro");
+          window.location.href = `/payment?plan=pro`;
         }
       }
     }
@@ -144,34 +143,44 @@ const LandingPage = () => {
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
               <span className="mr-2">🚀</span>
-              AI-Powered Hiring Intelligence
+              Career Guidance & Hiring Intelligence
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              AI-Powered Resume Screening for Smarter Hiring Decisions
+              Smart Career Guidance & AI-Powered Hiring Solutions
             </h1>
 
             <p className="mt-6 text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
               <span className="font-semibold text-indigo-600">
-                JobPsych reads between the lines
+                JobPsych offers two powerful tools:
               </span>{" "}
-              so you don't have to. Analyze resumes, spot top talent, and make
-              confident hiring calls in minutes.
+              Free career role suggestions for job seekers and premium
+              AI-powered hiring intelligence for HR teams.
             </p>
 
             <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-700">
-                <div className="flex items-center justify-center space-x-2">
-                  <span className="text-lg">⚡</span>
-                  <span className="font-medium">Instant Analysis</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+                <div className="text-center p-4 bg-white/60 rounded-xl border border-indigo-200">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <span className="text-lg">✅</span>
+                    <span className="font-medium text-indigo-600">
+                      Role Suggestions
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600">
+                    Free career guidance for job seekers
+                  </p>
                 </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <span className="text-lg">🎯</span>
-                  <span className="font-medium">Spot Top Talent</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <span className="text-lg">🧠</span>
-                  <span className="font-medium">AI-Powered Insights</span>
+                <div className="text-center p-4 bg-white/60 rounded-xl border border-emerald-200">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <span className="text-lg">🔒</span>
+                    <span className="font-medium text-emerald-600">
+                      HireDisk
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600">
+                    Premium AI hiring intelligence
+                  </p>
                 </div>
               </div>
             </div>
@@ -182,21 +191,13 @@ const LandingPage = () => {
                 className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
               >
                 <span className="text-lg">✅</span>
-                <span className="relative z-10">
-                  Try It for Free - 2 Analyses
-                </span>
+                <span className="relative z-10">Role Suggestions</span>
                 <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-purple-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                 {shouldApplyRateLimits() && !isSignedIn && (
-                  <span
-                    className={`absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg ${
-                      uploadCount >= 2 ? "bg-red-500" : "bg-green-500"
-                    }`}
-                  >
-                    {uploadCount >= 2
-                      ? "Limit reached"
-                      : `${2 - uploadCount} free left`}
+                  <span className="absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg bg-green-500">
+                    FREE
                   </span>
                 )}
               </button>
@@ -206,32 +207,24 @@ const LandingPage = () => {
                 className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
               >
                 <span className="text-lg">🔒</span>
-                <span className="relative z-10">
-                  Go Pro – Get 20 Resume Scans/Month
-                </span>
+                <span className="relative z-10">HireDisk</span>
                 <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg bg-orange-500">
+                  PRO
+                </span>
               </button>
             </div>
 
             <div className="mt-6 space-y-2">
-              {shouldApplyRateLimits() && !isSignedIn && (
-                <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
-                  {uploadCount >= 2
-                    ? "🎯 You've used all free uploads. Sign up to continue with 2 more free analyses."
-                    : `💡 Free users get 2 resume analyses. ${
-                        uploadCount > 0
-                          ? `${uploadCount} used, ${2 - uploadCount} remaining.`
-                          : "Start your first analysis now!"
-                      }`}
-                </p>
-              )}
-
-              {isSignedIn && (
-                <p className="text-sm text-emerald-700 font-medium bg-emerald-50 px-4 py-2 rounded-lg inline-block">
-                  🎉 Welcome back! You have additional free uploads available.
-                </p>
-              )}
+              <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
+                ✅ <strong>Role Suggestions:</strong> Completely FREE - Upload
+                your resume, mention target role & get career recommendations
+              </p>
+              <p className="text-sm text-emerald-700 font-medium bg-emerald-50 px-4 py-2 rounded-lg inline-block">
+                🔒 <strong>HireDisk:</strong> Premium AI hiring tool for HR
+                teams and recruiters
+              </p>
             </div>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm text-gray-500">
@@ -275,107 +268,63 @@ const LandingPage = () => {
             </div>
 
             <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
-              Everything You Need for
+              Two Powerful Tools for
               <br />
-              <span className="text-indigo-600">Smart Hiring</span>
+              <span className="text-indigo-600">
+                Career Success & Smart Hiring
+              </span>
             </h2>
 
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              JobPsych combines AI-powered analysis with intuitive design to
-              revolutionize your hiring process. Discover how our features can
-              transform your candidate evaluation workflow.
+              JobPsych provides free career guidance for job seekers through
+              Role Suggestions, and premium AI-powered hiring intelligence for
+              HR teams through HireDisk.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
                 <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  🧠
+                  ✅
                 </div>
 
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Smart Analysis
+                  Role Suggestions
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  AI-Powered Resume Analysis
+                  Free Career Guidance
                 </h3>
 
                 <p className="text-gray-600 leading-relaxed">
-                  Advanced AI algorithms analyze resumes to extract key skills,
-                  experience, and qualifications automatically.
+                  Upload your resume, mention target role & job description to
+                  get personalized career recommendations - completely free!
                 </p>
               </div>
             </div>
 
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-emerald-200 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
                 <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  ❓
+                  �
                 </div>
 
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Personalized Questions
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 text-xs font-medium mb-4">
+                  HireDisk Premium
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  Dynamic Interview Questions
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors duration-300">
+                  AI-Powered Hiring Tool
                 </h3>
 
                 <p className="text-gray-600 leading-relaxed">
-                  Generate personalized interview questions based on specific
-                  job roles and candidate backgrounds.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              <div className="relative z-10">
-                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  📊
-                </div>
-
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Deep Insights
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  Candidate Insights
-                </h3>
-
-                <p className="text-gray-600 leading-relaxed">
-                  Get comprehensive insights about candidate strengths,
-                  weaknesses, and cultural fit assessments.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              <div className="relative z-10">
-                <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  ⚡
-                </div>
-
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Lightning Fast
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  Real-time Processing
-                </h3>
-
-                <p className="text-gray-600 leading-relaxed">
-                  Upload resumes and receive instant analysis results within
-                  seconds, not hours.
+                  Advanced AI resume screening, candidate insights, and
+                  interview question generation for HR teams and recruiters.
                 </p>
               </div>
             </div>
@@ -389,16 +338,16 @@ const LandingPage = () => {
                 </div>
 
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Strategic Hiring
+                  Smart Analysis
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  Skills Gap Analysis
+                  Role Fit Assessment
                 </h3>
 
                 <p className="text-gray-600 leading-relaxed">
-                  Identify skill gaps and areas for improvement to make better
-                  hiring decisions.
+                  Get detailed analysis of how well you match specific roles
+                  with skill gap identification and improvement suggestions.
                 </p>
               </div>
             </div>
@@ -408,20 +357,20 @@ const LandingPage = () => {
 
               <div className="relative z-10">
                 <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  🔐
+                  ⚡
                 </div>
 
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-xs font-medium mb-4">
-                  Bank-level Security
+                  Instant Results
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
-                  Secure & Private
+                  Real-time Processing
                 </h3>
 
                 <p className="text-gray-600 leading-relaxed">
-                  Enterprise-grade security ensures all candidate data is
-                  protected with advanced encryption.
+                  Upload resumes and receive instant analysis results within
+                  seconds for both career guidance and hiring decisions.
                 </p>
               </div>
             </div>
@@ -432,46 +381,69 @@ const LandingPage = () => {
               How JobPsych Works
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">📄</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              {/* Role Suggestions Flow */}
+              <div className="bg-white/10 rounded-2xl p-6">
+                <h4 className="text-xl font-bold mb-6 text-yellow-300">
+                  ✅ Role Suggestions (FREE)
+                </h4>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      1
+                    </div>
+                    <span className="text-white/90">Upload your resume</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      2
+                    </div>
+                    <span className="text-white/90">
+                      Mention target role & job description
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      3
+                    </div>
+                    <span className="text-white/90">
+                      Get career recommendations & role fit analysis
+                    </span>
+                  </div>
                 </div>
-                <h4 className="font-semibold mb-2">1. Upload Resume</h4>
-                <p className="text-white/90 text-sm">
-                  Simply upload a candidate's resume in PDF or Word format
-                </p>
               </div>
 
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🧠</span>
+              {/* HireDisk Flow */}
+              <div className="bg-white/10 rounded-2xl p-6">
+                <h4 className="text-xl font-bold mb-6 text-emerald-300">
+                  🔒 HireDisk (PREMIUM)
+                </h4>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      1
+                    </div>
+                    <span className="text-white/90">
+                      AI-powered resume screening
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      2
+                    </div>
+                    <span className="text-white/90">
+                      Generate interview questions
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                      3
+                    </div>
+                    <span className="text-white/90">
+                      Advanced candidate insights & analytics
+                    </span>
+                  </div>
                 </div>
-                <h4 className="font-semibold mb-2">2. AI Analysis</h4>
-                <p className="text-white/90 text-sm">
-                  Our AI extracts key information, skills, and experience
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">❓</span>
-                </div>
-                <h4 className="font-semibold mb-2">3. Generate Questions</h4>
-                <p className="text-white/90 text-sm">
-                  Receive tailored interview questions based on the candidate's
-                  background
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <h4 className="font-semibold mb-2">4. Better Interviews</h4>
-                <p className="text-white/90 text-sm">
-                  Use our insights to focus on what matters for each role
-                </p>
               </div>
             </div>
           </div>
@@ -497,41 +469,10 @@ const LandingPage = () => {
               Choose the Perfect Plan for Your Team
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Start with our free trial to experience JobPsych instantly, then
-              upgrade to Pro for unlimited access and advanced features.
+              Choose Role Suggestions for free career guidance or upgrade to
+              HireDisk Pro for advanced AI-powered hiring intelligence and
+              unlimited features.
             </p>
-
-            <div className="mt-8 flex justify-center items-center space-x-4">
-              <span
-                className={`text-sm font-medium ${
-                  !isAnnual ? "text-indigo-600" : "text-gray-500"
-                }`}
-              >
-                Monthly
-              </span>
-              <button
-                onClick={() => setIsAnnual(!isAnnual)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                  isAnnual ? "bg-indigo-600" : "bg-gray-200"
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    isAnnual ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
-              </button>
-              <span
-                className={`text-sm font-medium ${
-                  isAnnual ? "text-indigo-600" : "text-gray-500"
-                }`}
-              >
-                Annual
-                <span className="ml-1 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  Save 20%
-                </span>
-              </span>
-            </div>
           </div>
 
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-2">
@@ -627,9 +568,7 @@ const LandingPage = () => {
                       }`}
                     >
                       {typeof plan.price.monthly === "number"
-                        ? `$${
-                            isAnnual ? plan.price.annual : plan.price.monthly
-                          }`
+                        ? `$${plan.price.monthly}`
                         : plan.price.monthly}
                     </span>
                     {typeof plan.price.monthly === "number" && (
@@ -638,7 +577,7 @@ const LandingPage = () => {
                           plan.popular ? "text-white/80" : "text-gray-500"
                         }`}
                       >
-                        /{isAnnual ? "year" : "month"}
+                        /month
                       </span>
                     )}
                   </div>
@@ -698,32 +637,32 @@ const LandingPage = () => {
                   ))}
                 </ul>
 
-                {plan.name === "Free" && (
+                {plan.name === "Role Suggestions" && (
                   <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                     <div className="flex items-center space-x-2">
-                      <span className="text-2xl">🎯</span>
+                      <span className="text-2xl">✅</span>
                       <span className="text-sm font-semibold text-blue-800">
-                        Perfect for Testing JobPsych
+                        Perfect for Job Seekers
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-blue-700">
-                      Try 2 resume analyses instantly - no account creation
-                      needed!
+                      Get unlimited career guidance and role recommendations -
+                      completely free!
                     </p>
                   </div>
                 )}
 
-                {plan.name === "Pro" && !plan.popular && (
+                {plan.name === "HireDisk" && !plan.popular && (
                   <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-200">
                     <div className="flex items-center space-x-2">
-                      <span className="text-2xl">💼</span>
+                      <span className="text-2xl">�</span>
                       <span className="text-sm font-semibold text-indigo-800">
-                        For HR Teams & Hiring Managers
+                        For HR Teams & Recruiters
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-indigo-700">
-                      Unlimited analyses, advanced AI features, and team
-                      collaboration tools.
+                      Advanced AI hiring intelligence with interview questions
+                      and candidate insights.
                     </p>
                   </div>
                 )}
@@ -772,9 +711,9 @@ const LandingPage = () => {
                 JobPsych
               </h3>
               <p className="text-gray-400 text-sm">
-                The AI-powered platform that transforms how HR teams conduct
-                interviews. Extract valuable insights from resumes and generate
-                personalized interview questions.
+                Two powerful tools in one platform: Free career guidance through
+                Role Suggestions and premium AI hiring intelligence through
+                HireDisk for HR teams.
               </p>
             </div>
             <div>
@@ -782,11 +721,11 @@ const LandingPage = () => {
                 Key Features
               </h3>
               <ul className="text-gray-400 space-y-2 text-sm">
+                <li>• Free Career Guidance</li>
+                <li>• Role Fit Assessment</li>
                 <li>• AI Resume Analysis</li>
-                <li>• Custom Interview Questions</li>
-                <li>• Skills Assessment</li>
-                <li>• Candidate Insights</li>
-                <li>• Secure & Private</li>
+                <li>• Interview Questions (Pro)</li>
+                <li>• Candidate Insights (Pro)</li>
               </ul>
             </div>
             <div>
@@ -800,7 +739,7 @@ const LandingPage = () => {
                     to={getDestination()}
                     className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
                   >
-                    Upload Resume
+                    Try Role Suggestions
                   </NavigationButton>
                 </li>
                 <li>
@@ -809,7 +748,7 @@ const LandingPage = () => {
                     to="/sign-up"
                     className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
                   >
-                    Create Account
+                    Get HireDisk Pro
                   </NavigationButton>
                 </li>
                 <li>
