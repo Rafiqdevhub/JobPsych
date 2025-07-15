@@ -1,20 +1,15 @@
-const USE_LOCAL_BACKEND = "http://localhost:8000";
+const USE_PROD_BACKEND = "https://hr-resume-analyzer-backend.vercel.app";
 
-// Base URL for the FastAPI backend
-export const BACKEND_API_BASE_URL = USE_LOCAL_BACKEND;
+export const BACKEND_API_BASE_URL = USE_PROD_BACKEND;
 
-// Base URL for the payment API
 export const PAYMENT_API_BASE_URL = "http://localhost:5000";
 
 export const API_ENDPOINTS = {
-  // Backend API endpoints
   ANALYZE_RESUME: `${BACKEND_API_BASE_URL}/api/analyze-resume`,
 
-  // Authentication endpoints
   USER_AUTH: "/api/auth",
   SUBSCRIPTION: "/api/subscription",
 
-  // Payment API endpoints - Updated to match backend routes
   GET_PLANS: `${PAYMENT_API_BASE_URL}/api`,
   CREATE_PAYMENT: `${PAYMENT_API_BASE_URL}/api/subscription`,
   PAYMENT_STATUS: `${PAYMENT_API_BASE_URL}/api/subscription`,

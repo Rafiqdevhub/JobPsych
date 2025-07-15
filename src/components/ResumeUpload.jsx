@@ -116,7 +116,7 @@ function ResumeUpload({
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-        Review Candidate Resume
+        Review Your Resume
       </h2>
 
       {isPremium && (
@@ -177,7 +177,7 @@ function ResumeUpload({
           <>
             <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" />
             <p className="mt-4 text-base text-gray-600">
-              Upload candidate's resume (drag & drop or click here)
+              Upload your resume (drag & drop or click here)
             </p>
             <p className="mt-2 text-xs text-gray-500">
               Accepts PDF, DOC, and DOCX formats

@@ -2,27 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
-import { useToast } from "./ToastManager";
-import Toast from "./Toast";
-import SimpleToast from "./SimpleToast";
 import NetworkError from "./NetworkError";
 import LoadingError from "./LoadingError";
 import NavigationButton from "./NavigationButton";
-import {
-  formatErrorMessage,
-  getErrorCategory,
-  shouldShowRetry,
-  shouldShowReset,
-} from "../utils/errorHandler";
+import { formatErrorMessage, getErrorCategory } from "../utils/errorHandler";
 import { API_ENDPOINTS } from "../utils/api";
 
 const Dashboard = () => {
   const { user } = useUser();
-  const { showSuccess } = useToast();
   const [resumeData, setResumeData] = useState(null);
   const [roleRecommendations, setRoleRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentFile, setCurrentFile] = useState(null);
   const [targetRole, setTargetRole] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [error, setError] = useState({
@@ -32,15 +22,24 @@ const Dashboard = () => {
     category: null,
     originalError: null,
   });
-  const [showSimpleToast, setShowSimpleToast] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
 
-  // Helper function to redirect to payment
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        setAlertMessage("");
+        setAlertType("");
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
+
   const redirectToPayment = (planId = "pro") => {
     localStorage.setItem("selectedPlan", planId);
     window.location.href = `/payment?plan=${planId}`;
   };
 
-  // Listen for the custom event to open pricing modal
   useEffect(() => {
     const handleOpenPricingModal = (_event) => {
       redirectToPayment();
@@ -55,7 +54,6 @@ const Dashboard = () => {
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
-    setCurrentFile(file);
     setError({
       show: false,
       message: "",
@@ -110,7 +108,6 @@ const Dashboard = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      // Add target role and job description if provided
       if (targetRole.trim()) {
         formData.append("target_role", targetRole.trim());
       }
@@ -151,7 +148,6 @@ const Dashboard = () => {
         throw new Error("No data returned from API");
       }
 
-      // Extract data from unified response
       const resumeDataFromResponse = responseData.resumeData || responseData;
       const roleRecommendationsFromResponse =
         responseData.roleRecommendations || [];
@@ -173,39 +169,26 @@ const Dashboard = () => {
       setResumeData(resumeDataFromResponse);
       setRoleRecommendations(roleRecommendationsFromResponse);
 
-      // Show success toast
       const successMessage = targetRole
         ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
         : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
 
-      showSuccess(successMessage);
-
+      setAlertMessage(successMessage);
+      setAlertType("success");
       setIsLoading(false);
     } catch (error) {
       const errorCategory = getErrorCategory(error);
 
-      if (errorCategory === "network") {
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-
-          const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
-            method: "POST",
-            body: formData,
-            mode: "cors",
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            setResumeData(data.resumeData || data);
-            setRoleRecommendations(data.roleRecommendations || []);
-
-            setIsLoading(false);
-            return;
-          }
-        } catch (retryError) {
-          console.error("Retry also failed:", retryError);
-        }
+      if (errorCategory === "network" || errorCategory === "loading") {
+        setError({
+          show: true,
+          message: formatErrorMessage(error),
+          type: "error",
+          category: errorCategory || "unknown",
+          originalError: error,
+        });
+        setIsLoading(false);
+        return;
       }
 
       setError({
@@ -215,349 +198,446 @@ const Dashboard = () => {
         category: errorCategory || "unknown",
         originalError: error,
       });
-
+      setAlertMessage(formatErrorMessage(error));
+      setAlertType("error");
       setIsLoading(false);
     }
   };
 
-  const handleReset = () => {
-    setResumeData(null);
-    setRoleRecommendations([]);
-    setCurrentFile(null);
-    setTargetRole("");
-    setJobDescription("");
-    setError({
-      show: false,
-      message: "",
-      type: "error",
-      category: null,
-      originalError: null,
-    });
-  };
-
-  const handleRetry = async () => {
-    if (currentFile) {
-      await handleFileUpload(currentFile);
+  const renderSpecialError = () => {
+    if (error.show && error.category === "network") {
+      // Only show the model, do not set alert message
+      return <NetworkError onClose={handleErrorClose} />;
     }
+    if (error.show && error.category === "loading") {
+      // Only show the model, do not set alert message
+      return <LoadingError onClose={handleErrorClose} />;
+    }
+    return null;
   };
 
   const handleErrorClose = () => {
     setError({ ...error, show: false });
-  };
-
-  const renderErrorContent = () => {
-    if (error.category === "network") {
-      return (
-        <NetworkError
-          onClose={handleErrorClose}
-          onRetry={shouldShowRetry(error.category) ? handleRetry : null}
-          onReset={shouldShowReset(error.category) ? handleReset : null}
-        />
-      );
-    } else if (error.category === "loading") {
-      return (
-        <LoadingError
-          onClose={handleErrorClose}
-          onRetry={shouldShowRetry(error.category) ? handleRetry : null}
-          onReset={shouldShowReset(error.category) ? handleReset : null}
-        />
-      );
-    } else {
-      // Use the enhanced Toast component for all other errors
-      return (
-        <Toast
-          type={error.type}
-          title={error.category === "limit" ? "Upload Limit" : "Error"}
-          message={error.message}
-          show={error.show}
-          onClose={handleErrorClose}
-          duration={error.category === "limit" ? 4000 : 6000}
-          errorData={{
-            errorType: error.category,
-            errorCategory: error.category,
-            originalError: error.originalError,
-          }}
-          actions={
-            error.category === "limit"
-              ? [
-                  {
-                    label: "Sign Up",
-                    onClick: () => {
-                      handleErrorClose();
-                      redirectToPayment();
-                    },
-                    variant: "primary",
-                  },
-                ]
-              : error.category === "file"
-              ? [
-                  {
-                    label: "Try Again",
-                    onClick: () => {
-                      handleErrorClose();
-                      // Reset the file input
-                      const fileInput =
-                        document.querySelector('input[type="file"]');
-                      if (fileInput) fileInput.value = "";
-                    },
-                    variant: "primary",
-                  },
-                ]
-              : [
-                  {
-                    label: "Retry",
-                    onClick: () => {
-                      handleErrorClose();
-                      if (currentFile) {
-                        handleFileUpload(currentFile);
-                      }
-                    },
-                    variant: "primary",
-                  },
-                ]
-          }
-        />
-      );
-    }
+    setAlertMessage("");
+    setAlertType("");
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="mb-6 relative z-10">
-        <NavigationButton
-          to="/"
-          className="inline-flex items-center gap-2 bg-blue-600 px-5 py-3 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          aria-label="Back to home page"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <span>Back to Home</span>
-        </NavigationButton>
-      </div>
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-lg p-6 mb-8 shadow-lg text-white transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center">
+    <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-emerald-50 overflow-x-hidden">
+      <header className="sticky top-0 z-30 w-full bg-gradient-to-r from-blue-50 via-white to-emerald-50/80 backdrop-blur border-b border-emerald-100 shadow-md">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <NavigationButton
+              to="/"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-white font-semibold rounded-lg shadow hover:from-blue-700 hover:to-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              aria-label="Go to Home Dashboard"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 mr-3 text-yellow-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              Resume Analysis Dashboard
-            </h1>
-            <p className="text-blue-100 mt-2 text-lg">
-              Upload your resume and get role-specific analysis and career
-              recommendations
-            </p>
-          </div>
-          {user && user.imageUrl && (
-            <img
-              src={user.imageUrl}
-              alt="Profile"
-              className="h-12 w-12 rounded-full border-2 border-white shadow-md mt-4 md:mt-0"
-            />
-          )}
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-6 hover:shadow-lg transition-shadow duration-300">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2 text-indigo-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            />
-          </svg>
-          Upload the Resume of the Candidate
-        </h2>
-
-        {/* Target Role and Job Description Form */}
-        <div className="mb-6 space-y-4 relative z-10">
-          <div>
-            <label
-              htmlFor="targetRole"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Target Role (Optional)
-            </label>
-            <input
-              id="targetRole"
-              name="targetRole"
-              type="text"
-              value={targetRole}
-              onChange={(e) => setTargetRole(e.target.value)}
-              placeholder="e.g., Software Engineer, Data Scientist, Product Manager"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-              disabled={isLoading}
-              autoComplete="off"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Specify the role you're applying for to get targeted analysis and
-              career recommendations
-            </p>
-          </div>
-
-          <div>
-            <label
-              htmlFor="jobDescription"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Job Description (Optional)
-            </label>
-            <textarea
-              id="jobDescription"
-              name="jobDescription"
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="Paste the job description here for more accurate role fit analysis..."
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical bg-white"
-              disabled={isLoading}
-              autoComplete="off"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Provide job requirements to get better skill gap analysis and
-              recommendations
-            </p>
-          </div>
-        </div>
-
-        <ResumeUpload
-          onFileUpload={handleFileUpload}
-          isLoading={isLoading}
-          onError={(errorData) => {
-            setError({
-              show: true,
-              message: errorData.message || "Error with file upload",
-              type: errorData.type || "warning",
-              category: errorData.category || "file",
-              originalError: errorData,
-            });
-          }}
-        />
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-        {resumeData ? (
-          <div>
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2 text-green-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              Resume Analysis Results
-            </h2>
-            <ResumeDetailsWrapper
-              resumeData={resumeData}
-              isLoading={isLoading}
-            />
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <div className="animate-pulse">
-              <svg
-                className="mx-auto h-16 w-16 text-blue-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
                 aria-hidden="true"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                  fillRule="evenodd"
+                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
                 />
               </svg>
-            </div>
-            <h3 className="mt-4 text-xl font-medium text-gray-900">
-              No Resume Uploaded Yet
-            </h3>
-            <p className="mt-2 text-gray-500 max-w-md mx-auto">
-              Upload your resume using the section above to get detailed
-              analysis and career recommendations.
-            </p>
+              <span>Home</span>
+            </NavigationButton>
+            <span className="text-xl md:text-2xl font-extrabold text-emerald-700 tracking-tight drop-shadow-sm">
+              JobPsych Dashboard
+            </span>
           </div>
-        )}
-      </div>
-      {roleRecommendations.length > 0 && (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2 flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2 text-emerald-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
+          <div className="flex items-center gap-3">
+            <span className="hidden md:inline text-sm text-gray-500 font-medium">
+              AI-Powered Resume Screening
+            </span>
+            {user && user.imageUrl && (
+              <img
+                src={user.imageUrl}
+                alt="Profile"
+                className="h-10 w-10 rounded-full border-2 border-emerald-200 shadow"
               />
-            </svg>
-            Role Recommendations
-          </h2>
-          <div className="space-y-4">
-            {roleRecommendations.map((role, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 rounded-lg border border-emerald-200"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-emerald-800 mb-2 flex items-center">
-                      <span className="bg-emerald-100 text-emerald-800 text-xs font-medium px-2 py-1 rounded-full mr-2">
-                        {Math.round(role.matchPercentage)}% Match
-                      </span>
-                      {role.roleName}
-                    </h3>
-                    <p className="text-gray-700 mb-3">{role.reasoning}</p>
+            )}
+          </div>
+        </div>
+      </header>
 
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-medium text-gray-800 mb-2 flex items-center">
+      <div
+        className="absolute top-0 left-0 w-80 h-80 bg-gradient-to-br from-blue-300/30 to-indigo-300/10 rounded-full blur-3xl -z-10"
+        style={{ filter: "blur(120px)" }}
+      />
+      <div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tr from-emerald-200/30 to-teal-200/10 rounded-full blur-3xl -z-10"
+        style={{ filter: "blur(120px)" }}
+      />
+
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-emerald-600 rounded-3xl p-8 mb-10 shadow-2xl text-white relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-40 h-40 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10" />
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight flex items-center gap-3 drop-shadow-lg">
+                  <span className="inline-block">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-10 w-10 text-yellow-300"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                  </span>
+                  Resume Analysis Dashboard
+                </h1>
+                <p className="text-blue-100 mt-3 text-lg md:text-xl font-medium max-w-2xl">
+                  Upload your resume and get{" "}
+                  <span className="font-bold text-yellow-200">AI-powered</span>{" "}
+                  role-specific analysis and career recommendations.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 mb-10 hover:shadow-2xl transition-shadow duration-300">
+            <h2 className="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2 flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-indigo-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              Upload Your Resume For Analysis
+            </h2>
+
+            <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+              <div>
+                <label
+                  htmlFor="targetRole"
+                  className="block text-base font-semibold text-indigo-700 mb-2"
+                >
+                  🎯 Target Role (Optional)
+                </label>
+                <input
+                  id="targetRole"
+                  name="targetRole"
+                  type="text"
+                  value={targetRole}
+                  onChange={(e) => setTargetRole(e.target.value)}
+                  placeholder="e.g., Software Engineer, Data Scientist, Product Manager"
+                  className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-white text-gray-800 text-lg"
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  Specify the role you're applying for to get targeted analysis
+                  and career recommendations
+                </p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="jobDescription"
+                  className="block text-base font-semibold text-indigo-700 mb-2"
+                >
+                  📝 Job Description (Optional)
+                </label>
+                <textarea
+                  id="jobDescription"
+                  name="jobDescription"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  placeholder="Paste the job description here for more accurate role fit analysis..."
+                  rows={4}
+                  className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 resize-vertical bg-white text-gray-800 text-lg"
+                  disabled={isLoading}
+                  autoComplete="off"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  Provide job requirements to get better skill gap analysis and
+                  recommendations
+                </p>
+              </div>
+            </div>
+
+            <ResumeUpload
+              onFileUpload={handleFileUpload}
+              isLoading={isLoading}
+              onError={(errorData) => {
+                setError({
+                  show: true,
+                  message: errorData.message || "Error with file upload",
+                  type: errorData.type || "warning",
+                  category: errorData.category || "file",
+                  originalError: errorData,
+                });
+              }}
+            />
+          </div>
+
+          <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300 animate-fade-in-up">
+            {resumeData ? (
+              <div>
+                <h2 className="text-2xl font-bold mb-6 text-emerald-700 border-b pb-2 flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Resume Analysis Results
+                </h2>
+                <ResumeDetailsWrapper
+                  resumeData={resumeData}
+                  isLoading={isLoading}
+                />
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <div className="mb-4">
+                  <svg
+                    className="mx-auto h-24 w-24 text-emerald-400 drop-shadow-lg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="mt-4 text-3xl font-extrabold text-emerald-700">
+                  Ready to Discover Your True Potential?
+                </h3>
+                <p className="mt-4 text-lg text-gray-700 max-w-xl mx-auto">
+                  Upload your resume above and let our advanced AI instantly
+                  analyze your experience, skills, and strengths.{" "}
+                  <span className="font-semibold text-emerald-600">
+                    Get personalized career recommendations
+                  </span>
+                  , role matches, and actionable insights—completely free!
+                </p>
+                <ul className="mt-6 space-y-3 max-w-lg mx-auto text-left text-base text-gray-600">
+                  <li className="flex items-center gap-2">
+                    <span className="text-emerald-500 text-xl">✔️</span>
+                    Instantly see which roles fit your background best
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-emerald-500 text-xl">✔️</span>
+                    Uncover your top skills and areas to improve
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-emerald-500 text-xl">✔️</span>
+                    Receive expert tips to boost your job search
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-emerald-500 text-xl">✔️</span>
+                    100% private & secure—your data is never shared
+                  </li>
+                </ul>
+                <p className="mt-8 text-base text-gray-500 max-w-md mx-auto">
+                  <span className="font-semibold text-emerald-700">
+                    Just upload your resume
+                  </span>{" "}
+                  and let us do the rest. Start your journey to a smarter, more
+                  confident career move now!
+                </p>
+              </div>
+            )}
+          </div>
+
+          {roleRecommendations.length > 0 && (
+            <div className="mt-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-8 rounded-3xl shadow-2xl border border-emerald-100 hover:shadow-emerald-200 transition-shadow duration-300">
+              <h2 className="text-3xl font-extrabold mb-8 text-emerald-700 border-b pb-3 flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7 text-emerald-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
+                  />
+                </svg>
+                Role Recommendations
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {roleRecommendations.map((role, index) => {
+                  const isBestMatch = index === 0;
+                  const roleIcon = (
+                    <svg
+                      className="h-10 w-10 text-emerald-300 drop-shadow-lg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3zm-6 8v-1a4 4 0 014-4h4a4 4 0 014 4v1"
+                      />
+                    </svg>
+                  );
+                  return (
+                    <div
+                      key={index}
+                      className={`relative bg-white/80 backdrop-blur-xl p-8 rounded-3xl border border-emerald-200 shadow-xl hover:shadow-emerald-400 hover:border-emerald-400 transition-all duration-300 group overflow-hidden ${
+                        isBestMatch
+                          ? "ring-2 ring-emerald-400 scale-[1.04] shadow-2xl"
+                          : ""
+                      }`}
+                      style={{
+                        background: isBestMatch
+                          ? "linear-gradient(135deg, #d1fae5 0%, #f0fdfa 100%)"
+                          : "linear-gradient(135deg, #fff 0%, #f0fdfa 100%)",
+                        boxShadow: isBestMatch
+                          ? "0 8px 32px 0 rgba(16,185,129,0.25), 0 1.5px 8px 0 #a7f3d0"
+                          : undefined,
+                      }}
+                    >
+                      \{" "}
+                      {isBestMatch && (
+                        <span className="absolute -top-4 -right-4 animate-ping-slow z-10">
                           <svg
-                            className="h-4 w-4 mr-1 text-green-600"
+                            className="h-16 w-16 text-yellow-200 opacity-60"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.07-7.07l-1.42 1.42M6.34 17.66l-1.42 1.42m12.02 0l-1.42-1.42M6.34 6.34L4.92 4.92"
+                            />
+                          </svg>
+                        </span>
+                      )}
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10 opacity-80 group-hover:scale-110 transition-transform duration-300">
+                        {roleIcon}
+                      </div>
+                      <div className="absolute top-6 right-6 z-10">
+                        <div className="relative flex items-center justify-center">
+                          <svg
+                            className="h-16 w-16 rotate-[-90deg]"
+                            viewBox="0 0 40 40"
+                          >
+                            <defs>
+                              <linearGradient
+                                id={`matchGradient${index}`}
+                                x1="0"
+                                y1="0"
+                                x2="1"
+                                y2="1"
+                              >
+                                <stop offset="0%" stopColor="#34d399" />
+                                <stop offset="100%" stopColor="#06b6d4" />
+                              </linearGradient>
+                            </defs>
+                            <circle
+                              cx="20"
+                              cy="20"
+                              r="18"
+                              fill="none"
+                              stroke="#e5e7eb"
+                              strokeWidth="4"
+                            />
+                            <circle
+                              cx="20"
+                              cy="20"
+                              r="18"
+                              fill="none"
+                              stroke={`url(#matchGradient${index})`}
+                              strokeWidth="4"
+                              strokeDasharray={113}
+                              strokeDashoffset={
+                                113 -
+                                (113 * Math.round(role.matchPercentage)) / 100
+                              }
+                              strokeLinecap="round"
+                              style={{
+                                transition:
+                                  "stroke-dashoffset 0.7s cubic-bezier(.4,2,.6,1)",
+                              }}
+                            />
+                          </svg>
+                          <span className="absolute text-xl font-extrabold text-emerald-700 drop-shadow">
+                            {Math.round(role.matchPercentage)}%
+                          </span>
+                        </div>
+                      </div>
+                      {isBestMatch && (
+                        <span className="absolute top-4 left-4 bg-gradient-to-r from-emerald-400 to-teal-400 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg animate-pulse z-20">
+                          Best Match
+                        </span>
+                      )}
+                      <div className="flex items-center gap-3 mb-4 mt-20 justify-center">
+                        <span className="text-2xl font-extrabold text-emerald-800 group-hover:text-emerald-900 transition-all tracking-tight">
+                          {role.roleName}
+                        </span>
+                      </div>
+                      <div className="mb-5">
+                        <div className="flex items-center gap-2 mb-1">
+                          <svg
+                            className="h-5 w-5 text-blue-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
+                            />
+                          </svg>
+                          <span className="font-semibold text-blue-700">
+                            Why this role?
+                          </span>
+                        </div>
+                        <p className="text-gray-700 text-base min-h-[60px] italic bg-blue-50/60 rounded-lg px-4 py-2 shadow-sm">
+                          {role.reasoning}
+                        </p>
+                      </div>
+                      <div className="mb-8">
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-1">
+                          <svg
+                            className="h-5 w-5 text-green-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -569,25 +649,55 @@ const Dashboard = () => {
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
-                          Matching Skills (Required)
+                          Matching Skills
                         </h4>
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-2">
                           {role.requiredSkills &&
+                          role.requiredSkills.length > 0 ? (
                             role.requiredSkills.map((skill, skillIndex) => (
                               <span
                                 key={skillIndex}
-                                className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full"
+                                className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-900 text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1 hover:from-green-200 hover:to-emerald-200 transition-all duration-200 cursor-default"
                               >
-                                {skill}
+                                <svg
+                                  className="h-4 w-4 text-green-400 mr-1"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                                <span
+                                  className="truncate max-w-[120px] inline-block align-middle"
+                                  style={{ verticalAlign: "middle" }}
+                                >
+                                  {skill.length > 24
+                                    ? skill.slice(0, 22) + "…"
+                                    : skill}
+                                </span>
+                                {skill.length > 24 && (
+                                  <span className="absolute z-10 left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 shadow-lg whitespace-pre-line">
+                                    {skill}
+                                  </span>
+                                )}
                               </span>
-                            ))}
+                            ))
+                          ) : (
+                            <span className="text-gray-400 italic">
+                              No matching skills detected.
+                            </span>
+                          )}
                         </div>
                       </div>
-
                       <div>
-                        <h4 className="font-medium text-gray-800 mb-2 flex items-center">
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-1">
                           <svg
-                            className="h-4 w-4 mr-1 text-orange-600"
+                            className="h-5 w-5 text-orange-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -599,76 +709,103 @@ const Dashboard = () => {
                               d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                          Skills to Develop (Missing)
+                          Skills to Develop
+                          <span
+                            className="ml-1"
+                            title="These are the skills you should focus on to improve your fit for this role."
+                          >
+                            <svg
+                              className="h-4 w-4 text-gray-400 inline-block"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
+                              />
+                            </svg>
+                          </span>
                         </h4>
-                        <div className="flex flex-wrap gap-1">
+                        <div className="bg-orange-50/60 rounded-lg px-4 py-3 shadow-sm text-orange-900 text-sm max-w-full">
                           {role.missingSkills &&
-                            role.missingSkills.map((skill, skillIndex) => (
-                              <span
-                                key={skillIndex}
-                                className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full"
-                              >
-                                {skill}
-                              </span>
-                            ))}
+                          role.missingSkills.length > 0 ? (
+                            <ul className="list-disc pl-5 space-y-1">
+                              {role.missingSkills.map((skill, skillIndex) => (
+                                <li key={skillIndex} className="break-words">
+                                  {skill}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <span className="text-gray-400 italic">
+                              No major skill gaps detected!
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
-
-                    {/* Additional role information */}
-                    {(role.careerLevel ||
-                      role.salaryRange ||
-                      role.industryFit) && (
-                      <div className="mt-4 pt-3 border-t border-emerald-200">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                          {role.careerLevel && (
-                            <div className="bg-blue-50 p-2 rounded-lg">
-                              <h5 className="text-xs font-medium text-gray-600 mb-1">
-                                Career Level
-                              </h5>
-                              <p className="text-sm font-semibold text-blue-800">
-                                {role.careerLevel}
-                              </p>
-                            </div>
-                          )}
-                          {role.salaryRange && (
-                            <div className="bg-green-50 p-2 rounded-lg">
-                              <h5 className="text-xs font-medium text-gray-600 mb-1">
-                                Salary Range
-                              </h5>
-                              <p className="text-sm font-semibold text-green-800">
-                                {role.salaryRange}
-                              </p>
-                            </div>
-                          )}
-                          {role.industryFit && (
-                            <div className="bg-purple-50 p-2 rounded-lg">
-                              <h5 className="text-xs font-medium text-gray-600 mb-1">
-                                Industry Fit
-                              </h5>
-                              <p className="text-sm font-semibold text-purple-800">
-                                {role.industryFit}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+          {renderSpecialError()}
+
+          {alertMessage && (
+            <div
+              className={`fixed top-6 right-6 z-50 min-w-[260px] max-w-xs px-4 py-3 rounded-lg shadow-lg text-base flex items-center gap-3 font-semibold transition-all duration-300
+                ${
+                  alertType === "success"
+                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }
+              `}
+              role="alert"
+            >
+              {alertType === "success" ? (
+                <svg
+                  className="h-5 w-5 text-emerald-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="h-5 w-5 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              )}
+              <span className="flex-1">{alertMessage}</span>
+              <button
+                onClick={handleErrorClose}
+                className="ml-2 text-lg font-bold focus:outline-none text-gray-400 hover:text-gray-700"
+                aria-label="Close alert"
+              >
+                &times;
+              </button>
+            </div>
+          )}
         </div>
-      )}
-      {error.show && renderErrorContent()}
-      {showSimpleToast && (
-        <SimpleToast
-          message="Simple toast notification"
-          type="warning"
-          onClose={() => setShowSimpleToast(false)}
-        />
-      )}
+      </main>
     </div>
   );
 };
