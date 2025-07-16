@@ -163,7 +163,12 @@ const Dashboard = () => {
       );
 
       if (missingSections.length > 0) {
-        // We'll still set the data and let the wrapper component handle displaying appropriate messages
+        setAlertMessage(
+          `Some important sections are missing from your resume: ${missingSections.join(
+            ", "
+          )}.\nFor best results, please include Personal Info, Work Experience, Education, and Skills.`
+        );
+        setAlertType("warning");
       }
 
       setResumeData(resumeDataFromResponse);
@@ -206,11 +211,9 @@ const Dashboard = () => {
 
   const renderSpecialError = () => {
     if (error.show && error.category === "network") {
-      // Only show the model, do not set alert message
       return <NetworkError onClose={handleErrorClose} />;
     }
     if (error.show && error.category === "loading") {
-      // Only show the model, do not set alert message
       return <LoadingError onClose={handleErrorClose} />;
     }
     return null;
@@ -224,12 +227,13 @@ const Dashboard = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-emerald-50 overflow-x-hidden">
-      <header className="sticky top-0 z-30 w-full bg-gradient-to-r from-blue-50 via-white to-emerald-50/80 backdrop-blur border-b border-emerald-100 shadow-md">
-        <div className="container mx-auto px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-30 w-full bg-white/70 backdrop-blur-xl border-b border-gradient-to-r from-emerald-200 via-blue-200 to-indigo-200 shadow-lg">
+        <div className="container mx-auto px-4 py-3 flex items-center gap-3">
+          {/* Left: Home button */}
+          <div className="flex items-center min-w-0 flex-shrink-0">
             <NavigationButton
               to="/"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-white font-semibold rounded-lg shadow hover:from-blue-700 hover:to-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
               aria-label="Go to Home Dashboard"
             >
               <svg
@@ -247,19 +251,21 @@ const Dashboard = () => {
               </svg>
               <span>Home</span>
             </NavigationButton>
-            <span className="text-xl md:text-2xl font-extrabold text-emerald-700 tracking-tight drop-shadow-sm">
+          </div>
+          <div className="flex-1 flex justify-center items-center">
+            <span className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight drop-shadow-lg select-none whitespace-nowrap">
               JobPsych Dashboard
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden md:inline text-sm text-gray-500 font-medium">
+          <div className="flex items-center gap-4 min-w-0 flex-shrink-0">
+            <span className="hidden md:inline px-4 py-1 rounded-full bg-gradient-to-r from-emerald-100 via-blue-100 to-indigo-100 text-emerald-700 text-sm font-bold tracking-wide shadow border border-emerald-200 animate-fade-in">
               AI-Powered Resume Screening
             </span>
             {user && user.imageUrl && (
               <img
                 src={user.imageUrl}
                 alt="Profile"
-                className="h-10 w-10 rounded-full border-2 border-emerald-200 shadow"
+                className="h-12 w-12 rounded-full border-4 border-emerald-300 shadow-lg object-cover transition-transform duration-300 hover:scale-105"
               />
             )}
           </div>
