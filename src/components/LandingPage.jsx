@@ -1,99 +1,4 @@
 import React, { useEffect, useState } from "react";
-const ContactModal = ({ open, onClose }) => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      onClose();
-      setSubmitted(false);
-      setForm({ name: "", email: "", message: "" });
-    }, 1500);
-  };
-
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative animate-fadeInUp">
-        <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-indigo-600 text-2xl font-bold cursor-pointer"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          &times;
-        </button>
-        <h2 className="text-2xl font-bold mb-2 text-indigo-700">
-          Contact Us for Premium
-        </h2>
-        <p className="mb-6 text-gray-600 text-sm">
-          Fill out the form and our team will get in touch with you soon.
-        </p>
-        {submitted ? (
-          <div className="text-green-600 text-center font-semibold py-8">
-            Thank you! We'll contact you soon.
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                placeholder="Your Name"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                placeholder="you@email.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Message
-              </label>
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                placeholder="Tell us about your needs..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-2 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer"
-            >
-              Send Message
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
-  );
-};
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
@@ -230,11 +135,37 @@ const LandingPage = () => {
     }
   };
 
-  const [contactOpen, setContactOpen] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+
+  const handleContactChange = (e) => {
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setContactSubmitted(true);
+    setTimeout(() => {
+      setContactSubmitted(false);
+      setContactForm({ name: "", email: "", message: "" });
+    }, 1500);
+  };
+
+  const contactRef = React.useRef(null);
+
+  const scrollToContact = () => {
+    if (contactRef.current) {
+      contactRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
-      <Header />
+      <Header scrollToContact={scrollToContact} />
       <section id="hero" className="relative isolate overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
@@ -525,15 +456,6 @@ const LandingPage = () => {
                 <button
                   type="button"
                   className="text-yellow-100 font-bold underline hover:text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition-colors"
-                  onClick={() => setContactOpen(true)}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                    margin: 0,
-                    cursor: "pointer",
-                    font: "inherit",
-                  }}
                 >
                   contact us
                 </button>{" "}
@@ -647,7 +569,6 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-            {/* Existing plans */}
             {enhancedPlans.map((plan, index) => (
               <div
                 key={plan.name}
@@ -661,7 +582,6 @@ const LandingPage = () => {
                   animation: "fadeInUp 0.8s ease-out forwards",
                 }}
               >
-                {/* ...existing code for plan card... */}
                 {plan.popular && (
                   <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
                     🚀 {plan.highlight}
@@ -673,7 +593,6 @@ const LandingPage = () => {
                       plan.popular ? "bg-white/20" : "bg-indigo-100"
                     }`}
                   >
-                    {/* ...icon logic... */}
                     <span className="text-2xl">
                       {plan.name === "Role Suggestions" ? "✅" : "🔒"}
                     </span>
@@ -790,7 +709,6 @@ const LandingPage = () => {
                 )}
               </div>
             ))}
-            {/* Premium Plan Card */}
             <div className="relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
               <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
                 🌟 Premium
@@ -813,7 +731,7 @@ const LandingPage = () => {
                 </p>
               </div>
               <button
-                onClick={() => setContactOpen(true)}
+                onClick={scrollToContact}
                 className="mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none bg-white text-yellow-600 hover:bg-gray-100"
               >
                 Contact Us
@@ -886,11 +804,7 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
-
-            {/* Removed duplicate/erroneous plan rendering after Premium card */}
           </div>{" "}
-          {/* <-- Close the grid container div for pricing cards */}
-          {/* FAQ Section */}
           <div className="mt-24">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
@@ -917,6 +831,139 @@ const LandingPage = () => {
                     </p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+          {/* Modern Contact Section (inline form) */}
+          <div
+            ref={contactRef}
+            id="contact"
+            className="mt-24 mx-auto max-w-3xl"
+          >
+            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden">
+              <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10" />
+              <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10" />
+              <div className="flex flex-col items-center justify-center gap-6">
+                <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
+                  Get in Touch With Us
+                </h3>
+                <p className="text-lg text-white/90 mb-4 max-w-xl text-center">
+                  Have questions, need a custom solution, or want to learn more
+                  about JobPsych Premium? Our team is here to help you succeed.
+                  Fill out the contact form and we'll get back to you as soon as
+                  possible.
+                </p>
+                <div className="w-full max-w-lg mx-auto">
+                  {contactSubmitted ? (
+                    <div className="text-green-200 text-center font-semibold py-8 text-xl bg-white/10 rounded-2xl shadow-inner">
+                      Thank you! We'll contact you soon.
+                    </div>
+                  ) : (
+                    <form
+                      onSubmit={handleContactSubmit}
+                      className="space-y-5 bg-white/10 rounded-2xl p-8 shadow-xl"
+                    >
+                      <div>
+                        <label className="block text-sm font-medium text-white/90 mb-1">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={contactForm.name}
+                          onChange={handleContactChange}
+                          required
+                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
+                          placeholder="Your Name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-white/90 mb-1">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={contactForm.email}
+                          onChange={handleContactChange}
+                          required
+                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
+                          placeholder="you@email.com"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-white/90 mb-1">
+                          Message
+                        </label>
+                        <textarea
+                          name="message"
+                          value={contactForm.message}
+                          onChange={handleContactChange}
+                          required
+                          rows={4}
+                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
+                          placeholder="Tell us about your needs..."
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-lg"
+                      >
+                        Send Message
+                      </button>
+                    </form>
+                  )}
+                </div>
+                <div className="mt-6 flex flex-col md:flex-row items-center justify-center gap-6">
+                  <div className="flex items-center gap-2 text-white/80">
+                    <svg
+                      className="h-5 w-5 text-yellow-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12v1a4 4 0 01-4 4H8a4 4 0 01-4-4V8a4 4 0 014-4h4a4 4 0 014 4v1"
+                      />
+                    </svg>
+                    <span>Custom AI Solutions</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/80">
+                    <svg
+                      className="h-5 w-5 text-emerald-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4l3 3"
+                      />
+                    </svg>
+                    <span>Dedicated Support</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/80">
+                    <svg
+                      className="h-5 w-5 text-indigo-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 12h8"
+                      />
+                    </svg>
+                    <span>Enterprise Integrations</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -995,7 +1042,6 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };

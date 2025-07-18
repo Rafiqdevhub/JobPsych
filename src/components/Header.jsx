@@ -7,7 +7,7 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 
-const Header = () => {
+const Header = ({ scrollToContact }) => {
   return (
     <header className="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md shadow-lg py-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,6 +40,13 @@ const Header = () => {
           </div>
 
           <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={scrollToContact}
+              className="px-4 py-2 text-sm font-medium text-indigo-600 bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 rounded-lg transition-all duration-300 cursor-pointer shadow hover:shadow-md border-none"
+            >
+              Contact
+            </button>
             <div className="flex items-center space-x-2">
               <SignedIn>
                 <UserButton
