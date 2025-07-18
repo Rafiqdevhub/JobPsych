@@ -1,4 +1,99 @@
 import React, { useEffect, useState } from "react";
+const ContactModal = ({ open, onClose }) => {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => {
+      onClose();
+      setSubmitted(false);
+      setForm({ name: "", email: "", message: "" });
+    }, 1500);
+  };
+
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative animate-fadeInUp">
+        <button
+          className="absolute top-3 right-3 text-gray-400 hover:text-indigo-600 text-2xl font-bold cursor-pointer"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          &times;
+        </button>
+        <h2 className="text-2xl font-bold mb-2 text-indigo-700">
+          Contact Us for Premium
+        </h2>
+        <p className="mb-6 text-gray-600 text-sm">
+          Fill out the form and our team will get in touch with you soon.
+        </p>
+        {submitted ? (
+          <div className="text-green-600 text-center font-semibold py-8">
+            Thank you! We'll contact you soon.
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="Your Name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="you@email.com"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Message
+              </label>
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                required
+                rows={4}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="Tell us about your needs..."
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-2 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer"
+            >
+              Send Message
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
@@ -134,6 +229,8 @@ const LandingPage = () => {
       }
     }
   };
+
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
@@ -380,7 +477,69 @@ const LandingPage = () => {
             <h3 className="text-3xl md:text-4xl font-bold mb-8">
               How JobPsych Works
             </h3>
-
+            <div className="mb-8 max-w-4xl mx-auto text-lg text-white/90 text-center">
+              <p className="mb-2">
+                <span className="font-bold text-yellow-200">
+                  Role Suggestions
+                </span>{" "}
+                is{" "}
+                <span className="font-bold text-green-300">
+                  completely free
+                </span>{" "}
+                for job seekers. Just upload your resume and get instant career
+                recommendations and role fit analysis—no payment or signup
+                required!
+              </p>
+              <p className="mb-2">
+                <span className="font-bold text-emerald-200">HireDisk</span> is
+                our premium AI hiring tool for HR teams and recruiters, with two
+                plans:
+              </p>
+              <ul className="mb-2 list-none flex flex-col md:flex-row justify-center gap-4">
+                <li className="bg-emerald-600/80 rounded-xl px-4 py-2 inline-flex items-center gap-2 text-white font-semibold shadow">
+                  <span className="text-orange-200 text-xl">Pro</span>
+                  <span className="bg-white/20 rounded px-2 py-1 text-sm font-bold">
+                    $50/mo
+                  </span>
+                  <span className="hidden md:inline">— For small HR teams</span>
+                </li>
+                <li className="bg-yellow-500/80 rounded-xl px-4 py-2 inline-flex items-center gap-2 text-white font-semibold shadow">
+                  <span className="text-yellow-100 text-xl">Premium</span>
+                  <span className="bg-white/20 rounded px-2 py-1 text-sm font-bold">
+                    Contact Us
+                  </span>
+                  <span className="hidden md:inline">
+                    — For enterprises & custom needs
+                  </span>
+                </li>
+              </ul>
+              <p className="mt-2">
+                <span className="font-bold">How to choose?</span> If you're a
+                job seeker, use{" "}
+                <span className="text-yellow-200 font-bold">
+                  Role Suggestions
+                </span>{" "}
+                for free. If you're an HR team or recruiter, start with{" "}
+                <span className="text-orange-200 font-bold">HireDisk Pro</span>{" "}
+                for $50/month, or{" "}
+                <button
+                  type="button"
+                  className="text-yellow-100 font-bold underline hover:text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition-colors"
+                  onClick={() => setContactOpen(true)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    margin: 0,
+                    cursor: "pointer",
+                    font: "inherit",
+                  }}
+                >
+                  contact us
+                </button>{" "}
+                for a custom Premium plan.
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
               {/* Role Suggestions Flow */}
               <div className="bg-white/10 rounded-2xl p-6">
@@ -410,13 +569,18 @@ const LandingPage = () => {
                       Get career recommendations & role fit analysis
                     </span>
                   </div>
+                  <div className="mt-4 text-green-200 text-sm font-semibold">
+                    <span className="bg-green-700/60 rounded px-2 py-1">
+                      Completely Free
+                    </span>
+                  </div>
                 </div>
               </div>
 
               {/* HireDisk Flow */}
               <div className="bg-white/10 rounded-2xl p-6">
                 <h4 className="text-xl font-bold mb-6 text-emerald-300">
-                  🔒 HireDisk (PREMIUM)
+                  🔒 HireDisk (Pro & Premium)
                 </h4>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
@@ -441,6 +605,14 @@ const LandingPage = () => {
                     </div>
                     <span className="text-white/90">
                       Advanced candidate insights & analytics
+                    </span>
+                  </div>
+                  <div className="mt-4 flex flex-col gap-2">
+                    <span className="bg-orange-500/80 rounded px-2 py-1 text-white text-sm font-semibold inline-block">
+                      Pro: $50/month
+                    </span>
+                    <span className="bg-yellow-500/80 rounded px-2 py-1 text-white text-sm font-semibold inline-block">
+                      Premium: Contact Us
                     </span>
                   </div>
                 </div>
@@ -474,8 +646,8 @@ const LandingPage = () => {
               unlimited features.
             </p>
           </div>
-
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-2">
+          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
+            {/* Existing plans */}
             {enhancedPlans.map((plan, index) => (
               <div
                 key={plan.name}
@@ -489,67 +661,22 @@ const LandingPage = () => {
                   animation: "fadeInUp 0.8s ease-out forwards",
                 }}
               >
+                {/* ...existing code for plan card... */}
                 {plan.popular && (
                   <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
                     🚀 {plan.highlight}
                   </div>
                 )}
-
                 <div className="flex items-center space-x-3 mb-4">
                   <div
                     className={`p-3 rounded-full ${
                       plan.popular ? "bg-white/20" : "bg-indigo-100"
                     }`}
                   >
-                    {plan.name === "Free" ? (
-                      <svg
-                        className={`h-6 w-6 ${
-                          plan.popular ? "text-white" : "text-indigo-600"
-                        }`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
-                        />
-                      </svg>
-                    ) : plan.name === "Pro" ? (
-                      <svg
-                        className={`h-6 w-6 ${
-                          plan.popular ? "text-white" : "text-indigo-600"
-                        }`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        className={`h-6 w-6 ${
-                          plan.popular ? "text-white" : "text-indigo-600"
-                        }`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                      </svg>
-                    )}
+                    {/* ...icon logic... */}
+                    <span className="text-2xl">
+                      {plan.name === "Role Suggestions" ? "✅" : "🔒"}
+                    </span>
                   </div>
                   <h3
                     className={`text-2xl font-bold ${
@@ -559,7 +686,6 @@ const LandingPage = () => {
                     {plan.name}
                   </h3>
                 </div>
-
                 <div className="mb-6">
                   <div className="flex items-baseline">
                     <span
@@ -589,7 +715,6 @@ const LandingPage = () => {
                     {plan.description}
                   </p>
                 </div>
-
                 <button
                   onClick={() => handlePlanSelection(plan.name.toLowerCase())}
                   className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none ${
@@ -600,7 +725,6 @@ const LandingPage = () => {
                 >
                   {plan.buttonText}
                 </button>
-
                 <ul className="space-y-4 flex-1">
                   {plan.features.map((feature, featureIndex) => (
                     <li
@@ -636,7 +760,6 @@ const LandingPage = () => {
                     </li>
                   ))}
                 </ul>
-
                 {plan.name === "Role Suggestions" && (
                   <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                     <div className="flex items-center space-x-2">
@@ -651,11 +774,10 @@ const LandingPage = () => {
                     </p>
                   </div>
                 )}
-
                 {plan.name === "HireDisk" && !plan.popular && (
                   <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-200">
                     <div className="flex items-center space-x-2">
-                      <span className="text-2xl">�</span>
+                      <span className="text-2xl">🔒</span>
                       <span className="text-sm font-semibold text-indigo-800">
                         For HR Teams & Recruiters
                       </span>
@@ -668,8 +790,106 @@ const LandingPage = () => {
                 )}
               </div>
             ))}
-          </div>
+            {/* Premium Plan Card */}
+            <div className="relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
+              <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
+                🌟 Premium
+              </div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-3 rounded-full bg-white/20">
+                  <span className="text-2xl">💎</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white">Premium</h3>
+              </div>
+              <div className="mb-6">
+                <div className="flex items-baseline">
+                  <span className="text-5xl font-extrabold tracking-tight text-white">
+                    Custom
+                  </span>
+                </div>
+                <p className="mt-4 text-lg text-white/90">
+                  Enterprise-grade AI hiring solutions, custom integrations, and
+                  dedicated support. Contact us for pricing and access.
+                </p>
+              </div>
+              <button
+                onClick={() => setContactOpen(true)}
+                className="mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none bg-white text-yellow-600 hover:bg-gray-100"
+              >
+                Contact Us
+              </button>
+              <ul className="space-y-4 flex-1">
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
+                    <svg
+                      className="h-4 w-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-base text-white/90">
+                    Custom AI solutions
+                  </span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
+                    <svg
+                      className="h-4 w-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-base text-white/90">
+                    Dedicated support
+                  </span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
+                    <svg
+                      className="h-4 w-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-base text-white/90">
+                    Custom integrations
+                  </span>
+                </li>
+              </ul>
+              <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
+                <div className="flex items-center space-x-2">
+                  <span className="text-2xl">💎</span>
+                  <span className="text-sm font-semibold text-white">
+                    For Enterprises & Large Teams
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-white/80">
+                  Contact us for a tailored solution and pricing.
+                </p>
+              </div>
+            </div>
 
+            {/* Removed duplicate/erroneous plan rendering after Premium card */}
+          </div>{" "}
+          {/* <-- Close the grid container div for pricing cards */}
           {/* FAQ Section */}
           <div className="mt-24">
             <div className="mx-auto max-w-3xl text-center mb-12">
@@ -775,6 +995,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };

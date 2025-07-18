@@ -11,7 +11,6 @@ import Dashboard from "./components/Dashboard.jsx";
 import DashboardWrapper from "./components/DashboardWrapper.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import ClerkAuth from "./components/ClerkAuth.jsx";
-import AppLoader from "./components/AppLoader";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -59,7 +58,7 @@ root.render(
     <ErrorBoundary>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
         <ToastProvider>
-          <RouterProvider router={router} fallbackElement={<AppLoader />} />
+          <RouterProvider router={router} />
         </ToastProvider>
       </ClerkProvider>
     </ErrorBoundary>
