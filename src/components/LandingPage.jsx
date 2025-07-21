@@ -156,6 +156,7 @@ const LandingPage = () => {
   };
 
   const contactRef = React.useRef(null);
+  const pricingRef = React.useRef(null);
 
   const scrollToContact = () => {
     if (contactRef.current) {
@@ -163,9 +164,18 @@ const LandingPage = () => {
     }
   };
 
+  const scrollToPricing = () => {
+    if (pricingRef.current) {
+      pricingRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
-      <Header scrollToContact={scrollToContact} />
+      <Header
+        scrollToContact={scrollToContact}
+        scrollToPricing={scrollToPricing}
+      />
       <section id="hero" className="relative isolate overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
@@ -552,6 +562,7 @@ const LandingPage = () => {
 
       <section
         id="pricing"
+        ref={pricingRef}
         className="py-24 sm:py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
