@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NavigationButton from "./NavigationButton";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-react";
 
 const Header = ({ scrollToContact, scrollToPricing }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -91,31 +85,6 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
               >
                 Contact
               </button>
-              <div className="flex items-center space-x-2">
-                <SignedIn>
-                  <UserButton
-                    userProfileMode="modal"
-                    userProfileUrl="/user-profile"
-                    appearance={{
-                      elements: {
-                        userButtonAvatarBox:
-                          "w-8 h-8 border-2 border-indigo-200 hover:border-indigo-400 transition-all",
-                      },
-                    }}
-                  />
-                </SignedIn>
-
-                <SignedOut>
-                  <SignInButton mode="modal">
-                    <button
-                      className="px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
-                      style={{ minWidth: "120px" }}
-                    >
-                      Get Started
-                    </button>
-                  </SignInButton>
-                </SignedOut>
-              </div>
             </div>
           </div>
         </div>
