@@ -9,7 +9,6 @@ import {
 } from "../utils/paymentService";
 import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
-import SimpleTestButton from "./SimpleTestButton";
 import NavigationButton from "./NavigationButton";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
