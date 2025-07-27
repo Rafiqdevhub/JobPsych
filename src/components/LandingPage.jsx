@@ -559,7 +559,7 @@ const LandingPage = () => {
           <div className="absolute bottom-20 left-20 w-40 h-40 bg-gradient-to-r from-blue-200/20 to-indigo-200/20 rounded-full blur-xl"></div>
         </div>
       </section>
-
+      {/* Pricing Section */}
       <section
         id="pricing"
         ref={pricingRef}
