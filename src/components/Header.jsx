@@ -9,7 +9,7 @@ import {
 
 const Header = ({ scrollToContact, scrollToPricing }) => {
   const [scrolled, setScrolled] = useState(false);
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
