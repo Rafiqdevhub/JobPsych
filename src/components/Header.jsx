@@ -85,6 +85,33 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
               >
                 Contact
               </button>
+              {/* Up Arrow Button: only show when scrolled */}
+              {scrolled && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  className="ml-2 p-2 rounded-full bg-gradient-to-r from-indigo-200 to-purple-200 hover:from-indigo-300 hover:to-purple-300 shadow-lg transition-all duration-300 cursor-pointer border-none flex items-center justify-center"
+                  aria-label="Scroll to top"
+                  style={{ minWidth: 0 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="h-6 w-6 text-indigo-700"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         </div>
