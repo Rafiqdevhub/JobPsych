@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavigationButton from "./NavigationButton";
-import {
-  SignInButton,
-  SignOutButton,
-  UserButton,
-  useUser,
-} from "@clerk/clerk-react";
+import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 
 const Header = ({ scrollToContact, scrollToPricing }) => {
   const [scrolled, setScrolled] = useState(false);

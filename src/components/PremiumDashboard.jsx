@@ -23,6 +23,7 @@ import {
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
+
 import Toast from "./Toast";
 import NavigationButton from "./NavigationButton";
 import { useClerk } from "@clerk/clerk-react";
@@ -44,6 +45,11 @@ const PremiumDashboard = () => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState(null);
+  const [fitStatus, setFitStatus] = useState("");
+  const [reasoning, setReasoning] = useState("");
+  const [roleRecommendations, setRoleRecommendations] = useState([]);
+  const [targetRole, setTargetRole] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -147,8 +153,10 @@ const PremiumDashboard = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("target_role", targetRole);
+      formData.append("job_description", jobDescription);
 
-      const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
+      const response = await fetch(API_ENDPOINTS.HIREDESK_ANALYZE, {
         method: "POST",
         body: formData,
         mode: "cors",
@@ -156,14 +164,12 @@ const PremiumDashboard = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-
         let error;
         try {
           error = JSON.parse(errorText);
         } catch {
           error = { message: errorText || "Unknown error occurred" };
         }
-
         throw new Error(error.message || "Failed to analyze resume");
       }
 
@@ -181,14 +187,11 @@ const PremiumDashboard = () => {
         throw new Error("No data returned from API");
       }
 
-      const resumeDataFromResponse = responseData.resumeData || responseData;
-      const questionsFromResponse = responseData.questions || [];
-
-      setResumeData(resumeDataFromResponse);
-
-      if (questionsFromResponse && questionsFromResponse.length > 0) {
-        setQuestions(questionsFromResponse);
-      }
+      setFitStatus(responseData.fit_status || "");
+      setReasoning(responseData.reasoning || "");
+      setRoleRecommendations(responseData.roleRecommendations || []);
+      setResumeData(responseData.resumeData || responseData);
+      setQuestions(responseData.questions || []);
 
       const newUploadCount = uploadCount + 1;
       const newScansRemaining = Math.max(0, scansRemaining - 1);
@@ -214,7 +217,6 @@ const PremiumDashboard = () => {
       setIsLoading(false);
     } catch (error) {
       const errorCategory = getErrorCategory(error);
-
       setError({
         show: true,
         message: formatErrorMessage(error),
@@ -222,7 +224,6 @@ const PremiumDashboard = () => {
         category: errorCategory,
         originalError: error,
       });
-
       setIsLoading(false);
     }
   };
@@ -429,7 +430,7 @@ const PremiumDashboard = () => {
                       user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
                       "User"}
                   </p>
-                  <p className="text-xs text-gray-500">Premium Member</p>
+                  <p className="text-xs text-gray-500">HR</p>
                 </div>
               </div>
               <ChevronDownIcon
@@ -496,7 +497,7 @@ const PremiumDashboard = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-white mb-1">
-                  Premium Dashboard
+                  HR Premium Dashboard
                 </h1>
                 <p className="text-indigo-100 text-lg">
                   Unlock your career potential with AI-powered insights
@@ -711,20 +712,65 @@ const PremiumDashboard = () => {
                   </div>
                 </div>
 
-                <ResumeUpload
-                  onFileUpload={handleFileUpload}
-                  isLoading={isLoading}
-                  isPremium={true}
-                  onError={(errorData) => {
-                    setError({
-                      show: true,
-                      message: errorData.message || "Error with file upload",
-                      type: errorData.type || "warning",
-                      category: errorData.category || "file",
-                      originalError: errorData,
-                    });
+                {/* Premium upload form with extra fields */}
+                <form
+                  className="space-y-4"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (currentFile) handleFileUpload(currentFile);
                   }}
-                />
+                >
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Target Role
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={targetRole}
+                      onChange={(e) => setTargetRole(e.target.value)}
+                      placeholder="e.g. Software Engineer"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Job Description
+                    </label>
+                    <textarea
+                      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      placeholder="Paste the job description here"
+                      rows={4}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <ResumeUpload
+                      onFileUpload={(file) => setCurrentFile(file)}
+                      isLoading={isLoading}
+                      isPremium={true}
+                      onError={(errorData) => {
+                        setError({
+                          show: true,
+                          message:
+                            errorData.message || "Error with file upload",
+                          type: errorData.type || "warning",
+                          category: errorData.category || "file",
+                          originalError: errorData,
+                        });
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                    disabled={isLoading || !currentFile}
+                  >
+                    {isLoading ? "Analyzing..." : "Analyze Resume"}
+                  </button>
+                </form>
               </div>
             ) : (
               <div className="text-center py-16">
@@ -790,7 +836,40 @@ const PremiumDashboard = () => {
                 recommendations
               </p>
             </div>
-            <div className="p-8">
+            <div className="p-8 space-y-8">
+              {/* Fit Status and Reasoning */}
+              {fitStatus && (
+                <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 shadow">
+                  <div className="flex items-center mb-2">
+                    <span className="inline-block px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-semibold mr-3">
+                      Fit Status: {fitStatus}
+                    </span>
+                    <span className="text-gray-500 text-sm">
+                      (AI Assessment)
+                    </span>
+                  </div>
+                  {reasoning && (
+                    <div className="mt-2 text-gray-700 text-base">
+                      <span className="font-semibold">Reasoning:</span>{" "}
+                      {reasoning}
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* Role Recommendations */}
+              {roleRecommendations && roleRecommendations.length > 0 && (
+                <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
+                  <div className="font-semibold text-purple-700 mb-2">
+                    Recommended Roles:
+                  </div>
+                  <ul className="list-disc pl-6 text-gray-700">
+                    {roleRecommendations.map((role, idx) => (
+                      <li key={idx}>{role}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {/* Resume Details */}
               <ResumeDetailsWrapper
                 resumeData={resumeData}
                 onGenerateQuestions={handleGenerateQuestions}
