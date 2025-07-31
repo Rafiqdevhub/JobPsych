@@ -2,9 +2,85 @@ import React, { useEffect, useState } from "react";
 import NavigationButton from "./NavigationButton";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 
+const ROLE_SUGGESTIONS_FEATURES = [
+  {
+    icon: "💡",
+    title: "Personalized Role Recommendations",
+    description:
+      "Get AI-powered suggestions for roles that fit your resume and skills.",
+  },
+  {
+    icon: "📄",
+    title: "Resume Analysis",
+    description:
+      "Instantly analyze your resume for strengths and improvement areas.",
+  },
+  {
+    icon: "🔍",
+    title: "Skill Gap Insights",
+    description: "Identify missing skills for your target roles.",
+  },
+  {
+    icon: "📈",
+    title: "Career Growth Tips",
+    description: "Receive actionable advice to boost your job search.",
+  },
+  {
+    icon: "🔒",
+    title: "Private & Secure",
+    description: "Your data is never shared and always secure.",
+  },
+];
+
+const PREMIUM_FEATURES = [
+  {
+    icon: "⚡",
+    title: "AI-Powered Analysis",
+    description:
+      "Advanced machine learning algorithms analyze candidate resumes instantly.",
+    gradient: "from-yellow-400 to-orange-500",
+  },
+  {
+    icon: "📊",
+    title: "Performance Analytics",
+    description:
+      "Comprehensive insights and improvement tracking for every candidate.",
+    gradient: "from-blue-400 to-cyan-500",
+  },
+  {
+    icon: "📃",
+    title: "Skill Gap Detection",
+    description:
+      "Identify missing skills and training needs for each applicant at a glance.",
+    gradient: "from-pink-400 to-red-400",
+  },
+  {
+    icon: "⭐",
+    title: "Top Talent Highlighting",
+    description:
+      "Spot high-potential candidates with AI-driven fit and readiness scores.",
+    gradient: "from-yellow-300 to-yellow-500",
+  },
+  {
+    icon: "📅",
+    title: "Interview Question Generator",
+    description:
+      "Generate tailored interview questions based on each candidate's experience.",
+    gradient: "from-green-400 to-emerald-500",
+  },
+  {
+    icon: "✅",
+    title: "One-Click Shortlisting",
+    description:
+      "Easily shortlist top candidates and move them forward in your process.",
+    gradient: "from-emerald-400 to-teal-500",
+  },
+];
+
 const Header = ({ scrollToContact, scrollToPricing }) => {
   const [scrolled, setScrolled] = useState(false);
   const { isSignedIn } = useUser();
+  const [showFeatures, setShowFeatures] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +147,16 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
             </div>
 
             <div className="flex items-center space-x-4">
+              {/* Features Button */}
+              <button
+                type="button"
+                onClick={() => setShowFeatures(true)}
+                className="px-6 py-3 text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 hover:from-emerald-200 hover:to-blue-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                style={{ minWidth: "120px" }}
+              >
+                Features
+              </button>
+              {/* Pricing Button */}
               <button
                 type="button"
                 onClick={scrollToPricing}
@@ -138,6 +224,68 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
           </div>
         </div>
       </header>
+
+      {/* Features Modal */}
+      {showFeatures && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full relative animate-fade-in-up">
+            <button
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none"
+              onClick={() => setShowFeatures(false)}
+              aria-label="Close features modal"
+            >
+              &times;
+            </button>
+            <h2 className="text-3xl font-extrabold text-center mb-8 bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Platform Features
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Role Suggestions Card */}
+              <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-6 shadow-xl border border-emerald-100 flex flex-col">
+                <h3 className="text-2xl font-bold text-emerald-700 mb-4 flex items-center gap-2">
+                  <span className="text-3xl">🧑‍💼</span> Role Suggestions
+                </h3>
+                <ul className="space-y-4">
+                  {ROLE_SUGGESTIONS_FEATURES.map((f, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="text-2xl">{f.icon}</span>
+                      <div>
+                        <div className="font-semibold text-lg text-emerald-800">
+                          {f.title}
+                        </div>
+                        <div className="text-gray-600 text-base">
+                          {f.description}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* Premium Card */}
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 shadow-xl border border-yellow-100 flex flex-col">
+                <h3 className="text-2xl font-bold text-yellow-700 mb-4 flex items-center gap-2">
+                  <span className="text-3xl">💎</span> HireDesk
+                </h3>
+                <ul className="space-y-4">
+                  {PREMIUM_FEATURES.map((f, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="text-2xl">{f.icon}</span>
+                      <div>
+                        <div className="font-semibold text-lg text-yellow-800">
+                          {f.title}
+                        </div>
+                        <div className="text-gray-600 text-base">
+                          {f.description}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
