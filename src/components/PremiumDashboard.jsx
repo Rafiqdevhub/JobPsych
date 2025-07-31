@@ -1,55 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useUser } from "@clerk/clerk-react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import {
-  ChartBarIcon,
-  DocumentTextIcon,
-  StarIcon,
-  CalendarIcon,
-  TrophyIcon,
-  CheckCircleIcon,
-  BoltIcon,
-  ShieldCheckIcon,
-  FireIcon,
-  ChartPieIcon,
-  CogIcon,
-  UserCircleIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
-import {
-  StarIcon as StarIconSolid,
-  SparklesIcon as SparklesIconSolid,
-} from "@heroicons/react/24/solid";
+import { ChartBarIcon } from "@heroicons/react/24/solid";
+import { DocumentTextIcon } from "@heroicons/react/24/solid";
+import { StarIcon } from "@heroicons/react/24/solid";
+import { CalendarIcon } from "@heroicons/react/24/solid";
+import { TrophyIcon } from "@heroicons/react/24/solid";
+import { BoltIcon } from "@heroicons/react/24/solid";
+import { ChartPieIcon } from "@heroicons/react/24/solid";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
+import { SparklesIcon as SparklesIconSolid } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
-
 import Toast from "./Toast";
-import NavigationButton from "./NavigationButton";
-import { useClerk } from "@clerk/clerk-react";
 import { API_ENDPOINTS } from "../utils/api";
-import { formatErrorMessage, getErrorCategory } from "../utils/errorHandler";
+import { getErrorCategory, formatErrorMessage } from "../utils/errorHandler";
 
 const PremiumDashboard = () => {
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
   const { signOut } = useClerk();
   const navigate = useNavigate();
-  const [uploadCount, setUploadCount] = useState(0);
-  const [scansRemaining, setScansRemaining] = useState(20);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastType, setToastType] = useState("success");
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
-  const [resumeData, setResumeData] = useState(null);
-  const [questions, setQuestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [scansRemaining, setScansRemaining] = useState(20);
+  const [uploadCount, setUploadCount] = useState(0);
   const [currentFile, setCurrentFile] = useState(null);
+  const [targetRole, setTargetRole] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [resumeData, setResumeData] = useState(null);
   const [fitStatus, setFitStatus] = useState("");
   const [reasoning, setReasoning] = useState("");
   const [roleRecommendations, setRoleRecommendations] = useState([]);
-  const [targetRole, setTargetRole] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
+  const [questions, setQuestions] = useState([]);
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -57,49 +43,24 @@ const PremiumDashboard = () => {
     category: null,
     originalError: null,
   });
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   useEffect(() => {
-    if (!isSignedIn) {
-      navigate("/sign-up");
-      return;
+    if (user) {
+      const storedUploadCount = localStorage.getItem(`uploadCount_${user.id}`);
+      const storedScansRemaining = localStorage.getItem(
+        `scansRemaining_${user.id}`
+      );
+      if (storedUploadCount) setUploadCount(Number(storedUploadCount));
+      if (storedScansRemaining) setScansRemaining(Number(storedScansRemaining));
     }
-
-    const userPlan = localStorage.getItem("userPlan");
-    if (userPlan !== "pro") {
-      navigate("/dashboard");
-      return;
-    }
-
-    const savedUploadCount = localStorage.getItem(`uploadCount_${user?.id}`);
-    const savedScansRemaining = localStorage.getItem(
-      `scansRemaining_${user?.id}`
-    );
-
-    if (savedUploadCount) {
-      setUploadCount(parseInt(savedUploadCount));
-    }
-
-    if (savedScansRemaining) {
-      setScansRemaining(parseInt(savedScansRemaining));
-    }
-  }, [isSignedIn, user, navigate]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showProfileDropdown && !event.target.closest(".profile-dropdown")) {
-        setShowProfileDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showProfileDropdown]);
+  }, [user]);
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
-    setCurrentFile(file);
     setError({
       show: false,
       message: "",
@@ -108,40 +69,23 @@ const PremiumDashboard = () => {
       originalError: null,
     });
 
-    const MAX_FILE_SIZE = 5 * 1024 * 1024;
-    if (file.size > MAX_FILE_SIZE) {
+    if (!file) {
       setError({
         show: true,
-        message:
-          "The file is too large (max 5MB). Please upload a smaller file or compress the current one.",
+        message: "No file selected.",
         type: "warning",
         category: "file",
-        originalError: "File too large",
+        originalError: "No file selected",
       });
       setIsLoading(false);
       return;
     }
 
-    const allowedTypes = [
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/msword",
-      "application/octet-stream",
-      "application/x-msword",
-      "application/vnd.ms-word",
-      "",
-    ];
-
-    const allowedExtensions = [".pdf", ".doc", ".docx"];
-    const fileExtension = file.name
-      .toLowerCase()
-      .substring(file.name.lastIndexOf("."));
-    const isValidExtension = allowedExtensions.includes(fileExtension);
-
-    if (!allowedTypes.includes(file.type) && !isValidExtension) {
+    if (!file.type.match(/pdf|msword|officedocument/)) {
       setError({
         show: true,
-        message: "Please upload a PDF or Word document (DOC/DOCX).",
+        message:
+          "File type not supported. Please upload a PDF or Word document.",
         type: "warning",
         category: "file",
         originalError: "File type not supported",
@@ -192,7 +136,7 @@ const PremiumDashboard = () => {
       setRoleRecommendations(responseData.roleRecommendations || []);
       setResumeData(responseData.resumeData || responseData);
       setQuestions(responseData.questions || []);
-
+      setQuestions(responseData.questions || []);
       const newUploadCount = uploadCount + 1;
       const newScansRemaining = Math.max(0, scansRemaining - 1);
 
@@ -319,7 +263,7 @@ const PremiumDashboard = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      navigate("/");
+      // After sign out, Clerk will handle redirect or session removal
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -334,7 +278,7 @@ const PremiumDashboard = () => {
       icon: BoltIcon,
       title: "AI-Powered Analysis",
       description:
-        "Advanced machine learning algorithms analyze your resume in real-time",
+        "Advanced machine learning algorithms analyze candidate resumes instantly.",
       status: "active",
       gradient: "from-yellow-400 to-orange-500",
     },
@@ -342,576 +286,631 @@ const PremiumDashboard = () => {
       icon: ChartPieIcon,
       title: "Performance Analytics",
       description:
-        "Comprehensive insights and improvement tracking with detailed reports",
+        "Comprehensive insights and improvement tracking for every candidate.",
       status: "active",
       gradient: "from-blue-400 to-cyan-500",
     },
     {
-      icon: ShieldCheckIcon,
-      title: "Priority Support",
+      icon: DocumentTextIcon,
+      title: "Skill Gap Detection",
       description:
-        "24/7 expert assistance and dedicated premium customer service",
+        "Identify missing skills and training needs for each applicant at a glance.",
+      status: "active",
+      gradient: "from-pink-400 to-red-400",
+    },
+    {
+      icon: StarIcon,
+      title: "Top Talent Highlighting",
+      description:
+        "Spot high-potential candidates with AI-driven fit and readiness scores.",
+      status: "active",
+      gradient: "from-yellow-300 to-yellow-500",
+    },
+    {
+      icon: CalendarIcon,
+      title: "Interview Question Generator",
+      description:
+        "Generate tailored interview questions based on each candidate's experience.",
       status: "active",
       gradient: "from-green-400 to-emerald-500",
     },
+
     {
-      icon: TrophyIcon,
-      title: "Industry Benchmarking",
-      description: "Compare against 100K+ successful resumes in your industry",
-      status: "active",
-      gradient: "from-purple-400 to-pink-500",
-    },
-    {
-      icon: FireIcon,
-      title: "ATS Optimization",
+      icon: CheckCircleIcon,
+      title: "One-Click Shortlisting",
       description:
-        "Ensure your resume passes through Applicant Tracking Systems",
+        "Easily shortlist top candidates and move them forward in your process.",
       status: "active",
-      gradient: "from-red-400 to-rose-500",
-    },
-    {
-      icon: CogIcon,
-      title: "Custom Templates",
-      description: "Access to premium resume templates and formatting options",
-      status: "active",
-      gradient: "from-indigo-400 to-blue-500",
+      gradient: "from-emerald-400 to-teal-500",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
-      <div className="fixed inset-0 z-0 opacity-30">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(99,102,241,0.1)_1px,transparent_0)] bg-[size:20px_20px]"></div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6 flex items-center justify-between">
-          <NavigationButton
-            to="/"
-            className="inline-flex items-center gap-2 bg-blue-600 px-5 py-3 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            aria-label="Back to home page"
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 p-4 md:p-8">
+      {/* Profile and header section with Back to Home, HR quote, and profile */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 w-full relative rounded-2xl shadow-lg border border-gray-200 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 p-4 md:p-6">
+        <div className="w-full md:w-auto flex justify-start mb-4 md:mb-0">
+          <button
+            onClick={() => navigate("/")}
+            className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg text-blue-700 font-semibold hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+              className="h-5 w-5 mr-2 text-blue-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
             >
               <path
-                fillRule="evenodd"
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                clipRule="evenodd"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
               />
             </svg>
-            <span>Back to Home</span>
-          </NavigationButton>
-
-          <div className="relative profile-dropdown">
-            <button
-              onClick={toggleProfileDropdown}
-              className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
-            >
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  {user?.imageUrl ? (
-                    <img
-                      src={user.imageUrl}
-                      alt="Profile"
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <UserCircleIcon className="h-5 w-5 text-white" />
-                  )}
-                </div>
-                <div className="text-left hidden sm:block">
-                  <p className="text-sm font-medium text-gray-900 truncate max-w-24">
-                    {user?.firstName ||
-                      user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
-                      "User"}
-                  </p>
-                  <p className="text-xs text-gray-500">HR</p>
-                </div>
-              </div>
-              <ChevronDownIcon
-                className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
-                  showProfileDropdown ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {showProfileDropdown && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-                <div className="px-4 py-3 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {user?.firstName} {user?.lastName || ""}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">
-                    {user?.emailAddresses[0]?.emailAddress}
-                  </p>
-                </div>
-
-                <div className="py-1">
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm hover:shadow-md border border-transparent hover:border-red-200"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                      />
-                    </svg>
-                    Sign Out
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+            Back to Home
+          </button>
         </div>
-        <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 mb-8 shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 via-purple-600/90 to-pink-600/90"></div>
-          <div className="absolute -top-4 -right-4 transform rotate-12">
-            <div className="flex space-x-1">
-              {[...Array(5)].map((_, i) => (
-                <StarIconSolid key={i} className="h-4 w-4 text-yellow-300/60" />
-              ))}
-            </div>
-          </div>
-          <div className="absolute -bottom-2 -left-2">
-            <SparklesIconSolid className="h-16 w-16 text-white/20" />
-          </div>
 
-          <div className="relative z-10 flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30">
-                <TrophyIcon className="h-10 w-10 text-yellow-300" />
+        <div className="flex-1 flex justify-center items-center text-center px-2">
+          <blockquote className="italic text-lg text-gray-700 max-w-xl mx-auto">
+            "Upload and review candidate resumes. Instantly analyze their fit,
+            skills, and readiness for your open roles. Make confident hiring
+            decisions with AI-powered insights."
+          </blockquote>
+        </div>
+
+        <div className="w-full md:w-auto flex justify-end relative">
+          <button
+            onClick={toggleProfileDropdown}
+            className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+          >
+            <div className="flex items-center space-x-2">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                {user?.imageUrl ? (
+                  <img
+                    src={user.imageUrl}
+                    alt="Profile"
+                    className="h-8 w-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <UserCircleIcon className="h-5 w-5 text-white" />
+                )}
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-white mb-1">
-                  HR Premium Dashboard
-                </h1>
-                <p className="text-indigo-100 text-lg">
-                  Unlock your career potential with AI-powered insights
+              <div className="text-left hidden sm:block">
+                <p className="text-sm font-medium text-gray-900 truncate max-w-24">
+                  {user?.firstName ||
+                    user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
+                    "User"}
+                </p>
+                <p className="text-xs text-gray-500">Premium Member</p>
+              </div>
+            </div>
+            <ChevronDownIcon
+              className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+                showProfileDropdown ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {showProfileDropdown && (
+            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {user?.firstName} {user?.lastName || ""}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  {user?.emailAddresses[0]?.emailAddress}
                 </p>
               </div>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
-              <div className="flex -space-x-1">
-                {[...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-6 w-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full border-2 border-white"
-                  ></div>
-                ))}
+              <div className="py-1">
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm hover:shadow-md border border-transparent hover:border-red-200"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                  Sign Out
+                </button>
               </div>
-              <span className="text-white text-sm font-medium">
-                Elite Member
-              </span>
             </div>
-          </div>
+          )}
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                    Scans Remaining
-                  </p>
-                  <p className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    {scansRemaining}
-                  </p>
-                </div>
-                <div className="p-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
-                  <DocumentTextIcon className="h-8 w-8 text-white" />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Monthly limit</span>
-                  <span className="font-semibold text-gray-900">
-                    {scansRemaining}/20
-                  </span>
-                </div>
-                <div className="relative">
-                  <div className="flex h-3 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out relative overflow-hidden"
-                      style={{ width: `${(scansRemaining / 20) * 100}%` }}
-                    >
-                      <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                    Total Scans
-                  </p>
-                  <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                    {uploadCount}
-                  </p>
-                </div>
-                <div className="p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl shadow-lg">
-                  <ChartBarIcon className="h-8 w-8 text-white" />
-                </div>
-              </div>
-              <p className="text-sm text-gray-600 flex items-center">
-                <TrophyIcon className="h-4 w-4 mr-1 text-amber-500" />
-                All-time analyses completed
-              </p>
-            </div>
-          </div>
-
-          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                    Plan Status
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      Premium
-                    </p>
-                    <div className="flex items-center space-x-1">
-                      {[...Array(3)].map((_, i) => (
-                        <StarIconSolid
-                          key={i}
-                          className="h-4 w-4 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg">
-                  <StarIcon className="h-8 w-8 text-white" />
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-600">
-                  Active subscription
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50 mb-10">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-3">
-              Premium Features Suite
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Unlock the full potential of AI-powered career advancement tools
-              designed for professionals
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl`}
-                ></div>
-
-                <div className="relative z-10">
-                  <div className="flex items-start space-x-4">
-                    <div
-                      className={`p-3 bg-gradient-to-r ${feature.gradient} rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <feature.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <h3 className="font-bold text-gray-900 group-hover:text-gray-700 transition-colors">
-                          {feature.title}
-                        </h3>
-                        <CheckCircleIcon className="h-5 w-5 text-green-500 opacity-80" />
-                      </div>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 mb-8 shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 via-purple-600/90 to-pink-600/90"></div>
+        <div className="absolute -top-4 -right-4 transform rotate-12">
+          <div className="flex space-x-1">
+            {[...Array(5)].map((_, i) => (
+              <StarIconSolid key={i} className="h-4 w-4 text-yellow-300/60" />
             ))}
           </div>
         </div>
-
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-8 py-6 border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  AI-Powered Resume Analysis
-                </h2>
-                <p className="text-gray-600">
-                  Upload your resume for comprehensive analysis with premium
-                  insights and recommendations
-                </p>
-              </div>
-              <div className="hidden md:flex items-center space-x-3 bg-white/50 backdrop-blur-sm rounded-xl px-4 py-2">
-                <BoltIcon className="h-5 w-5 text-yellow-500" />
-                <span className="text-sm font-medium text-gray-700">
-                  AI Enhanced
-                </span>
-              </div>
+        <div className="absolute -bottom-2 -left-2">
+          <SparklesIconSolid className="h-16 w-16 text-white/20" />
+        </div>
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30">
+              <TrophyIcon className="h-10 w-10 text-yellow-300" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-1">
+                Candidate Review Dashboard
+              </h1>
+              <p className="text-indigo-100 text-lg">
+                For HR: Upload, analyze, and hire the best candidates with
+                confidence.
+              </p>
             </div>
           </div>
-
-          <div className="p-8">
-            {scansRemaining > 0 ? (
-              <div className="space-y-6">
-                <div className="flex items-center justify-center space-x-8 py-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-emerald-600">
-                      {scansRemaining}
-                    </div>
-                    <div className="text-sm text-gray-500">Scans Left</div>
-                  </div>
-                  <div className="h-8 w-px bg-gray-200"></div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">
-                      {uploadCount}
-                    </div>
-                    <div className="text-sm text-gray-500">Completed</div>
-                  </div>
-                  <div className="h-8 w-px bg-gray-200"></div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">
-                      AI+
-                    </div>
-                    <div className="text-sm text-gray-500">Premium</div>
-                  </div>
-                </div>
-
-                {/* Premium upload form with extra fields */}
-                <form
-                  className="space-y-4"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (currentFile) handleFileUpload(currentFile);
-                  }}
-                >
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Target Role
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={targetRole}
-                      onChange={(e) => setTargetRole(e.target.value)}
-                      placeholder="e.g. Software Engineer"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Job Description
-                    </label>
-                    <textarea
-                      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={jobDescription}
-                      onChange={(e) => setJobDescription(e.target.value)}
-                      placeholder="Paste the job description here"
-                      rows={4}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <ResumeUpload
-                      onFileUpload={(file) => setCurrentFile(file)}
-                      isLoading={isLoading}
-                      isPremium={true}
-                      onError={(errorData) => {
-                        setError({
-                          show: true,
-                          message:
-                            errorData.message || "Error with file upload",
-                          type: errorData.type || "warning",
-                          category: errorData.category || "file",
-                          originalError: errorData,
-                        });
-                      }}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                    disabled={isLoading || !currentFile}
-                  >
-                    {isLoading ? "Analyzing..." : "Analyze Resume"}
-                  </button>
-                </form>
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <div className="relative mb-6">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="h-24 w-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full"></div>
-                  </div>
-                  <CalendarIcon className="relative h-12 w-12 text-gray-400 mx-auto" />
-                </div>
-
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  Monthly Limit Reached
-                </h3>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                  You've successfully completed all 20 premium analyses for this
-                  month. Your plan will automatically reset on the 1st of next
-                  month.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button
-                    onClick={() => navigate("/pricing")}
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    <TrophyIcon className="h-5 w-5 mr-2" />
-                    Upgrade Plan
-                  </button>
-
-                  <button
-                    onClick={() => navigate("/dashboard")}
-                    className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    View History
-                  </button>
-                </div>
-              </div>
-            )}
+          <div className="hidden md:flex items-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
+            <div className="flex -space-x-1">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-6 w-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full border-2 border-white"
+                ></div>
+              ))}
+            </div>
+            <span className="text-white text-sm font-medium">HR Access</span>
           </div>
         </div>
-
-        {resumeData && (
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-8 py-6 border-b border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 mr-2 text-green-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                Premium Resume Analysis Results
-              </h2>
-              <p className="text-gray-600">
-                Comprehensive analysis with AI-powered insights and
-                recommendations
-              </p>
-            </div>
-            <div className="p-8 space-y-8">
-              {/* Fit Status and Reasoning */}
-              {fitStatus && (
-                <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 shadow">
-                  <div className="flex items-center mb-2">
-                    <span className="inline-block px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-semibold mr-3">
-                      Fit Status: {fitStatus}
-                    </span>
-                    <span className="text-gray-500 text-sm">
-                      (AI Assessment)
-                    </span>
-                  </div>
-                  {reasoning && (
-                    <div className="mt-2 text-gray-700 text-base">
-                      <span className="font-semibold">Reasoning:</span>{" "}
-                      {reasoning}
-                    </div>
-                  )}
-                </div>
-              )}
-              {/* Role Recommendations */}
-              {roleRecommendations && roleRecommendations.length > 0 && (
-                <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
-                  <div className="font-semibold text-purple-700 mb-2">
-                    Recommended Roles:
-                  </div>
-                  <ul className="list-disc pl-6 text-gray-700">
-                    {roleRecommendations.map((role, idx) => (
-                      <li key={idx}>{role}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {/* Resume Details */}
-              <ResumeDetailsWrapper
-                resumeData={resumeData}
-                onGenerateQuestions={handleGenerateQuestions}
-                isLoading={isLoading}
-                isPremium={true}
-              />
-            </div>
-          </div>
-        )}
-
-        {questions.length > 0 && (
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 mr-2 text-purple-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Premium Interview Questions
-              </h2>
-              <p className="text-gray-600">
-                Personalized interview questions based on your resume and job
-                requirements
-              </p>
-            </div>
-            <div className="p-8">
-              <GeneratedQuestions questions={questions} isPlan="pro" />
-            </div>
-          </div>
-        )}
       </div>
 
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        {/* Scans Remaining */}
+        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                  Scans Remaining
+                </p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  {scansRemaining}
+                </p>
+              </div>
+              <div className="p-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
+                <DocumentTextIcon className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">Monthly limit</span>
+                <span className="font-semibold text-gray-900">
+                  {scansRemaining}/20
+                </span>
+              </div>
+              <div className="relative">
+                <div className="flex h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out relative overflow-hidden"
+                    style={{ width: `${(scansRemaining / 20) * 100}%` }}
+                  >
+                    <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Total Scans */}
+        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                  Total Scans
+                </p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  {uploadCount}
+                </p>
+              </div>
+              <div className="p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl shadow-lg">
+                <ChartBarIcon className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 flex items-center">
+              <TrophyIcon className="h-4 w-4 mr-1 text-amber-500" />
+              All-time analyses completed
+            </p>
+          </div>
+        </div>
+        {/* Plan Status */}
+        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                  Plan Status
+                </p>
+                <div className="flex items-center space-x-2">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    Premium
+                  </p>
+                  <div className="flex items-center space-x-1">
+                    {[...Array(3)].map((_, i) => (
+                      <StarIconSolid
+                        key={i}
+                        className="h-4 w-4 text-yellow-400"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg">
+                <StarIcon className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-sm text-gray-600">Active subscription</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Suite */}
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50 mb-10">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-3">
+            Premium Features Suite
+          </h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Unlock the full potential of AI-powered career advancement tools
+            designed for professionals
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group relative bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl`}
+              ></div>
+              <div className="relative z-10">
+                <div className="flex items-start space-x-4">
+                  <div
+                    className={`p-3 bg-gradient-to-r ${feature.gradient} rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <feature.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h3 className="font-bold text-gray-900 group-hover:text-gray-700 transition-colors">
+                        {feature.title}
+                      </h3>
+                      <CheckCircleIcon className="h-5 w-5 text-green-500 opacity-80" />
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Resume Analysis Section */}
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden">
+        <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-8 py-6 border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Candidate Resume Analysis
+              </h2>
+              <p className="text-gray-600">
+                Upload a candidate's resume to instantly assess their fit,
+                skills, and readiness for your open position. Use the insights
+                to make informed hiring decisions.
+              </p>
+            </div>
+            <div className="hidden md:flex items-center space-x-3 bg-white/50 backdrop-blur-sm rounded-xl px-4 py-2">
+              <BoltIcon className="h-5 w-5 text-yellow-500" />
+              <span className="text-sm font-medium text-gray-700">HR Tool</span>
+            </div>
+          </div>
+        </div>
+        <div className="p-8">
+          {scansRemaining > 0 ? (
+            <div className="space-y-6">
+              <div className="flex items-center justify-center space-x-8 py-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-emerald-600">
+                    {scansRemaining}
+                  </div>
+                  <div className="text-sm text-gray-500">Scans Left</div>
+                </div>
+                <div className="h-8 w-px bg-gray-200"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {uploadCount}
+                  </div>
+                  <div className="text-sm text-gray-500">Completed</div>
+                </div>
+                <div className="h-8 w-px bg-gray-200"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-600">AI+</div>
+                  <div className="text-sm text-gray-500">Premium</div>
+                </div>
+              </div>
+              {/* Premium upload form with extra fields */}
+              <form
+                className="space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (currentFile) handleFileUpload(currentFile);
+                }}
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Target Role
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={targetRole}
+                    onChange={(e) => setTargetRole(e.target.value)}
+                    placeholder="e.g. Software Engineer"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Job Description
+                  </label>
+                  <textarea
+                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    placeholder="Paste the job description here"
+                    rows={4}
+                    required
+                  />
+                </div>
+                <div>
+                  <ResumeUpload
+                    onFileUpload={(file) => setCurrentFile(file)}
+                    isLoading={isLoading}
+                    isPremium={true}
+                    onError={(errorData) => {
+                      setError({
+                        show: true,
+                        message: errorData.message || "Error with file upload",
+                        type: errorData.type || "warning",
+                        category: errorData.category || "file",
+                        originalError: errorData,
+                      });
+                    }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                  disabled={isLoading || !currentFile}
+                >
+                  {isLoading
+                    ? "Analyzing..."
+                    : "Analyze & Review Candidate Resume"}
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-24 w-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full"></div>
+                </div>
+                <CalendarIcon className="relative h-12 w-12 text-gray-400 mx-auto" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Monthly Limit Reached
+              </h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                You've successfully completed all 20 premium analyses for this
+                month. Your plan will automatically reset on the 1st of next
+                month.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => navigate("/pricing")}
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <TrophyIcon className="h-5 w-5 mr-2" />
+                  Upgrade Plan
+                </button>
+                <button
+                  onClick={() => navigate("/dashboard")}
+                  className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  View History
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Premium Resume Analysis Results */}
+      {resumeData && (
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-8 py-6 border-b border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              Candidate Analysis Results
+            </h2>
+            <p className="text-gray-600">
+              Review the candidate's fit, strengths, and areas for growth. Use
+              these insights to support your hiring decision.
+            </p>
+          </div>
+          <div className="p-8 space-y-8">
+            {/* Fit Status and Reasoning */}
+            {fitStatus && (
+              <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 shadow">
+                <div className="flex items-center mb-2">
+                  <span className="inline-block px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-semibold mr-3">
+                    Fit Status: {fitStatus}
+                  </span>
+                  <span className="text-gray-500 text-sm">(AI Assessment)</span>
+                </div>
+                {reasoning && (
+                  <div className="mt-2 text-gray-700 text-base">
+                    <span className="font-semibold">Reasoning:</span>{" "}
+                    {reasoning}
+                  </div>
+                )}
+              </div>
+            )}
+            {/* Role Recommendations */}
+            {roleRecommendations && roleRecommendations.length > 0 && (
+              <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
+                <div className="font-semibold text-purple-700 mb-2">
+                  Recommended Roles:
+                </div>
+                <ul className="list-disc pl-6 text-gray-700">
+                  {roleRecommendations.map((role, idx) => {
+                    if (typeof role === "string") {
+                      return <li key={idx}>{role}</li>;
+                    } else if (typeof role === "object" && role !== null) {
+                      return (
+                        <li key={idx} className="mb-2">
+                          <div className="font-semibold text-gray-800">
+                            {role.roleName}{" "}
+                            <span className="text-xs text-gray-500">
+                              ({role.matchPercentage}% match)
+                            </span>
+                          </div>
+                          {role.reasoning && (
+                            <div className="text-sm text-gray-600 mb-1">
+                              <span className="font-medium">Reasoning:</span>{" "}
+                              {role.reasoning}
+                            </div>
+                          )}
+                          {role.requiredSkills && (
+                            <div className="text-sm text-gray-600 mb-1">
+                              <span className="font-medium">
+                                Required Skills:
+                              </span>{" "}
+                              {Array.isArray(role.requiredSkills)
+                                ? role.requiredSkills.join(", ")
+                                : role.requiredSkills}
+                            </div>
+                          )}
+                          {role.missingSkills &&
+                            role.missingSkills.length > 0 && (
+                              <div className="text-sm text-red-500 mb-1">
+                                <span className="font-medium">
+                                  Missing Skills:
+                                </span>{" "}
+                                {role.missingSkills.join(", ")}
+                              </div>
+                            )}
+                          {role.careerLevel && (
+                            <div className="text-sm text-gray-600 mb-1">
+                              <span className="font-medium">Career Level:</span>{" "}
+                              {role.careerLevel}
+                            </div>
+                          )}
+                          {role.salaryRange && (
+                            <div className="text-sm text-gray-600 mb-1">
+                              <span className="font-medium">Salary Range:</span>{" "}
+                              {role.salaryRange}
+                            </div>
+                          )}
+                          {role.industryFit && (
+                            <div className="text-sm text-gray-600 mb-1">
+                              <span className="font-medium">Industry Fit:</span>{" "}
+                              {role.industryFit}
+                            </div>
+                          )}
+                        </li>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </ul>
+              </div>
+            )}
+            {/* Resume Details */}
+            <ResumeDetailsWrapper
+              resumeData={resumeData}
+              onGenerateQuestions={handleGenerateQuestions}
+              isLoading={isLoading}
+              isPremium={true}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Premium Interview Questions */}
+      {questions.length > 0 && (
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2 text-purple-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Premium Interview Questions
+            </h2>
+            <p className="text-gray-600">
+              Personalized interview questions based on your resume and job
+              requirements
+            </p>
+          </div>
+          <div className="p-8">
+            <GeneratedQuestions questions={questions} isPlan="pro" />
+          </div>
+        </div>
+      )}
+
+      {/* Toasts and Error Handling */}
       {error.show && (
         <Toast
           type={error.type}
@@ -952,7 +951,6 @@ const PremiumDashboard = () => {
           }
         />
       )}
-
       {showToast && (
         <Toast
           message={toastMessage}
