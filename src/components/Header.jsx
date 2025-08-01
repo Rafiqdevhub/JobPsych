@@ -77,10 +77,36 @@ const PREMIUM_FEATURES = [
   },
 ];
 
-const Header = ({ scrollToContact, scrollToPricing }) => {
+function Header({ scrollToPricing }) {
   const [scrolled, setScrolled] = useState(false);
   const { isSignedIn } = useUser();
   const [showFeatures, setShowFeatures] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+
+  const handleContactChange = (e) => {
+    setContactForm({
+      ...contactForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    // Here you would typically send the form data to your backend
+
+    setContactSubmitted(true);
+    setTimeout(() => {
+      setContactSubmitted(false);
+      setShowContact(false);
+      setContactForm({ name: "", email: "", message: "" });
+    }, 2000);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -167,7 +193,7 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
               </button>
               <button
                 type="button"
-                onClick={scrollToContact}
+                onClick={() => setShowContact(true)}
                 className="px-6 py-3 text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
                 style={{ minWidth: "120px" }}
               >
@@ -211,7 +237,9 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
                     strokeWidth={2}
                     stroke="currentColor"
                     className="h-6 w-6 text-indigo-700"
+                    aria-hidden="true"
                   >
+                    <title>Scroll to top</title>
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -286,8 +314,142 @@ const Header = ({ scrollToContact, scrollToPricing }) => {
           </div>
         </div>
       )}
+
+      {/* Contact Modal */}
+      {showContact && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden max-w-3xl w-full animate-fade-in-up">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
+            <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
+
+            <button
+              className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl font-bold focus:outline-none"
+              onClick={() => setShowContact(false)}
+              aria-label="Close contact modal"
+            >
+              &times;
+            </button>
+
+            <div className="flex flex-col items-center justify-center gap-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
+                Get in Touch With Us
+              </h2>
+
+              <p className="text-lg text-white/90 mb-4 max-w-xl text-center">
+                Have questions, need a custom solution, or want to learn more
+                about JobPsych Premium? Our team is here to help you succeed.
+              </p>
+
+              {contactSubmitted ? (
+                <div className="text-green-200 text-center font-semibold py-8 text-xl bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-inner">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
+                    <span className="text-4xl">✉️</span>
+                  </div>
+                  <h3 className="text-white text-2xl font-bold mb-2">
+                    Thank you!
+                  </h3>
+                  <p className="text-white/90">We'll contact you soon.</p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleContactSubmit}
+                  className="space-y-5 bg-white/10 rounded-2xl p-8 shadow-xl"
+                >
+                  <div>
+                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleContactChange}
+                      required
+                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={contactForm.email}
+                      onChange={handleContactChange}
+                      required
+                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300"
+                      placeholder="you@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      value={contactForm.message}
+                      onChange={handleContactChange}
+                      required
+                      rows={4}
+                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300 resize-none"
+                      placeholder="Tell us about your needs..."
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-lg transform hover:scale-[1.02]"
+                  >
+                    Send Message
+                  </button>
+
+                  <div className="mt-6 flex flex-col md:flex-row items-center justify-center gap-6">
+                    <div className="flex items-center gap-2 text-indigo-700/80">
+                      <svg
+                        className="h-5 w-5 text-yellow-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <title>Custom Solutions Icon</title>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 12v1a4 4 0 01-4 4H8a4 4 0 01-4-4V8a4 4 0 014-4h4a4 4 0 014 4v1"
+                        />
+                      </svg>
+                      <span>Custom AI Solutions</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-indigo-700/80">
+                      <svg
+                        className="h-5 w-5 text-emerald-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <title>Support Icon</title>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3"
+                        />
+                      </svg>
+                      <span>Dedicated Support</span>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
-};
+}
 
 export default Header;

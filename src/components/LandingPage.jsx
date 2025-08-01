@@ -135,26 +135,6 @@ const LandingPage = () => {
     }
   };
 
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [contactSubmitted, setContactSubmitted] = useState(false);
-
-  const handleContactChange = (e) => {
-    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
-  };
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    setContactSubmitted(true);
-    setTimeout(() => {
-      setContactSubmitted(false);
-      setContactForm({ name: "", email: "", message: "" });
-    }, 1500);
-  };
-
   const contactRef = React.useRef(null);
   const pricingRef = React.useRef(null);
 
@@ -172,10 +152,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
-      <Header
-        scrollToContact={scrollToContact}
-        scrollToPricing={scrollToPricing}
-      />
+      <Header scrollToPricing={scrollToPricing} />
       <section id="hero" className="relative isolate overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
@@ -842,139 +819,6 @@ const LandingPage = () => {
                     </p>
                   </div>
                 ))}
-              </div>
-            </div>
-          </div>
-          {/* Modern Contact Section (inline form) */}
-          <div
-            ref={contactRef}
-            id="contact"
-            className="mt-24 mx-auto max-w-3xl"
-          >
-            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden">
-              <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10" />
-              <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10" />
-              <div className="flex flex-col items-center justify-center gap-6">
-                <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
-                  Get in Touch With Us
-                </h3>
-                <p className="text-lg text-white/90 mb-4 max-w-xl text-center">
-                  Have questions, need a custom solution, or want to learn more
-                  about JobPsych Premium? Our team is here to help you succeed.
-                  Fill out the contact form and we'll get back to you as soon as
-                  possible.
-                </p>
-                <div className="w-full max-w-lg mx-auto">
-                  {contactSubmitted ? (
-                    <div className="text-green-200 text-center font-semibold py-8 text-xl bg-white/10 rounded-2xl shadow-inner">
-                      Thank you! We'll contact you soon.
-                    </div>
-                  ) : (
-                    <form
-                      onSubmit={handleContactSubmit}
-                      className="space-y-5 bg-white/10 rounded-2xl p-8 shadow-xl"
-                    >
-                      <div>
-                        <label className="block text-sm font-medium text-white/90 mb-1">
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={contactForm.name}
-                          onChange={handleContactChange}
-                          required
-                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
-                          placeholder="Your Name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-white/90 mb-1">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={contactForm.email}
-                          onChange={handleContactChange}
-                          required
-                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
-                          placeholder="you@email.com"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-white/90 mb-1">
-                          Message
-                        </label>
-                        <textarea
-                          name="message"
-                          value={contactForm.message}
-                          onChange={handleContactChange}
-                          required
-                          rows={4}
-                          className="w-full rounded-lg border border-white/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400"
-                          placeholder="Tell us about your needs..."
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-lg"
-                      >
-                        Send Message
-                      </button>
-                    </form>
-                  )}
-                </div>
-                <div className="mt-6 flex flex-col md:flex-row items-center justify-center gap-6">
-                  <div className="flex items-center gap-2 text-white/80">
-                    <svg
-                      className="h-5 w-5 text-yellow-200"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 12v1a4 4 0 01-4 4H8a4 4 0 01-4-4V8a4 4 0 014-4h4a4 4 0 014 4v1"
-                      />
-                    </svg>
-                    <span>Custom AI Solutions</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-white/80">
-                    <svg
-                      className="h-5 w-5 text-emerald-200"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3"
-                      />
-                    </svg>
-                    <span>Dedicated Support</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-white/80">
-                    <svg
-                      className="h-5 w-5 text-indigo-200"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 12h8"
-                      />
-                    </svg>
-                    <span>Enterprise Integrations</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
