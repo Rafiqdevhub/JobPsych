@@ -74,6 +74,45 @@ const LandingPage = () => {
     },
   ];
 
+  const testimonials = [
+    {
+      category: "Job Seekers",
+      name: "Ali Ahmed",
+      role: "Software Developer",
+      company: "Successfully transitioned from Marketing",
+      image:
+        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23818CF8'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Arial'%3EAA%3C/text%3E%3C/svg%3E",
+      quote:
+        "Role Suggestions helped me identify the perfect career switch into tech. The AI analysis of my transferable skills was spot-on!",
+      result: "Career Switch Success",
+      highlight: "85% role match score",
+    },
+    {
+      category: "HR Professionals",
+      name: "Abu Bakar",
+      role: "HR Director",
+      company: "TechCorp Solutions",
+      image:
+        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%234F46E5'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Arial'%3EAB%3C/text%3E%3C/svg%3E",
+      quote:
+        "HireDisk cut our hiring time in half. The AI-generated interview questions are incredibly insightful and role-specific.",
+      result: "50% faster hiring",
+      highlight: "98% candidate satisfaction",
+    },
+    {
+      category: "Enterprise",
+      name: "Ihtesham Ullah",
+      role: "Talent Acquisition Head",
+      company: "Global Innovations Inc",
+      image:
+        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%236D28D9'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Arial'%3EIU%3C/text%3E%3C/svg%3E",
+      quote:
+        "The custom enterprise solution streamlined our entire recruitment process. The ROI has been remarkable.",
+      result: "3x hiring efficiency",
+      highlight: "90% better matches",
+    },
+  ];
+
   useEffect(() => {
     if (!isSignedIn) {
       const storedCount = localStorage.getItem("resumeUploadCount");
@@ -817,6 +856,75 @@ const LandingPage = () => {
                     <p className="text-gray-600 leading-relaxed">
                       {faq.answer}
                     </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          {/* Testimonials Section */}
+          <div className="mt-32">
+            <div className="mx-auto max-w-3xl text-center mb-16">
+              <h3 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
+                ⭐ Success Stories
+              </h3>
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                See How JobPsych Transforms Careers & Hiring
+              </h2>
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Real stories from job seekers and HR professionals who've
+                experienced the power of our AI-driven solutions.
+              </p>
+            </div>
+
+            <div className="mx-auto max-w-7xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {testimonials.map((testimonial, index) => (
+                  <div
+                    key={index}
+                    className="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100"
+                  >
+                    <div className="absolute top-0 right-0 -mt-4 mr-4 px-4 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full text-white text-sm font-semibold">
+                      {testimonial.category}
+                    </div>
+
+                    <div className="flex items-center space-x-4 mb-6">
+                      <div className="relative w-16 h-16">
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-20 blur-sm"></div>
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          className="relative w-16 h-16 rounded-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          {testimonial.role}
+                        </p>
+                        <p className="text-sm text-indigo-600">
+                          {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+
+                    <blockquote className="text-gray-700 mb-6">
+                      "{testimonial.quote}"
+                    </blockquote>
+
+                    <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-100">
+                      <div className="bg-green-50 px-3 py-1 rounded-full">
+                        <span className="text-green-700 text-sm font-medium">
+                          {testimonial.result}
+                        </span>
+                      </div>
+                      <div className="bg-indigo-50 px-3 py-1 rounded-full">
+                        <span className="text-indigo-700 text-sm font-medium">
+                          {testimonial.highlight}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
