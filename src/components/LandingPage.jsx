@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
-import NavigationButton from "./NavigationButton";
 import { shouldApplyRateLimits } from "../utils/env";
 import Footer from "./Footer";
+import TypewriterText from "./TypewriterText";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();
@@ -197,12 +197,17 @@ const LandingPage = () => {
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
-              <span className="mr-2">🚀</span>
               Career Guidance & Hiring Intelligence
             </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              Smart Career Guidance & AI-Powered Hiring Solutions
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
+              <TypewriterText
+                text="Smart Career Guidance & AI Powered Hiring Solutions"
+                className="text-blue-700"
+                loop={true}
+                delay={3000}
+                eraseSpeed={50}
+                typeSpeed={50}
+              />
             </h1>
 
             <p className="mt-6 text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
@@ -212,7 +217,6 @@ const LandingPage = () => {
               Free career role suggestions for job seekers and premium
               AI-powered hiring intelligence for HR teams.
             </p>
-
             <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
                 <div className="text-center p-4 bg-white/60 rounded-xl border border-indigo-200">
@@ -239,7 +243,6 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => handlePlanSelection("free")}
@@ -270,31 +273,15 @@ const LandingPage = () => {
                 </span>
               </button>
             </div>
-
             <div className="mt-6 space-y-2">
               <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
                 ✅ <strong>Role Suggestions:</strong> Completely FREE - Upload
                 your resume, mention target role & get career recommendations
               </p>
               <p className="text-sm text-emerald-700 font-medium bg-emerald-50 px-4 py-2 rounded-lg inline-block">
-                🔒 <strong>HireDisk:</strong> Premium AI hiring tool for HR
-                teams and recruiters
+                <strong>HireDisk:</strong> Premium AI hiring tool for HR teams
+                and recruiters
               </p>
-            </div>
-
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm text-gray-500">
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>No Credit Card Required</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>Bank-Level Security</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>Instant Results</span>
-              </div>
             </div>
           </div>
         </div>
@@ -318,7 +305,6 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-6">
-              <span className="mr-2">🚀</span>
               Powerful Features for Modern Hiring
             </div>
 
@@ -585,7 +571,7 @@ const LandingPage = () => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
-              ✨ Flexible Plans
+              Flexible Plans
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Choose the Perfect Plan for Your Team
@@ -612,7 +598,7 @@ const LandingPage = () => {
               >
                 {plan.popular && (
                   <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
-                    🚀 {plan.highlight}
+                    {plan.highlight}
                   </div>
                 )}
                 <div className="flex items-center space-x-3 mb-4">
@@ -739,7 +725,7 @@ const LandingPage = () => {
             ))}
             <div className="relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
               <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
-                🌟 Premium
+                Premium
               </div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="p-3 rounded-full bg-white/20">
