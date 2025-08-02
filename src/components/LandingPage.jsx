@@ -4,6 +4,7 @@ import { useUser } from "@clerk/clerk-react";
 import Header from "./Header";
 import NavigationButton from "./NavigationButton";
 import { shouldApplyRateLimits } from "../utils/env";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();
@@ -933,78 +934,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="bg-gray-900">
-        <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-12">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">
-                JobPsych
-              </h3>
-              <p className="text-gray-400 text-sm">
-                Two powerful tools in one platform: Free career guidance through
-                Role Suggestions and premium AI hiring intelligence through
-                HireDisk for HR teams.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">
-                Key Features
-              </h3>
-              <ul className="text-gray-400 space-y-2 text-sm">
-                <li>• Free Career Guidance</li>
-                <li>• Role Fit Assessment</li>
-                <li>• AI Resume Analysis</li>
-                <li>• Interview Questions (Pro)</li>
-                <li>• Candidate Insights (Pro)</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">
-                Get Started
-              </h3>
-              <ul className="text-gray-400 space-y-2 text-sm">
-                <li>
-                  •{" "}
-                  <NavigationButton
-                    to={getDestination()}
-                    className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
-                  >
-                    Try Role Suggestions
-                  </NavigationButton>
-                </li>
-                <li>
-                  •{" "}
-                  <NavigationButton
-                    to="/sign-up"
-                    className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
-                  >
-                    Get HireDisk Pro
-                  </NavigationButton>
-                </li>
-                <li>
-                  •{" "}
-                  <button
-                    onClick={() => {
-                      document
-                        .getElementById("features")
-                        .scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
-                  >
-                    Learn More
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-8">
-            <p className="text-center text-xs leading-5 text-gray-400">
-              &copy; {new Date().getFullYear()} JobPsych. All rights reserved.
-              Your data is always secure and private.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer getDestination={getDestination} />
     </div>
   );
 };
