@@ -201,7 +201,7 @@ const LandingPage = () => {
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
               <TypewriterText
-                text="Smart Career Guidance & AI Powered Hiring Solutions"
+                text="AI Solutions for Personalized Career Paths and Strategic Hiring"
                 className="text-blue-700"
                 loop={true}
                 delay={3000}

@@ -44,8 +44,14 @@ const Footer = ({ getDestination }) => {
                 <span>Added AI Features (Jun, 2025)</span>
               </li>
               <li className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-emerald-900 rounded text-xs text-emerald-300 font-medium">
+                  v1.1.1
+                </span>
+                <span>Added Payments (Jun, 2025)</span>
+              </li>
+              <li className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-purple-900 rounded text-xs text-purple-300 font-medium">
-                  v1.2.0
+                  v2.0.0
                 </span>
                 <span>Current Release (Aug, 2025)</span>
               </li>
