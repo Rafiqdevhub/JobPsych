@@ -9,9 +9,9 @@ const Footer = ({ getDestination }) => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">JobPsych</h3>
             <p className="text-gray-400 text-sm">
-              One platform. Two powerful tools. Career guidance for individuals
-              with Role Suggestions, and advanced AI-driven hiring with HireDisk
-              for HR professionals.
+              A unified platform offering smart career direction for individuals
+              through Role Suggestions, and AI-powered recruitment tools for HR
+              with HireDisk Pro.
             </p>
           </div>
           <div>
@@ -19,11 +19,11 @@ const Footer = ({ getDestination }) => {
               Key Features
             </h3>
             <ul className="text-gray-400 space-y-2 text-sm">
-              <li>• Personalized Role Suggestions</li>
-              <li>• Role Fit & Skill Mapping</li>
-              <li>• Resume Scoring & Analysis</li>
-              <li>• AI-Generated Interview Questions</li>
-              <li>• Candidate & Role Alignment Insights</li>
+              <li>• Career Role Matching</li>
+              <li>• Personality & Skills Fit</li>
+              <li>• Resume Parsing & Scoring</li>
+              <li>• Tailored Interview Questions</li>
+              <li>• Recruiter-Friendly Summaries</li>
             </ul>
           </div>
           <div>
@@ -35,25 +35,25 @@ const Footer = ({ getDestination }) => {
                 <span className="px-2 py-0.5 bg-indigo-900 rounded text-xs text-indigo-300 font-medium">
                   v1.0.0
                 </span>
-                <span>Initial Launch — May 2025</span>
+                <span>Initial Launch (May 2025)</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-emerald-900 rounded text-xs text-emerald-300 font-medium">
                   v1.1.0
                 </span>
-                <span>AI-Powered Features Added — Jun 2025</span>
+                <span>AI Resume Tools Added (June 2025)</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-emerald-900 rounded text-xs text-emerald-300 font-medium">
                   v1.1.1
                 </span>
-                <span>Stripe Payments Integration — Jun 2025</span>
+                <span>Payment System Integrated (June 2025)</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-purple-900 rounded text-xs text-purple-300 font-medium">
                   v2.0.0
                 </span>
-                <span>Current Stable Release — Aug 2025</span>
+                <span>Major Enhancements (August 2025)</span>
               </li>
             </ul>
           </div>
@@ -90,7 +90,7 @@ const Footer = ({ getDestination }) => {
                   }}
                   className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
                 >
-                  View Platform Features
+                  Learn More About Features
                 </button>
               </li>
             </ul>
@@ -98,8 +98,8 @@ const Footer = ({ getDestination }) => {
         </div>
         <div className="border-t border-gray-800 pt-8">
           <p className="text-center text-xs leading-5 text-gray-400">
-            &copy; {new Date().getFullYear()} JobPsych. All rights reserved. We
-            prioritize data security and user privacy across all services.
+            &copy; {new Date().getFullYear()} JobPsych. All rights reserved.
+            Your data remains private and protected.
           </p>
         </div>
       </div>
