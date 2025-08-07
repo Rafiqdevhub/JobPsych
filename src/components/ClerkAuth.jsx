@@ -9,26 +9,25 @@ import {
 } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import NavigationButton from "./NavigationButton";
+import { useUserManager } from "../hooks/useUserManager";
 
 const ClerkAuth = ({ mode = "signIn" }) => {
   const { isSignedIn } = useUser();
+  const { isBackendSynced, isSyncing } = useUserManager();
   const navigate = useNavigate();
 
-  // Check if we need to redirect to payment page after auth
   useEffect(() => {
-    if (isSignedIn) {
+    if (isSignedIn && isBackendSynced && !isSyncing) {
       const redirectToPayment = localStorage.getItem("redirectToPayment");
       const selectedPlan = localStorage.getItem("selectedPlan");
 
       if (redirectToPayment === "true" && selectedPlan) {
-        // Clean up the localStorage flags
         localStorage.removeItem("redirectToPayment");
 
-        // Redirect to payment page with the selected plan
         navigate(`/payment?plan=${selectedPlan}`);
       }
     }
-  }, [isSignedIn, navigate]);
+  }, [isSignedIn, isBackendSynced, isSyncing, navigate]);
 
   return (
     <div className="flex min-h-screen flex-1 flex-col justify-center bg-gradient-to-b from-indigo-50 to-white px-6 py-12 lg:px-8">

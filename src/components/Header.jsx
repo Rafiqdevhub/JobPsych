@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavigationButton from "./NavigationButton";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+import { useUserManager } from "../hooks/useUserManager";
 
 const ROLE_SUGGESTIONS_FEATURES = [
   {
@@ -80,6 +81,7 @@ const PREMIUM_FEATURES = [
 function Header({ scrollToPricing }) {
   const [scrolled, setScrolled] = useState(false);
   const { isSignedIn } = useUser();
+  const { userPlan, isPro, isBackendSynced } = useUserManager();
   const [showFeatures, setShowFeatures] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [contactForm, setContactForm] = useState({
@@ -201,11 +203,7 @@ function Header({ scrollToPricing }) {
               </button>
               {/* Clerk Auth Buttons */}
               {!isSignedIn ? (
-                <SignInButton
-                  mode="modal"
-                  afterSignInUrl="/"
-                  afterSignUpUrl="/"
-                >
+                <SignInButton mode="modal">
                   <button
                     type="button"
                     className="px-5 py-2 text-base font-semibold rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none focus:outline-none bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:from-green-200 hover:to-blue-200"
@@ -215,7 +213,18 @@ function Header({ scrollToPricing }) {
                   </button>
                 </SignInButton>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
+                  {isBackendSynced && (
+                    <span
+                      className={`px-3 py-1 text-xs font-medium rounded-full ${
+                        isPro
+                          ? "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800"
+                          : "bg-gradient-to-r from-green-100 to-green-200 text-green-800"
+                      }`}
+                    >
+                      {userPlan === "pro" ? "Pro Plan" : "Free Plan"}
+                    </span>
+                  )}
                   <UserButton />
                 </div>
               )}

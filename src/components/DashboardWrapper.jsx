@@ -4,15 +4,16 @@ import { useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import PremiumDashboard from "./PremiumDashboard";
 import LoadingError from "./LoadingError";
+import { useUserManager } from "../hooks/useUserManager";
 
 const DashboardWrapper = () => {
-  const { user, isSignedIn, isLoaded } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
+  const { userPlan, isBackendSynced, isSyncing } = useUserManager();
   const navigate = useNavigate();
-  const [userPlan, setUserPlan] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const determinePlan = async () => {
+    const checkUserStatus = async () => {
       if (!isLoaded) return;
 
       if (!isSignedIn) {
@@ -20,33 +21,26 @@ const DashboardWrapper = () => {
         return;
       }
 
-      try {
-        const savedPlan = localStorage.getItem("userPlan");
-
-        if (savedPlan) {
-          setUserPlan(savedPlan);
-        } else {
-          setUserPlan("free");
-          localStorage.setItem("userPlan", "free");
-        }
-      } catch (error) {
-        console.error("Error determining user plan:", error);
-        setUserPlan("free");
-        localStorage.setItem("userPlan", "free");
-      } finally {
-        setIsLoading(false);
+      if (!isBackendSynced && isSyncing) {
+        return;
       }
+
+      setIsLoading(false);
     };
 
-    determinePlan();
-  }, [isSignedIn, isLoaded, user, navigate]);
+    checkUserStatus();
+  }, [isSignedIn, isLoaded, isBackendSynced, isSyncing, navigate]);
 
-  if (isLoading || !isLoaded) {
+  if (isLoading || !isLoaded || (isSignedIn && !isBackendSynced && isSyncing)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <p className="text-gray-600">
+            {isSyncing
+              ? "Setting up your account..."
+              : "Loading your dashboard..."}
+          </p>
         </div>
       </div>
     );

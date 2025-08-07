@@ -6,7 +6,6 @@ const ContactModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl max-w-2xl w-full p-8 relative shadow-lg">
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -26,12 +25,10 @@ const ContactModal = ({ isOpen, onClose }) => {
           </svg>
         </button>
 
-        {/* Title */}
         <h2 className="text-3xl font-semibold text-gray-900 mb-6">
           Contact Us
         </h2>
 
-        {/* Form */}
         <form className="space-y-5">
           <div>
             <label
@@ -62,7 +59,6 @@ const ContactModal = ({ isOpen, onClose }) => {
               placeholder="you@example.com"
             />
           </div>
-
           <div>
             <label
               htmlFor="company"
@@ -77,7 +73,6 @@ const ContactModal = ({ isOpen, onClose }) => {
               placeholder="Company name"
             />
           </div>
-
           <div>
             <label
               htmlFor="message"
@@ -92,8 +87,6 @@ const ContactModal = ({ isOpen, onClose }) => {
               placeholder="Write your message here..."
             />
           </div>
-
-          {/* Submit Button */}
           <div>
             <button
               type="submit"

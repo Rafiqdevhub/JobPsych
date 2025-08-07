@@ -13,9 +13,11 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { SparklesIcon as SparklesIconSolid } from "@heroicons/react/24/solid";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CogIcon } from "@heroicons/react/24/solid";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
+import SubscriptionManagement from "./SubscriptionManagement";
 import Toast from "./Toast";
 import { API_ENDPOINTS } from "../utils/api";
 import { getErrorCategory, formatErrorMessage } from "../utils/errorHandler";
@@ -877,6 +879,22 @@ const PremiumDashboard = () => {
           </div>
         </div>
       )}
+
+      {/* Subscription Management Section */}
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-100">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+            <CogIcon className="h-6 w-6 mr-2 text-blue-600" />
+            Subscription Management
+          </h2>
+          <p className="text-gray-600">
+            Manage your subscription, view usage details, and update your plan
+          </p>
+        </div>
+        <div className="p-8">
+          <SubscriptionManagement />
+        </div>
+      </div>
 
       {/* Premium Interview Questions */}
       {questions.length > 0 && (

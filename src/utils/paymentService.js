@@ -41,10 +41,6 @@ export const DEFAULT_PLANS = [
   },
 ];
 
-/**
- * Fetch available plans from the payment service
- * @returns {Promise<Object>} Plans data from backend
- */
 export const fetchAvailablePlans = async () => {
   try {
     const response = await fetch(API_ENDPOINTS.GET_PLANS, {
@@ -66,14 +62,6 @@ export const fetchAvailablePlans = async () => {
   }
 };
 
-/**
- * Create a subscription for the selected plan (free or pro)
- * @param {string} plan - Plan ID ('free' or 'pro')
- * @param {string} customerEmail - Customer email address
- * @param {string} customerName - Customer name
- * @param {Object} metadata - Additional metadata
- * @returns {Promise<Object>} Subscription response
- */
 export const createSubscription = async (
   plan,
   customerEmail,
@@ -109,11 +97,6 @@ export const createSubscription = async (
   }
 };
 
-/**
- * Get payment status by payment ID
- * @param {string} paymentId - Payment intent ID
- * @returns {Promise<Object>} Payment status
- */
 export const getPaymentStatus = async (paymentId) => {
   try {
     const response = await fetch(
@@ -138,12 +121,6 @@ export const getPaymentStatus = async (paymentId) => {
   }
 };
 
-/**
- * Create a user in the payment system
- * @param {string} email - User email
- * @param {string} name - User name
- * @returns {Promise<Object>} User creation response
- */
 export const createUser = async (email, name) => {
   try {
     const response = await fetch(API_ENDPOINTS.CREATE_USER, {
@@ -172,11 +149,6 @@ export const createUser = async (email, name) => {
   }
 };
 
-/**
- * Get user by email
- * @param {string} email - User email
- * @returns {Promise<Object>} User data
- */
 export const getUserByEmail = async (email) => {
   try {
     const response = await fetch(
@@ -191,7 +163,7 @@ export const getUserByEmail = async (email) => {
 
     if (!response.ok) {
       if (response.status === 404) {
-        return null; // User not found
+        return null;
       }
       throw new Error(`Failed to get user: ${response.status}`);
     }
@@ -204,11 +176,6 @@ export const getUserByEmail = async (email) => {
   }
 };
 
-/**
- * Store subscription data in MongoDB
- * @param {Object} subscriptionData - Subscription data to store
- * @returns {Promise<Object>} Storage response
- */
 export const storeSubscriptionData = async (subscriptionData) => {
   try {
     const response = await fetch(API_ENDPOINTS.STORE_SUBSCRIPTION, {
@@ -234,11 +201,6 @@ export const storeSubscriptionData = async (subscriptionData) => {
   }
 };
 
-/**
- * Transform backend plan data to frontend format
- * @param {Object} backendPlans - Plans from backend API
- * @returns {Array} Formatted plans for frontend
- */
 export const transformPlansForUI = (backendPlans) => {
   if (!backendPlans || !backendPlans.plans) {
     return [];
@@ -251,14 +213,10 @@ export const transformPlansForUI = (backendPlans) => {
     description: plan.description,
     features: plan.features || [],
     resumeLimit: plan.resumeLimit,
-    popular: key === "pro", // Mark pro plan as popular
+    popular: key === "pro",
   }));
 };
 
-/**
- * Check if payment service is available
- * @returns {Promise<boolean>} Service availability
- */
 export const checkPaymentServiceHealth = async () => {
   try {
     const response = await fetch(`${API_ENDPOINTS.GET_PLANS}`, {
@@ -275,25 +233,16 @@ export const checkPaymentServiceHealth = async () => {
   }
 };
 
-/**
- * Get plan comparison data from backend
- * @returns {Promise<Array>} Plan comparison data
- */
 export const getPlanComparison = async () => {
   try {
     const plansData = await fetchAvailablePlans();
     return transformPlansForUI(plansData);
   } catch (error) {
     console.error("Error getting plan comparison:", error);
-    // Return default fallback plans
     return getDefaultPlans();
   }
 };
 
-/**
- * Get default fallback plans if backend is unavailable
- * @returns {Array} Default plans
- */
 export const getDefaultPlans = () => {
   return DEFAULT_PLANS;
 };
@@ -301,3 +250,182 @@ export const getDefaultPlans = () => {
 // Legacy function names for backward compatibility
 export const createPayment = createSubscription;
 export const fetchPlans = fetchAvailablePlans;
+
+/**
+ * Enhanced payment tracking and management functions
+ */
+
+/**
+ * Poll payment status until completion or timeout
+ * @param {string} paymentId - Payment intent ID
+ * @param {number} maxAttempts - Maximum polling attempts
+ * @param {number} intervalMs - Polling interval in milliseconds
+ * @returns {Promise<Object>} Final payment status
+ */
+export const pollPaymentStatus = async (
+  paymentId,
+  maxAttempts = 20,
+  intervalMs = 2000
+) => {
+  let attempts = 0;
+
+  while (attempts < maxAttempts) {
+    try {
+      const status = await getPaymentStatus(paymentId);
+
+      if (status && status.success) {
+        const paymentStatus = status.data.status;
+
+        // Final states that we should stop polling for
+        if (
+          ["succeeded", "canceled", "payment_failed"].includes(paymentStatus)
+        ) {
+          return status;
+        }
+      }
+
+      attempts++;
+
+      if (attempts < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      }
+    } catch (error) {
+      console.error(
+        `Payment status polling attempt ${attempts + 1} failed:`,
+        error
+      );
+      attempts++;
+
+      if (attempts < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      }
+    }
+  }
+
+  throw new Error("Payment status polling timed out");
+};
+
+/**
+ * Get detailed subscription information for a user
+ * @param {string} email - User email
+ * @returns {Promise<Object>} Subscription details
+ */
+export const getSubscriptionDetails = async (email) => {
+  try {
+    const user = await getUserByEmail(email);
+
+    if (!user || !user.success) {
+      return null;
+    }
+
+    const userData = user.data;
+
+    return {
+      user_id: userData.user_id,
+      email: userData.email,
+      name: userData.name,
+      plan_type: userData.plan_type,
+      subscription_status: userData.subscription_status,
+      stripe_customer_id: userData.stripe_customer_id,
+      created_at: userData.created_at,
+      updated_at: userData.updated_at,
+      plan_details:
+        getDefaultPlans().find((plan) => plan.id === userData.plan_type) ||
+        getDefaultPlans()[0],
+    };
+  } catch (error) {
+    console.error("Error getting subscription details:", error);
+    return null;
+  }
+};
+
+/**
+ * Cancel a subscription (for future implementation)
+ * @param {string} email - User email
+ * @returns {Promise<Object>} Cancellation result
+ */
+export const cancelSubscription = async (email) => {
+  try {
+    // This would integrate with Stripe subscription cancellation
+    // For now, we'll update the user status to canceled
+    const user = await getUserByEmail(email);
+
+    if (!user || !user.success) {
+      throw new Error("User not found");
+    }
+
+    // Update user status to canceled
+    const response = await fetch(
+      `${API_ENDPOINTS.UPDATE_USER}/${user.data.user_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subscription_status: "canceled",
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to cancel subscription: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error canceling subscription:", error);
+    throw error;
+  }
+};
+
+/**
+ * Validate payment amount and plan consistency
+ * @param {string} planId - Plan ID
+ * @param {number} amount - Payment amount
+ * @returns {boolean} Whether amount matches plan
+ */
+export const validatePaymentAmount = (planId, amount) => {
+  const plan = getDefaultPlans().find((p) => p.id === planId);
+  if (!plan) return false;
+
+  const expectedAmount = parseInt(plan.price.replace("$", "")) || 0;
+  return expectedAmount === amount;
+};
+
+/**
+ * Generate payment summary for confirmation
+ * @param {string} planId - Selected plan ID
+ * @param {string} email - Customer email
+ * @returns {Object} Payment summary
+ */
+export const generatePaymentSummary = (planId, email) => {
+  const plan =
+    getDefaultPlans().find((p) => p.id === planId) || getDefaultPlans()[0];
+  const amount = parseInt(plan.price.replace("$", "")) || 0;
+
+  return {
+    plan: {
+      id: planId,
+      name: plan.name,
+      description: plan.description,
+      features: plan.features,
+      resumeLimit: plan.resumeLimit,
+    },
+    payment: {
+      amount: amount,
+      currency: "USD",
+      formatted_amount: plan.price,
+      is_free: amount === 0,
+    },
+    customer: {
+      email: email,
+    },
+    summary: {
+      total: amount,
+      tax: 0, // No tax for now
+      grand_total: amount,
+      billing_cycle: planId === "pro" ? "monthly" : "one-time",
+    },
+  };
+};

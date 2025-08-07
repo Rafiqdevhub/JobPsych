@@ -229,7 +229,6 @@ const Dashboard = () => {
     <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-emerald-50 overflow-x-hidden">
       <header className="sticky top-0 z-30 w-full bg-white/70 backdrop-blur-xl border-b border-gradient-to-r from-emerald-200 via-blue-200 to-indigo-200 shadow-lg">
         <div className="container mx-auto px-4 py-3 flex items-center gap-3">
-          {/* Left: Home button */}
           <div className="flex items-center min-w-0 flex-shrink-0">
             <NavigationButton
               to="/"

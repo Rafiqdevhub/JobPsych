@@ -7,21 +7,27 @@ import {
   fetchAvailablePlans,
   DEFAULT_PLANS,
 } from "../utils/paymentService";
+import { useUserManager } from "../hooks/useUserManager";
 import stripePromise from "../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
 import NavigationButton from "./NavigationButton";
+import PaymentConfirmation from "./PaymentConfirmation";
+import PaymentStatusTracker from "./PaymentStatusTracker";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
   const { user } = useUser();
+  const { upgradeUserPlan } = useUserManager();
   const [clientSecret, setClientSecret] = useState(null);
+  const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [currentStep, setCurrentStep] = useState("confirmation"); // 'confirmation', 'payment', 'processing', 'complete'
   const navigate = useNavigate();
 
   useEffect(() => {
     const getPaymentIntent = async () => {
-      if (planId === "free") {
+      if (planId === "free" || currentStep !== "payment") {
         return;
       }
 
@@ -47,48 +53,120 @@ const PaymentForm = ({ selectedPlan, planId }) => {
         }
 
         setClientSecret(paymentData.data.client_secret);
+        setPaymentIntentId(paymentData.id);
       } catch (err) {
         setError(err.message || "Payment setup failed. Please try again.");
+        setCurrentStep("confirmation"); // Go back to confirmation on error
       } finally {
         setIsProcessing(false);
       }
     };
 
-    if (user && planId !== "free") {
+    if (user && planId !== "free" && currentStep === "payment") {
       getPaymentIntent();
     }
-  }, [planId, user]);
+  }, [planId, user, currentStep]);
 
-  const handlePaymentSuccess = (_paymentIntent) => {
-    setSuccess(true);
+  const handleConfirmPayment = () => {
+    if (planId === "free") {
+      handleActivateFreePlan();
+    } else {
+      setCurrentStep("payment");
+    }
+  };
 
-    localStorage.setItem("userPlan", planId);
-    localStorage.setItem("subscriptionActive", "true");
-    localStorage.setItem("subscriptionDate", new Date().toISOString());
+  const handleCancelPayment = () => {
+    setCurrentStep("confirmation");
+    setError(null);
+  };
 
-    setTimeout(() => {
-      navigate("/premium-dashboard", { replace: true });
-    }, 1500);
+  const handlePaymentSuccess = async (_paymentIntent) => {
+    try {
+      setCurrentStep("processing");
+      setSuccess(true);
+
+      // Update user plan in backend
+      await upgradeUserPlan(planId, "active");
+
+      // Keep localStorage for backward compatibility
+      localStorage.setItem("userPlan", planId);
+      localStorage.setItem("subscriptionActive", "true");
+      localStorage.setItem("subscriptionDate", new Date().toISOString());
+
+      setCurrentStep("complete");
+
+      setTimeout(() => {
+        navigate("/premium-dashboard", { replace: true });
+      }, 1500);
+    } catch (error) {
+      console.error("Error updating user plan after payment:", error);
+      // Still proceed with navigation even if backend update fails
+      setCurrentStep("complete");
+      setTimeout(() => {
+        navigate("/premium-dashboard", { replace: true });
+      }, 1500);
+    }
   };
 
   const handlePaymentError = (errorMessage) => {
     setError(errorMessage);
   };
 
-  const handleActivateFreePlan = () => {
-    setIsProcessing(true);
+  const handleActivateFreePlan = async () => {
+    try {
+      setIsProcessing(true);
 
-    localStorage.setItem("userPlan", "free");
-    localStorage.setItem("subscriptionActive", "true");
-    localStorage.setItem("subscriptionDate", new Date().toISOString());
+      // Update user plan in backend
+      await upgradeUserPlan("free", "active");
 
-    setSuccess(true);
-    setTimeout(() => {
-      navigate("/dashboard", { replace: true });
-    }, 1500);
+      // Keep localStorage for backward compatibility
+      localStorage.setItem("userPlan", "free");
+      localStorage.setItem("subscriptionActive", "true");
+      localStorage.setItem("subscriptionDate", new Date().toISOString());
 
-    setIsProcessing(false);
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true });
+      }, 1500);
+    } catch (error) {
+      console.error("Error activating free plan:", error);
+      // Still proceed with activation even if backend update fails
+      localStorage.setItem("userPlan", "free");
+      localStorage.setItem("subscriptionActive", "true");
+      localStorage.setItem("subscriptionDate", new Date().toISOString());
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true });
+      }, 1500);
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  // Step-based rendering
+  if (currentStep === "confirmation") {
+    return (
+      <PaymentConfirmation
+        planId={planId}
+        onConfirm={handleConfirmPayment}
+        onCancel={handleCancelPayment}
+        isProcessing={isProcessing}
+      />
+    );
+  }
+
+  if (currentStep === "processing" && paymentIntentId) {
+    return (
+      <PaymentStatusTracker
+        paymentId={paymentIntentId}
+        onSuccess={handlePaymentSuccess}
+        onError={handlePaymentError}
+        expectedAmount={parseInt(selectedPlan.price.replace("$", "")) || 0}
+        planName={selectedPlan.name}
+      />
+    );
+  }
 
   if (planId === "free") {
     return (
@@ -168,7 +246,7 @@ const PaymentForm = ({ selectedPlan, planId }) => {
             </p>
             <p className="mt-1 text-sm text-red-700">{error}</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => setCurrentStep("confirmation")}
               className="mt-2 text-sm text-indigo-600 hover:text-indigo-500"
             >
               Try again
@@ -236,24 +314,11 @@ const PaymentForm = ({ selectedPlan, planId }) => {
         amount={selectedPlan.price.replace("$", "")}
       />
     </div>
-  ) : error && error.includes("clientSecret") ? (
-    <div className="space-y-4">
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
-        <p className="text-sm text-red-600">
-          Payment system setup failed. Using test mode instead.
-        </p>
-      </div>
-      <SimpleTestButton
-        amount={selectedPlan.price.replace("$", "")}
-        onSuccess={handlePaymentSuccess}
-      />
-    </div>
   ) : (
     <div className="space-y-4">
       <div className="bg-yellow-50 border border-yellow-200 rounded-md p-2 mb-4">
         <p className="text-xs text-yellow-600">
-          DEBUG: No clientSecret - Error: {error || "none"} - Processing:{" "}
-          {isProcessing}
+          Setting up secure payment processing...
         </p>
       </div>
 
@@ -262,26 +327,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
         <p className="text-lg font-medium text-gray-700">
           Setting up secure payment...
         </p>
-      </div>
-      <div className="text-center">
-        <p className="text-sm text-gray-500 mb-4">
-          If payment setup takes too long, you can use test mode:
-        </p>
-        <SimpleTestButton
-          amount={selectedPlan.price.replace("$", "")}
-          onSuccess={handlePaymentSuccess}
-        />
-        {import.meta.env.DEV && (
-          <button
-            onClick={() => {
-              console.warn("Emergency success button clicked");
-              handlePaymentSuccess({ id: "emergency_success_" + Date.now() });
-            }}
-            className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
-          >
-            🚨 Emergency Success (Dev Only)
-          </button>
-        )}
       </div>
     </div>
   );
