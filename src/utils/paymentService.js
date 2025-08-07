@@ -1,9 +1,45 @@
-import { API_ENDPOINTS, PAYMENT_API_BASE_URL } from "./api.js";
-
 /**
  * Payment Service - Handles all payment-related API calls
  * Integrates with the backend payment service for JobPsych
  */
+
+import { API_ENDPOINTS } from "./api";
+
+/**
+ * Default plans configuration for fallback
+ */
+export const DEFAULT_PLANS = [
+  {
+    id: "free",
+    name: "JobPsych Free",
+    price: "$0",
+    period: "2 Resume Analyses",
+    description: "Basic plan with limited features",
+    features: [
+      "Upload up to 2 resumes",
+      "Basic job matching",
+      "Basic career insights",
+    ],
+    resumeLimit: 2,
+    popular: false,
+  },
+  {
+    id: "pro",
+    name: "JobPsych Pro",
+    price: "$50",
+    period: "50 Resume Analyses",
+    description: "Professional plan with unlimited resume uploads",
+    features: [
+      "Unlimited resume uploads",
+      "Advanced job matching",
+      "Detailed personality insights",
+      "Career recommendations",
+      "Priority support",
+    ],
+    resumeLimit: -1,
+    popular: true,
+  },
+];
 
 /**
  * Fetch available plans from the payment service
@@ -19,56 +55,39 @@ export const fetchAvailablePlans = async () => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Failed to fetch plans: ${response.status}`);
     }
 
     const data = await response.json();
-
-    // Validate the response structure
-    if (!data || typeof data !== "object") {
-      console.warn("Invalid API response format, returning fallback structure");
-      return {
-        success: false,
-        error: "Invalid response format",
-        data: null,
-      };
-    }
-
     return data;
   } catch (error) {
-    console.error("Error fetching plans:", error);
-    // Return a consistent error structure instead of throwing
-    return {
-      success: false,
-      error:
-        error.message || "Failed to fetch available plans. Please try again.",
-      data: null,
-    };
+    console.error("Error fetching available plans:", error);
+    throw error;
   }
 };
 
 /**
- * Create a payment/subscription for the selected plan
+ * Create a subscription for the selected plan (free or pro)
  * @param {string} plan - Plan ID ('free' or 'pro')
  * @param {string} customerEmail - Customer email address
  * @param {string} customerName - Customer name
  * @param {Object} metadata - Additional metadata
- * @returns {Promise<Object>} Payment response
+ * @returns {Promise<Object>} Subscription response
  */
-export const createPayment = async (
+export const createSubscription = async (
   plan,
   customerEmail,
   customerName = "",
   metadata = {}
 ) => {
   try {
-    const response = await fetch(API_ENDPOINTS.CREATE_PAYMENT, {
+    const response = await fetch(API_ENDPOINTS.CREATE_SUBSCRIPTION, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        plan,
+        plan: plan.toLowerCase(),
         customer_email: customerEmail,
         customer_name: customerName,
         metadata,
@@ -76,19 +95,17 @@ export const createPayment = async (
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`
+        errorData.message || `Subscription creation failed: ${response.status}`
       );
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error creating payment:", error);
-    throw new Error(
-      error.message || "Failed to create payment. Please try again."
-    );
+    console.error("Error creating subscription:", error);
+    throw error;
   }
 };
 
@@ -100,7 +117,7 @@ export const createPayment = async (
 export const getPaymentStatus = async (paymentId) => {
   try {
     const response = await fetch(
-      `${API_ENDPOINTS.PAYMENT_STATUS}/${paymentId}`,
+      `${API_ENDPOINTS.GET_PAYMENT_STATUS}/${paymentId}`,
       {
         method: "GET",
         headers: {
@@ -110,19 +127,110 @@ export const getPaymentStatus = async (paymentId) => {
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
+      throw new Error(`Failed to get payment status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error getting payment status:", error);
+    throw error;
+  }
+};
+
+/**
+ * Create a user in the payment system
+ * @param {string} email - User email
+ * @param {string} name - User name
+ * @returns {Promise<Object>} User creation response
+ */
+export const createUser = async (email, name) => {
+  try {
+    const response = await fetch(API_ENDPOINTS.CREATE_USER, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        name,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`
+        errorData.message || `User creation failed: ${response.status}`
       );
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching payment status:", error);
-    throw new Error(
-      error.message || "Failed to fetch payment status. Please try again."
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+/**
+ * Get user by email
+ * @param {string} email - User email
+ * @returns {Promise<Object>} User data
+ */
+export const getUserByEmail = async (email) => {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINTS.GET_USER_BY_EMAIL}/${encodeURIComponent(email)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null; // User not found
+      }
+      throw new Error(`Failed to get user: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error getting user by email:", error);
+    throw error;
+  }
+};
+
+/**
+ * Store subscription data in MongoDB
+ * @param {Object} subscriptionData - Subscription data to store
+ * @returns {Promise<Object>} Storage response
+ */
+export const storeSubscriptionData = async (subscriptionData) => {
+  try {
+    const response = await fetch(API_ENDPOINTS.STORE_SUBSCRIPTION, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subscriptionData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.message || `Failed to store subscription: ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error storing subscription data:", error);
+    throw error;
   }
 };
 
@@ -132,40 +240,19 @@ export const getPaymentStatus = async (paymentId) => {
  * @returns {Array} Formatted plans for frontend
  */
 export const transformPlansForUI = (backendPlans) => {
-  if (!backendPlans || !backendPlans.data || !backendPlans.data.plans) {
+  if (!backendPlans || !backendPlans.plans) {
     return [];
   }
 
-  const plans = backendPlans.data.plans;
-
-  return [
-    {
-      id: "free",
-      name: plans.free.name,
-      price: "$0",
-      period: "forever",
-      description: plans.free.description,
-      features: plans.free.features,
-      resumeLimit: plans.free.resumeLimit,
-      popular: false,
-      current: false,
-      buttonText: "Start Free",
-      buttonDisabled: false,
-    },
-    {
-      id: "pro",
-      name: plans.pro.name,
-      price: `$${plans.pro.price}`,
-      period: "per user",
-      description: plans.pro.description,
-      features: plans.pro.features,
-      resumeLimit: plans.pro.resumeLimit,
-      popular: true,
-      current: false,
-      buttonText: "Upgrade to Pro",
-      buttonDisabled: false,
-    },
-  ];
+  return Object.entries(backendPlans.plans).map(([key, plan]) => ({
+    id: key,
+    name: plan.name,
+    price: plan.price,
+    description: plan.description,
+    features: plan.features || [],
+    resumeLimit: plan.resumeLimit,
+    popular: key === "pro", // Mark pro plan as popular
+  }));
 };
 
 /**
@@ -174,7 +261,7 @@ export const transformPlansForUI = (backendPlans) => {
  */
 export const checkPaymentServiceHealth = async () => {
   try {
-    const response = await fetch(`${PAYMENT_API_BASE_URL}/health`, {
+    const response = await fetch(`${API_ENDPOINTS.GET_PLANS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -195,46 +282,22 @@ export const checkPaymentServiceHealth = async () => {
 export const getPlanComparison = async () => {
   try {
     const plansData = await fetchAvailablePlans();
-    return plansData.plan_comparison || [];
+    return transformPlansForUI(plansData);
   } catch (error) {
-    console.error("Error fetching plan comparison:", error);
-    return [];
+    console.error("Error getting plan comparison:", error);
+    // Return default fallback plans
+    return getDefaultPlans();
   }
 };
 
-// Default fallback plans if backend is unavailable
-export const DEFAULT_PLANS = [
-  {
-    id: "free",
-    name: "Free Trial",
-    price: "$0",
-    period: "no signup required",
-    description: "Try JobPsych instantly without creating an account",
-    features: ["2 resume analyses", "No account required", "Instant access"],
-    resumeLimit: 2,
-    popular: false,
-    current: false,
-    buttonText: "Try Free Now",
-    buttonDisabled: false,
-  },
-  {
-    id: "pro",
-    name: "JobPsych Pro",
-    price: "$50",
-    period: "per month",
-    description: "Full-featured platform for HR professionals and hiring teams",
-    features: [
-      "Unlimited resume analyses",
-      "AI-enhanced interview questions",
-      "Advanced candidate insights",
-      "Skills gap analysis",
-      "Priority email support",
-      "Analytics dashboard",
-    ],
-    resumeLimit: -1,
-    popular: true,
-    current: false,
-    buttonText: "Start Pro Trial",
-    buttonDisabled: false,
-  },
-];
+/**
+ * Get default fallback plans if backend is unavailable
+ * @returns {Array} Default plans
+ */
+export const getDefaultPlans = () => {
+  return DEFAULT_PLANS;
+};
+
+// Legacy function names for backward compatibility
+export const createPayment = createSubscription;
+export const fetchPlans = fetchAvailablePlans;
