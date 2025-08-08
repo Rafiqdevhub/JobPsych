@@ -1,13 +1,5 @@
 import { API_ENDPOINTS } from "./api.js";
 
-/**
- * Rate Limit Service - Handles rate limit status checks and related functionality
- */
-
-/**
- * Get the current rate limit status for the user/IP
- * @returns {Promise<Object>} Rate limit status data
- */
 export const getRateLimitStatus = async () => {
   try {
     const response = await fetch(API_ENDPOINTS.RATE_LIMIT_STATUS, {
@@ -15,7 +7,7 @@ export const getRateLimitStatus = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // Include cookies for authentication
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -30,10 +22,6 @@ export const getRateLimitStatus = async () => {
   }
 };
 
-/**
- * Get signup required information
- * @returns {Promise<Object>} Signup information
- */
 export const getSignupRequiredInfo = async () => {
   try {
     const response = await fetch(API_ENDPOINTS.SIGNUP_REQUIRED_INFO, {
@@ -55,10 +43,6 @@ export const getSignupRequiredInfo = async () => {
   }
 };
 
-/**
- * Get upgrade plan information
- * @returns {Promise<Object>} Upgrade plan information
- */
 export const getUpgradePlanInfo = async () => {
   try {
     const response = await fetch(API_ENDPOINTS.UPGRADE_PLAN_INFO, {
@@ -80,11 +64,6 @@ export const getUpgradePlanInfo = async () => {
   }
 };
 
-/**
- * Transform rate limit status for UI display
- * @param {Object} rateLimitData - Raw rate limit data from backend
- * @returns {Object} Formatted data for UI
- */
 export const transformRateLimitForUI = (rateLimitData) => {
   if (!rateLimitData) return null;
 
@@ -103,29 +82,16 @@ export const transformRateLimitForUI = (rateLimitData) => {
   };
 };
 
-/**
- * Check if user can upload more resumes
- * @param {Object} rateLimitData - Rate limit data from backend
- * @returns {boolean} Whether user can upload
- */
 export const canUploadMore = (rateLimitData) => {
-  if (!rateLimitData) return true; // Default to allowing upload if no data
+  if (!rateLimitData) return true;
 
-  // Development mode always allows uploads
   if (rateLimitData.is_development) return true;
 
-  // Premium users always can upload
   if (rateLimitData.tier === "premium") return true;
 
-  // Check remaining uploads
   return rateLimitData.remaining_uploads > 0;
 };
 
-/**
- * Get appropriate action for user based on rate limit status
- * @param {Object} rateLimitData - Rate limit data from backend
- * @returns {Object} Recommended action
- */
 export const getRecommendedAction = (rateLimitData) => {
   if (!rateLimitData) {
     return { action: "upload", message: "Ready to upload" };
@@ -151,7 +117,6 @@ export const getRecommendedAction = (rateLimitData) => {
     };
   }
 
-  // User has reached their limit
   if (!rateLimitData.authenticated) {
     return {
       action: "signup",

@@ -1,13 +1,5 @@
-/**
- * Payment Service - Handles all payment-related API calls
- * Integrates with the backend payment service for JobPsych
- */
-
 import { API_ENDPOINTS } from "./api";
 
-/**
- * Default plans configuration for fallback
- */
 export const DEFAULT_PLANS = [
   {
     id: "free",
@@ -247,21 +239,9 @@ export const getDefaultPlans = () => {
   return DEFAULT_PLANS;
 };
 
-// Legacy function names for backward compatibility
 export const createPayment = createSubscription;
 export const fetchPlans = fetchAvailablePlans;
 
-/**
- * Enhanced payment tracking and management functions
- */
-
-/**
- * Poll payment status until completion or timeout
- * @param {string} paymentId - Payment intent ID
- * @param {number} maxAttempts - Maximum polling attempts
- * @param {number} intervalMs - Polling interval in milliseconds
- * @returns {Promise<Object>} Final payment status
- */
 export const pollPaymentStatus = async (
   paymentId,
   maxAttempts = 20,
@@ -276,7 +256,6 @@ export const pollPaymentStatus = async (
       if (status && status.success) {
         const paymentStatus = status.data.status;
 
-        // Final states that we should stop polling for
         if (
           ["succeeded", "canceled", "payment_failed"].includes(paymentStatus)
         ) {
@@ -305,11 +284,6 @@ export const pollPaymentStatus = async (
   throw new Error("Payment status polling timed out");
 };
 
-/**
- * Get detailed subscription information for a user
- * @param {string} email - User email
- * @returns {Promise<Object>} Subscription details
- */
 export const getSubscriptionDetails = async (email) => {
   try {
     const user = await getUserByEmail(email);
@@ -339,22 +313,14 @@ export const getSubscriptionDetails = async (email) => {
   }
 };
 
-/**
- * Cancel a subscription (for future implementation)
- * @param {string} email - User email
- * @returns {Promise<Object>} Cancellation result
- */
 export const cancelSubscription = async (email) => {
   try {
-    // This would integrate with Stripe subscription cancellation
-    // For now, we'll update the user status to canceled
     const user = await getUserByEmail(email);
 
     if (!user || !user.success) {
       throw new Error("User not found");
     }
 
-    // Update user status to canceled
     const response = await fetch(
       `${API_ENDPOINTS.UPDATE_USER}/${user.data.user_id}`,
       {
@@ -379,12 +345,6 @@ export const cancelSubscription = async (email) => {
   }
 };
 
-/**
- * Validate payment amount and plan consistency
- * @param {string} planId - Plan ID
- * @param {number} amount - Payment amount
- * @returns {boolean} Whether amount matches plan
- */
 export const validatePaymentAmount = (planId, amount) => {
   const plan = getDefaultPlans().find((p) => p.id === planId);
   if (!plan) return false;
@@ -393,12 +353,6 @@ export const validatePaymentAmount = (planId, amount) => {
   return expectedAmount === amount;
 };
 
-/**
- * Generate payment summary for confirmation
- * @param {string} planId - Selected plan ID
- * @param {string} email - Customer email
- * @returns {Object} Payment summary
- */
 export const generatePaymentSummary = (planId, email) => {
   const plan =
     getDefaultPlans().find((p) => p.id === planId) || getDefaultPlans()[0];
@@ -423,7 +377,7 @@ export const generatePaymentSummary = (planId, email) => {
     },
     summary: {
       total: amount,
-      tax: 0, // No tax for now
+      tax: 0,
       grand_total: amount,
       billing_cycle: planId === "pro" ? "monthly" : "one-time",
     },
