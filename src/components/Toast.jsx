@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// Enhanced Icon Components with animations
 const XCircleIcon = ({ className, ...props }) => (
   <svg
     className={className}
@@ -52,7 +51,6 @@ const CheckCircleIcon = ({ className, ...props }) => (
   </svg>
 );
 
-// New enhanced icons
 const AlertCircleIcon = ({ className, ...props }) => (
   <svg
     className={className}
@@ -189,7 +187,6 @@ const XMarkIcon = ({ className, ...props }) => (
   </svg>
 );
 
-// Enhanced Toast Configuration with error-specific styling
 const TOAST_CONFIG = {
   error: {
     icon: XCircleIcon,
@@ -207,7 +204,6 @@ const TOAST_CONFIG = {
     pulseColor: "bg-red-400",
     backdropBlur: "backdrop-blur-md",
   },
-  // Network-specific error styling
   networkError: {
     icon: WifiOffIcon,
     iconBg: "bg-gradient-to-br from-orange-100 to-orange-200",
@@ -224,7 +220,6 @@ const TOAST_CONFIG = {
     pulseColor: "bg-orange-400",
     backdropBlur: "backdrop-blur-md",
   },
-  // Server error styling
   serverError: {
     icon: ServerIcon,
     iconBg: "bg-gradient-to-br from-purple-100 to-purple-200",
@@ -241,7 +236,6 @@ const TOAST_CONFIG = {
     pulseColor: "bg-purple-400",
     backdropBlur: "backdrop-blur-md",
   },
-  // File/validation error styling
   fileError: {
     icon: DocumentIcon,
     iconBg: "bg-gradient-to-br from-yellow-100 to-yellow-200",
@@ -258,7 +252,6 @@ const TOAST_CONFIG = {
     pulseColor: "bg-yellow-400",
     backdropBlur: "backdrop-blur-md",
   },
-  // Timeout error styling
   timeoutError: {
     icon: ClockIcon,
     iconBg: "bg-gradient-to-br from-indigo-100 to-indigo-200",
@@ -275,7 +268,6 @@ const TOAST_CONFIG = {
     pulseColor: "bg-indigo-400",
     backdropBlur: "backdrop-blur-md",
   },
-  // Rate limit error styling
   rateLimitError: {
     icon: ShieldExclamationIcon,
     iconBg: "bg-gradient-to-br from-pink-100 to-pink-200",
@@ -364,7 +356,6 @@ const getToastTypeFromError = (errorData) => {
   }
 };
 
-// Enhanced Toast Component with Beautiful Error Popup UI
 function Toast({
   message,
   title,
@@ -375,14 +366,13 @@ function Toast({
   showProgress = true,
   position = "top-right",
   actions = null,
-  errorData = null, // New prop for error-specific data
+  errorData = null,
 }) {
   const [isVisible, setIsVisible] = useState(show);
   const [progress, setProgress] = useState(100);
   const [isClosing, setIsClosing] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
 
-  // Determine the actual toast type based on error data
   const actualType = errorData ? getToastTypeFromError(errorData) : type;
   const config = TOAST_CONFIG[actualType] || TOAST_CONFIG.error;
   const Icon = config.icon;
@@ -395,7 +385,6 @@ function Toast({
     }, 300);
   }, [onClose]);
 
-  // Shake animation for critical errors
   useEffect(() => {
     if (
       show &&
@@ -409,7 +398,6 @@ function Toast({
     }
   }, [show, actualType]);
 
-  // Auto-close timer with progress bar
   useEffect(() => {
     if (show && duration > 0) {
       setIsVisible(true);
@@ -461,7 +449,6 @@ function Toast({
 
   return (
     <>
-      {/* Enhanced backdrop overlay for popup feel */}
       <div
         className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-all duration-300"
         onClick={handleClose}
@@ -476,12 +463,10 @@ function Toast({
         role="alert"
         aria-live="polite"
       >
-        {/* Enhanced backdrop blur effect with gradient */}
         <div
           className={`absolute inset-0 bg-white/95 ${config.backdropBlur} rounded-3xl`}
         ></div>
 
-        {/* Floating particles effect for errors */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
           <div
             className={`absolute -top-2 -left-2 w-4 h-4 ${config.pulseColor} rounded-full opacity-20 animate-ping`}
@@ -496,7 +481,6 @@ function Toast({
           ></div>
         </div>
 
-        {/* Main toast container with enhanced styling */}
         <div
           className={`
             relative bg-gradient-to-br ${config.bgGradient} 
@@ -508,7 +492,6 @@ function Toast({
             ring-4 ring-white/50
           `}
         >
-          {/* Enhanced progress bar with gradient */}
           {showProgress && duration > 0 && (
             <div className="absolute top-0 left-0 right-0 h-2 bg-gray-100/50 rounded-t-3xl overflow-hidden">
               <div
@@ -520,9 +503,7 @@ function Toast({
             </div>
           )}
 
-          {/* Content with enhanced spacing */}
           <div className="flex items-start space-x-5">
-            {/* Enhanced icon with multiple animation layers */}
             <div
               className={`flex-shrink-0 ${config.iconBg} rounded-2xl p-3 relative shadow-lg`}
             >
@@ -538,7 +519,6 @@ function Toast({
               />
             </div>
 
-            {/* Enhanced message content */}
             <div className="flex-1 min-w-0">
               {title && (
                 <h4
@@ -551,7 +531,6 @@ function Toast({
                 {message || `An ${type} occurred`}
               </p>
 
-              {/* Enhanced action buttons */}
               {actions && (
                 <div className="mt-4 flex space-x-3">
                   {actions.map((action, index) => (
@@ -579,7 +558,6 @@ function Toast({
               )}
             </div>
 
-            {/* Enhanced close button */}
             {onClose && (
               <div className="flex-shrink-0">
                 <button

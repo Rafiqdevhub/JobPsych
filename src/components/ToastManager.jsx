@@ -6,10 +6,8 @@ import {
   getErrorCategory,
 } from "../utils/errorHandler";
 
-// Toast Manager Context
 export const ToastContext = createContext();
 
-// Toast Manager Provider
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
@@ -23,7 +21,6 @@ export const ToastProvider = ({ children }) => {
 
     setToasts((prev) => [...prev, toast]);
 
-    // Auto-remove after duration if specified
     if (toast.duration !== 0) {
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -41,7 +38,6 @@ export const ToastProvider = ({ children }) => {
     setToasts([]);
   }, []);
 
-  // Enhanced error handler
   const showError = useCallback(
     (error, options = {}) => {
       const errorType = getErrorType(error);
@@ -138,11 +134,9 @@ export const ToastProvider = ({ children }) => {
   );
 };
 
-// Toast Container Component
 const ToastContainer = () => {
   const { toasts, removeToast } = useContext(ToastContext);
 
-  // Group toasts by position
   const toastsByPosition = toasts.reduce((acc, toast) => {
     const position = toast.position || "top-right";
     if (!acc[position]) acc[position] = [];
@@ -174,7 +168,6 @@ const ToastContainer = () => {
   );
 };
 
-// Helper function for container positioning
 const getPositionContainerClasses = (position) => {
   switch (position) {
     case "top-left":
@@ -193,7 +186,6 @@ const getPositionContainerClasses = (position) => {
   }
 };
 
-// Custom hook to use toast
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {

@@ -1,8 +1,3 @@
-/**
- * Subscription Management Component
- * Displays subscription details, usage, and management options
- */
-
 import React, { useState, useEffect } from "react";
 import { useUserManager } from "../hooks/useUserManager";
 import {
@@ -138,7 +133,6 @@ const SubscriptionManagement = () => {
 
   return (
     <div className="space-y-6">
-      {/* Main Subscription Card */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
@@ -159,7 +153,6 @@ const SubscriptionManagement = () => {
             </div>
           )}
 
-          {/* Plan Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h4 className="text-sm font-medium text-gray-500">
@@ -187,7 +180,6 @@ const SubscriptionManagement = () => {
             </div>
           </div>
 
-          {/* Features List */}
           {subscriptionDetails?.plan_details?.features && (
             <div>
               <h4 className="text-sm font-medium text-gray-500 mb-2">
@@ -221,7 +213,6 @@ const SubscriptionManagement = () => {
             </div>
           )}
 
-          {/* Account Information */}
           <div className="bg-gray-50 rounded-md p-4">
             <h4 className="text-sm font-medium text-gray-500 mb-2">
               Account Information
@@ -251,7 +242,6 @@ const SubscriptionManagement = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
             <div className="flex space-x-3">
@@ -284,7 +274,6 @@ const SubscriptionManagement = () => {
         </div>
       </div>
 
-      {/* Cancel Subscription Modal */}
       {showCancelModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
