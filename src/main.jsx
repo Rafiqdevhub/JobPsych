@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard.jsx";
 import DashboardWrapper from "./components/DashboardWrapper.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import ClerkAuth from "./components/ClerkAuth.jsx";
+import NotFound from "./components/NotFound.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "payment",
         element: <PaymentPage />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
