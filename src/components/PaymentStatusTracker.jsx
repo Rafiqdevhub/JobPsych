@@ -1,8 +1,3 @@
-/**
- * Payment Status Tracker Component
- * Real-time payment status tracking with progress indication
- */
-
 import React, { useState, useEffect } from "react";
 import { pollPaymentStatus } from "../utils/paymentService";
 
@@ -28,22 +23,18 @@ const PaymentStatusTracker = ({
 
     const trackPayment = async () => {
       try {
-        // Start progress animation
         progressInterval = setInterval(() => {
           setProgress((prev) => Math.min(prev + 5, 90));
         }, 500);
 
-        // Start time counter
         timeInterval = setInterval(() => {
           setTimeElapsed((prev) => prev + 1);
         }, 1000);
 
-        // Poll payment status
         const result = await pollPaymentStatus(paymentId, 30, 2000);
 
         if (cancelled) return;
 
-        // Clear intervals
         clearInterval(progressInterval);
         clearInterval(timeInterval);
 
@@ -83,7 +74,6 @@ const PaymentStatusTracker = ({
 
     trackPayment();
 
-    // Cleanup function
     return () => {
       cancelled = true;
       clearInterval(progressInterval);
@@ -192,15 +182,12 @@ const PaymentStatusTracker = ({
   return (
     <div className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
       <div className="text-center">
-        {/* Status Icon */}
         <div className="flex justify-center mb-4">{getStatusIcon()}</div>
 
-        {/* Plan Information */}
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
           {planName} - ${expectedAmount}
         </h3>
 
-        {/* Progress Bar */}
         {status === "processing" && (
           <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
             <div
@@ -210,18 +197,15 @@ const PaymentStatusTracker = ({
           </div>
         )}
 
-        {/* Status Message */}
         <p className={`text-sm font-medium mb-4 ${getStatusColor()}`}>
           {getStatusMessage()}
         </p>
 
-        {/* Payment ID and Time */}
         <div className="text-xs text-gray-500 space-y-1">
           <p>Payment ID: {paymentId}</p>
           {timeElapsed > 0 && <p>Time elapsed: {timeElapsed}s</p>}
         </div>
 
-        {/* Action Buttons */}
         {(status === "payment_failed" || status === "error") && (
           <div className="mt-6 space-y-2">
             <button
