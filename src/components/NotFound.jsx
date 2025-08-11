@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
   return (
     <main className="relative isolate min-h-[70vh] flex items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
-      {/* Background accents */}
       <div className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-3xl">
         <div
           className="relative left-1/2 aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-indigo-300 to-purple-300 opacity-30 sm:w-[72.1875rem]"

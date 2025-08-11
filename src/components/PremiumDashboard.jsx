@@ -265,7 +265,6 @@ const PremiumDashboard = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      // After sign out, Clerk will handle redirect or session removal
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -329,7 +328,6 @@ const PremiumDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 p-4 md:p-8">
-      {/* Profile and header section with Back to Home, HR quote, and profile */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 w-full relative rounded-2xl shadow-lg border border-gray-200 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 p-4 md:p-6">
         <div className="w-full md:w-auto flex justify-start mb-4 md:mb-0">
           <button
@@ -472,9 +470,7 @@ const PremiumDashboard = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-        {/* Scans Remaining */}
         <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="relative z-10">
@@ -511,7 +507,6 @@ const PremiumDashboard = () => {
             </div>
           </div>
         </div>
-        {/* Total Scans */}
         <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="relative z-10">
@@ -534,7 +529,6 @@ const PremiumDashboard = () => {
             </p>
           </div>
         </div>
-        {/* Plan Status */}
         <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <div className="relative z-10">
@@ -568,8 +562,6 @@ const PremiumDashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* Features Suite */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50 mb-10">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-3">
@@ -613,8 +605,6 @@ const PremiumDashboard = () => {
           ))}
         </div>
       </div>
-
-      {/* Resume Analysis Section */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-8 py-6 border-b border-gray-100">
           <div className="flex items-center justify-between">
@@ -657,7 +647,6 @@ const PremiumDashboard = () => {
                   <div className="text-sm text-gray-500">Premium</div>
                 </div>
               </div>
-              {/* Premium upload form with extra fields */}
               <form
                 className="space-y-4"
                 onSubmit={(e) => {
@@ -753,8 +742,6 @@ const PremiumDashboard = () => {
           )}
         </div>
       </div>
-
-      {/* Premium Resume Analysis Results */}
       {resumeData && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-8 py-6 border-b border-gray-100">
@@ -781,7 +768,6 @@ const PremiumDashboard = () => {
             </p>
           </div>
           <div className="p-8 space-y-8">
-            {/* Fit Status and Reasoning */}
             {fitStatus && (
               <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 shadow">
                 <div className="flex items-center mb-2">
@@ -798,7 +784,6 @@ const PremiumDashboard = () => {
                 )}
               </div>
             )}
-            {/* Role Recommendations */}
             {roleRecommendations && roleRecommendations.length > 0 && (
               <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
                 <div className="font-semibold text-purple-700 mb-2">
@@ -869,7 +854,6 @@ const PremiumDashboard = () => {
                 </ul>
               </div>
             )}
-            {/* Resume Details */}
             <ResumeDetailsWrapper
               resumeData={resumeData}
               onGenerateQuestions={handleGenerateQuestions}
@@ -880,7 +864,6 @@ const PremiumDashboard = () => {
         </div>
       )}
 
-      {/* Subscription Management Section */}
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
@@ -896,7 +879,6 @@ const PremiumDashboard = () => {
         </div>
       </div>
 
-      {/* Premium Interview Questions */}
       {questions.length > 0 && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
@@ -928,7 +910,6 @@ const PremiumDashboard = () => {
         </div>
       )}
 
-      {/* Toasts and Error Handling */}
       {error.show && (
         <Toast
           type={error.type}
