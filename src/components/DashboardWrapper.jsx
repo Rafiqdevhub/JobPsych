@@ -3,7 +3,6 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import PremiumDashboard from "./PremiumDashboard";
-import LoadingError from "./LoadingError";
 import { useUserManager } from "../hooks/useUserManager";
 
 const DashboardWrapper = () => {
