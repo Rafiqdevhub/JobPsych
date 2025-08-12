@@ -15,7 +15,7 @@ const LoadingError = ({
   onClose,
   showRetry = true,
   showReset = true,
-  type = "upload", // "upload", "analysis", "general"
+  type = "upload",
 }) => {
   const getDetails = () => {
     switch (type) {
@@ -53,20 +53,16 @@ const LoadingError = ({
 
   return (
     <>
-      {/* Enhanced backdrop overlay for popup feel */}
       <div
         className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300"
         onClick={onClose}
       />
 
-      {/* Popup container - centered in screen */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="max-w-lg w-full">
           <div className="bg-white rounded-3xl shadow-2xl p-8 text-center border-2 border-gray-200 relative overflow-hidden transform transition-all duration-500 hover:scale-[1.02] ring-4 ring-white/50">
-            {/* Enhanced decorative background */}
             <div className="absolute inset-0 bg-gradient-to-br from-red-50/90 via-orange-50/70 to-yellow-50/90 -z-10"></div>
 
-            {/* Floating particles effect */}
             <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
               <div className="absolute -top-2 -left-2 w-4 h-4 bg-red-400 rounded-full opacity-20 animate-ping"></div>
               <div
@@ -79,7 +75,6 @@ const LoadingError = ({
               ></div>
             </div>
 
-            {/* Close button */}
             {onClose && (
               <button
                 onClick={onClose}
@@ -89,24 +84,20 @@ const LoadingError = ({
               </button>
             )}
 
-            {/* Enhanced icon */}
             <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-gradient-to-br from-red-100 to-red-200 mb-6 relative shadow-lg">
               <div className="absolute inset-0 bg-red-500 rounded-2xl opacity-10 animate-pulse"></div>
               <div className="absolute inset-0 bg-red-400 rounded-2xl opacity-5 animate-ping"></div>
               <ExclamationCircleIcon className="h-10 w-10 text-red-600 relative z-10 transform transition-transform duration-300 hover:scale-110 hover:rotate-12" />
             </div>
 
-            {/* Enhanced title */}
             <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
               {details.title}
             </h3>
 
-            {/* Enhanced message */}
             <p className="text-gray-600 mb-8 leading-relaxed text-base">
               {details.message}
             </p>
 
-            {/* Enhanced suggestions */}
             {details.suggestions.length > 0 && (
               <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-100 text-left shadow-md">
                 <h4 className="text-base font-bold text-blue-800 mb-3 flex items-center">
@@ -124,7 +115,6 @@ const LoadingError = ({
               </div>
             )}
 
-            {/* Enhanced action buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {showRetry && onRetry && (
                 <button
@@ -156,7 +146,6 @@ const LoadingError = ({
               )}
             </div>
 
-            {/* Enhanced footer */}
             <div className="mt-8 pt-6 border-t border-gray-100">
               <p className="text-sm text-gray-500 mb-2">
                 Need help? Make sure your resume is properly formatted and try

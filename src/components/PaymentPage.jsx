@@ -22,7 +22,7 @@ const PaymentForm = ({ selectedPlan, planId }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [currentStep, setCurrentStep] = useState("confirmation"); // 'confirmation', 'payment', 'processing', 'complete'
+  const [currentStep, setCurrentStep] = useState("confirmation");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const PaymentForm = ({ selectedPlan, planId }) => {
         setPaymentIntentId(paymentData.id);
       } catch (err) {
         setError(err.message || "Payment setup failed. Please try again.");
-        setCurrentStep("confirmation"); // Go back to confirmation on error
+        setCurrentStep("confirmation");
       } finally {
         setIsProcessing(false);
       }
@@ -85,10 +85,8 @@ const PaymentForm = ({ selectedPlan, planId }) => {
       setCurrentStep("processing");
       setSuccess(true);
 
-      // Update user plan in backend
       await upgradeUserPlan(planId, "active");
 
-      // Keep localStorage for backward compatibility
       localStorage.setItem("userPlan", planId);
       localStorage.setItem("subscriptionActive", "true");
       localStorage.setItem("subscriptionDate", new Date().toISOString());
@@ -100,7 +98,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
       }, 1500);
     } catch (error) {
       console.error("Error updating user plan after payment:", error);
-      // Still proceed with navigation even if backend update fails
       setCurrentStep("complete");
       setTimeout(() => {
         navigate("/premium-dashboard", { replace: true });
@@ -116,10 +113,8 @@ const PaymentForm = ({ selectedPlan, planId }) => {
     try {
       setIsProcessing(true);
 
-      // Update user plan in backend
       await upgradeUserPlan("free", "active");
 
-      // Keep localStorage for backward compatibility
       localStorage.setItem("userPlan", "free");
       localStorage.setItem("subscriptionActive", "true");
       localStorage.setItem("subscriptionDate", new Date().toISOString());
@@ -130,7 +125,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
       }, 1500);
     } catch (error) {
       console.error("Error activating free plan:", error);
-      // Still proceed with activation even if backend update fails
       localStorage.setItem("userPlan", "free");
       localStorage.setItem("subscriptionActive", "true");
       localStorage.setItem("subscriptionDate", new Date().toISOString());
@@ -144,7 +138,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
     }
   };
 
-  // Step-based rendering
   if (currentStep === "confirmation") {
     return (
       <PaymentConfirmation
@@ -348,7 +341,6 @@ const PaymentPage = () => {
 
   const selectedPlan = plans[planId] || plans.free;
 
-  // Helper function to create fallback plans
   const createFallbackPlans = () => {
     const freePlan = DEFAULT_PLANS.find((p) => p.id === "free");
     const proPlan = DEFAULT_PLANS.find((p) => p.id === "pro");

@@ -70,20 +70,16 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
 
   return (
     <>
-      {/* Enhanced backdrop overlay for popup feel */}
       <div
         className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300"
         onClick={onClose}
       />
 
-      {/* Popup container - centered in screen */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="max-w-lg w-full">
           <div className="bg-white rounded-3xl shadow-2xl p-8 text-center border-2 border-gray-200 relative overflow-hidden transform transition-all duration-500 hover:scale-[1.02] ring-4 ring-white/50">
-            {/* Enhanced background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-pink-50/90 via-white to-purple-50/90 -z-10"></div>
 
-            {/* Floating particles effect */}
             <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
               <div className="absolute -top-2 -left-2 w-4 h-4 bg-pink-400 rounded-full opacity-20 animate-ping"></div>
               <div
@@ -96,7 +92,6 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
               ></div>
             </div>
 
-            {/* Close button */}
             {onClose && (
               <button
                 onClick={onClose}
@@ -106,25 +101,21 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
               </button>
             )}
 
-            {/* Enhanced icon */}
             <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-gradient-to-br from-pink-100 to-purple-200 mb-6 relative shadow-lg">
               <div className="absolute inset-0 bg-pink-500 rounded-2xl opacity-10 animate-pulse"></div>
               <div className="absolute inset-0 bg-purple-400 rounded-2xl opacity-5 animate-ping"></div>
               <ClockIcon className="h-10 w-10 text-pink-600 relative z-10 transform transition-transform duration-300 hover:scale-110 hover:rotate-12" />
             </div>
 
-            {/* Enhanced title */}
             <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
               Rate Limit Exceeded
             </h3>
 
-            {/* Enhanced message */}
             <p className="text-gray-600 mb-6 leading-relaxed text-base">
               {rateLimitData?.message ||
                 "You've reached the maximum number of resume analyses allowed (2 per 24 hours)."}
             </p>
 
-            {/* Enhanced countdown timer */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-100 rounded-xl p-6 mb-6 shadow-md">
               <div className="flex items-center justify-center mb-3">
                 <ClockIcon className="h-6 w-6 text-blue-600 mr-2" />
@@ -136,7 +127,6 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
                 Next reset: {getNextMidnightUTCString()}
               </p>
             </div>
-            {/* Enhanced upgrade section */}
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-100 rounded-xl p-6 mb-6 shadow-md">
               <p className="text-purple-800 text-base mb-4 font-semibold">
                 💼 <strong>Need more resume analyses?</strong>
@@ -154,7 +144,6 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
               )}
             </div>
 
-            {/* Enhanced tips section */}
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-2 border-gray-200 rounded-xl p-6 mb-6 shadow-md text-left">
               <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 💡 Tips while you wait:
@@ -179,7 +168,6 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
               </ul>
             </div>
 
-            {/* Enhanced action button */}
             <button
               onClick={onClose}
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl border border-transparent text-base font-semibold hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-blue-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
@@ -187,7 +175,6 @@ const RateLimitError = ({ rateLimitData, onClose, onUpgrade }) => {
               I Understand
             </button>
 
-            {/* Enhanced footer */}
             <div className="mt-8 pt-6 border-t border-gray-100">
               <div className="flex items-center justify-center space-x-4 text-xs text-gray-400">
                 <span>Rate Limit ID: {Date.now()}</span>

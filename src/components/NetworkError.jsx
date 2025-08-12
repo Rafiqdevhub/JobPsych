@@ -53,20 +53,16 @@ const NetworkError = ({
 
   return (
     <>
-      {/* Enhanced backdrop overlay for popup feel */}
       <div
         className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300"
         onClick={onClose}
       />
 
-      {/* Popup container - centered in screen */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           <div className="bg-white rounded-3xl shadow-2xl p-8 text-center border-2 border-gray-200 relative overflow-hidden transform transition-all duration-500 hover:scale-[1.02] ring-4 ring-white/50">
-            {/* Enhanced background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-gray-50/90 via-white to-gray-50/50 -z-10"></div>
 
-            {/* Floating particles effect */}
             <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
               <div
                 className={`absolute -top-2 -left-2 w-4 h-4 ${getIconColor().replace(
@@ -90,7 +86,6 @@ const NetworkError = ({
               ></div>
             </div>
 
-            {/* Close button */}
             {onClose && (
               <button
                 onClick={onClose}
@@ -100,7 +95,6 @@ const NetworkError = ({
               </button>
             )}
 
-            {/* Enhanced icon with multiple animation layers */}
             <div
               className={`mx-auto flex items-center justify-center h-20 w-20 rounded-2xl ${getBackgroundColor()} mb-6 relative shadow-lg`}
             >
@@ -121,7 +115,6 @@ const NetworkError = ({
               />
             </div>
 
-            {/* Enhanced title and message */}
             <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
               {title}
             </h3>
@@ -130,7 +123,6 @@ const NetworkError = ({
               {message}
             </p>
 
-            {/* Enhanced action buttons */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               {showRetry && onRetry && (
                 <button
@@ -152,7 +144,6 @@ const NetworkError = ({
               )}
             </div>
 
-            {/* Enhanced footer with more styling */}
             <div className="mt-8 pt-6 border-t border-gray-100">
               <p className="text-sm text-gray-500 mb-2">
                 Check your internet connection and try again
