@@ -24,6 +24,8 @@ export default defineConfig(({ command }) => {
         },
       }),
       cors: true,
+      port: 3000,
+      host: "0.0.0.0",
     },
     build: {
       minify: "terser",
