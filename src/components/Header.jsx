@@ -175,7 +175,6 @@ function Header({ scrollToPricing }) {
             </div>
 
             <div className="flex items-center space-x-4">
-              {/* Features Button */}
               <button
                 type="button"
                 onClick={() => setShowFeatures(true)}
@@ -184,7 +183,6 @@ function Header({ scrollToPricing }) {
               >
                 Features
               </button>
-              {/* Pricing Button */}
               <button
                 type="button"
                 onClick={scrollToPricing}
@@ -201,7 +199,6 @@ function Header({ scrollToPricing }) {
               >
                 Contact
               </button>
-              {/* Clerk Auth Buttons */}
               {!isSignedIn ? (
                 <SignInButton mode="modal">
                   <button
@@ -228,7 +225,6 @@ function Header({ scrollToPricing }) {
                   <UserButton />
                 </div>
               )}
-              {/* Up Arrow Button*/}
               {scrolled && (
                 <button
                   type="button"
@@ -262,7 +258,6 @@ function Header({ scrollToPricing }) {
         </div>
       </header>
 
-      {/* Features Modal */}
       {showFeatures && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full relative animate-fade-in-up">
@@ -277,7 +272,6 @@ function Header({ scrollToPricing }) {
               Platform Features
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Role Suggestions Card */}
               <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-6 shadow-xl border border-emerald-100 flex flex-col">
                 <h3 className="text-2xl font-bold text-emerald-700 mb-4 flex items-center gap-2">
                   <span className="text-3xl">🧑‍💼</span> Role Suggestions
@@ -298,7 +292,6 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              {/* Premium Card */}
               <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 shadow-xl border border-yellow-100 flex flex-col">
                 <h3 className="text-2xl font-bold text-yellow-700 mb-4 flex items-center gap-2">
                   <span className="text-3xl">💎</span> HireDesk
@@ -324,7 +317,6 @@ function Header({ scrollToPricing }) {
         </div>
       )}
 
-      {/* Contact Modal */}
       {showContact && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden max-w-3xl w-full animate-fade-in-up">
