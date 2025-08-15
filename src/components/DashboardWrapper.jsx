@@ -10,6 +10,7 @@ const DashboardWrapper = () => {
   const { userPlan, isBackendSynced, isSyncing } = useUserManager();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const isDev = import.meta.env?.DEV === true;
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -43,6 +44,10 @@ const DashboardWrapper = () => {
         </div>
       </div>
     );
+  }
+
+  if (isDev) {
+    return <PremiumDashboard />;
   }
 
   if (userPlan === "pro") {
