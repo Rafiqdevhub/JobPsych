@@ -59,7 +59,7 @@ npm run lint     # Run ESLint code analysis
 
 ## 🏗️ Project Structure
 
-```
+```text
 src/
 ├── components/          # React components
 │   ├── ResumeUpload.jsx        # Main file upload component
@@ -139,7 +139,7 @@ const API_BASE_URL = "https://your-backend-url.com";
 
 ### Upload Endpoint
 
-```
+```http
 POST /upload-resume
 Content-Type: multipart/form-data
 Body: FormData with 'resume' file field
@@ -228,7 +228,7 @@ Body: FormData with 'resume' file field
 **Rate Limit Reached**:
 
 - Wait until countdown expires (resets at midnight UTC)
-- Contact rafkhan9323@gmail.com for additional quota
+- Contact <mailto:rafkhan9323@gmail.com> for additional quota
 
 **App Won't Load**:
 
@@ -242,7 +242,7 @@ In development, check browser console for detailed error messages and network re
 
 ## 📞 Support & Contact
 
-- **Email**: rafkhan9323@gmail.com
+- **Email**: <mailto:rafkhan9323@gmail.com>
 - **Issue**: Rate limit increases, technical support, feature requests
 - **Response Time**: Usually within 24-48 hours
 
@@ -272,3 +272,30 @@ This project is private and proprietary. All rights reserved.
 
 **Last Updated**: December 2024
 **Version**: 1.0.0
+
+## 🐳 Docker
+
+Build a production image and serve the app via Nginx.
+
+Prerequisites
+
+- Docker (Desktop) 4.x+
+
+Build
+
+- Optional: set build-time envs used by Vite (e.g. VITE_STRIPE_PUBLISHABLE_KEY)
+- Build the image using the provided Dockerfile.
+
+Run
+
+- Run the image mapping port 8080->80. The app will be available at <http://localhost:8080>.
+
+Compose
+
+- A docker-compose.yml is included. It forwards VITE\_\* envs at build time when present.
+
+Notes
+
+- SPA routing: Nginx config mirrors `vercel.json` and falls back to `index.html`.
+- Caching: Asset filenames are not hashed in the current Vite config; Nginx sets modest caching for `/assets/` and no-store for HTML.
+- Backend: API URLs are configured in `src/utils/api.js` and point to hosted backends by default.
