@@ -1,16 +1,17 @@
+version: "3.8"
+
 services:
-  web:
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        # Provide at build time if needed for Stripe/Clerk
-        VITE_STRIPE_PUBLISHABLE_KEY: ${VITE_STRIPE_PUBLISHABLE_KEY-}
-        VITE_CLERK_PUBLISHABLE_KEY: ${VITE_CLERK_PUBLISHABLE_KEY-}
-    image: jobpsych-frontend:latest
+
     ports:
-      - "8080:80"
-    environment:
-      # No runtime env needed; app is purely static and uses build-time envs
-      NODE_ENV: production
-    restart: unless-stopped
+      - "3000:3000"
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    env_file:
+      - .env
