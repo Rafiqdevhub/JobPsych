@@ -135,3 +135,7 @@ docker push your-registry.example.com/jobpsych-frontend:latest
 - Consider enabling hashed filenames in Vite for better cache-busting and adjusting Nginx caches accordingly.
 - Run behind a reverse proxy or load balancer; terminate TLS there.
 - Consider enabling hashed filenames in Vite for better cache-busting and adjusting Nginx caches accordingly.
+
+## Running the Docker image
+
+docker run -p 8080:80 --env-file .env jobpsych-frontend
