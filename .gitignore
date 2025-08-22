@@ -17,6 +17,7 @@ node_modules
 *.key
 *config.json
 *secrets.json
+copilot-instructions.md
 
 # Cache and build directories
 /dist

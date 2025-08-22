@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { ChartBarIcon } from "@heroicons/react/24/solid";
@@ -17,7 +17,7 @@ import { CogIcon } from "@heroicons/react/24/solid";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
-import SubscriptionManagement from "./SubscriptionManagement";
+// import SubscriptionManagement from "./SubscriptionManagement";
 import Toast from "./Toast";
 import { API_ENDPOINTS } from "../utils/api";
 import { getErrorCategory, formatErrorMessage } from "../utils/errorHandler";
@@ -27,8 +27,9 @@ const PremiumDashboard = () => {
   const { signOut } = useClerk();
   const navigate = useNavigate();
 
-  const [scansRemaining, setScansRemaining] = useState(20);
-  const [uploadCount, setUploadCount] = useState(0);
+  // For local dev, ignore payment/scan limits
+  // Removed unused scansRemaining state for linting
+  const [uploadCount] = useState(0); // Only using uploadCount for display
   const [currentFile, setCurrentFile] = useState(null);
   const [targetRole, setTargetRole] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -50,16 +51,7 @@ const PremiumDashboard = () => {
   const [toastType, setToastType] = useState("success");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      const storedUploadCount = localStorage.getItem(`uploadCount_${user.id}`);
-      const storedScansRemaining = localStorage.getItem(
-        `scansRemaining_${user.id}`
-      );
-      if (storedUploadCount) setUploadCount(Number(storedUploadCount));
-      if (storedScansRemaining) setScansRemaining(Number(storedScansRemaining));
-    }
-  }, [user]);
+  // Remove scan limit logic for local dev
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
@@ -139,20 +131,7 @@ const PremiumDashboard = () => {
       setResumeData(responseData.resumeData || responseData);
       setQuestions(responseData.questions || []);
       setQuestions(responseData.questions || []);
-      const newUploadCount = uploadCount + 1;
-      const newScansRemaining = Math.max(0, scansRemaining - 1);
-
-      setUploadCount(newUploadCount);
-      setScansRemaining(newScansRemaining);
-
-      localStorage.setItem(
-        `uploadCount_${user?.id}`,
-        newUploadCount.toString()
-      );
-      localStorage.setItem(
-        `scansRemaining_${user?.id}`,
-        newScansRemaining.toString()
-      );
+      // For local dev, ignore scan limits
 
       setToastMessage(
         "Resume analyzed successfully! Premium insights generated. Scroll down to see the analysis."
@@ -477,10 +456,10 @@ const PremiumDashboard = () => {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                  Scans Remaining
+                  Scans Remaining (dev)
                 </p>
                 <p className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                  {scansRemaining}
+                  ∞
                 </p>
               </div>
               <div className="p-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
@@ -490,15 +469,13 @@ const PremiumDashboard = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600">Monthly limit</span>
-                <span className="font-semibold text-gray-900">
-                  {scansRemaining}/20
-                </span>
+                <span className="font-semibold text-gray-900">∞</span>
               </div>
               <div className="relative">
                 <div className="flex h-3 bg-gray-200 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out relative overflow-hidden"
-                    style={{ width: `${(scansRemaining / 20) * 100}%` }}
+                    style={{ width: `100%` }}
                   >
                     <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
                   </div>
@@ -535,20 +512,12 @@ const PremiumDashboard = () => {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                  Plan Status
+                  Plan Status (dev)
                 </p>
                 <div className="flex items-center space-x-2">
                   <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    Premium
+                    Free (local)
                   </p>
-                  <div className="flex items-center space-x-1">
-                    {[...Array(3)].map((_, i) => (
-                      <StarIconSolid
-                        key={i}
-                        className="h-4 w-4 text-yellow-400"
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
               <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg">
@@ -557,7 +526,9 @@ const PremiumDashboard = () => {
             </div>
             <div className="flex items-center space-x-2">
               <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-gray-600">Active subscription</span>
+              <span className="text-sm text-gray-600">
+                No payment required (dev)
+              </span>
             </div>
           </div>
         </div>
@@ -625,121 +596,85 @@ const PremiumDashboard = () => {
           </div>
         </div>
         <div className="p-8">
-          {scansRemaining > 0 ? (
-            <div className="space-y-6">
-              <div className="flex items-center justify-center space-x-8 py-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-emerald-600">
-                    {scansRemaining}
-                  </div>
-                  <div className="text-sm text-gray-500">Scans Left</div>
-                </div>
-                <div className="h-8 w-px bg-gray-200"></div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
-                    {uploadCount}
-                  </div>
-                  <div className="text-sm text-gray-500">Completed</div>
-                </div>
-                <div className="h-8 w-px bg-gray-200"></div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">AI+</div>
-                  <div className="text-sm text-gray-500">Premium</div>
-                </div>
+          <div className="space-y-6">
+            <div className="flex items-center justify-center space-x-8 py-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-emerald-600">∞</div>
+                <div className="text-sm text-gray-500">Scans Left (dev)</div>
               </div>
-              <form
-                className="space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (currentFile) handleFileUpload(currentFile);
-                }}
+              <div className="h-8 w-px bg-gray-200"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">
+                  {uploadCount}
+                </div>
+                <div className="text-sm text-gray-500">Completed</div>
+              </div>
+              <div className="h-8 w-px bg-gray-200"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-600">AI+</div>
+                <div className="text-sm text-gray-500">Dev Mode</div>
+              </div>
+            </div>
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (currentFile) handleFileUpload(currentFile);
+              }}
+            >
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Target Role
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={targetRole}
+                  onChange={(e) => setTargetRole(e.target.value)}
+                  placeholder="e.g. Software Engineer"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Job Description
+                </label>
+                <textarea
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  placeholder="Paste the job description here"
+                  rows={4}
+                  required
+                />
+              </div>
+              <div>
+                <ResumeUpload
+                  onFileUpload={(file) => setCurrentFile(file)}
+                  isLoading={isLoading}
+                  isPremium={true}
+                  onError={(errorData) => {
+                    setError({
+                      show: true,
+                      message: errorData.message || "Error with file upload",
+                      type: errorData.type || "warning",
+                      category: errorData.category || "file",
+                      originalError: errorData,
+                    });
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                disabled={isLoading || !currentFile}
               >
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Target Role
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={targetRole}
-                    onChange={(e) => setTargetRole(e.target.value)}
-                    placeholder="e.g. Software Engineer"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Job Description
-                  </label>
-                  <textarea
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={jobDescription}
-                    onChange={(e) => setJobDescription(e.target.value)}
-                    placeholder="Paste the job description here"
-                    rows={4}
-                    required
-                  />
-                </div>
-                <div>
-                  <ResumeUpload
-                    onFileUpload={(file) => setCurrentFile(file)}
-                    isLoading={isLoading}
-                    isPremium={true}
-                    onError={(errorData) => {
-                      setError({
-                        show: true,
-                        message: errorData.message || "Error with file upload",
-                        type: errorData.type || "warning",
-                        category: errorData.category || "file",
-                        originalError: errorData,
-                      });
-                    }}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                  disabled={isLoading || !currentFile}
-                >
-                  {isLoading
-                    ? "Analyzing..."
-                    : "Analyze & Review Candidate Resume"}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="relative mb-6">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-24 w-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full"></div>
-                </div>
-                <CalendarIcon className="relative h-12 w-12 text-gray-400 mx-auto" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                Monthly Limit Reached
-              </h3>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                You've successfully completed all 20 premium analyses for this
-                month. Your plan will automatically reset on the 1st of next
-                month.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => navigate("/pricing")}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <TrophyIcon className="h-5 w-5 mr-2" />
-                  Upgrade Plan
-                </button>
-                <button
-                  onClick={() => navigate("/dashboard")}
-                  className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  View History
-                </button>
-              </div>
-            </div>
-          )}
+                {isLoading
+                  ? "Analyzing..."
+                  : "Analyze & Review Candidate Resume"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       {resumeData && (
@@ -784,6 +719,12 @@ const PremiumDashboard = () => {
                 )}
               </div>
             )}
+            <ResumeDetailsWrapper
+              resumeData={resumeData}
+              onGenerateQuestions={handleGenerateQuestions}
+              isLoading={isLoading}
+              isPremium={true}
+            />
             {roleRecommendations && roleRecommendations.length > 0 && (
               <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
                 <div className="font-semibold text-purple-700 mb-2">
@@ -854,30 +795,11 @@ const PremiumDashboard = () => {
                 </ul>
               </div>
             )}
-            <ResumeDetailsWrapper
-              resumeData={resumeData}
-              onGenerateQuestions={handleGenerateQuestions}
-              isLoading={isLoading}
-              isPremium={true}
-            />
           </div>
         </div>
       )}
 
-      <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-8 py-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-            <CogIcon className="h-6 w-6 mr-2 text-blue-600" />
-            Subscription Management
-          </h2>
-          <p className="text-gray-600">
-            Manage your subscription, view usage details, and update your plan
-          </p>
-        </div>
-        <div className="p-8">
-          <SubscriptionManagement />
-        </div>
-      </div>
+      {/* SubscriptionManagement removed for local dev */}
 
       {questions.length > 0 && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
