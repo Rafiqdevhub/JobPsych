@@ -215,7 +215,8 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                         {category.description}
                       </p>
                       <span className="text-xs text-blue-500 font-medium">
-                        • Click the icon to {isExpanded ? "collapse" : "expand"} ➡️
+                        • Click the icon to {isExpanded ? "collapse" : "expand"}{" "}
+                        ➡️
                       </span>
                     </div>
                   </div>

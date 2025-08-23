@@ -1,4 +1,4 @@
-const questions = [
+export const StandardQuestionsCategories = [
   {
     category: "IQ / Problem-Solving Ability",
     items: [
@@ -29,6 +29,11 @@ const questions = [
           "You notice a recurring problem in the team’s workflow. How would you identify the root cause and suggest a fix?",
         insight: "Reveals analytical thinking and process-improvement mindset.",
       },
+      {
+        question:
+          "If you make a decision that later turns out to be wrong, how do you handle it?",
+        insight: "Shows accountability, adaptability, and reflective learning.",
+      },
     ],
   },
   {
@@ -58,6 +63,11 @@ const questions = [
         question:
           "If your manager assigns a group project, how do you ensure everyone contributes fairly?",
         insight: "Looks at fairness, delegation, and team coordination skills.",
+      },
+      {
+        question: "How do you usually build trust with new teammates?",
+        insight:
+          "Assesses relationship-building, transparency, and dependability.",
       },
     ],
   },
@@ -90,6 +100,12 @@ const questions = [
           "How do you usually handle workplace misunderstandings or miscommunication?",
         insight: "Checks conflict management and emotional intelligence.",
       },
+      {
+        question:
+          "How do you adapt your communication style when speaking with senior management versus peers?",
+        insight:
+          "Demonstrates situational awareness and communication flexibility.",
+      },
     ],
   },
   {
@@ -120,6 +136,11 @@ const questions = [
         question:
           "If you had unlimited resources to solve a current problem at work, what would you change first?",
         insight: "Reveals strategic thinking and problem-spotting ability.",
+      },
+      {
+        question:
+          "What’s an example of a problem you solved creatively when traditional methods didn’t work?",
+        insight: "Shows innovation, out-of-the-box thinking, and persistence.",
       },
     ],
   },
@@ -153,8 +174,11 @@ const questions = [
         insight:
           "Reveals self-management skills and practical methods for punctuality.",
       },
+      {
+        question:
+          "How do you balance urgent tasks with long-term goals in your daily schedule?",
+        insight: "Assesses prioritization, focus, and consistency.",
+      },
     ],
   },
 ];
-
-export default questions;

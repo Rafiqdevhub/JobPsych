@@ -2,81 +2,8 @@ import React, { useEffect, useState } from "react";
 import NavigationButton from "./NavigationButton";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { useUserManager } from "../hooks/useUserManager";
-
-const ROLE_SUGGESTIONS_FEATURES = [
-  {
-    icon: "💡",
-    title: "Personalized Role Recommendations",
-    description:
-      "Get AI-powered suggestions for roles that fit your resume and skills.",
-  },
-  {
-    icon: "📄",
-    title: "Resume Analysis",
-    description:
-      "Instantly analyze your resume for strengths and improvement areas.",
-  },
-  {
-    icon: "🔍",
-    title: "Skill Gap Insights",
-    description: "Identify missing skills for your target roles.",
-  },
-  {
-    icon: "📈",
-    title: "Career Growth Tips",
-    description: "Receive actionable advice to boost your job search.",
-  },
-  {
-    icon: "🔒",
-    title: "Private & Secure",
-    description: "Your data is never shared and always secure.",
-  },
-];
-
-const PREMIUM_FEATURES = [
-  {
-    icon: "⚡",
-    title: "AI-Powered Analysis",
-    description:
-      "Advanced machine learning algorithms analyze candidate resumes instantly.",
-    gradient: "from-yellow-400 to-orange-500",
-  },
-  {
-    icon: "📊",
-    title: "Performance Analytics",
-    description:
-      "Comprehensive insights and improvement tracking for every candidate.",
-    gradient: "from-blue-400 to-cyan-500",
-  },
-  {
-    icon: "📃",
-    title: "Skill Gap Detection",
-    description:
-      "Identify missing skills and training needs for each applicant at a glance.",
-    gradient: "from-pink-400 to-red-400",
-  },
-  {
-    icon: "⭐",
-    title: "Top Talent Highlighting",
-    description:
-      "Spot high-potential candidates with AI-driven fit and readiness scores.",
-    gradient: "from-yellow-300 to-yellow-500",
-  },
-  {
-    icon: "📅",
-    title: "Interview Question Generator",
-    description:
-      "Generate tailored interview questions based on each candidate's experience.",
-    gradient: "from-green-400 to-emerald-500",
-  },
-  {
-    icon: "✅",
-    title: "One-Click Shortlisting",
-    description:
-      "Easily shortlist top candidates and move them forward in your process.",
-    gradient: "from-emerald-400 to-teal-500",
-  },
-];
+import { roleSuggestionsFeatures } from "../data/roleSuggetionsFeatures";
+import { hrSuggestions } from "../data/hireSuggestions";
 
 function Header({ scrollToPricing }) {
   const [scrolled, setScrolled] = useState(false);
@@ -262,7 +189,7 @@ function Header({ scrollToPricing }) {
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full relative animate-fade-in-up">
             <button
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none cursor-pointer"
               onClick={() => setShowFeatures(false)}
               aria-label="Close features modal"
             >
@@ -277,7 +204,7 @@ function Header({ scrollToPricing }) {
                   <span className="text-3xl">🧑‍💼</span> Role Suggestions
                 </h3>
                 <ul className="space-y-4">
-                  {ROLE_SUGGESTIONS_FEATURES.map((f, i) => (
+                  {roleSuggestionsFeatures.map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="text-2xl">{f.icon}</span>
                       <div>
@@ -297,7 +224,7 @@ function Header({ scrollToPricing }) {
                   <span className="text-3xl">💎</span> HireDesk
                 </h3>
                 <ul className="space-y-4">
-                  {PREMIUM_FEATURES.map((f, i) => (
+                  {hrSuggestions.map((f, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="text-2xl">{f.icon}</span>
                       <div>
@@ -324,7 +251,7 @@ function Header({ scrollToPricing }) {
             <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
 
             <button
-              className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl font-bold focus:outline-none"
+              className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl font-bold focus:outline-none cursor-pointer"
               onClick={() => setShowContact(false)}
               aria-label="Close contact modal"
             >
