@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import { ChartBarIcon } from "@heroicons/react/24/solid";
-import { DocumentTextIcon } from "@heroicons/react/24/solid";
-import { StarIcon } from "@heroicons/react/24/solid";
-import { CalendarIcon } from "@heroicons/react/24/solid";
-import { TrophyIcon } from "@heroicons/react/24/solid";
-import { BoltIcon } from "@heroicons/react/24/solid";
-import { ChartPieIcon } from "@heroicons/react/24/solid";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
-import { SparklesIcon as SparklesIconSolid } from "@heroicons/react/24/solid";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { CogIcon } from "@heroicons/react/24/solid";
+import {
+  ChartBarIcon,
+  DocumentTextIcon,
+  StarIcon,
+  CalendarIcon,
+  TrophyIcon,
+  BoltIcon,
+  ChartPieIcon,
+  UserCircleIcon,
+  ChevronDownIcon,
+  StarIcon as StarIconSolid,
+  SparklesIcon as SparklesIconSolid,
+  CheckCircleIcon,
+} from "@heroicons/react/24/solid";
 import ResumeUpload from "./ResumeUpload";
 import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
 import GeneratedQuestions from "./GeneratedQuestions";
@@ -21,6 +22,7 @@ import GeneratedQuestions from "./GeneratedQuestions";
 import Toast from "./Toast";
 import { API_ENDPOINTS } from "../utils/api";
 import { getErrorCategory, formatErrorMessage } from "../utils/errorHandler";
+import hrCategories from "../data/questions";
 
 const PremiumDashboard = () => {
   const { user } = useUser();
@@ -50,8 +52,7 @@ const PremiumDashboard = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-
-  // Remove scan limit logic for local dev
+  const [openHrCategory, setOpenHrCategory] = useState(null);
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
@@ -92,6 +93,7 @@ const PremiumDashboard = () => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("target_role", targetRole);
+
       formData.append("job_description", jobDescription);
 
       const response = await fetch(API_ENDPOINTS.HIREDESK_ANALYZE, {
@@ -576,6 +578,88 @@ const PremiumDashboard = () => {
           ))}
         </div>
       </div>
+      {/* Categorized HR Questions Section (before resume analysis) */}
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 mr-2 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Standard HR Interview Questions
+          </h2>
+          <p className="text-gray-600">
+            Common HR questions grouped by category. These help assess your
+            problem solving, teamwork, and workplace skills.
+          </p>
+        </div>
+        <div className="p-8 space-y-6">
+          {hrCategories.map((cat, catIdx) => {
+            const isOpen = openHrCategory === catIdx;
+            return (
+              <div key={catIdx} className="mb-4">
+                <button
+                  className={`w-full flex items-center justify-between px-6 py-4 rounded-xl shadow border border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 transition-all duration-200 focus:outline-none hover:bg-purple-100/60 hover:shadow-lg cursor-pointer ${
+                    isOpen ? "ring-2 ring-purple-400" : ""
+                  }`}
+                  onClick={() => setOpenHrCategory(isOpen ? null : catIdx)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-lg font-semibold text-purple-700">
+                    {cat.category}
+                  </span>
+                  <ChevronDownIcon
+                    className={`h-6 w-6 text-purple-500 ml-2 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`transition-all duration-300 overflow-hidden ${
+                    isOpen
+                      ? "max-h-[1000px] opacity-100 mt-2"
+                      : "max-h-0 opacity-0"
+                  }`}
+                  style={{
+                    transitionProperty: "max-height, opacity",
+                  }}
+                >
+                  {isOpen && (
+                    <ul className="space-y-4">
+                      {cat.items.map((q, idx) => (
+                        <li
+                          key={idx}
+                          className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                        >
+                          <div className="font-medium text-gray-900">
+                            {q.question}
+                          </div>
+                          {q.insight && (
+                            <div className="text-sm text-gray-500 mt-1">
+                              {q.insight}
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-8 py-6 border-b border-gray-100">
           <div className="flex items-center justify-between">
@@ -727,79 +811,112 @@ const PremiumDashboard = () => {
             />
             {roleRecommendations && roleRecommendations.length > 0 && (
               <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
-                <div className="font-semibold text-purple-700 mb-2">
+                <div className="font-semibold text-purple-700 mb-4 text-xl">
                   Recommended Roles:
                 </div>
-                <ul className="list-disc pl-6 text-gray-700">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {roleRecommendations.map((role, idx) => {
                     if (typeof role === "string") {
-                      return <li key={idx}>{role}</li>;
+                      return (
+                        <div
+                          key={idx}
+                          className="bg-white border border-gray-200 rounded-xl shadow p-4 flex flex-col justify-between"
+                        >
+                          <div className="font-semibold text-lg text-gray-800">
+                            {role}
+                          </div>
+                        </div>
+                      );
                     } else if (typeof role === "object" && role !== null) {
                       return (
-                        <li key={idx} className="mb-2">
-                          <div className="font-semibold text-gray-800">
-                            {role.roleName}{" "}
-                            <span className="text-xs text-gray-500">
-                              ({role.matchPercentage}% match)
+                        <div
+                          key={idx}
+                          className="bg-gradient-to-br from-purple-100 to-pink-100 border border-purple-200 rounded-xl shadow-md p-5 flex flex-col justify-between"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="font-semibold text-lg text-purple-700">
+                              {role.roleName}
+                            </div>
+                            <span className="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                              {role.matchPercentage}% match
                             </span>
                           </div>
                           {role.reasoning && (
-                            <div className="text-sm text-gray-600 mb-1">
+                            <div className="text-sm text-gray-600 mb-2">
                               <span className="font-medium">Reasoning:</span>{" "}
                               {role.reasoning}
                             </div>
                           )}
                           {role.requiredSkills && (
-                            <div className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">
+                            <div className="mb-1">
+                              <span className="font-medium text-gray-800">
                                 Required Skills:
-                              </span>{" "}
-                              {Array.isArray(role.requiredSkills)
-                                ? role.requiredSkills.join(", ")
-                                : role.requiredSkills}
+                              </span>
+                              <span className="text-gray-700">
+                                {" "}
+                                {Array.isArray(role.requiredSkills)
+                                  ? role.requiredSkills.join(", ")
+                                  : role.requiredSkills}
+                              </span>
                             </div>
                           )}
                           {role.missingSkills &&
                             role.missingSkills.length > 0 && (
-                              <div className="text-sm text-red-500 mb-1">
-                                <span className="font-medium">
+                              <div className="mb-1">
+                                <span className="font-medium text-red-600">
                                   Missing Skills:
-                                </span>{" "}
-                                {role.missingSkills.join(", ")}
+                                </span>
+                                <span className="text-red-500">
+                                  {" "}
+                                  {role.missingSkills.join(", ")}
+                                </span>
                               </div>
                             )}
                           {role.careerLevel && (
-                            <div className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Career Level:</span>{" "}
-                              {role.careerLevel}
+                            <div className="mb-1">
+                              <span className="font-medium text-gray-800">
+                                Career Level:
+                              </span>
+                              <span className="text-gray-700">
+                                {" "}
+                                {role.careerLevel}
+                              </span>
                             </div>
                           )}
                           {role.salaryRange && (
-                            <div className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Salary Range:</span>{" "}
-                              {role.salaryRange}
+                            <div className="mb-1">
+                              <span className="font-medium text-gray-800">
+                                Salary Range:
+                              </span>
+                              <span className="text-gray-700">
+                                {" "}
+                                {role.salaryRange}
+                              </span>
                             </div>
                           )}
                           {role.industryFit && (
-                            <div className="text-sm text-gray-600 mb-1">
-                              <span className="font-medium">Industry Fit:</span>{" "}
-                              {role.industryFit}
+                            <div className="mb-1">
+                              <span className="font-medium text-gray-800">
+                                Industry Fit:
+                              </span>
+                              <span className="text-gray-700">
+                                {" "}
+                                {role.industryFit}
+                              </span>
                             </div>
                           )}
-                        </li>
+                        </div>
                       );
                     } else {
                       return null;
                     }
                   })}
-                </ul>
+                </div>
               </div>
             )}
           </div>
         </div>
       )}
-
-      {/* SubscriptionManagement removed for local dev */}
 
       {questions.length > 0 && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
