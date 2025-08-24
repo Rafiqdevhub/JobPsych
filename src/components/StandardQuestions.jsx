@@ -16,6 +16,34 @@ const StandardQuestions = () => {
           problem solving, teamwork, and workplace skills.
         </p>
       </div>
+      <div className="mt-6 mb-3 p-0">
+        <div className="flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl border border-blue-200 shadow-sm px-6 py-5">
+          <div className="flex-shrink-0 flex items-center justify-center mr-5">
+            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold">💡</span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <h4 className="text-lg font-semibold text-blue-800 mb-2">
+              Tips for Using This Section
+            </h4>
+            <ul className="text-base text-blue-700 space-y-2">
+              <li className="flex items-start">
+                <span className="mr-2 text-blue-500">•</span>
+                <span>
+                  Click on category headers to expand and see questions
+                </span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-2 text-blue-500">•</span>
+                <span>
+                  Questions are designed to evaluate the candidate's soft skills
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div className="p-8 space-y-6">
         {StandardQuestionsCategories.map((cat, catIdx) => {
           const isOpen = openHrCategory === catIdx;
@@ -29,20 +57,6 @@ const StandardQuestions = () => {
                 aria-expanded={isOpen}
               >
                 <span className="text-xl font-bold text-purple-700 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 mr-2 text-pink-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 17l-4 4m0 0l-4-4m4 4V3"
-                    />
-                  </svg>
                   {cat.category}
                 </span>
                 <ChevronDownIcon
