@@ -8,6 +8,7 @@ import TypewriterText from "./TypewriterText";
 import { enhancedPlans } from "../data/enhancePlan";
 import { faqs } from "../data/faqs";
 import { testimonials } from "../data/testimonials";
+import FAQDropdown from "./FAQDropdown";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();
@@ -718,7 +719,8 @@ const LandingPage = () => {
               </div>
             </div>
           </div>{" "}
-          <div className="mt-24">
+          {/* FAQ Section */}
+          <div className="mt-20">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 Frequently Asked Questions
@@ -728,27 +730,20 @@ const LandingPage = () => {
                 plans.
               </p>
             </div>
-
             <div className="mx-auto max-w-4xl">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                  <div
+                  <FAQDropdown
                     key={index}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100"
-                  >
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                      {faq.question}
-                    </h4>
-                    <p className="text-gray-600 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </div>
+                    question={faq.question}
+                    answer={faq.answer}
+                  />
                 ))}
               </div>
             </div>
           </div>
           {/* Testimonials Section */}
-          <div className="mt-32">
+          <div className="mt-15">
             <div className="mx-auto max-w-3xl text-center mb-16">
               <h3 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
                 ⭐ Success Stories
