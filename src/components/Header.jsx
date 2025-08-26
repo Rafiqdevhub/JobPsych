@@ -17,6 +17,22 @@ function Header({ scrollToPricing }) {
     message: "",
   });
   const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+
+  // Click outside to close mobile dropdown
+  useEffect(() => {
+    if (!mobileDropdownOpen) return;
+    const handleClick = (e) => {
+      if (
+        !e.target.closest("#mobile-nav-dropdown") &&
+        !e.target.closest("#mobile-nav-hamburger")
+      ) {
+        setMobileDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [mobileDropdownOpen]);
 
   const handleContactChange = (e) => {
     setContactForm({
@@ -27,8 +43,6 @@ function Header({ scrollToPricing }) {
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-
     setContactSubmitted(true);
     setTimeout(() => {
       setContactSubmitted(false);
@@ -49,7 +63,7 @@ function Header({ scrollToPricing }) {
     <>
       {!scrolled && (
         <div
-          className="fixed w-full top-0 left-0 z-40 h-[80px] pointer-events-none"
+          className="fixed w-full top-0 left-0 z-40 h-[64px] sm:h-[80px] pointer-events-none"
           style={{
             background:
               "linear-gradient(90deg, #ebf8ff 0%, #fff 60%, #d1fae5 100%)",
@@ -58,71 +72,71 @@ function Header({ scrollToPricing }) {
         />
       )}
       <header
-        className={`fixed w-full top-0 z-50 py-3 transition-all duration-300 ${
-          scrolled ? " backdrop-blur-md" : "bg-transparent"
+        className={`fixed w-full top-0 z-50 py-2 sm:py-3 transition-all duration-300 ${
+          scrolled ? "backdrop-blur-md" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           <div
-            className={`flex items-center justify-between rounded-xl px-6 py-3 transition-all duration-300
+            className={`flex flex-wrap items-center justify-between rounded-xl px-2 sm:px-6 py-2 sm:py-3 transition-all duration-300
               ${
                 scrolled
-                  ? "bg-gradient-to-r from-white/90 to-indigo-50/60   backdrop-blur-md hover:shadow-xl "
-                  : "bg-transparent "
+                  ? "bg-gradient-to-r from-white/90 to-indigo-50/60 backdrop-blur-md hover:shadow-xl"
+                  : "bg-transparent"
               }
             `}
           >
             <NavigationButton
               to="/"
-              className="flex items-center space-x-3 bg-transparent border-0 group"
+              className="flex items-center space-x-2 sm:space-x-3 bg-transparent border-0 group"
             >
               <div className="flex items-center relative overflow-visible cursor-pointer">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-
-                <div className="relative z-10 flex justify-center items-center h-12 w-12 p-1 transition-all duration-300">
+                <div className="relative z-10 flex justify-center items-center h-10 w-10 sm:h-12 sm:w-12 p-1 transition-all duration-300">
                   <img
                     src="/logo.png"
                     alt="JobPsych Logo"
-                    className="h-12 w-12 object-contain transform transition-all duration-300 group-hover:scale-105"
+                    className="h-10 w-10 sm:h-12 sm:w-12 object-contain transform transition-all duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h1 className="ml-2 text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-600 bg-clip-text text-transparent transition-all duration-300 tracking-tight cursor-pointer">
+                <h1 className="ml-2 text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-600 bg-clip-text text-transparent transition-all duration-300 tracking-tight cursor-pointer">
                   JobPsych
                 </h1>
               </div>
             </NavigationButton>
 
-            <div className="hidden md:block flex-1 text-center mx-8">
-              <p className="text-sm text-gray-600 font-medium italic">
+            <div className="hidden md:block flex-1 text-center mx-2 sm:mx-8">
+              <p className="text-xs sm:text-sm text-gray-600 font-medium italic">
                 Free career guidance for job seekers and smart AI hiring for HR
                 teams
-                <br />
+                <br className="hidden sm:block" />
                 JobPsych empowers your next move.
               </p>
             </div>
 
-            <div className="flex items-center space-x-4">
+            {/* Desktop Nav */}
+            <div className="hidden sm:flex items-center space-x-2 sm:space-x-4">
               <button
                 type="button"
                 onClick={() => setShowFeatures(true)}
-                className="px-6 py-3 text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 hover:from-emerald-200 hover:to-blue-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
-                style={{ minWidth: "120px" }}
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 hover:from-emerald-200 hover:to-blue-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                style={{ minWidth: "90px" }}
               >
                 Features
               </button>
               <button
                 type="button"
                 onClick={scrollToPricing}
-                className="px-6 py-3 text-base font-semibold text-purple-700 bg-gradient-to-r from-purple-100 to-indigo-100 hover:from-purple-200 hover:to-indigo-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
-                style={{ minWidth: "120px" }}
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-purple-700 bg-gradient-to-r from-purple-100 to-indigo-100 hover:from-purple-200 hover:to-indigo-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                style={{ minWidth: "90px" }}
               >
                 Pricing
               </button>
               <button
                 type="button"
                 onClick={() => setShowContact(true)}
-                className="px-6 py-3 text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
-                style={{ minWidth: "120px" }}
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                style={{ minWidth: "90px" }}
               >
                 Contact
               </button>
@@ -130,17 +144,17 @@ function Header({ scrollToPricing }) {
                 <SignInButton mode="modal">
                   <button
                     type="button"
-                    className="px-5 py-2 text-base font-semibold rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none focus:outline-none bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:from-green-200 hover:to-blue-200"
-                    style={{ minWidth: "100px" }}
+                    className="px-4 sm:px-5 py-2 text-sm sm:text-base font-semibold rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none focus:outline-none bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:from-green-200 hover:to-blue-200"
+                    style={{ minWidth: "80px" }}
                   >
                     Sign In
                   </button>
                 </SignInButton>
               ) : (
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 sm:space-x-3">
                   {isBackendSynced && (
                     <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full ${
+                      className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${
                         isPro
                           ? "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800"
                           : "bg-gradient-to-r from-green-100 to-green-200 text-green-800"
@@ -181,13 +195,103 @@ function Header({ scrollToPricing }) {
                 </button>
               )}
             </div>
+
+            {/* Mobile Nav: Hamburger + Dropdown */}
+            <div className="flex sm:hidden items-center relative">
+              <button
+                id="mobile-nav-hamburger"
+                type="button"
+                aria-label="Open mobile menu"
+                className="p-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 shadow border-none flex items-center justify-center"
+                onClick={() => setMobileDropdownOpen((open) => !open)}
+              >
+                <svg
+                  className="h-6 w-6 text-indigo-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+              {mobileDropdownOpen && (
+                <div
+                  id="mobile-nav-dropdown"
+                  className="absolute top-12 right-0 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-4 z-50 animate-fade-in-up"
+                >
+                  <nav className="flex flex-col gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowFeatures(true);
+                        setMobileDropdownOpen(false);
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 rounded-lg hover:bg-emerald-200 transition-all"
+                    >
+                      🧩 Features
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        scrollToPricing();
+                        setMobileDropdownOpen(false);
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-purple-700 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-lg hover:bg-purple-200 transition-all"
+                    >
+                      💸 Pricing
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowContact(true);
+                        setMobileDropdownOpen(false);
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-lg hover:bg-indigo-200 transition-all"
+                    >
+                      ✉️ Contact
+                    </button>
+                    {!isSignedIn ? (
+                      <SignInButton mode="modal">
+                        <button
+                          type="button"
+                          className="flex items-center gap-2 px-4 py-2 text-base font-semibold rounded-lg bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:bg-green-200 transition-all"
+                        >
+                          🔑 Sign In
+                        </button>
+                      </SignInButton>
+                    ) : (
+                      <div className="flex items-center gap-2 mt-2 px-4">
+                        {isBackendSynced && (
+                          <span
+                            className={`px-3 py-1 text-xs font-medium rounded-full ${
+                              isPro
+                                ? "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800"
+                                : "bg-gradient-to-r from-green-100 to-green-200 text-green-800"
+                            }`}
+                          >
+                            {userPlan === "pro" ? "Pro" : "Free"}
+                          </span>
+                        )}
+                        <UserButton />
+                      </div>
+                    )}
+                  </nav>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
+      {/* Features Modal */}
       {showFeatures && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-4xl w-full relative animate-fade-in-up">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
+          <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-8 max-w-xs sm:max-w-4xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
             <button
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none cursor-pointer"
               onClick={() => setShowFeatures(false)}
@@ -195,23 +299,24 @@ function Header({ scrollToPricing }) {
             >
               &times;
             </button>
-            <h2 className="text-3xl font-extrabold text-center mb-8 bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Platform Features
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-6 shadow-xl border border-emerald-100 flex flex-col">
-                <h3 className="text-2xl font-bold text-emerald-700 mb-4 flex items-center gap-2">
-                  <span className="text-3xl">🧑‍💼</span> Role Suggestions
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+              <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-emerald-100 flex flex-col">
+                <h3 className="text-base sm:text-2xl font-bold text-emerald-700 mb-3 sm:mb-4 flex items-center gap-2">
+                  <span className="text-xl sm:text-3xl">🧑‍💼</span> Role
+                  Suggestions
                 </h3>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   {roleSuggestionsFeatures.map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="text-2xl">{f.icon}</span>
+                    <li key={i} className="flex items-start gap-2 sm:gap-3">
+                      <span className="text-lg sm:text-2xl">{f.icon}</span>
                       <div>
-                        <div className="font-semibold text-lg text-emerald-800">
+                        <div className="font-semibold text-sm sm:text-lg text-emerald-800">
                           {f.title}
                         </div>
-                        <div className="text-gray-600 text-base">
+                        <div className="text-gray-600 text-xs sm:text-base">
                           {f.description}
                         </div>
                       </div>
@@ -219,19 +324,19 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 shadow-xl border border-yellow-100 flex flex-col">
-                <h3 className="text-2xl font-bold text-yellow-700 mb-4 flex items-center gap-2">
-                  <span className="text-3xl">💎</span> HireDesk
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-yellow-100 flex flex-col">
+                <h3 className="text-base sm:text-2xl font-bold text-yellow-700 mb-3 sm:mb-4 flex items-center gap-2">
+                  <span className="text-xl sm:text-3xl">💎</span> HireDesk
                 </h3>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   {hrSuggestions.map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="text-2xl">{f.icon}</span>
+                    <li key={i} className="flex items-start gap-2 sm:gap-3">
+                      <span className="text-lg sm:text-2xl">{f.icon}</span>
                       <div>
-                        <div className="font-semibold text-lg text-yellow-800">
+                        <div className="font-semibold text-sm sm:text-lg text-yellow-800">
                           {f.title}
                         </div>
-                        <div className="text-gray-600 text-base">
+                        <div className="text-gray-600 text-xs sm:text-base">
                           {f.description}
                         </div>
                       </div>
@@ -244,6 +349,7 @@ function Header({ scrollToPricing }) {
         </div>
       )}
 
+      {/* Contact Modal */}
       {showContact && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden max-w-3xl w-full animate-fade-in-up">
