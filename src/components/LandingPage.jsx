@@ -95,12 +95,12 @@ const LandingPage = () => {
       <Header scrollToPricing={scrollToPricing} />
       {/* Hero Section */}
       <section id="hero" className="relative isolate overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 pt-24 pb-12 sm:pt-32 sm:pb-16 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
               Career Guidance & Hiring Intelligence
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
               <TypewriterText
                 text="AI Solutions for Personalized Career Paths and Strategic Hiring"
                 className="text-blue-700"
@@ -111,15 +111,15 @@ const LandingPage = () => {
               />
             </h1>
 
-            <p className="mt-6 text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
+            <p className="mt-6 text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
               <span className="font-semibold text-indigo-600">
                 JobPsych offers two powerful tools:
               </span>{" "}
               Free career role suggestions for job seekers and premium
               AI-powered hiring intelligence for HR teams.
             </p>
-            <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+            <div className="mt-8 p-4 sm:p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-sm text-gray-700">
                 <div className="text-center p-4 bg-white/60 rounded-xl border border-indigo-200">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <span className="text-lg">✅</span>
@@ -144,7 +144,7 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => handlePlanSelection("free")}
                 className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
@@ -174,7 +174,7 @@ const LandingPage = () => {
                 </span>
               </button>
             </div>
-            <div className="mt-6 space-y-2">
+            <div className="mt-4 space-y-2">
               <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
                 ✅ <strong>Role Suggestions:</strong> Completely FREE - Upload
                 your resume, mention target role & get career recommendations
@@ -191,10 +191,10 @@ const LandingPage = () => {
           aria-hidden="true"
         >
           <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            className="relative left-1/2 aspect-[1155/678] w-[20rem] sm:w-[72.1875rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)]"
             style={{
               clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1)",
             }}
           />
         </div>
@@ -202,15 +202,15 @@ const LandingPage = () => {
       {/* Features Section */}
       <section
         id="features"
-        className="pt-8 pb-15 sm:pt-12 sm:pb-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+        className="pt-6 pb-10 sm:pt-10 sm:pb-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-10 sm:mb-16">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-6">
               Powerful Features for Modern Hiring
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
               Two Powerful Tools for
               <br />
               <span className="text-indigo-600">
@@ -218,15 +218,15 @@ const LandingPage = () => {
               </span>
             </h2>
 
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               JobPsych provides free career guidance for job seekers through
               Role Suggestions, and premium AI-powered hiring intelligence for
               HR teams through HireDisk.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-10 sm:mb-16">
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
@@ -249,7 +249,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-emerald-200 hover:-translate-y-1">
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-emerald-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
@@ -272,7 +272,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
@@ -295,7 +295,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
+            <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
@@ -319,7 +319,7 @@ const LandingPage = () => {
             </div>
           </div>
           {/* How JobPsych Works Section */}
-          <div className="text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white">
+          <div className="text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-6 sm:p-12 text-white">
             <h3 className="text-3xl md:text-4xl font-bold mb-8">
               How JobPsych Works
             </h3>
@@ -377,9 +377,9 @@ const LandingPage = () => {
                 for a custom Premium plan.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 max-w-6xl mx-auto">
               {/* Role Suggestions Flow */}
-              <div className="bg-white/10 rounded-2xl p-6">
+              <div className="bg-white/10 rounded-2xl p-4 sm:p-6">
                 <h4 className="text-xl font-bold mb-6 text-yellow-300">
                   ✅ Role Suggestions (FREE)
                 </h4>
@@ -415,7 +415,7 @@ const LandingPage = () => {
               </div>
 
               {/* HireDisk Flow */}
-              <div className="bg-white/10 rounded-2xl p-6">
+              <div className="bg-white/10 rounded-2xl p-4 sm:p-6">
                 <h4 className="text-xl font-bold mb-6 text-emerald-300">
                   🔒 HireDisk (Pro & Premium)
                 </h4>
@@ -459,18 +459,18 @@ const LandingPage = () => {
         </div>
 
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-indigo-200/20 to-purple-200/20 rounded-full blur-xl"></div>
-          <div className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-200/20 to-blue-200/20 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-20 left-20 w-40 h-40 bg-gradient-to-r from-blue-200/20 to-indigo-200/20 rounded-full blur-xl"></div>
+          <div className="absolute top-20 left-4 sm:left-10 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-r from-indigo-200/20 to-purple-200/20 rounded-full blur-xl"></div>
+          <div className="absolute top-40 right-4 sm:right-20 w-28 h-28 sm:w-48 sm:h-48 bg-gradient-to-r from-purple-200/20 to-blue-200/20 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-20 left-4 sm:left-20 w-24 h-24 sm:w-40 sm:h-40 bg-gradient-to-r from-blue-200/20 to-indigo-200/20 rounded-full blur-xl"></div>
         </div>
       </section>
       {/* Pricing Section */}
       <section
         id="pricing"
         ref={pricingRef}
-        className="mt-0 pt-0 pb-24 sm:pt-12 sm:pb-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+        className="mt-0 pt-0 pb-16 sm:pt-8 sm:pb-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
               Flexible Plans
@@ -484,14 +484,14 @@ const LandingPage = () => {
               unlimited features.
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
+          <div className="mx-auto mt-10 sm:mt-20 grid max-w-4xl grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-3">
             {enhancedPlans.map((plan, index) => (
               <div
                 key={plan.name}
-                className={`relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl ${
+                className={`relative flex flex-col rounded-3xl p-6 sm:p-8 shadow-2xl ring-1 ring-gray-200 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl ${
                   plan.popular
-                    ? "bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white scale-105"
-                    : "bg-white hover:bg-gradient-to-br hover:from-gray-50 hover:to-indigo-50"
+                    ? "bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white scale-105 border-2 border-yellow-400"
+                    : "bg-white hover:bg-gradient-to-br hover:from-gray-50 hover:to-indigo-50 border border-indigo-100"
                 }`}
                 style={{
                   animationDelay: `${index * 200}ms`,
@@ -505,8 +505,8 @@ const LandingPage = () => {
                 )}
                 <div className="flex items-center space-x-3 mb-4">
                   <div
-                    className={`p-3 rounded-full ${
-                      plan.popular ? "bg-white/20" : "bg-indigo-100"
+                    className={`p-3 rounded-full shadow ${
+                      plan.popular ? "bg-white/30" : "bg-indigo-100"
                     }`}
                   >
                     <span className="text-2xl">
@@ -514,8 +514,10 @@ const LandingPage = () => {
                     </span>
                   </div>
                   <h3
-                    className={`text-2xl font-bold ${
-                      plan.popular ? "text-white" : "text-gray-900"
+                    className={`text-2xl font-bold tracking-wide ${
+                      plan.popular
+                        ? "text-yellow-200 drop-shadow"
+                        : "text-gray-900"
                     }`}
                   >
                     {plan.name}
@@ -554,9 +556,10 @@ const LandingPage = () => {
                   onClick={() => handlePlanSelection(plan.name.toLowerCase())}
                   className={`mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none ${
                     plan.popular
-                      ? "bg-white text-indigo-600 hover:bg-gray-100"
+                      ? "bg-yellow-400 text-indigo-900 hover:bg-yellow-300 border border-yellow-500"
                       : plan.buttonStyle
                   }`}
+                  style={{ letterSpacing: "0.03em" }}
                 >
                   {plan.buttonText}
                 </button>
@@ -625,7 +628,7 @@ const LandingPage = () => {
                 )}
               </div>
             ))}
-            <div className="relative flex flex-col rounded-3xl p-8 shadow-2xl ring-1 ring-gray-200 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
+            <div className="relative flex flex-col rounded-3xl p-6 sm:p-8 shadow-2xl ring-2 ring-yellow-400 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
               <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
                 Premium
               </div>
@@ -648,7 +651,8 @@ const LandingPage = () => {
               </div>
               <button
                 onClick={scrollToContact}
-                className="mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none bg-white text-yellow-600 hover:bg-gray-100"
+                className="mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none bg-yellow-400 text-red-700 hover:bg-yellow-300 border border-yellow-500"
+                style={{ letterSpacing: "0.03em" }}
               >
                 Contact Us
               </button>
@@ -722,8 +726,8 @@ const LandingPage = () => {
             </div>
           </div>{" "}
           {/* FAQ Section */}
-          <div className="mt-20">
-            <div className="mx-auto max-w-3xl text-center mb-12">
+          <div className="mt-10 sm:mt-20">
+            <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 Frequently Asked Questions
               </h3>
@@ -733,7 +737,7 @@ const LandingPage = () => {
               </p>
             </div>
             <div className="mx-auto max-w-4xl">
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {faqs.map((faq, index) => (
                   <FAQDropdown
                     key={index}
@@ -745,8 +749,8 @@ const LandingPage = () => {
             </div>
           </div>
           {/* Testimonials Section */}
-          <div className="mt-15">
-            <div className="mx-auto max-w-3xl text-center mb-16">
+          <div className="mt-8 sm:mt-15">
+            <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-16">
               <h3 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
                 ⭐ Success Stories
               </h3>
@@ -760,7 +764,7 @@ const LandingPage = () => {
             </div>
 
             <div className="mx-auto max-w-7xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                 {testimonials.map((testimonial, index) => (
                   <div
                     key={index}
