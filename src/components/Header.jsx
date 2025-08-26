@@ -351,10 +351,10 @@ function Header({ scrollToPricing }) {
 
       {/* Contact Modal */}
       {showContact && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-10 text-white relative overflow-hidden max-w-3xl w-full animate-fade-in-up">
-            <div className="absolute right-0 top-0 w-32 h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
-            <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
+          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-4 sm:p-10 text-white relative overflow-hidden max-w-xs sm:max-w-3xl w-full animate-fade-in-up">
+            <div className="absolute right-0 top-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
+            <div className="absolute left-0 bottom-0 w-24 h-24 sm:w-40 sm:h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
 
             <button
               className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl font-bold focus:outline-none cursor-pointer"
@@ -364,22 +364,22 @@ function Header({ scrollToPricing }) {
               &times;
             </button>
 
-            <div className="flex flex-col items-center justify-center gap-6">
-              <h2 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
+            <div className="flex flex-col items-center justify-center gap-4 sm:gap-6">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-2 text-white drop-shadow-lg text-center">
                 Get in Touch With Us
               </h2>
 
-              <p className="text-lg text-white/90 mb-4 max-w-xl text-center">
+              <p className="text-base sm:text-lg text-white/90 mb-4 max-w-xs sm:max-w-xl text-center">
                 Have questions, need a custom solution, or want to learn more
                 about JobPsych Premium? Our team is here to help you succeed.
               </p>
 
               {contactSubmitted ? (
-                <div className="text-green-200 text-center font-semibold py-8 text-xl bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-inner">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                    <span className="text-4xl">✉️</span>
+                <div className="text-green-200 text-center font-semibold py-8 text-lg sm:text-xl bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-inner">
+                  <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full mb-4">
+                    <span className="text-3xl sm:text-4xl">✉️</span>
                   </div>
-                  <h3 className="text-white text-2xl font-bold mb-2">
+                  <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">
                     Thank you!
                   </h3>
                   <p className="text-white/90">We'll contact you soon.</p>
@@ -387,7 +387,7 @@ function Header({ scrollToPricing }) {
               ) : (
                 <form
                   onSubmit={handleContactSubmit}
-                  className="space-y-5 bg-white/10 rounded-2xl p-8 shadow-xl"
+                  className="space-y-4 sm:space-y-5 bg-white/10 rounded-2xl p-4 sm:p-8 shadow-xl w-full"
                 >
                   <div>
                     <label className="block text-sm font-medium text-indigo-700 mb-1">
@@ -433,12 +433,12 @@ function Header({ scrollToPricing }) {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-lg transform hover:scale-[1.02]"
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-base sm:text-lg transform hover:scale-[1.02]"
                   >
                     Send Message
                   </button>
 
-                  <div className="mt-6 flex flex-col md:flex-row items-center justify-center gap-6">
+                  <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                     <div className="flex items-center gap-2 text-indigo-700/80">
                       <svg
                         className="h-5 w-5 text-yellow-500"
@@ -455,7 +455,9 @@ function Header({ scrollToPricing }) {
                           d="M16 12v1a4 4 0 01-4 4H8a4 4 0 01-4-4V8a4 4 0 014-4h4a4 4 0 014 4v1"
                         />
                       </svg>
-                      <span>Custom AI Solutions</span>
+                      <span className="text-xs sm:text-base">
+                        Custom AI Solutions
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-indigo-700/80">
                       <svg
@@ -473,7 +475,9 @@ function Header({ scrollToPricing }) {
                           d="M12 8v4l3 3"
                         />
                       </svg>
-                      <span>Dedicated Support</span>
+                      <span className="text-xs sm:text-base">
+                        Dedicated Support
+                      </span>
                     </div>
                   </div>
                 </form>
