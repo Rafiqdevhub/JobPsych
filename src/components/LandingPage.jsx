@@ -93,8 +93,9 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
       <Header scrollToPricing={scrollToPricing} />
+      {/* Hero Section */}
       <section id="hero" className="relative isolate overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 pt-24 pb-12 sm:pt-32 sm:pb-16 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
               Career Guidance & Hiring Intelligence
@@ -198,9 +199,10 @@ const LandingPage = () => {
           />
         </div>
       </section>
+      {/* Features Section */}
       <section
         id="features"
-        className="py-24 sm:py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+        className="pt-8 pb-15 sm:pt-12 sm:pb-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -316,7 +318,7 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-
+          {/* How JobPsych Works Section */}
           <div className="text-center bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white">
             <h3 className="text-3xl md:text-4xl font-bold mb-8">
               How JobPsych Works
@@ -466,7 +468,7 @@ const LandingPage = () => {
       <section
         id="pricing"
         ref={pricingRef}
-        className="py-24 sm:py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+        className="mt-0 pt-0 pb-24 sm:pt-12 sm:pb-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl lg:text-center">
