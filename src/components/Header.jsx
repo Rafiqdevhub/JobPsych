@@ -19,7 +19,6 @@ function Header({ scrollToPricing }) {
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
 
-  // Click outside to close mobile dropdown
   useEffect(() => {
     if (!mobileDropdownOpen) return;
     const handleClick = (e) => {
@@ -114,7 +113,6 @@ function Header({ scrollToPricing }) {
               </p>
             </div>
 
-            {/* Desktop Nav */}
             <div className="hidden sm:flex items-center space-x-2 sm:space-x-4">
               <button
                 type="button"
@@ -196,7 +194,6 @@ function Header({ scrollToPricing }) {
               )}
             </div>
 
-            {/* Mobile Nav: Hamburger + Dropdown */}
             <div className="flex sm:hidden items-center relative">
               <button
                 id="mobile-nav-hamburger"
@@ -288,7 +285,6 @@ function Header({ scrollToPricing }) {
         </div>
       </header>
 
-      {/* Features Modal */}
       {showFeatures && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
           <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-8 max-w-xs sm:max-w-4xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
@@ -349,7 +345,6 @@ function Header({ scrollToPricing }) {
         </div>
       )}
 
-      {/* Contact Modal */}
       {showContact && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
           <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-4 sm:p-10 text-white relative overflow-hidden max-w-xs sm:max-w-3xl w-full animate-fade-in-up">
