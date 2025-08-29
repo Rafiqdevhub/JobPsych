@@ -3,8 +3,8 @@ const USE_PROD_BACKEND = "https://hr-resume-analyzer-backend.vercel.app";
 
 export const BACKEND_API_BASE_URL = USE_PROD_BACKEND;
 
-export const PAYMENT_API_BASE_URL = "https://jobpsych-payment.vercel.app";
-// export const PAYMENT_API_BASE_URL = "http://localhost:5000";
+// export const PAYMENT_API_BASE_URL = "https://jobpsych-payment.vercel.app";
+export const PAYMENT_API_BASE_URL = "http://localhost:5000";
 
 export const API_ENDPOINTS = {
   ANALYZE_RESUME: `${BACKEND_API_BASE_URL}/api/analyze-resume`,

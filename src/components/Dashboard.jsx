@@ -7,6 +7,7 @@ import LoadingError from "./LoadingError";
 import NavigationButton from "./NavigationButton";
 import { formatErrorMessage, getErrorCategory } from "../utils/errorHandler";
 import { API_ENDPOINTS } from "../utils/api";
+import { generalTips } from "../data/candidateTips";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -311,6 +312,30 @@ const Dashboard = () => {
                   role-specific analysis and career recommendations.
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Candidate Tips Section */}
+          <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 mb-10 hover:shadow-2xl transition-shadow duration-300">
+            <h2 className="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2 flex items-center gap-2">
+              Resume Optimization Tips
+            </h2>
+            <p className="text-gray-600 mb-6 text-base">
+              Follow these expert tips to make your resume stand out and
+              increase your chances of getting noticed by recruiters.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {generalTips.map((tip, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:shadow-md transition-shadow duration-200"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <p className="text-gray-700 text-sm leading-relaxed">{tip}</p>
+                </div>
+              ))}
             </div>
           </div>
 
