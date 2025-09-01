@@ -1,6 +1,6 @@
 import React from "react";
 import { faqs } from "../../data/faqs";
-import FAQDropdown from "../FAQDropdown";
+import FAQDropdown from "./FAQDropdown";
 
 const FAQSection = () => {
   return (

@@ -12,14 +12,14 @@ const HeroSection = ({
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 text-sm font-medium mb-8">
-            Career Guidance & Hiring Intelligence
+            Career Guidance, InterviewPrep AI & Hiring Intelligence
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
             <TypewriterText
-              text="AI Solutions for Personalized Career Paths and Strategic Hiring"
-              className="text-blue-700"
+              text="Master Interviews with InterviewPrep AI Your Personal Career Coach and Hiring Assistant."
+              className="text-blue-600"
               loop={true}
-              delay={3000}
+              delay={3}
               eraseSpeed={50}
               typeSpeed={50}
             />
