@@ -5,6 +5,8 @@ import Footer from "../layout/Footer";
 import HeroSection from "../hero/HeroSection";
 import FeaturesSection from "../features/FeaturesSection";
 import PricingSection from "../pricing/PricingSection";
+import FAQSection from "../faq/FAQSection";
+import TestimonialsSection from "../testimonials/TestimonialsSection";
 import Header from "../layout/Header";
 
 const LandingPage = () => {
@@ -98,6 +100,8 @@ const LandingPage = () => {
         pricingRef={pricingRef}
         handlePlanSelection={handlePlanSelection}
       />
+      <FAQSection />
+      <TestimonialsSection />
 
       <Footer getDestination={getDestination} />
     </div>

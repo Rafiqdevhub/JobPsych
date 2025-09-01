@@ -10,8 +10,9 @@ const Footer = ({ getDestination }) => {
             <h3 className="text-lg font-semibold text-white mb-4">JobPsych</h3>
             <p className="text-gray-400 text-sm">
               A unified platform offering smart career direction for individuals
-              through Role Suggestions, and AI-powered recruitment tools for HR
-              with HireDisk Pro.
+              through Role Suggestions, AI-powered interview practice with
+              InterviewPrep AI, and advanced recruitment tools for HR with
+              HireDisk Pro.
             </p>
           </div>
           <div>
@@ -21,6 +22,8 @@ const Footer = ({ getDestination }) => {
             <ul className="text-gray-400 space-y-2 text-sm">
               <li>• Career Role Matching</li>
               <li>• Personality & Skills Fit</li>
+              <li>• AI Interview Practice</li>
+              <li>• Progress Tracking</li>
               <li>• Resume Parsing & Scoring</li>
               <li>• Tailored Interview Questions</li>
               <li>• Recruiter-Friendly Summaries</li>
@@ -55,6 +58,12 @@ const Footer = ({ getDestination }) => {
                 </span>
                 <span>Major Enhancements (August 2025)</span>
               </li>
+              <li className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-blue-900 rounded text-xs text-blue-300 font-medium">
+                  v2.1.0
+                </span>
+                <span>InterviewPrep AI Added (September 2025)</span>
+              </li>
             </ul>
           </div>
           <div>
@@ -69,6 +78,15 @@ const Footer = ({ getDestination }) => {
                   className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
                 >
                   Explore Role Suggestions
+                </NavigationButton>
+              </li>
+              <li>
+                •{" "}
+                <NavigationButton
+                  to="/interview-dashboard"
+                  className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
+                >
+                  Try InterviewPrep AI
                 </NavigationButton>
               </li>
               <li>
