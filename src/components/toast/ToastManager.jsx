@@ -4,7 +4,7 @@ import {
   formatErrorMessage,
   getErrorType,
   getErrorCategory,
-} from "../utils/errorHandler";
+} from "../../utils/errorHandler";
 
 export const ToastContext = createContext();
 

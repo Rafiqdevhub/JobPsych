@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useUserManager } from "../hooks/useUserManager";
+import { useUserManager } from "../../hooks/useUserManager";
 import {
   getSubscriptionDetails,
   cancelSubscription,
-} from "../utils/paymentService";
+} from "../../utils/paymentService";
 
 const SubscriptionManagement = () => {
   const {

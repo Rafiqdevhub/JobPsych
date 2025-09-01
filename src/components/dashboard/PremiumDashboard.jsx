@@ -13,15 +13,15 @@ import {
   SparklesIcon as SparklesIconSolid,
   CheckCircleIcon,
 } from "@heroicons/react/24/solid";
-import ResumeUpload from "./ResumeUpload";
-import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
-import GeneratedQuestions from "./GeneratedQuestions";
+import ResumeUpload from "../resume/ResumeUpload";
+import ResumeDetailsWrapper from "../resume/ResumeDetailsWrapper";
+import GeneratedQuestions from "../GeneratedQuestions";
 // import SubscriptionManagement from "./SubscriptionManagement";
-import Toast from "./Toast";
-import { API_ENDPOINTS } from "../utils/api";
-import { getErrorCategory, formatErrorMessage } from "../utils/errorHandler";
-import StandardQuestions from "./StandardQuestions";
-import { features } from "../data/features";
+import Toast from "../toast/Toast";
+import { API_ENDPOINTS } from "../../utils/api";
+import { getErrorCategory, formatErrorMessage } from "../../utils/errorHandler";
+import StandardQuestions from "../StandardQuestions";
+import { features } from "../../data/features";
 
 const PremiumDashboard = () => {
   const { user } = useUser();

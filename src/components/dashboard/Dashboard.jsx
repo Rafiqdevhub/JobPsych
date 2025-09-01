@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
-import ResumeUpload from "./ResumeUpload";
-import ResumeDetailsWrapper from "./ResumeDetailsWrapper";
-import NetworkError from "./NetworkError";
-import LoadingError from "./LoadingError";
-import NavigationButton from "./NavigationButton";
-import { formatErrorMessage, getErrorCategory } from "../utils/errorHandler";
-import { API_ENDPOINTS } from "../utils/api";
-import { generalTips } from "../data/candidateTips";
+import { formatErrorMessage, getErrorCategory } from "../../utils/errorHandler";
+import { API_ENDPOINTS } from "../../utils/api";
+import { generalTips } from "../../data/candidateTips";
+import ResumeUpload from "../resume/ResumeUpload";
+import NavigationButton from "../buttons/NavigationButton";
 
 const Dashboard = () => {
   const { user } = useUser();

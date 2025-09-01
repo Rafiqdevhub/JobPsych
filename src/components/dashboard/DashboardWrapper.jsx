@@ -3,7 +3,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import PremiumDashboard from "./PremiumDashboard";
-import { useUserManager } from "../hooks/useUserManager";
+import { useUserManager } from "../../hooks/useUserManager";
 
 const DashboardWrapper = () => {
   const { isSignedIn, isLoaded } = useUser();

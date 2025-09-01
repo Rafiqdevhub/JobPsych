@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { pollPaymentStatus } from "../utils/paymentService";
+import { pollPaymentStatus } from "../../utils/paymentService";
 
 const PaymentStatusTracker = ({
   paymentId,

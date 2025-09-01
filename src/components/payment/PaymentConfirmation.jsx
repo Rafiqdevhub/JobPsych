@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   generatePaymentSummary,
   validatePaymentAmount,
-} from "../utils/paymentService";
-import { useUserManager } from "../hooks/useUserManager";
+} from "../../utils/paymentService";
+import { useUserManager } from "../../hooks/useUserManager";
 
 const PaymentConfirmation = ({
   planId,

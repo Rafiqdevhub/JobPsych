@@ -4,14 +4,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
 import App from "./App.jsx";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
-import ToastProvider from "./components/ToastManager.jsx";
-import LandingPage from "./components/LandingPage.jsx";
-import Dashboard from "./components/Dashboard.jsx";
-import DashboardWrapper from "./components/DashboardWrapper.jsx";
-import PaymentPage from "./components/PaymentPage.jsx";
-import ClerkAuth from "./components/ClerkAuth.jsx";
-import NotFound from "./components/NotFound.jsx";
+import LandingPage from "./components/landing/LandingPage.jsx";
+import DashboardWrapper from "./components/dashboard/DashboardWrapper.jsx";
+import PaymentPage from "./components/payment/PaymentPage.jsx";
+import ClerkAuth from "./components/clerk/ClerkAuth.jsx";
+import Dashboard from "./components/dashboard/Dashboard.jsx";
+import ToastProvider from "./components/toast/ToastManager.jsx";
+import ErrorBoundary from "./components/error/ErrorBoundary.jsx";
+import NotFound from "./components/error/NotFound.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {

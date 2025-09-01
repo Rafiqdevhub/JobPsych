@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { Elements } from "@stripe/react-stripe-js";
 import {
   createPayment,
   fetchAvailablePlans,
   DEFAULT_PLANS,
-} from "../utils/paymentService";
-import { useUserManager } from "../hooks/useUserManager";
-import stripePromise from "../utils/stripe";
+} from "../../utils/paymentService";
+import { useUserManager } from "../../hooks/useUserManager";
+import stripePromise from "../../utils/stripe";
 import CheckoutForm from "./CheckoutForm";
-import NavigationButton from "./NavigationButton";
+import NavigationButton from "../buttons/NavigationButton";
 import PaymentConfirmation from "./PaymentConfirmation";
 import PaymentStatusTracker from "./PaymentStatusTracker";
 

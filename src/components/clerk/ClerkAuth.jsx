@@ -8,8 +8,8 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import NavigationButton from "./NavigationButton";
-import { useUserManager } from "../hooks/useUserManager";
+import NavigationButton from "../buttons/NavigationButton";
+import { useUserManager } from "../../hooks/useUserManager";
 
 const ClerkAuth = ({ mode = "signIn" }) => {
   const { isSignedIn } = useUser();
