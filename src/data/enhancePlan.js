@@ -20,6 +20,26 @@ export const enhancedPlans = [
     popular: true,
   },
   {
+    name: "InterviewPrep AI",
+    description: "AI-powered interview practice and preparation",
+    price: { monthly: "Demo" },
+    highlight: "Free Demo",
+    features: [
+      "Practice interview questions",
+      "Recording simulation",
+      "Progress tracking",
+      "Interview tips & feedback",
+      "Question navigation",
+      "Demo version with full features",
+      "No signup required",
+    ],
+    limitations: ["Demo version"],
+    buttonText: "Try InterviewPrep AI",
+    buttonStyle:
+      "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
+    popular: false,
+  },
+  {
     name: "HireDisk",
     description: "Advanced AI hiring intelligence for HR teams",
     price: { monthly: 50 },

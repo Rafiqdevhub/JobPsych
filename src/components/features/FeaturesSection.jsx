@@ -13,7 +13,7 @@ const FeaturesSection = () => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
-            Two Powerful Tools for
+            Three Powerful Tools for
             <br />
             <span className="text-indigo-600">
               Career Success & Smart Hiring
@@ -21,13 +21,14 @@ const FeaturesSection = () => {
           </h2>
 
           <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            JobPsych provides free career guidance for job seekers through Role
-            Suggestions, and premium AI-powered hiring intelligence for HR teams
-            through HireDisk.
+            JobPsych provides three powerful tools for career success: Free
+            career guidance for job seekers through Role Suggestions, AI-powered
+            interview practice with InterviewPrep AI, and premium hiring
+            intelligence for HR teams through HireDisk.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-10 sm:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 mb-10 sm:mb-16">
           <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-200 hover:-translate-y-1">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
@@ -51,12 +52,35 @@ const FeaturesSection = () => {
             </div>
           </div>
 
+          <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200 hover:-translate-y-1">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            <div className="relative z-10">
+              <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                🎯
+              </div>
+
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 text-xs font-medium mb-4">
+                InterviewPrep AI
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                AI Interview Practice
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                Practice real interview questions with AI feedback. Get instant
+                tips and improve your interview skills with our demo version.
+              </p>
+            </div>
+          </div>
+
           <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-emerald-200 hover:-translate-y-1">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
             <div className="relative z-10">
               <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                �
+                🔒
               </div>
 
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 text-xs font-medium mb-4">
@@ -136,6 +160,12 @@ const FeaturesSection = () => {
               recommendations—no payment or signup required!
             </p>
             <p className="mb-2">
+              <span className="font-bold text-blue-200">InterviewPrep AI</span>{" "}
+              is our AI-powered interview practice tool, currently available as
+              a <span className="font-bold text-blue-300">demo version</span>{" "}
+              for practicing real interview questions with instant feedback.
+            </p>
+            <p className="mb-2">
               <span className="font-bold text-emerald-200">HireDisk</span> is
               our premium AI hiring tool for HR teams and recruiters, with two
               plans:
@@ -164,7 +194,10 @@ const FeaturesSection = () => {
               <span className="text-yellow-200 font-bold">
                 Role Suggestions
               </span>{" "}
-              for free. If you're an HR team or recruiter, start with{" "}
+              for free career guidance, or try{" "}
+              <span className="text-blue-200 font-bold">InterviewPrep AI</span>{" "}
+              for interview practice. If you're an HR team or recruiter, start
+              with{" "}
               <span className="text-orange-200 font-bold">HireDisk Pro</span>{" "}
               for $50/month, or{" "}
               <button
@@ -176,7 +209,7 @@ const FeaturesSection = () => {
               for a custom Premium plan.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 max-w-6xl mx-auto">
             {/* Role Suggestions Flow */}
             <div className="bg-white/10 rounded-2xl p-4 sm:p-6">
               <h4 className="text-xl font-bold mb-6 text-yellow-300">
@@ -208,6 +241,42 @@ const FeaturesSection = () => {
                 <div className="mt-4 text-green-200 text-sm font-semibold">
                   <span className="bg-green-700/60 rounded px-2 py-1">
                     Completely Free
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* InterviewPrep AI Flow */}
+            <div className="bg-white/10 rounded-2xl p-4 sm:p-6">
+              <h4 className="text-xl font-bold mb-6 text-blue-300">
+                🎯 InterviewPrep AI (Demo)
+              </h4>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                    1
+                  </div>
+                  <span className="text-white/90">
+                    Access practice dashboard
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                    2
+                  </div>
+                  <span className="text-white/90">
+                    Practice with sample questions
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+                    3
+                  </div>
+                  <span className="text-white/90">Get AI feedback & tips</span>
+                </div>
+                <div className="mt-4 text-blue-200 text-sm font-semibold">
+                  <span className="bg-blue-700/60 rounded px-2 py-1">
+                    Demo Version
                   </span>
                 </div>
               </div>

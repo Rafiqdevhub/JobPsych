@@ -27,13 +27,13 @@ const HeroSection = ({
 
           <p className="mt-6 text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
             <span className="font-semibold text-indigo-600">
-              JobPsych offers two powerful tools:
+              JobPsych offers three powerful tools:
             </span>{" "}
-            Free career role suggestions for job seekers and premium AI-powered
+            Free career role suggestions, AI interview preparation, and premium
             hiring intelligence for HR teams.
           </p>
           <div className="mt-8 p-4 sm:p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-inner border border-indigo-100">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-sm text-gray-700">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-sm text-gray-700">
               <div className="text-center p-4 bg-white/60 rounded-xl border border-indigo-200">
                 <div className="flex items-center justify-center space-x-2 mb-2">
                   <span className="text-lg">✅</span>
@@ -43,6 +43,17 @@ const HeroSection = ({
                 </div>
                 <p className="text-xs text-gray-600">
                   Free career guidance for job seekers
+                </p>
+              </div>
+              <div className="text-center p-4 bg-white/60 rounded-xl border border-blue-200">
+                <div className="flex items-center justify-center space-x-2 mb-2">
+                  <span className="text-lg">🎯</span>
+                  <span className="font-medium text-blue-600">
+                    InterviewPrep AI
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600">
+                  Practice interviews with AI
                 </p>
               </div>
               <div className="text-center p-4 bg-white/60 rounded-xl border border-emerald-200">
@@ -72,7 +83,15 @@ const HeroSection = ({
                 </span>
               )}
             </button>
-
+            <button
+              onClick={() => (window.location.href = "/interview-dashboard")}
+              className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
+            >
+              <span className="text-lg">🎯</span>
+              <span className="relative z-10">InterviewPrep AI</span>
+              <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
             <button
               onClick={() => handlePlanSelection("pro")}
               className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
@@ -88,8 +107,12 @@ const HeroSection = ({
           </div>
           <div className="mt-4 space-y-2">
             <p className="text-sm text-indigo-700 font-medium bg-indigo-50 px-4 py-2 rounded-lg inline-block">
-              ✅ <strong>Role Suggestions:</strong> Completely FREE - Upload
-              your resume, mention target role & get career recommendations
+              <strong>Role Suggestions:</strong> Completely FREE - Upload your
+              resume, mention target role & get career recommendations
+            </p>
+            <p className="text-sm text-blue-700 font-medium bg-blue-50 px-4 py-2 rounded-lg inline-block">
+              <strong>InterviewPrep AI:</strong> Practice interviews with AI
+              Free for first 2 interviews, then requires sign-up
             </p>
             <p className="text-sm text-emerald-700 font-medium bg-emerald-50 px-4 py-2 rounded-lg inline-block">
               <strong>HireDisk:</strong> Premium AI hiring tool for HR teams and

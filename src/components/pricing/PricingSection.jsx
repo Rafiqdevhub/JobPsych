@@ -4,11 +4,7 @@ import { faqs } from "../../data/faqs";
 import { testimonials } from "../../data/testimonials";
 import FAQDropdown from "../FAQDropdown";
 
-const PricingSection = ({
-  pricingRef,
-  scrollToContact,
-  handlePlanSelection,
-}) => {
+const PricingSection = ({ pricingRef, handlePlanSelection }) => {
   return (
     <section
       id="pricing"
@@ -24,12 +20,12 @@ const PricingSection = ({
             Choose the Perfect Plan for Your Team
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Choose Role Suggestions for free career guidance or upgrade to
-            HireDisk Pro for advanced AI-powered hiring intelligence and
-            unlimited features.
+            Choose Role Suggestions for free career guidance, try InterviewPrep
+            AI for interview practice, or upgrade to HireDisk Pro for advanced
+            AI-powered hiring intelligence and unlimited features.
           </p>
         </div>
-        <div className="mx-auto mt-10 sm:mt-20 grid max-w-4xl grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-3">
+        <div className="mx-auto mt-10 sm:mt-20 grid max-w-6xl grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {enhancedPlans.map((plan, index) => (
             <div
               key={plan.name}
@@ -55,7 +51,11 @@ const PricingSection = ({
                   }`}
                 >
                   <span className="text-2xl">
-                    {plan.name === "Role Suggestions" ? "✅" : "🔒"}
+                    {plan.name === "Role Suggestions"
+                      ? "✅"
+                      : plan.name === "InterviewPrep AI"
+                      ? "🎯"
+                      : "🔒"}
                   </span>
                 </div>
                 <h3
@@ -168,104 +168,22 @@ const PricingSection = ({
                   </p>
                 </div>
               )}
+              {plan.name === "InterviewPrep AI" && (
+                <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-2xl">🎯</span>
+                    <span className="text-sm font-semibold text-blue-800">
+                      Practice Makes Perfect
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-blue-700">
+                    Practice real interview questions with AI feedback and
+                    improve your interview skills.
+                  </p>
+                </div>
+              )}
             </div>
           ))}
-          <div className="relative flex flex-col rounded-3xl p-6 sm:p-8 shadow-2xl ring-2 ring-yellow-400 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-500 text-white scale-105">
-            <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
-              Premium
-            </div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 rounded-full bg-white/20">
-                <span className="text-2xl">💎</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white">Premium</h3>
-            </div>
-            <div className="mb-6">
-              <div className="flex items-baseline">
-                <span className="text-5xl font-extrabold tracking-tight text-white">
-                  Custom
-                </span>
-              </div>
-              <p className="mt-4 text-lg text-white/90">
-                Enterprise-grade AI hiring solutions, custom integrations, and
-                dedicated support. Contact us for pricing and access.
-              </p>
-            </div>
-            <button
-              onClick={scrollToContact}
-              className="mb-8 w-full rounded-xl px-6 py-4 text-center text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer border-none bg-yellow-400 text-red-700 hover:bg-yellow-300 border border-yellow-500"
-              style={{ letterSpacing: "0.03em" }}
-            >
-              Contact Us
-            </button>
-            <ul className="space-y-4 flex-1">
-              <li className="flex items-start space-x-3">
-                <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
-                  <svg
-                    className="h-4 w-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <span className="text-base text-white/90">
-                  Custom AI solutions
-                </span>
-              </li>
-              <li className="flex items-start space-x-3">
-                <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
-                  <svg
-                    className="h-4 w-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <span className="text-base text-white/90">
-                  Dedicated support
-                </span>
-              </li>
-              <li className="flex items-start space-x-3">
-                <div className="flex-shrink-0 mt-1 p-1 rounded-full bg-white/20">
-                  <svg
-                    className="h-4 w-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <span className="text-base text-white/90">
-                  Custom integrations
-                </span>
-              </li>
-            </ul>
-            <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
-              <div className="flex items-center space-x-2">
-                <span className="text-2xl">💎</span>
-                <span className="text-sm font-semibold text-white">
-                  For Enterprises & Large Teams
-                </span>
-              </div>
-              <p className="mt-2 text-sm text-white/80">
-                Contact us for a tailored solution and pricing.
-              </p>
-            </div>
-          </div>
         </div>{" "}
         {/* FAQ Section */}
         <div className="mt-10 sm:mt-20">

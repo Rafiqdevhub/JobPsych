@@ -106,8 +106,8 @@ function Header({ scrollToPricing }) {
 
             <div className="hidden md:block flex-1 text-center mx-2 sm:mx-8">
               <p className="text-xs sm:text-sm text-gray-600 font-medium italic">
-                Free career guidance for job seekers and smart AI hiring for HR
-                teams
+                Free career guidance, AI interview practice, and smart hiring
+                tools
                 <br className="hidden sm:block" />
                 JobPsych empowers your next move.
               </p>
@@ -287,7 +287,7 @@ function Header({ scrollToPricing }) {
 
       {showFeatures && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
-          <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-8 max-w-xs sm:max-w-4xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
+          <div className="bg-white rounded-3xl shadow-2xl p-4 sm:p-8 max-w-xs sm:max-w-6xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
             <button
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold focus:outline-none cursor-pointer"
               onClick={() => setShowFeatures(false)}
@@ -296,9 +296,9 @@ function Header({ scrollToPricing }) {
               &times;
             </button>
             <h2 className="text-xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Platform Features
+              JobPsych Tools & Features
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
               <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-emerald-100 flex flex-col">
                 <h3 className="text-base sm:text-2xl font-bold text-emerald-700 mb-3 sm:mb-4 flex items-center gap-2">
                   <span className="text-xl sm:text-3xl">🧑‍💼</span> Role
@@ -318,6 +318,58 @@ function Header({ scrollToPricing }) {
                       </div>
                     </li>
                   ))}
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-blue-100 flex flex-col">
+                <h3 className="text-base sm:text-2xl font-bold text-blue-700 mb-3 sm:mb-4 flex items-center gap-2">
+                  <span className="text-xl sm:text-3xl">🎯</span> InterviewPrep
+                  AI
+                </h3>
+                <ul className="space-y-3 sm:space-y-4">
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-lg sm:text-2xl">🎤</span>
+                    <div>
+                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
+                        Practice Interviews
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-base">
+                        Practice with sample questions and get AI feedback
+                      </div>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-lg sm:text-2xl">📊</span>
+                    <div>
+                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
+                        Progress Tracking
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-base">
+                        Monitor your interview practice progress
+                      </div>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-lg sm:text-2xl">💡</span>
+                    <div>
+                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
+                        Interview Tips
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-base">
+                        Get instant tips to improve your performance
+                      </div>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <span className="text-lg sm:text-2xl">⚡</span>
+                    <div>
+                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
+                        Demo Version
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-base">
+                        Try our interview practice tool for free
+                      </div>
+                    </div>
+                  </li>
                 </ul>
               </div>
               <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-yellow-100 flex flex-col">
@@ -365,8 +417,9 @@ function Header({ scrollToPricing }) {
               </h2>
 
               <p className="text-base sm:text-lg text-white/90 mb-4 max-w-xs sm:max-w-xl text-center">
-                Have questions, need a custom solution, or want to learn more
-                about JobPsych Premium? Our team is here to help you succeed.
+                Have questions about Role Suggestions, InterviewPrep AI, or
+                HireDisk? Need enterprise solutions or want to learn more about
+                our AI-powered tools? Our team is here to help you succeed.
               </p>
 
               {contactSubmitted ? (
@@ -423,7 +476,7 @@ function Header({ scrollToPricing }) {
                       required
                       rows={4}
                       className="w-full rounded-lg border border-indigo-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300 resize-none"
-                      placeholder="Tell us about your needs..."
+                      placeholder="Tell us about your career goals, interview preparation needs, or hiring requirements..."
                     />
                   </div>
                   <button
@@ -442,16 +495,36 @@ function Header({ scrollToPricing }) {
                         stroke="currentColor"
                         aria-hidden="true"
                       >
-                        <title>Custom Solutions Icon</title>
+                        <title>Career Guidance Icon</title>
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M16 12v1a4 4 0 01-4 4H8a4 4 0 01-4-4V8a4 4 0 014-4h4a4 4 0 014 4v1"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
                       <span className="text-xs sm:text-base">
-                        Custom AI Solutions
+                        Career Guidance
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-indigo-700/80">
+                      <svg
+                        className="h-5 w-5 text-blue-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <title>Interview Practice Icon</title>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                        />
+                      </svg>
+                      <span className="text-xs sm:text-base">
+                        InterviewPrep AI
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-indigo-700/80">
@@ -462,16 +535,16 @@ function Header({ scrollToPricing }) {
                         stroke="currentColor"
                         aria-hidden="true"
                       >
-                        <title>Support Icon</title>
+                        <title>Hiring Intelligence Icon</title>
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M12 8v4l3 3"
+                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0V8a2 2 0 01-2 2H8a2 2 0 01-2-2V6m8 0H8"
                         />
                       </svg>
                       <span className="text-xs sm:text-base">
-                        Dedicated Support
+                        Hiring Intelligence
                       </span>
                     </div>
                   </div>

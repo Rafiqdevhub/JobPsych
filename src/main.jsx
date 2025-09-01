@@ -12,6 +12,7 @@ import Dashboard from "./components/dashboard/Dashboard.jsx";
 import ToastProvider from "./components/toast/ToastManager.jsx";
 import ErrorBoundary from "./components/error/ErrorBoundary.jsx";
 import NotFound from "./components/error/NotFound.jsx";
+import InterviewDashboard from "./components/interview/InterviewDashboard.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "payment",
         element: <PaymentPage />,
+      },
+      {
+        path: "interview-dashboard",
+        element: <InterviewDashboard />,
       },
       {
         path: "*",

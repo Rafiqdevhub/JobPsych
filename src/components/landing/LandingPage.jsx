@@ -55,6 +55,11 @@ const LandingPage = () => {
       normalizedPlanId === "role suggestions"
     ) {
       window.location.href = "/dashboard";
+    } else if (
+      normalizedPlanId === "interviewprep" ||
+      normalizedPlanId === "interviewprep ai"
+    ) {
+      window.location.href = "/interview-dashboard";
     } else if (normalizedPlanId === "pro" || normalizedPlanId === "hiredisk") {
       if (!isSignedIn) {
         localStorage.setItem("selectedPlan", "pro");
@@ -72,14 +77,7 @@ const LandingPage = () => {
     }
   };
 
-  const contactRef = React.useRef(null);
   const pricingRef = React.useRef(null);
-
-  const scrollToContact = () => {
-    if (contactRef.current) {
-      contactRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const scrollToPricing = () => {
     if (pricingRef.current) {
@@ -98,7 +96,6 @@ const LandingPage = () => {
       <FeaturesSection />
       <PricingSection
         pricingRef={pricingRef}
-        scrollToContact={scrollToContact}
         handlePlanSelection={handlePlanSelection}
       />
 
