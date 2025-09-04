@@ -1,11 +1,17 @@
 import React from "react";
+import useToast from "../../hooks/useToast";
 
 const InterviewDashboard = () => {
+  const { showSuccess } = useToast();
+
   const handleStartInterview = () => {
-    window.open(
-      "https://ai-mock-interview-preparation-seven.vercel.app/sign-in",
-      "_blank"
-    );
+    showSuccess("Redirecting to AI Interview in a new tab...");
+    setTimeout(() => {
+      window.open(
+        "https://ai-mock-interview-preparation-seven.vercel.app/sign-in",
+        "_blank"
+      );
+    }, 1000);
   };
 
   return (
@@ -18,8 +24,8 @@ const InterviewDashboard = () => {
         style={{ pointerEvents: "auto" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
-            <div className="flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-center justify-between py-4 sm:py-6">
+            <div className="flex-shrink-0 mb-4 sm:mb-0">
               <button
                 onClick={() => (window.location.href = "/")}
                 className="inline-flex items-center gap-2 bg-blue-600 px-4 py-2 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
@@ -33,19 +39,16 @@ const InterviewDashboard = () => {
               </button>
             </div>
 
-            <div className="flex-1 text-center px-8">
-              <blockquote className="text-lg font-medium text-gray-700 italic">
+            <div className="flex-1 text-center px-4 sm:px-8 mb-4 sm:mb-0">
+              <blockquote className="text-base sm:text-lg font-medium text-gray-700 italic">
                 Practice makes perfect. Every interview is a step closer to your
                 dream job.
               </blockquote>
-              <cite className="text-sm text-blue-600 font-semibold mt-1 block">
-                InterviewPrep AI
-              </cite>
             </div>
 
-            <div className="flex-shrink-0 text-right">
-              <div className="flex items-center justify-end space-x-3">
-                <h1 className="text-2xl font-bold text-gray-900">
+            <div className="flex-shrink-0 text-center sm:text-right">
+              <div className="flex items-center justify-center sm:justify-end space-x-3">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                   InterviewPrep AI
                 </h1>
               </div>

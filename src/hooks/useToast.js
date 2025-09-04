@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { ToastContext } from "./ToastManager";
+import { ToastContext } from "../components/toast/ToastManager";
 
-// Custom hook to use toast
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
