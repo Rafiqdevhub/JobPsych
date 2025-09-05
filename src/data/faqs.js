@@ -1,21 +1,21 @@
 export const faqs = [
   {
     question:
-      "What's the difference between Role Suggestions, InterviewPrep AI, and HireDisk?",
+      "What's the differences among Role Suggestions, InterviewPrep AI, and HireDisk?",
     answer:
-      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI is our demo version for practicing interviews with AI feedback. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
+      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI is  for practicing interviews with AI feedback. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
     type: "general",
   },
   {
     question: "What is InterviewPrep AI?",
     answer:
-      "InterviewPrep AI is our AI-powered interview practice tool that helps job seekers prepare for interviews. It provides sample questions, recording simulation, and tips to improve your interview skills. Currently available as a demo version with full functionality coming soon.",
+      "InterviewPrep AI is our AI-powered interview practice tool that helps job seekers prepare for interviews. It provides sample questions, recording simulation, and tips to improve your interview skills.",
     type: "interview",
   },
   {
     question: "Is InterviewPrep AI free?",
     answer:
-      "Yes! InterviewPrep AI is currently available as a free demo version. You can practice with sample interview questions, simulate recording, and get instant feedback without any cost or signup required.",
+      "Yes! InterviewPrep AI is free. You can practice with sample interview questions, simulate recording, and get instant feedback.",
     type: "interview",
   },
   {
@@ -29,17 +29,5 @@ export const faqs = [
     answer:
       "Yes! Role Suggestions is 100% free with unlimited usage. Upload your resume, specify target roles, and get personalized career recommendations without any limits or hidden fees.",
     type: "career",
-  },
-  {
-    question: "What payment methods do you accept for HireDisk Pro?",
-    answer:
-      "We accept all major credit cards (Visa, MasterCard, American Express) and PayPal for convenient billing of HireDisk Pro subscriptions.",
-    type: "hiring",
-  },
-  {
-    question: "Is my data secure?",
-    answer:
-      "Absolutely. We use enterprise-grade security with encryption at rest and in transit. All data is stored securely and never shared with third parties, whether you use Role Suggestions, InterviewPrep AI, or HireDisk.",
-    type: "general",
   },
 ];

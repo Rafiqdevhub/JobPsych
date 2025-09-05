@@ -6,7 +6,7 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
     <section
       id="pricing"
       ref={pricingRef}
-      className="mt-0 pt-0 pb-16 sm:pt-8 sm:pb-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+      className="mt-0 pt-0 pb-16 sm:pt-8 sm:pb-24 bg-indigo-50"
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl lg:text-center">
@@ -16,11 +16,6 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Choose the Perfect Plan for Your Team
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Choose Role Suggestions for free career guidance, try InterviewPrep
-            AI for interview practice, or upgrade to HireDisk Pro for advanced
-            AI-powered hiring intelligence and unlimited features.
-          </p>
         </div>
         <div className="mx-auto mt-10 sm:mt-20 grid max-w-6xl grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {enhancedPlans.map((plan, index) => (
@@ -28,33 +23,15 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
               key={plan.name}
               className={`relative flex flex-col rounded-3xl p-6 sm:p-8 shadow-2xl ring-1 ring-gray-200 transform transition-all duration-500 hover:scale-105 hover:shadow-3xl ${
                 plan.popular
-                  ? "bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white scale-105 border-2 border-yellow-400"
-                  : "bg-white hover:bg-gradient-to-br hover:from-gray-50 hover:to-indigo-50 border border-indigo-100"
+                  ? "bg-indigo-600 text-white scale-105 border-2 border-yellow-400"
+                  : "bg-white hover:bg-indigo-50 border border-indigo-100"
               }`}
               style={{
                 animationDelay: `${index * 200}ms`,
                 animation: "fadeInUp 0.8s ease-out forwards",
               }}
             >
-              {plan.popular && (
-                <div className="absolute -top-5 left-0 right-0 mx-auto w-40 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-2 text-center text-sm font-bold text-white shadow-lg">
-                  {plan.highlight}
-                </div>
-              )}
               <div className="flex items-center space-x-3 mb-4">
-                <div
-                  className={`p-3 rounded-full shadow ${
-                    plan.popular ? "bg-white/30" : "bg-indigo-100"
-                  }`}
-                >
-                  <span className="text-2xl">
-                    {plan.name === "Role Suggestions"
-                      ? "✅"
-                      : plan.name === "InterviewPrep AI"
-                      ? "🎯"
-                      : "🔒"}
-                  </span>
-                </div>
                 <h3
                   className={`text-2xl font-bold tracking-wide ${
                     plan.popular
@@ -66,26 +43,6 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
                 </h3>
               </div>
               <div className="mb-6">
-                <div className="flex items-baseline">
-                  <span
-                    className={`text-5xl font-extrabold tracking-tight ${
-                      plan.popular ? "text-white" : "text-gray-900"
-                    }`}
-                  >
-                    {typeof plan.price.monthly === "number"
-                      ? `$${plan.price.monthly}`
-                      : plan.price.monthly}
-                  </span>
-                  {typeof plan.price.monthly === "number" && (
-                    <span
-                      className={`ml-1 text-xl font-semibold ${
-                        plan.popular ? "text-white/80" : "text-gray-500"
-                      }`}
-                    >
-                      /month
-                    </span>
-                  )}
-                </div>
                 <p
                   className={`mt-4 text-lg ${
                     plan.popular ? "text-white/90" : "text-gray-600"
@@ -140,7 +97,6 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
               {plan.name === "Role Suggestions" && (
                 <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                   <div className="flex items-center space-x-2">
-                    <span className="text-2xl">✅</span>
                     <span className="text-sm font-semibold text-blue-800">
                       Perfect for Job Seekers
                     </span>
@@ -154,7 +110,6 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
               {plan.name === "HireDisk" && !plan.popular && (
                 <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-200">
                   <div className="flex items-center space-x-2">
-                    <span className="text-2xl">🔒</span>
                     <span className="text-sm font-semibold text-indigo-800">
                       For HR Teams & Recruiters
                     </span>
@@ -168,7 +123,6 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
               {plan.name === "InterviewPrep AI" && (
                 <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                   <div className="flex items-center space-x-2">
-                    <span className="text-2xl">🎯</span>
                     <span className="text-sm font-semibold text-blue-800">
                       Practice Makes Perfect
                     </span>
@@ -181,7 +135,7 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
               )}
             </div>
           ))}
-        </div>{" "}
+        </div>
       </div>
     </section>
   );

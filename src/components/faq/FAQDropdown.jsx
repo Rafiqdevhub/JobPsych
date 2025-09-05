@@ -3,40 +3,35 @@ import React, { useState } from "react";
 const FAQDropdown = ({ question, answer, type = "general" }) => {
   const [open, setOpen] = useState(false);
 
-  // Define colors and icons based on question type
   const getTypeStyles = () => {
     switch (type) {
       case "interview":
         return {
           bgColor: "bg-blue-50 hover:bg-blue-100",
           borderColor: "border-blue-200",
-          iconColor: "text-blue-600",
+
           accentColor: "bg-blue-500",
-          icon: "🎯",
         };
       case "career":
         return {
           bgColor: "bg-emerald-50 hover:bg-emerald-100",
           borderColor: "border-emerald-200",
-          iconColor: "text-emerald-600",
+
           accentColor: "bg-emerald-500",
-          icon: "✅",
         };
       case "hiring":
         return {
           bgColor: "bg-purple-50 hover:bg-purple-100",
           borderColor: "border-purple-200",
-          iconColor: "text-purple-600",
+
           accentColor: "bg-purple-500",
-          icon: "🔒",
         };
       default:
         return {
           bgColor: "bg-indigo-50 hover:bg-indigo-100",
           borderColor: "border-indigo-200",
-          iconColor: "text-indigo-600",
+
           accentColor: "bg-indigo-500",
-          icon: "💡",
         };
     }
   };
@@ -55,11 +50,6 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
         aria-expanded={open}
       >
         <div className="flex items-center space-x-3 flex-1">
-          <div
-            className={`flex-shrink-0 w-8 h-8 rounded-full ${styles.accentColor} flex items-center justify-center text-white text-sm font-bold shadow-md`}
-          >
-            {styles.icon}
-          </div>
           <span className="text-lg font-semibold text-gray-900 text-left leading-tight">
             {question}
           </span>
@@ -127,7 +117,7 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
               {type === "interview" && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800 font-medium mb-1">
-                    💡 Pro Tip:
+                    Pro Tip:
                   </p>
                   <p className="text-sm text-blue-700">
                     Practice regularly with InterviewPrep AI to build confidence
@@ -138,7 +128,7 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
               {type === "career" && (
                 <div className="mt-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
                   <p className="text-sm text-emerald-800 font-medium mb-1">
-                    💡 Pro Tip:
+                    Pro Tip:
                   </p>
                   <p className="text-sm text-emerald-700">
                     Upload your resume to Role Suggestions for personalized
@@ -149,7 +139,7 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
               {type === "hiring" && (
                 <div className="mt-4 p-3 bg-purple-50 rounded-lg border border-purple-200">
                   <p className="text-sm text-purple-800 font-medium mb-1">
-                    💡 Pro Tip:
+                    Pro Tip:
                   </p>
                   <p className="text-sm text-purple-700">
                     HireDisk Pro offers advanced AI screening to help you find
@@ -160,10 +150,10 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
               {type === "general" && (
                 <div className="mt-4 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
                   <p className="text-sm text-indigo-800 font-medium mb-1">
-                    💡 Pro Tip:
+                    Pro Tip:
                   </p>
                   <p className="text-sm text-indigo-700">
-                    Explore all JobPsych tools - from free career guidance to
+                    Explore all JobPsych tools from free career guidance to
                     premium hiring intelligence!
                   </p>
                 </div>

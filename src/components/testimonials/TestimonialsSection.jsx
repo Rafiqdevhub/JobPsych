@@ -3,11 +3,11 @@ import { testimonials } from "../../data/testimonials";
 
 const TestimonialsSection = () => {
   return (
-    <section className="mt-8 sm:mt-15 bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-16 sm:py-24">
+    <section className="mt-8 sm:mt-15 bg-indigo-50 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-16">
           <h3 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
-            ⭐ Success Stories
+            Success Stories
           </h3>
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             See How JobPsych Transforms Careers & Hiring
@@ -23,14 +23,14 @@ const TestimonialsSection = () => {
             that helps candidates ace interviews and recruiters find top talent.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium rounded-full shadow-lg">
-              📋 Role Suggestions
+            <div className="inline-flex items-center px-4 py-2 bg-emerald-500 text-white text-sm font-medium rounded-full shadow-lg">
+              Role Suggestions
             </div>
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm font-medium rounded-full shadow-lg">
-              🎯 InterviewPrep AI
+            <div className="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-full shadow-lg">
+              InterviewPrep AI
             </div>
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-sm font-medium rounded-full shadow-lg">
-              👥 HireDisk Pro
+            <div className="inline-flex items-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-full shadow-lg">
+              HireDisk for Hiring
             </div>
           </div>
         </div>
@@ -42,13 +42,13 @@ const TestimonialsSection = () => {
                 key={index}
                 className="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100"
               >
-                <div className="absolute top-0 right-0 -mt-4 mr-4 px-4 py-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full text-white text-sm font-semibold">
+                <div className="absolute top-0 right-0 -mt-4 mr-4 px-4 py-1 bg-indigo-500 rounded-full text-white text-sm font-semibold">
                   {testimonial.category}
                 </div>
 
                 <div className="flex items-center space-x-4 mb-6">
                   <div className="relative w-16 h-16">
-                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-20 blur-sm"></div>
+                    <div className="absolute inset-0 bg-indigo-500 rounded-full opacity-20 blur-sm"></div>
                     <img
                       src={testimonial.image}
                       alt={testimonial.name}

@@ -2,8 +2,7 @@ export const enhancedPlans = [
   {
     name: "Role Suggestions",
     description: "Free career guidance for job seekers",
-    price: { monthly: 0, annual: 0 },
-    highlight: "100% Free",
+
     features: [
       "Unlimited resume analysis",
       "Target role specification",
@@ -13,7 +12,7 @@ export const enhancedPlans = [
       "Alternative role suggestions",
       "Instant results",
     ],
-    limitations: [],
+
     buttonText: "Start Free Analysis",
     buttonStyle:
       "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700",
@@ -22,18 +21,15 @@ export const enhancedPlans = [
   {
     name: "InterviewPrep AI",
     description: "AI-powered interview practice and preparation",
-    price: { monthly: "Demo" },
-    highlight: "Free Demo",
+
     features: [
       "Practice interview questions",
       "Recording simulation",
       "Progress tracking",
       "Interview tips & feedback",
       "Question navigation",
-      "Demo version with full features",
-      "No signup required",
     ],
-    limitations: ["Demo version"],
+
     buttonText: "Try InterviewPrep AI",
     buttonStyle:
       "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
@@ -42,8 +38,7 @@ export const enhancedPlans = [
   {
     name: "HireDisk",
     description: "Advanced AI hiring intelligence for HR teams",
-    price: { monthly: 50 },
-    highlight: "For HR Teams",
+
     features: [
       "Everything in Role Suggestions",
       "Advanced AI-powered screening",
@@ -52,7 +47,7 @@ export const enhancedPlans = [
       "Skills assessment reports",
       "Advanced analytics dashboard",
     ],
-    limitations: [],
+
     buttonText: "Start HireDisk Trial",
     buttonStyle:
       "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700",

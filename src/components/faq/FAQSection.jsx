@@ -11,7 +11,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h3>
           <p className="text-lg text-gray-600">
-            Everything you need to know about JobPsych and our pricing plans.
+            Everything you need to know about JobPsych.
           </p>
         </div>
         <div className="mx-auto max-w-4xl">

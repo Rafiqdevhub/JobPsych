@@ -64,8 +64,7 @@ function Header({ scrollToPricing }) {
         <div
           className="fixed w-full top-0 left-0 z-40 h-[64px] sm:h-[80px] pointer-events-none"
           style={{
-            background:
-              "linear-gradient(90deg, #ebf8ff 0%, #fff 60%, #d1fae5 100%)",
+            background: "#ebf8ff",
             opacity: 1,
           }}
         />
@@ -80,7 +79,7 @@ function Header({ scrollToPricing }) {
             className={`flex flex-wrap items-center justify-between rounded-xl px-2 sm:px-6 py-2 sm:py-3 transition-all duration-300
               ${
                 scrolled
-                  ? "bg-gradient-to-r from-white/90 to-indigo-50/60 backdrop-blur-md hover:shadow-xl"
+                  ? "bg-white/90 backdrop-blur-md hover:shadow-xl"
                   : "bg-transparent"
               }
             `}
@@ -98,7 +97,7 @@ function Header({ scrollToPricing }) {
                     className="h-10 w-10 sm:h-12 sm:w-12 object-contain transform transition-all duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h1 className="ml-2 text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-600 bg-clip-text text-transparent transition-all duration-300 tracking-tight cursor-pointer">
+                <h1 className="ml-2 text-xl sm:text-2xl font-bold text-indigo-600 transition-all duration-300 tracking-tight cursor-pointer">
                   JobPsych
                 </h1>
               </div>
@@ -117,7 +116,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={() => setShowFeatures(true)}
-                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 hover:from-emerald-200 hover:to-blue-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
                 style={{ minWidth: "90px" }}
               >
                 Features
@@ -125,7 +124,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={scrollToPricing}
-                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-purple-700 bg-gradient-to-r from-purple-100 to-indigo-100 hover:from-purple-200 hover:to-indigo-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
                 style={{ minWidth: "90px" }}
               >
                 Pricing
@@ -133,7 +132,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={() => setShowContact(true)}
-                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 hover:from-indigo-200 hover:to-purple-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-indigo-700 bg-indigo-100 hover:bg-indigo-200 rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none"
                 style={{ minWidth: "90px" }}
               >
                 Contact
@@ -142,7 +141,7 @@ function Header({ scrollToPricing }) {
                 <SignInButton mode="modal">
                   <button
                     type="button"
-                    className="px-4 sm:px-5 py-2 text-sm sm:text-base font-semibold rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none focus:outline-none bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:from-green-200 hover:to-blue-200"
+                    className="px-4 sm:px-5 py-2 text-sm sm:text-base font-semibold rounded-xl transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border-none focus:outline-none bg-green-100 text-blue-700 hover:bg-green-200"
                     style={{ minWidth: "80px" }}
                   >
                     Sign In
@@ -154,8 +153,8 @@ function Header({ scrollToPricing }) {
                     <span
                       className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${
                         isPro
-                          ? "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800"
-                          : "bg-gradient-to-r from-green-100 to-green-200 text-green-800"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-green-100 text-green-800"
                       }`}
                     >
                       {userPlan === "pro" ? "Pro Plan" : "Free Plan"}
@@ -170,7 +169,7 @@ function Header({ scrollToPricing }) {
                   onClick={() =>
                     window.scrollTo({ top: 0, behavior: "smooth" })
                   }
-                  className="ml-2 p-2 rounded-full bg-gradient-to-r from-indigo-200 to-purple-200 hover:from-indigo-300 hover:to-purple-300 shadow-lg transition-all duration-300 cursor-pointer border-none flex items-center justify-center"
+                  className="ml-2 p-2 rounded-full bg-indigo-200 hover:bg-indigo-300 shadow-lg transition-all duration-300 cursor-pointer border-none flex items-center justify-center"
                   aria-label="Scroll to top"
                   style={{ minWidth: 0 }}
                 >
@@ -199,7 +198,7 @@ function Header({ scrollToPricing }) {
                 id="mobile-nav-hamburger"
                 type="button"
                 aria-label="Open mobile menu"
-                className="p-2 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 shadow border-none flex items-center justify-center"
+                className="p-2 rounded-full bg-indigo-100 shadow border-none flex items-center justify-center"
                 onClick={() => setMobileDropdownOpen((open) => !open)}
               >
                 <svg
@@ -228,7 +227,7 @@ function Header({ scrollToPricing }) {
                         setShowFeatures(true);
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-emerald-700 bg-gradient-to-r from-emerald-100 to-blue-100 rounded-lg hover:bg-emerald-200 transition-all"
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-emerald-700 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-all"
                     >
                       🧩 Features
                     </button>
@@ -238,7 +237,7 @@ function Header({ scrollToPricing }) {
                         scrollToPricing();
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-purple-700 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-lg hover:bg-purple-200 transition-all"
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-purple-700 bg-purple-100 rounded-lg hover:bg-purple-200 transition-all"
                     >
                       💸 Pricing
                     </button>
@@ -248,7 +247,7 @@ function Header({ scrollToPricing }) {
                         setShowContact(true);
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-lg hover:bg-indigo-200 transition-all"
+                      className="flex items-center gap-2 px-4 py-2 text-base font-semibold text-indigo-700 bg-indigo-100 rounded-lg hover:bg-indigo-200 transition-all"
                     >
                       ✉️ Contact
                     </button>
@@ -256,7 +255,7 @@ function Header({ scrollToPricing }) {
                       <SignInButton mode="modal">
                         <button
                           type="button"
-                          className="flex items-center gap-2 px-4 py-2 text-base font-semibold rounded-lg bg-gradient-to-r from-green-100 to-blue-100 text-blue-700 hover:bg-green-200 transition-all"
+                          className="flex items-center gap-2 px-4 py-2 text-base font-semibold rounded-lg bg-green-100 text-blue-700 hover:bg-green-200 transition-all"
                         >
                           🔑 Sign In
                         </button>
@@ -267,8 +266,8 @@ function Header({ scrollToPricing }) {
                           <span
                             className={`px-3 py-1 text-xs font-medium rounded-full ${
                               isPro
-                                ? "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800"
-                                : "bg-gradient-to-r from-green-100 to-green-200 text-green-800"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-green-100 text-green-800"
                             }`}
                           >
                             {userPlan === "pro" ? "Pro" : "Free"}
@@ -295,7 +294,7 @@ function Header({ scrollToPricing }) {
             >
               &times;
             </button>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 text-indigo-600">
               JobPsych Tools & Features
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
@@ -399,7 +398,7 @@ function Header({ scrollToPricing }) {
 
       {showContact && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2">
-          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-emerald-500 rounded-3xl shadow-2xl p-4 sm:p-10 text-white relative overflow-hidden max-w-xs sm:max-w-3xl w-full animate-fade-in-up">
+          <div className="bg-indigo-600 rounded-3xl shadow-2xl p-4 sm:p-10 text-white relative overflow-hidden max-w-xs sm:max-w-3xl w-full animate-fade-in-up">
             <div className="absolute right-0 top-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
             <div className="absolute left-0 bottom-0 w-24 h-24 sm:w-40 sm:h-40 bg-gradient-to-tr from-emerald-200/40 to-teal-200/10 rounded-full blur-2xl opacity-60 -z-10"></div>
 
@@ -417,9 +416,10 @@ function Header({ scrollToPricing }) {
               </h2>
 
               <p className="text-base sm:text-lg text-white/90 mb-4 max-w-xs sm:max-w-xl text-center">
-                Have questions about Role Suggestions, InterviewPrep AI, or
-                HireDisk? Need enterprise solutions or want to learn more about
-                our AI-powered tools? Our team is here to help you succeed.
+                Have questions about Role Suggestions, InterviewPrep AI(JobCrack
+                AI), or HireDisk? Need enterprise solutions or want to learn
+                more about our AI-powered tools? Our team is here to help you
+                succeed.
               </p>
 
               {contactSubmitted ? (
@@ -438,7 +438,7 @@ function Header({ scrollToPricing }) {
                   className="space-y-4 sm:space-y-5 bg-white/10 rounded-2xl p-4 sm:p-8 shadow-xl w-full"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                    <label className="block text-sm font-medium text-white mb-1">
                       Name
                     </label>
                     <input
@@ -452,7 +452,7 @@ function Header({ scrollToPricing }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                    <label className="block text-sm font-medium text-white mb-1">
                       Email
                     </label>
                     <input
@@ -466,7 +466,7 @@ function Header({ scrollToPricing }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-indigo-700 mb-1">
+                    <label className="block text-sm font-medium text-white mb-1">
                       Message
                     </label>
                     <textarea
@@ -481,13 +481,13 @@ function Header({ scrollToPricing }) {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold py-3 rounded-lg shadow hover:from-yellow-500 hover:to-orange-600 transition-all cursor-pointer text-base sm:text-lg transform hover:scale-[1.02]"
+                    className="w-full bg-yellow-400 text-white font-semibold py-3 rounded-lg shadow hover:bg-yellow-500 transition-all cursor-pointer text-base sm:text-lg transform hover:scale-[1.02]"
                   >
                     Send Message
                   </button>
 
                   <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                    <div className="flex items-center gap-2 text-indigo-700/80">
+                    <div className="flex items-center gap-2 text-white">
                       <svg
                         className="h-5 w-5 text-yellow-500"
                         fill="none"
@@ -507,7 +507,7 @@ function Header({ scrollToPricing }) {
                         Career Guidance
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-indigo-700/80">
+                    <div className="flex items-center gap-2 text-white">
                       <svg
                         className="h-5 w-5 text-blue-500"
                         fill="none"
@@ -523,11 +523,9 @@ function Header({ scrollToPricing }) {
                           d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                         />
                       </svg>
-                      <span className="text-xs sm:text-base">
-                        InterviewPrep AI
-                      </span>
+                      <span className="text-xs sm:text-base">JobCrack AI</span>
                     </div>
-                    <div className="flex items-center gap-2 text-indigo-700/80">
+                    <div className="flex items-center gap-2 text-white  ">
                       <svg
                         className="h-5 w-5 text-emerald-500"
                         fill="none"
