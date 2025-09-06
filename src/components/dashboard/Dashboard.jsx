@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from "../../utils/api";
 import { generalTips } from "../../data/candidateTips";
 import ResumeUpload from "../resume/ResumeUpload";
 import NavigationButton from "../buttons/NavigationButton";
+import ResumeDetailsWrapper from "../resume/ResumeDetailsWrapper";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -224,13 +225,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-emerald-50 overflow-x-hidden">
-      <header className="sticky top-0 z-30 w-full bg-white/70 backdrop-blur-xl border-b border-gradient-to-r from-emerald-200 via-blue-200 to-indigo-200 shadow-lg">
+    <div className="relative min-h-screen flex flex-col bg-blue-50 overflow-x-hidden">
+      <header className="sticky top-0 z-30 w-full bg-white/70 backdrop-blur-xl border-b border-blue-200 shadow-lg">
         <div className="container mx-auto px-4 py-3 flex items-center gap-3">
           <div className="flex items-center min-w-0 flex-shrink-0">
             <NavigationButton
               to="/"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+              className="inline-flex items-center gap-2 bg-blue-600 px-4 py-2 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
               aria-label="Go to Home Dashboard"
             >
               <svg
@@ -249,13 +250,9 @@ const Dashboard = () => {
               <span>Home</span>
             </NavigationButton>
           </div>
-          <div className="flex-1 flex justify-center items-center">
-            <span className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-emerald-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight drop-shadow-lg select-none whitespace-nowrap">
-              JobPsych Dashboard
-            </span>
-          </div>
+          <div className="flex-1 flex justify-center items-center"></div>
           <div className="flex items-center gap-4 min-w-0 flex-shrink-0">
-            <span className="hidden md:inline px-4 py-1 rounded-full bg-gradient-to-r from-emerald-100 via-blue-100 to-indigo-100 text-emerald-700 text-sm font-bold tracking-wide shadow border border-emerald-200 animate-fade-in">
+            <span className="hidden md:inline px-4 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-bold tracking-wide shadow border border-blue-200 animate-fade-in">
               AI-Powered Resume Screening
             </span>
             {user && user.imageUrl && (
@@ -270,37 +267,21 @@ const Dashboard = () => {
       </header>
 
       <div
-        className="absolute top-0 left-0 w-80 h-80 bg-gradient-to-br from-blue-300/30 to-indigo-300/10 rounded-full blur-3xl -z-10"
+        className="absolute top-0 left-0 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl -z-10"
         style={{ filter: "blur(120px)" }}
       />
       <div
-        className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tr from-emerald-200/30 to-teal-200/10 rounded-full blur-3xl -z-10"
+        className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl -z-10"
         style={{ filter: "blur(120px)" }}
       />
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 md:py-12">
-          <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-emerald-600 rounded-3xl p-8 mb-10 shadow-2xl text-white relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-40 h-40 bg-gradient-to-br from-yellow-200/40 to-pink-200/10 rounded-full blur-2xl opacity-60 -z-10" />
+          <div className="bg-blue-600 rounded-3xl p-8 mb-20 shadow-2xl text-white relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-40 h-40 bg-yellow-200/40 rounded-full blur-2xl opacity-60 -z-10" />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div>
                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight flex items-center gap-3 drop-shadow-lg">
-                  <span className="inline-block">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-10 w-10 text-yellow-300"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                  </span>
                   Resume Analysis Dashboard
                 </h1>
                 <p className="text-blue-100 mt-3 text-lg md:text-xl font-medium max-w-2xl">
@@ -325,9 +306,9 @@ const Dashboard = () => {
               {generalTips.map((tip, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:shadow-md transition-shadow duration-200"
+                  className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-shadow duration-200"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <p className="text-gray-700 text-sm leading-relaxed">{tip}</p>
@@ -335,91 +316,6 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-
-          <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 mb-10 hover:shadow-2xl transition-shadow duration-300">
-            <h2 className="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2 flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-indigo-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                />
-              </svg>
-              Upload Your Resume For Analysis
-            </h2>
-
-            <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-              <div>
-                <label
-                  htmlFor="targetRole"
-                  className="block text-base font-semibold text-indigo-700 mb-2"
-                >
-                  🎯 Target Role (Optional)
-                </label>
-                <input
-                  id="targetRole"
-                  name="targetRole"
-                  type="text"
-                  value={targetRole}
-                  onChange={(e) => setTargetRole(e.target.value)}
-                  placeholder="e.g., Software Engineer, Data Scientist, Product Manager"
-                  className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-white text-gray-800 text-lg"
-                  disabled={isLoading}
-                  autoComplete="off"
-                />
-                <p className="mt-2 text-xs text-gray-500">
-                  Specify the role you're applying for to get targeted analysis
-                  and career recommendations
-                </p>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="jobDescription"
-                  className="block text-base font-semibold text-indigo-700 mb-2"
-                >
-                  📝 Job Description (Optional)
-                </label>
-                <textarea
-                  id="jobDescription"
-                  name="jobDescription"
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  placeholder="Paste the job description here for more accurate role fit analysis..."
-                  rows={4}
-                  className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 resize-vertical bg-white text-gray-800 text-lg"
-                  disabled={isLoading}
-                  autoComplete="off"
-                />
-                <p className="mt-2 text-xs text-gray-500">
-                  Provide job requirements to get better skill gap analysis and
-                  recommendations
-                </p>
-              </div>
-            </div>
-
-            <ResumeUpload
-              onFileUpload={handleFileUpload}
-              isLoading={isLoading}
-              onError={(errorData) => {
-                setError({
-                  show: true,
-                  message: errorData.message || "Error with file upload",
-                  type: errorData.type || "warning",
-                  category: errorData.category || "file",
-                  originalError: errorData,
-                });
-              }}
-            />
-          </div>
-
           <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-300 animate-fade-in-up">
             {resumeData ? (
               <div>
@@ -467,12 +363,10 @@ const Dashboard = () => {
                   Ready to Discover Your True Potential?
                 </h3>
                 <p className="mt-4 text-lg text-gray-700 max-w-xl mx-auto">
-                  Upload your resume above and let our advanced AI instantly
-                  analyze your experience, skills, and strengths.{" "}
-                  <span className="font-semibold text-emerald-600">
-                    Get personalized career recommendations
-                  </span>
-                  , role matches, and actionable insights—completely free!
+                  Upload your resume below and let our advanced AI instantly
+                  analyze your experience, skills, and strengths. Get
+                  personalized career recommendations , role matches, and
+                  actionable insights completely free!
                 </p>
                 <ul className="mt-6 space-y-3 max-w-lg mx-auto text-left text-base text-gray-600">
                   <li className="flex items-center gap-2">
@@ -489,22 +383,16 @@ const Dashboard = () => {
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="text-emerald-500 text-xl">✔️</span>
-                    100% private & secure—your data is never shared
+                    100% private & secure your data is never shared
                   </li>
                 </ul>
-                <p className="mt-8 text-base text-gray-500 max-w-md mx-auto">
-                  <span className="font-semibold text-emerald-700">
-                    Just upload your resume
-                  </span>{" "}
-                  and let us do the rest. Start your journey to a smarter, more
-                  confident career move now!
-                </p>
               </div>
             )}
           </div>
+          {/* Upload Resume Section */}
 
           {roleRecommendations.length > 0 && (
-            <div className="mt-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-8 rounded-3xl shadow-2xl border border-emerald-100 hover:shadow-emerald-200 transition-shadow duration-300">
+            <div className="mt-10 bg-emerald-50 p-8 rounded-3xl shadow-2xl border border-emerald-100 hover:shadow-emerald-200 transition-shadow duration-300">
               <h2 className="text-3xl font-extrabold mb-8 text-emerald-700 border-b pb-3 flex items-center gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -549,9 +437,7 @@ const Dashboard = () => {
                           : ""
                       }`}
                       style={{
-                        background: isBestMatch
-                          ? "linear-gradient(135deg, #d1fae5 0%, #f0fdfa 100%)"
-                          : "linear-gradient(135deg, #fff 0%, #f0fdfa 100%)",
+                        background: isBestMatch ? "#d1fae5" : "#f0fdfa",
                         boxShadow: isBestMatch
                           ? "0 8px 32px 0 rgba(16,185,129,0.25), 0 1.5px 8px 0 #a7f3d0"
                           : undefined,
@@ -593,7 +479,7 @@ const Dashboard = () => {
                                 y2="1"
                               >
                                 <stop offset="0%" stopColor="#34d399" />
-                                <stop offset="100%" stopColor="#06b6d4" />
+                                <stop offset="100%" stopColor="#34d399" />
                               </linearGradient>
                             </defs>
                             <circle
@@ -629,7 +515,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       {isBestMatch && (
-                        <span className="absolute top-4 left-4 bg-gradient-to-r from-emerald-400 to-teal-400 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg animate-pulse z-20">
+                        <span className="absolute top-4 left-4 bg-emerald-400 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg animate-pulse z-20">
                           Best Match
                         </span>
                       )}
@@ -684,7 +570,7 @@ const Dashboard = () => {
                             role.requiredSkills.map((skill, skillIndex) => (
                               <span
                                 key={skillIndex}
-                                className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-900 text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1 hover:from-green-200 hover:to-emerald-200 transition-all duration-200 cursor-default"
+                                className="bg-green-100 text-green-900 text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1 hover:bg-green-200 transition-all duration-200 cursor-default"
                               >
                                 <svg
                                   className="h-4 w-4 text-green-400 mr-1"
@@ -831,6 +717,75 @@ const Dashboard = () => {
               </button>
             </div>
           )}
+        </div>
+        <div className="bg-white/90 p-8 rounded-3xl shadow-xl border border-gray-100 mb-10 hover:shadow-2xl transition-shadow duration-300">
+          <h2 className="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2 flex items-center gap-2">
+            Upload Your Resume For Analysis
+          </h2>
+
+          <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+            <div>
+              <label
+                htmlFor="targetRole"
+                className="block text-base font-semibold text-indigo-700 mb-2"
+              >
+                Target Role (Optional)
+              </label>
+              <input
+                id="targetRole"
+                name="targetRole"
+                type="text"
+                value={targetRole}
+                onChange={(e) => setTargetRole(e.target.value)}
+                placeholder="e.g., Software Engineer, Data Scientist, Product Manager"
+                className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 bg-white text-gray-800 text-lg"
+                disabled={isLoading}
+                autoComplete="off"
+              />
+              <p className="mt-2 text-xs text-gray-500">
+                Specify the role you're applying for to get targeted analysis
+                and career recommendations
+              </p>
+            </div>
+
+            <div>
+              <label
+                htmlFor="jobDescription"
+                className="block text-base font-semibold text-indigo-700 mb-2"
+              >
+                Job Description (Optional)
+              </label>
+              <textarea
+                id="jobDescription"
+                name="jobDescription"
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                placeholder="Paste the job description here for more accurate role fit analysis..."
+                rows={4}
+                className="w-full px-4 py-3 border border-indigo-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 resize-vertical bg-white text-gray-800 text-lg"
+                disabled={isLoading}
+                autoComplete="off"
+              />
+              <p className="mt-2 text-xs text-gray-500">
+                Provide job requirements to get better skill gap analysis and
+                recommendations
+              </p>
+            </div>
+          </div>
+
+          <ResumeUpload
+            onFileUpload={handleFileUpload}
+            isLoading={isLoading}
+            onError={(errorData) => {
+              setError({
+                show: true,
+                message: errorData.message || "Error with file upload",
+                type: errorData.type || "warning",
+                category: errorData.category || "file",
+                originalError: errorData,
+              });
+            }}
+          />
         </div>
       </main>
     </div>

@@ -142,7 +142,7 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
         </div>
       </div>
 
-      <div className="mt-6 mb-8 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 shadow-sm">
+      <div className="mt-6 mb-8 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0 mt-1">
             <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-sm">
@@ -188,7 +188,7 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                   className={`flex items-center justify-between p-6 cursor-pointer transition-all duration-300 border-2 hover:shadow-md ${
                     isExpanded
                       ? "bg-blue-50 border-blue-200 shadow-sm"
-                      : "bg-gradient-to-r from-gray-50 to-gray-100 border-transparent hover:border-gray-200 hover:bg-gray-50 hover:from-blue-25 hover:to-blue-50"
+                      : "bg-gray-50 border-transparent hover:border-gray-200 hover:bg-blue-50"
                   }`}
                 >
                   <div className="flex items-center space-x-4">

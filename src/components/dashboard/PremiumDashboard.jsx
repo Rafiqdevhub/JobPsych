@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import {
-  ChartBarIcon,
-  DocumentTextIcon,
-  StarIcon,
-  TrophyIcon,
-  BoltIcon,
   UserCircleIcon,
   ChevronDownIcon,
   StarIcon as StarIconSolid,
@@ -29,7 +24,6 @@ const PremiumDashboard = () => {
   const navigate = useNavigate();
 
   // For local dev, ignore payment/scan limits
-  const [uploadCount] = useState(0);
   const [currentFile, setCurrentFile] = useState(null);
   const [targetRole, setTargetRole] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -253,8 +247,8 @@ const PremiumDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 p-4 md:p-8">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 w-full relative rounded-2xl shadow-lg border border-gray-200 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 p-4 md:p-6">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 w-full relative rounded-2xl shadow-lg border border-gray-200 bg-blue-50 p-4 md:p-6">
         <div className="w-full md:w-auto flex justify-start mb-4 md:mb-0">
           <button
             onClick={() => navigate("/")}
@@ -280,9 +274,9 @@ const PremiumDashboard = () => {
 
         <div className="flex-1 flex justify-center items-center text-center px-2">
           <blockquote className="italic text-lg text-gray-700 max-w-xl mx-auto">
-            "Upload and review candidate resumes. Instantly analyze their fit,
+            Upload and review candidate resumes. Instantly analyze their fit,
             skills, and readiness for your open roles. Make confident hiring
-            decisions with AI-powered insights."
+            decisions with AI-powered insights.
           </blockquote>
         </div>
 
@@ -292,7 +286,7 @@ const PremiumDashboard = () => {
             className="flex items-center space-x-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-white hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
           >
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+              <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
                 {user?.imageUrl ? (
                   <img
                     src={user.imageUrl}
@@ -331,7 +325,7 @@ const PremiumDashboard = () => {
               <div className="py-1">
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm hover:shadow-md border border-transparent hover:border-red-200"
+                  className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-sm hover:shadow-md border border-transparent hover:border-red-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -355,8 +349,8 @@ const PremiumDashboard = () => {
         </div>
       </div>
 
-      <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl p-8 mb-8 shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 via-purple-600/90 to-pink-600/90"></div>
+      <div className="relative overflow-hidden bg-indigo-600 rounded-2xl p-8 mb-8 shadow-2xl">
+        <div className="absolute inset-0 bg-indigo-600/90"></div>
         <div className="absolute -top-4 -right-4 transform rotate-12">
           <div className="flex space-x-1">
             {[...Array(5)].map((_, i) => (
@@ -367,11 +361,8 @@ const PremiumDashboard = () => {
         <div className="absolute -bottom-2 -left-2">
           <SparklesIconSolid className="h-16 w-16 text-white/20" />
         </div>
-        <div className="relative z-10 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl border border-white/30">
-              <TrophyIcon className="h-10 w-10 text-yellow-300" />
-            </div>
+        <div className="relative z-10 flex items-center justify-between ">
+          <div className="flex items-center space-x-4 ">
             <div>
               <h1 className="text-3xl font-bold text-white mb-1">
                 Candidate Review Dashboard
@@ -382,107 +373,12 @@ const PremiumDashboard = () => {
               </p>
             </div>
           </div>
-          <div className="hidden md:flex items-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20">
-            <div className="flex -space-x-1">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="h-6 w-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full border-2 border-white"
-                ></div>
-              ))}
-            </div>
-            <span className="text-white text-sm font-medium">HR Access</span>
-          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                  Scans Remaining (dev)
-                </p>
-                <p className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                  ∞
-                </p>
-              </div>
-              <div className="p-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
-                <DocumentTextIcon className="h-8 w-8 text-white" />
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Monthly limit</span>
-                <span className="font-semibold text-gray-900">∞</span>
-              </div>
-              <div className="relative">
-                <div className="flex h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 ease-out relative overflow-hidden"
-                    style={{ width: `100%` }}
-                  >
-                    <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                  Total Scans
-                </p>
-                <p className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  {uploadCount}
-                </p>
-              </div>
-              <div className="p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl shadow-lg">
-                <ChartBarIcon className="h-8 w-8 text-white" />
-              </div>
-            </div>
-            <p className="text-sm text-gray-600 flex items-center">
-              <TrophyIcon className="h-4 w-4 mr-1 text-amber-500" />
-              All-time analyses completed
-            </p>
-          </div>
-        </div>
-        <div className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                  Plan Status (dev)
-                </p>
-                <div className="flex items-center space-x-2">
-                  <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    Free (local)
-                  </p>
-                </div>
-              </div>
-              <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-lg">
-                <StarIcon className="h-8 w-8 text-white" />
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-gray-600">
-                No payment required (dev)
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50 mb-10">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-3">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">
             Premium Features Suite
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -497,12 +393,12 @@ const PremiumDashboard = () => {
               className="group relative bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               <div
-                className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl`}
+                className={`absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl`}
               ></div>
               <div className="relative z-10">
                 <div className="flex items-start space-x-4">
                   <div
-                    className={`p-3 bg-gradient-to-r ${feature.gradient} rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                    className={`p-3 bg-blue-500 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
                   >
                     <feature.icon className="h-6 w-6 text-white" />
                   </div>
@@ -527,7 +423,7 @@ const PremiumDashboard = () => {
       <StandardQuestions />
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden">
-        <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-8 py-6 border-b border-gray-100">
+        <div className="bg-indigo-50 px-8 py-6 border-b border-gray-100">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -539,32 +435,10 @@ const PremiumDashboard = () => {
                 to make informed hiring decisions.
               </p>
             </div>
-            <div className="hidden md:flex items-center space-x-3 bg-white/50 backdrop-blur-sm rounded-xl px-4 py-2">
-              <BoltIcon className="h-5 w-5 text-yellow-500" />
-              <span className="text-sm font-medium text-gray-700">HR Tool</span>
-            </div>
           </div>
         </div>
         <div className="p-8">
           <div className="space-y-6">
-            <div className="flex items-center justify-center space-x-8 py-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-emerald-600">∞</div>
-                <div className="text-sm text-gray-500">Scans Left (dev)</div>
-              </div>
-              <div className="h-8 w-px bg-gray-200"></div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {uploadCount}
-                </div>
-                <div className="text-sm text-gray-500">Completed</div>
-              </div>
-              <div className="h-8 w-px bg-gray-200"></div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">AI+</div>
-                <div className="text-sm text-gray-500">Dev Mode</div>
-              </div>
-            </div>
             <form
               className="space-y-4"
               onSubmit={(e) => {
@@ -616,7 +490,7 @@ const PremiumDashboard = () => {
               </div>
               <button
                 type="submit"
-                className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                 disabled={isLoading || !currentFile}
               >
                 {isLoading
@@ -629,7 +503,7 @@ const PremiumDashboard = () => {
       </div>
       {resumeData && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-8 py-6 border-b border-gray-100">
+          <div className="bg-green-50 px-8 py-6 border-b border-gray-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -654,7 +528,7 @@ const PremiumDashboard = () => {
           </div>
           <div className="p-8 space-y-8">
             {fitStatus && (
-              <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 shadow">
+              <div className="mb-6 p-6 rounded-xl bg-blue-50 border border-blue-200 shadow">
                 <div className="flex items-center mb-2">
                   <span className="inline-block px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-semibold mr-3">
                     Fit Status: {fitStatus}
@@ -676,7 +550,7 @@ const PremiumDashboard = () => {
               isPremium={true}
             />
             {roleRecommendations && roleRecommendations.length > 0 && (
-              <div className="mb-6 p-6 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 shadow">
+              <div className="mb-6 p-6 rounded-xl bg-purple-50 border border-purple-200 shadow">
                 <div className="font-semibold text-purple-700 mb-4 text-xl">
                   Recommended Roles:
                 </div>
@@ -697,7 +571,7 @@ const PremiumDashboard = () => {
                       return (
                         <div
                           key={idx}
-                          className="bg-gradient-to-br from-purple-100 to-pink-100 border border-purple-200 rounded-xl shadow-md p-5 flex flex-col justify-between"
+                          className="bg-purple-100 border border-purple-200 rounded-xl shadow-md p-5 flex flex-col justify-between"
                         >
                           <div className="flex items-center justify-between mb-2">
                             <div className="font-semibold text-lg text-purple-700">
@@ -786,7 +660,7 @@ const PremiumDashboard = () => {
 
       {questions.length > 0 && (
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 overflow-hidden mb-10">
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-6 border-b border-gray-100">
+          <div className="bg-purple-50 px-8 py-6 border-b border-gray-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
