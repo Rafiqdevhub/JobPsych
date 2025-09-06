@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
-import { useUserManager } from "../../hooks/useUserManager";
-import { roleSuggestionsFeatures } from "../../data/roleSuggetionsFeatures";
-import { hrSuggestions } from "../../data/hireSuggestions";
-import NavigationButton from "../buttons/NavigationButton";
+import { useUserManager } from "@hooks/useUserManager";
+import { roleSuggestionsFeatures } from "@data/roleSuggetionsFeatures";
+import { hrSuggestions } from "@data/hireSuggestions";
+import NavigationButton from "@components/buttons/NavigationButton";
 
 function Header({ scrollToPricing }) {
   const [scrolled, setScrolled] = useState(false);

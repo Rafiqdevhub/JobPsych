@@ -1,5 +1,5 @@
 import React from "react";
-import { enhancedPlans } from "../../data/enhancePlan";
+import { enhancedPlans } from "@data/enhancePlan";
 
 const PricingSection = ({ pricingRef, handlePlanSelection }) => {
   return (

@@ -9,7 +9,7 @@ const TypewriterText = ({ text, className }) => {
       const timeout = setTimeout(() => {
         setDisplayText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 100); // Adjust speed by changing this value (in milliseconds)
+      }, 100);
 
       return () => clearTimeout(timeout);
     }

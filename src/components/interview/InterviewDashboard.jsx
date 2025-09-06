@@ -1,5 +1,5 @@
 import React from "react";
-import useToast from "../../hooks/useToast";
+import useToast from "@/hooks/useToast";
 
 const InterviewDashboard = () => {
   const { showSuccess } = useToast();

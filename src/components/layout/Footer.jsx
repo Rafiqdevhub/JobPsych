@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationButton from "../buttons/NavigationButton";
+import NavigationButton from "@components/buttons/NavigationButton";
 
 const Footer = ({ getDestination }) => {
   return (

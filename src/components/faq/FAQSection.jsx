@@ -1,6 +1,6 @@
 import React from "react";
-import { faqs } from "../../data/faqs";
-import FAQDropdown from "./FAQDropdown";
+import { faqs } from "@data/faqs";
+import FAQDropdown from "@components/faq/FAQDropdown";
 
 const FAQSection = () => {
   return (
