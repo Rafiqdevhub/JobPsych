@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { shouldApplyRateLimits } from "../../utils/env";
-import Footer from "../layout/Footer";
-import HeroSection from "../hero/HeroSection";
-import FeaturesSection from "../features/FeaturesSection";
-import PricingSection from "../pricing/PricingSection";
-import FAQSection from "../faq/FAQSection";
-import TestimonialsSection from "../testimonials/TestimonialsSection";
-import Header from "../layout/Header";
+import { shouldApplyRateLimits } from "@utils/env";
+import Footer from "@components/layout/Footer";
+import HeroSection from "@components/hero/HeroSection";
+import FeaturesSection from "@components/features/FeaturesSection";
+import PricingSection from "@components/pricing/PricingSection";
+import FAQSection from "@components/faq/FAQSection";
+import TestimonialsSection from "@components/testimonials/TestimonialsSection";
+import Header from "@components/layout/Header";
 
 const LandingPage = () => {
   const { isSignedIn } = useUser();

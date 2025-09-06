@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { StandardQuestionsCategories } from "../data/questions";
+import { StandardQuestionsCategories } from "@data/questions";
 
 const StandardQuestions = () => {
   const [openHrCategory, setOpenHrCategory] = useState(null);

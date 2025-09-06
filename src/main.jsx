@@ -4,15 +4,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
 import App from "./App.jsx";
-import LandingPage from "./components/landing/LandingPage.jsx";
-import DashboardWrapper from "./components/dashboard/DashboardWrapper.jsx";
-import PaymentPage from "./components/payment/PaymentPage.jsx";
-import ClerkAuth from "./components/clerk/ClerkAuth.jsx";
-import Dashboard from "./components/dashboard/Dashboard.jsx";
-import ToastProvider from "./components/toast/ToastManager.jsx";
-import ErrorBoundary from "./components/error/ErrorBoundary.jsx";
-import NotFound from "./components/error/NotFound.jsx";
-import InterviewDashboard from "./components/interview/InterviewDashboard.jsx";
+import DashboardWrapper from "@components/dashboard/DashboardWrapper.jsx";
+import PaymentPage from "@components/payment/PaymentPage.jsx";
+import ClerkAuth from "@components/clerk/ClerkAuth.jsx";
+import Dashboard from "@components/dashboard/Dashboard.jsx";
+import ToastProvider from "@components/toast/ToastManager.jsx";
+import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
+import NotFound from "@components/error/NotFound.jsx";
+import LandingPage from "@components/landing/LandingPage.jsx";
+import InterviewDashboard from "@components/interview/InterviewDashboard.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
