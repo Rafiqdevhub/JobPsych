@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { useUserManager } from "@hooks/useUserManager";
-import { roleSuggestionsFeatures } from "@data/roleSuggetionsFeatures";
+import {
+  roleSuggestionsFeatures,
+  interviewPrepFeatures,
+} from "@data/roleSuggetionsFeatures";
 import { hrSuggestions } from "@data/hireSuggestions";
 import NavigationButton from "@components/buttons/NavigationButton";
 
@@ -300,7 +303,6 @@ function Header({ scrollToPricing }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
               <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-emerald-100 flex flex-col">
                 <h3 className="text-base sm:text-2xl font-bold text-emerald-700 mb-3 sm:mb-4 flex items-center gap-2">
-                  <span className="text-xl sm:text-3xl">🧑‍💼</span> Role
                   Suggestions
                 </h3>
                 <ul className="space-y-3 sm:space-y-4">
@@ -321,59 +323,27 @@ function Header({ scrollToPricing }) {
               </div>
               <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-blue-100 flex flex-col">
                 <h3 className="text-base sm:text-2xl font-bold text-blue-700 mb-3 sm:mb-4 flex items-center gap-2">
-                  <span className="text-xl sm:text-3xl">🎯</span> InterviewPrep
-                  AI
+                  InterviewPrep AI
                 </h3>
                 <ul className="space-y-3 sm:space-y-4">
-                  <li className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-lg sm:text-2xl">🎤</span>
-                    <div>
-                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
-                        Practice Interviews
+                  {interviewPrepFeatures.map((f, i) => (
+                    <li key={i} className="flex items-start gap-2 sm:gap-3">
+                      <span className="text-lg sm:text-2xl">{f.icon}</span>
+                      <div>
+                        <div className="font-semibold text-sm sm:text-lg text-blue-800">
+                          {f.title}
+                        </div>
+                        <div className="text-gray-600 text-xs sm:text-base">
+                          {f.description}
+                        </div>
                       </div>
-                      <div className="text-gray-600 text-xs sm:text-base">
-                        Practice with sample questions and get AI feedback
-                      </div>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-lg sm:text-2xl">📊</span>
-                    <div>
-                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
-                        Progress Tracking
-                      </div>
-                      <div className="text-gray-600 text-xs sm:text-base">
-                        Monitor your interview practice progress
-                      </div>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-lg sm:text-2xl">💡</span>
-                    <div>
-                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
-                        Interview Tips
-                      </div>
-                      <div className="text-gray-600 text-xs sm:text-base">
-                        Get instant tips to improve your performance
-                      </div>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-2 sm:gap-3">
-                    <span className="text-lg sm:text-2xl">⚡</span>
-                    <div>
-                      <div className="font-semibold text-sm sm:text-lg text-blue-800">
-                        Demo Version
-                      </div>
-                      <div className="text-gray-600 text-xs sm:text-base">
-                        Try our interview practice tool for free
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-4 sm:p-6 shadow-xl border border-yellow-100 flex flex-col">
                 <h3 className="text-base sm:text-2xl font-bold text-yellow-700 mb-3 sm:mb-4 flex items-center gap-2">
-                  <span className="text-xl sm:text-3xl">💎</span> HireDesk
+                  HireDesk
                 </h3>
                 <ul className="space-y-3 sm:space-y-4">
                   {hrSuggestions.map((f, i) => (

@@ -1,7 +1,7 @@
 export const roleSuggestionsFeatures = [
   {
     icon: "💡",
-    title: "Personalized Role Recommendations",
+    title: "Role Recommendations",
     description:
       "Get AI-powered suggestions for roles that fit your resume and skills.",
   },
@@ -25,5 +25,38 @@ export const roleSuggestionsFeatures = [
     icon: "🔒",
     title: "Private & Secure",
     description: "Your data is never shared and always secure.",
+  },
+];
+
+export const interviewPrepFeatures = [
+  {
+    icon: "🎤",
+    title: "Practice Interviews",
+    description: "Practice with sample questions and get AI feedback",
+  },
+  {
+    icon: "📊",
+    title: "Progress Tracking",
+    description: "Monitor your interview practice progress",
+  },
+  {
+    icon: "💡",
+    title: "Interview Tips",
+    description: "Get instant tips to improve your performance",
+  },
+  {
+    icon: "🎯",
+    title: "Mock Interviews",
+    description: "Simulate real interview scenarios with AI interviewer",
+  },
+  {
+    icon: "📚",
+    title: "Question Bank",
+    description: "Access thousands of industry-specific questions",
+  },
+  {
+    icon: "📈",
+    title: "Performance Analytics",
+    description: "Detailed insights into your strengths and weaknesses",
   },
 ];
