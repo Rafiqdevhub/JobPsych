@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import TypewriterText from "@components/TypewriterText";
 
-const HeroSection = ({ handlePlanSelection, resumeData }) => {
+const HeroSection = ({ isSignedIn, handlePlanSelection, resumeData }) => {
   return (
     <section id="hero" className="relative isolate overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
@@ -99,7 +99,13 @@ const HeroSection = ({ handlePlanSelection, resumeData }) => {
               <div className="absolute inset-0 bg-purple-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             <button
-              onClick={() => (window.location.href = "/hire-disk")}
+              onClick={() => {
+                if (!isSignedIn) {
+                  window.location.href = "/sign-in";
+                } else {
+                  window.location.href = "/hire-disk";
+                }
+              }}
               className="group relative px-8 py-4 min-w-[200px] bg-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
               <span className="relative z-10">HireDisk HR Assistant</span>

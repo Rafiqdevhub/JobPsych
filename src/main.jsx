@@ -14,6 +14,7 @@ import ATSAnalyzer from "@pages/ATSAnalyzer.jsx";
 import LandingPage from "@pages/LandingPage.jsx";
 import RoleSuggestion from "@pages/RoleSuggestion.jsx";
 import InterviewPrepAI from "@pages/InterviewPrepAI.jsx";
+import HireDisk from "@pages/HireDisk";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "ats-analyzer",
         element: <ATSAnalyzer />,
+      },
+      {
+        path: "hire-disk",
+        element: <HireDisk />,
       },
       {
         path: "*",
