@@ -27,7 +27,7 @@ const HeroSection = ({ handlePlanSelection, resumeData }) => {
               JobPsych offers four powerful tools:
             </span>{" "}
             Free career role suggestions, AI interview preparation, ATS resume
-            optimization, and premium hiring intelligence for HR teams.
+            optimization, and AI-powered hiring intelligence for recruiters.
           </p>
           <div className="mt-8 p-4 sm:p-6 bg-indigo-50 rounded-2xl shadow-inner border border-indigo-100">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-sm text-gray-700">
@@ -68,7 +68,7 @@ const HeroSection = ({ handlePlanSelection, resumeData }) => {
                   </span>
                 </div>
                 <p className="text-xs text-gray-600">
-                  Premium AI hiring intelligence
+                  AI-powered hiring intelligence for recruiters
                 </p>
               </div>
             </div>
@@ -99,7 +99,7 @@ const HeroSection = ({ handlePlanSelection, resumeData }) => {
               <div className="absolute inset-0 bg-purple-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             <button
-              onClick={() => handlePlanSelection("pro")}
+              onClick={() => (window.location.href = "/hire-disk")}
               className="group relative px-8 py-4 min-w-[200px] bg-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
               <span className="relative z-10">HireDisk HR Assistant</span>
