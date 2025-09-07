@@ -2,12 +2,7 @@ import React from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import TypewriterText from "@components/TypewriterText";
 
-const HeroSection = ({
-  isSignedIn,
-  handlePlanSelection,
-  shouldApplyRateLimits,
-  resumeData,
-}) => {
+const HeroSection = ({ handlePlanSelection, resumeData }) => {
   return (
     <section id="hero" className="relative isolate overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
@@ -86,10 +81,6 @@ const HeroSection = ({
               <span className="relative z-10">Role Suggestions</span>
               <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 bg-indigo-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              {shouldApplyRateLimits() && !isSignedIn && (
-                <span className="absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg bg-green-500"></span>
-              )}
             </button>
             <button
               onClick={() => (window.location.href = "/interview-prep-ai")}
