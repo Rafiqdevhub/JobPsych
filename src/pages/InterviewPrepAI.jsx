@@ -1,7 +1,7 @@
 import React from "react";
 import useToast from "@/hooks/useToast";
 
-const InterviewDashboard = () => {
+const InterviewPrepAI = () => {
   const { showSuccess } = useToast();
 
   const handleStartInterview = () => {
@@ -183,4 +183,4 @@ const InterviewDashboard = () => {
   );
 };
 
-export default InterviewDashboard;
+export default InterviewPrepAI;

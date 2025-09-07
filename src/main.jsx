@@ -7,12 +7,13 @@ import App from "./App.jsx";
 import DashboardWrapper from "@components/dashboard/DashboardWrapper.jsx";
 import PaymentPage from "@components/payment/PaymentPage.jsx";
 import ClerkAuth from "@components/clerk/ClerkAuth.jsx";
-import Dashboard from "@components/dashboard/Dashboard.jsx";
 import ToastProvider from "@components/toast/ToastManager.jsx";
 import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
-import NotFound from "@components/error/NotFound.jsx";
-import LandingPage from "@components/landing/LandingPage.jsx";
-import InterviewDashboard from "@components/interview/InterviewDashboard.jsx";
+import NotFound from "@pages/NotFound.jsx";
+import ATSAnalyzer from "@pages/ATSAnalyzer.jsx";
+import LandingPage from "@pages/LandingPage.jsx";
+import RoleSuggestion from "@pages/RoleSuggestion.jsx";
+import InterviewPrepAI from "@pages/InterviewPrepAI.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
 
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: <RoleSuggestion />,
       },
       {
         path: "premium-dashboard",
@@ -51,8 +52,12 @@ const router = createBrowserRouter([
         element: <PaymentPage />,
       },
       {
-        path: "interview-dashboard",
-        element: <InterviewDashboard />,
+        path: "interview-prep-ai",
+        element: <InterviewPrepAI />,
+      },
+      {
+        path: "ats-analyzer",
+        element: <ATSAnalyzer />,
       },
       {
         path: "*",

@@ -7,7 +7,7 @@ import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
 import ResumeDetailsWrapper from "@components/resume/ResumeDetailsWrapper";
 
-const Dashboard = () => {
+const RoleSuggestion = () => {
   const { user } = useUser();
   const [resumeData, setResumeData] = useState(null);
   const [roleRecommendations, setRoleRecommendations] = useState([]);
@@ -796,10 +796,10 @@ const ProtectedDashboard = () => {
   return (
     <>
       <SignedIn>
-        <Dashboard />
+        <RoleSuggestion />
       </SignedIn>
       <SignedOut>
-        <Dashboard />
+        <RoleSuggestion />
       </SignedOut>
     </>
   );

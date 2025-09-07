@@ -13,11 +13,12 @@ const HeroSection = ({
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-8">
-            Career Guidance, InterviewPrep AI & Hiring Intelligence
+            Career Guidance, InterviewPrep AI, ATS Resume Analyzer & Hiring
+            Intelligence
           </div>
           <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-800">
             <TypewriterText
-              text="Master Interviews with InterviewPrep AI Your Personal Career Coach and Hiring Assistant."
+              text="Master Interviews with InterviewPrep AI Your Personal Career Coach, Applicant Tracking Advocate and Hiring Assistant."
               className="text-blue-600"
               loop={true}
               delay={3}
@@ -28,13 +29,13 @@ const HeroSection = ({
 
           <p className="mt-6 text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
             <span className="font-semibold text-indigo-600">
-              JobPsych offers three powerful tools:
+              JobPsych offers four powerful tools:
             </span>{" "}
-            Free career role suggestions, AI interview preparation, and premium
-            hiring intelligence for HR teams.
+            Free career role suggestions, AI interview preparation, ATS resume
+            optimization, and premium hiring intelligence for HR teams.
           </p>
           <div className="mt-8 p-4 sm:p-6 bg-indigo-50 rounded-2xl shadow-inner border border-indigo-100">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-sm text-gray-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-sm text-gray-700">
               <div className="text-center p-4 bg-white/60 rounded-xl border border-indigo-200">
                 <div className="flex items-center justify-center space-x-2 mb-2">
                   <span className="font-medium text-indigo-600">
@@ -55,9 +56,21 @@ const HeroSection = ({
                   Practice interviews with AI
                 </p>
               </div>
+              <div className="text-center p-4 bg-white/60 rounded-xl border border-purple-200">
+                <div className="flex items-center justify-center space-x-2 mb-2">
+                  <span className="font-medium text-purple-600">
+                    ATS Resume Analyzer
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600">
+                  Optimize your resume for ATS systems
+                </p>
+              </div>
               <div className="text-center p-4 bg-white/60 rounded-xl border border-emerald-200">
                 <div className="flex items-center justify-center space-x-2 mb-2">
-                  <span className="font-medium text-emerald-600">HireDisk</span>
+                  <span className="font-medium text-emerald-600">
+                    HireDisk HR Assistant
+                  </span>
                 </div>
                 <p className="text-xs text-gray-600">
                   Premium AI hiring intelligence
@@ -68,31 +81,37 @@ const HeroSection = ({
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => handlePlanSelection("free")}
-              className="group relative px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
+              className="group relative px-8 py-4 min-w-[200px] bg-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
               <span className="relative z-10">Role Suggestions</span>
               <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 bg-indigo-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               {shouldApplyRateLimits() && !isSignedIn && (
-                <span className="absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg bg-green-500">
-                  FREE
-                </span>
+                <span className="absolute -top-3 -right-3 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg bg-green-500"></span>
               )}
             </button>
             <button
-              onClick={() => (window.location.href = "/interview-dashboard")}
-              className="group relative px-8 py-4 bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
+              onClick={() => (window.location.href = "/interview-prep-ai")}
+              className="group relative px-8 py-4 min-w-[200px] bg-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
               <span className="relative z-10">InterviewPrep AI</span>
               <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 bg-blue-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             <button
-              onClick={() => handlePlanSelection("pro")}
-              className="group relative px-8 py-4 bg-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 border-none cursor-pointer"
+              onClick={() => (window.location.href = "/ats-analyzer")}
+              className="group relative px-8 py-4 min-w-[200px] bg-purple-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
             >
-              <span className="relative z-10">HireDisk</span>
+              <span className="relative z-10">ATS Resume Analyzer</span>
+              <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-purple-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+            <button
+              onClick={() => handlePlanSelection("pro")}
+              className="group relative px-8 py-4 min-w-[200px] bg-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 border-none cursor-pointer"
+            >
+              <span className="relative z-10">HireDisk HR Assistant</span>
               <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 bg-emerald-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
