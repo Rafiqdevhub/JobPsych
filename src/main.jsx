@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "dashboard",
+        path: "role-suggestions",
         element: <RoleSuggestion />,
       },
       {

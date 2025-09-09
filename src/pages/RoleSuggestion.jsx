@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
 import { API_ENDPOINTS } from "@utils/api";
 import { generalTips } from "@data/candidateTips";
@@ -8,7 +8,6 @@ import NavigationButton from "@components/buttons/NavigationButton";
 import ResumeDetailsWrapper from "@components/resume/ResumeDetailsWrapper";
 
 const RoleSuggestion = () => {
-  const { user } = useUser();
   const [resumeData, setResumeData] = useState(null);
   const [roleRecommendations, setRoleRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -251,18 +250,6 @@ const RoleSuggestion = () => {
             </NavigationButton>
           </div>
           <div className="flex-1 flex justify-center items-center"></div>
-          <div className="flex items-center gap-4 min-w-0 flex-shrink-0">
-            <span className="hidden md:inline px-4 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-bold tracking-wide shadow border border-blue-200 animate-fade-in">
-              AI-Powered Resume Screening
-            </span>
-            {user && user.imageUrl && (
-              <img
-                src={user.imageUrl}
-                alt="Profile"
-                className="h-12 w-12 rounded-full border-4 border-emerald-300 shadow-lg object-cover transition-transform duration-300 hover:scale-105"
-              />
-            )}
-          </div>
         </div>
       </header>
 
