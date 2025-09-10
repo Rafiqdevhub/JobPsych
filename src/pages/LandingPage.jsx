@@ -61,7 +61,7 @@ const LandingPage = () => {
       normalizedPlanId === "interviewprep" ||
       normalizedPlanId === "interviewprep ai"
     ) {
-      window.location.href = "/ats-analyzer";
+      window.location.href = "/interview-prep-ai";
     } else if (
       normalizedPlanId === "ats" ||
       normalizedPlanId === "ats-analyzer" ||

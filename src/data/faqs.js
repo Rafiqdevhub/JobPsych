@@ -1,9 +1,9 @@
 export const faqs = [
   {
     question:
-      "What's the differences among Role Suggestions, InterviewPrep AI, and HireDisk?",
+      "What's the differences among Role Suggestions, InterviewPrep AI, ATS Analyzer, and HireDisk?",
     answer:
-      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI is  for practicing interviews with AI feedback. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
+      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI helps you practice interviews with AI feedback. ATS Analyzer optimizes your resume to beat Applicant Tracking Systems. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
     type: "general",
   },
   {
@@ -24,6 +24,26 @@ export const faqs = [
       "InterviewPrep AI provides a comprehensive practice environment with sample questions across different categories, recording simulation, progress tracking, and helpful tips. It helps you build confidence and improve your interview performance through structured practice sessions.",
     type: "interview",
   },
+  {
+    question: "What is ATS Analyzer?",
+    answer:
+      "ATS Analyzer is our AI-powered tool that helps you optimize your resume to beat Applicant Tracking Systems (ATS). It analyzes your resume against multiple ATS platforms, provides keyword optimization suggestions, and gives you a compatibility score to improve your chances of getting past automated screening.",
+    type: "ats",
+  },
+  {
+    question: "How does ATS Analyzer work?",
+    answer:
+      "Simply upload your resume to ATS Analyzer, and our AI will scan it against major ATS systems like Workday, Greenhouse, and LinkedIn. You'll receive a compatibility score, keyword optimization suggestions, formatting recommendations, and specific tips to improve your resume's ATS performance.",
+    type: "ats",
+  },
+
+  {
+    question: "Is ATS Analyzer free?",
+    answer:
+      "ATS Analyzer offers both free and premium features. You can get basic ATS compatibility scoring and general optimization tips for free. Premium features include detailed keyword analysis, multi-platform compatibility reports, and advanced optimization recommendations.",
+    type: "ats",
+  },
+
   {
     question: "Is Role Suggestions really completely free?",
     answer:

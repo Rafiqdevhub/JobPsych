@@ -26,6 +26,13 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
 
           accentColor: "bg-purple-500",
         };
+      case "ats":
+        return {
+          bgColor: "bg-orange-50 hover:bg-orange-100",
+          borderColor: "border-orange-200",
+
+          accentColor: "bg-orange-500",
+        };
       default:
         return {
           bgColor: "bg-indigo-50 hover:bg-indigo-100",
@@ -55,6 +62,11 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
           </span>
         </div>
         <div className="flex items-center space-x-2 ml-4">
+          {type === "ats" && (
+            <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
+              ATS Analyzer
+            </span>
+          )}
           {type === "interview" && (
             <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
               InterviewPrep AI
@@ -114,6 +126,17 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
                 </div>
               )}
               <div className="prose prose-sm max-w-none">{answer}</div>
+              {type === "ats" && (
+                <div className="mt-4 p-3 bg-orange-50 rounded-lg border border-orange-200">
+                  <p className="text-sm text-orange-800 font-medium mb-1">
+                    Pro Tip:
+                  </p>
+                  <p className="text-sm text-orange-700">
+                    Use ATS Analyzer to optimize your resume and increase your
+                    chances of getting past automated screening systems!
+                  </p>
+                </div>
+              )}
               {type === "interview" && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800 font-medium mb-1">

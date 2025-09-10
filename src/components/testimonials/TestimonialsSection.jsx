@@ -3,7 +3,7 @@ import { testimonials } from "@/data/testimonials";
 
 const TestimonialsSection = () => {
   return (
-    <section className="mt-8 sm:mt-15 bg-indigo-50 py-16 sm:py-24">
+    <section className="pt-6 pb-10 sm:pt-10 sm:pb-24 bg-indigo-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-16">
           <h3 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">
@@ -15,12 +15,8 @@ const TestimonialsSection = () => {
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Real stories from job seekers and HR professionals who've
             experienced the power of our AI-driven solutions, including our
-            revolutionary
-            <span className="font-semibold text-indigo-600">
-              {" "}
-              InterviewPrep AI
-            </span>{" "}
-            that helps candidates ace interviews and recruiters find top talent.
+            revolutionary tools that help candidates ace interviews and
+            recruiters find top talent.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <div className="inline-flex items-center px-4 py-2 bg-emerald-500 text-white text-sm font-medium rounded-full shadow-lg">
@@ -29,8 +25,11 @@ const TestimonialsSection = () => {
             <div className="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-full shadow-lg">
               InterviewPrep AI
             </div>
+            <div className="inline-flex items-center px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-full shadow-lg">
+              ATS Analyzer
+            </div>
             <div className="inline-flex items-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-full shadow-lg">
-              HireDisk for Hiring
+              HireDisk
             </div>
           </div>
         </div>

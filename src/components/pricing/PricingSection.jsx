@@ -6,7 +6,7 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
     <section
       id="pricing"
       ref={pricingRef}
-      className="mt-0 pt-0 pb-16 sm:pt-8 sm:pb-24 bg-indigo-50"
+      className="pt-6 pb-10 sm:pt-10 sm:pb-24 bg-indigo-50"
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl lg:text-center">
