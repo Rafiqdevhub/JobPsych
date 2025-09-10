@@ -35,17 +35,17 @@ const LandingPage = () => {
 
   const getDestination = () => {
     if (!shouldApplyRateLimits()) {
-      return "/dashboard";
+      return "/hire-disk";
     }
 
     if (isSignedIn) {
-      return "/dashboard";
+      return "/hire-disk";
     }
 
     if (uploadCount >= 2) {
       return "/sign-up";
     } else {
-      return "/dashboard";
+      return "/";
     }
   };
 
@@ -56,12 +56,18 @@ const LandingPage = () => {
       normalizedPlanId === "free" ||
       normalizedPlanId === "role suggestions"
     ) {
-      window.location.href = "/dashboard";
+      window.location.href = "/role-suggestions";
     } else if (
       normalizedPlanId === "interviewprep" ||
       normalizedPlanId === "interviewprep ai"
     ) {
-      window.location.href = "/interview-dashboard";
+      window.location.href = "/ats-analyzer";
+    } else if (
+      normalizedPlanId === "ats" ||
+      normalizedPlanId === "ats-analyzer" ||
+      normalizedPlanId === "ats analyzer"
+    ) {
+      window.location.href = "/ats-analyzer";
     } else if (normalizedPlanId === "pro" || normalizedPlanId === "hiredisk") {
       if (!isSignedIn) {
         localStorage.setItem("selectedPlan", "pro");
@@ -70,7 +76,7 @@ const LandingPage = () => {
       } else {
         const userPlan = localStorage.getItem("userPlan");
         if (userPlan === "pro") {
-          window.location.href = "/premium-dashboard";
+          window.location.href = "/hire-disk";
         } else {
           localStorage.setItem("selectedPlan", "pro");
           window.location.href = `/payment?plan=pro`;
@@ -102,7 +108,6 @@ const LandingPage = () => {
       />
       <FAQSection />
       <TestimonialsSection />
-
       <Footer getDestination={getDestination} />
     </div>
   );

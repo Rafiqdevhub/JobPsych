@@ -36,6 +36,25 @@ export const enhancedPlans = [
     popular: false,
   },
   {
+    name: "ATS Analyzer",
+    description: "Optimize your resume to beat Applicant Tracking Systems",
+
+    features: [
+      "ATS compatibility scoring",
+      "Keyword optimization analysis",
+      "Resume formatting suggestions",
+      "Multi-ATS platform support",
+      "Real-time optimization tips",
+      "Compatibility reports",
+      "Advanced ATS insights",
+    ],
+
+    buttonText: "Start ATS Analysis",
+    buttonStyle:
+      "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700",
+    popular: false,
+  },
+  {
     name: "HireDisk",
     description: "Advanced AI hiring intelligence for HR teams",
 

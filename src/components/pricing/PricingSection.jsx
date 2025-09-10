@@ -17,7 +17,7 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
             Choose the Perfect Plan for Your Team
           </p>
         </div>
-        <div className="mx-auto mt-10 sm:mt-20 grid max-w-6xl grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="mx-auto mt-10 sm:mt-20 grid max-w-6xl grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8">
           {enhancedPlans.map((plan, index) => (
             <div
               key={plan.name}
@@ -130,6 +130,19 @@ const PricingSection = ({ pricingRef, handlePlanSelection }) => {
                   <p className="mt-2 text-sm text-blue-700">
                     Practice real interview questions with AI feedback and
                     improve your interview skills.
+                  </p>
+                </div>
+              )}
+              {plan.name === "ATS Analyzer" && (
+                <div className="mt-6 p-4 bg-purple-50 rounded-xl border border-purple-200">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-semibold text-purple-800">
+                      Beat the ATS Algorithms
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-purple-700">
+                    Get your resume past Applicant Tracking Systems with
+                    AI-powered optimization and compatibility scoring.
                   </p>
                 </div>
               )}
