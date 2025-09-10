@@ -1,31 +1,40 @@
 # JobPsych Frontend
 
-A modern React-based web application for analyzing resumes and generating tailored interview questions. Built with Vite, Tailwind CSS, and React 18.
+A comprehensive AI-powered career development platform offering smart career guidance, resume optimization, interview preparation, and recruitment tools. Built with React 18, Vite, Tailwind CSS, and modern web technologies.
 
 ## ✨ Features
 
+### 🤖 AI-Powered Career Tools
+
+- **Role Suggestions**: AI-driven career matching based on skills, personality, and market trends
+- **ATS Analyzer**: Resume optimization tool that ensures compatibility with Applicant Tracking Systems
+- **InterviewPrep AI**: Generate personalized interview questions and practice scenarios
+- **HireDisk Pro**: Advanced recruitment platform for HR professionals and hiring managers
+
 ### Core Functionality
 
-- **Resume Upload**: Support for PDF, DOC, and DOCX files with drag-and-drop interface
-- **AI-Powered Analysis**: Get detailed resume analysis and improvement suggestions
-- **Interview Questions**: Generate custom interview questions based on your resume
-- **Real-time Feedback**: Instant analysis with loading states and progress indicators
-- **Subscription Plans**: Three-tier pricing system (Free, Pro, Premium) with upgrade options
+- **Resume Upload & Analysis**: Support for PDF, DOC, and DOCX files with drag-and-drop interface
+- **Real-time AI Analysis**: Instant feedback with detailed insights and improvement suggestions
+- **Custom Interview Questions**: Generate tailored questions based on resume content and job requirements
+- **Progress Tracking**: Monitor career development and interview preparation progress
+- **Multi-tier Subscription**: Flexible pricing plans (Free, Pro, Premium) with upgrade options
 
 ### User Experience
 
-- **Mobile-Responsive**: Optimized for all device sizes
-- **Error Handling**: Comprehensive error handling with user-friendly messages
-- **Rate Limit Management**: Clear notifications about usage limits with countdown timers and upgrade options
-- **Progressive Web App**: Works offline with service worker support
-- **No Caching**: Always fresh content with disabled browser caching
+- **Mobile-Responsive Design**: Optimized for all device sizes and screen resolutions
+- **Intuitive Navigation**: Clean, modern interface with smooth transitions
+- **Real-time Feedback**: Loading states, progress indicators, and instant results
+- **Comprehensive FAQ System**: Categorized help sections for all features
+- **Success Stories**: Testimonials showcasing real user experiences
+- **Progressive Web App**: Offline functionality with service worker support
 
 ### Security & Performance
 
-- **File Type Validation**: Client-side and server-side file type verification
-- **Rate Limiting**: 2 uploads per 24 hours (resets daily at midnight UTC)
-- **Error Boundaries**: Graceful error handling to prevent app crashes
-- **Optimized Bundle**: Fast loading with Vite's optimized build process
+- **Secure Authentication**: Clerk-powered authentication with token management
+- **File Type Validation**: Client-side and server-side verification for uploaded files
+- **Rate Limiting**: Intelligent usage limits with clear notifications and upgrade paths
+- **Error Boundaries**: Graceful error handling to prevent application crashes
+- **Optimized Performance**: Fast loading with Vite's optimized build process
 
 ## 🚀 Quick Start
 
@@ -61,72 +70,108 @@ npm run lint     # Run ESLint code analysis
 
 ```text
 src/
-├── components/          # React components
-│   ├── ResumeUpload.jsx        # Main file upload component
-│   ├── ResumeDetails.jsx       # Resume analysis display
-│   ├── GeneratedQuestions.jsx  # Interview questions display
-│   ├── RateLimitError.jsx      # Rate limit notification modal
-│   ├── PricingModal.jsx        # Subscription pricing plans modal
-│   ├── Toast.jsx               # Success/error notifications
-│   ├── SimpleToast.jsx         # Fallback toast component
-│   ├── SimpleResumeUpload.jsx  # Fallback upload component
-│   └── ErrorBoundary.jsx       # Error boundary wrapper
-├── utils/               # Utility functions
-│   ├── errorHandler.js         # Error classification and handling
-│   ├── pwaUtils.js            # PWA and cache management
-│   ├── reactSafety.js         # React safety hooks
-│   ├── api.js                 # API communication
+├── components/              # React components organized by feature
+│   ├── auth/               # Authentication components
+│   │   ├── AuthContext.jsx
+│   │   ├── CustomAuthModal.jsx
+│   │   └── Header.jsx
+│   ├── buttons/            # Reusable button components
+│   │   └── NavigationButton.jsx
+│   ├── faq/                # FAQ system components
+│   │   ├── FAQDropdown.jsx
+│   │   └── FAQSection.jsx
+│   ├── features/           # Feature showcase components
+│   │   └── FeaturesSection.jsx
+│   ├── layout/             # Layout and navigation components
+│   │   ├── Footer.jsx
+│   │   └── HeroSection.jsx
+│   ├── pricing/            # Pricing and subscription components
+│   │   └── PricingSection.jsx
+│   ├── testimonials/       # User testimonials components
+│   │   └── TestimonialsSection.jsx
+│   ├── ats/                # ATS Analyzer components
+│   │   └── ATSAnalyzer.jsx
+│   ├── ResumeUpload.jsx    # Resume upload component
+│   ├── ResumeDetails.jsx   # Resume analysis display
+│   ├── GeneratedQuestions.jsx # Interview questions display
+│   ├── Toast.jsx           # Success/error notifications
+│   └── ErrorBoundary.jsx   # Error boundary wrapper
+├── data/                   # Static data files
+│   ├── faqs.js            # FAQ content organized by category
+│   ├── testimonials.js    # User testimonials data
+│   └── enhancePlan.js     # Pricing plan configurations
+├── utils/                  # Utility functions and helpers
+│   ├── errorHandler.js    # Error classification and handling
+│   ├── pwaUtils.js        # PWA and cache management
+│   ├── api.js             # API communication utilities
 │   └── SafeComponentWrapper.jsx # Component error wrapper
-├── App.jsx              # Main application component
-├── main.jsx            # Application entry point
-└── index.css           # Global styles and Tailwind imports
+├── App.jsx                 # Main application component
+├── main.jsx               # Application entry point
+└── index.css              # Global styles and Tailwind imports
 ```
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-The app connects to the backend API. Update the API URL in `src/utils/api.js` if needed:
+The app uses Clerk for authentication and connects to multiple backend APIs. Configure the following in your environment:
 
 ```javascript
+// Clerk Authentication (src/utils/api.js or environment file)
+const CLERK_PUBLISHABLE_KEY = "your-clerk-publishable-key";
+
+// API Endpoints
 const API_BASE_URL = "https://your-backend-url.com";
+const ATS_API_URL = "https://ats-analyzer-api.com";
+const INTERVIEW_API_URL = "https://interview-prep-api.com";
 ```
+
+### Authentication System
+
+- **Clerk Integration**: Secure authentication with social login options
+- **Token Management**: Automatic storage of access and refresh tokens in localStorage
+- **Session Persistence**: Maintains user sessions across browser refreshes
+- **Protected Routes**: Role-based access control for different features
 
 ### Rate Limiting
 
-- **Free Plan**: 2 resume uploads per 24 hours
-- **Pro Plan**: 20 resume uploads per 24 hours
-- **Premium Plan**: Unlimited resume uploads
+- **Free Plan**: 2 analyses per 24 hours across all features
+- **Pro Plan**: 20 analyses per 24 hours with priority processing
+- **Premium Plan**: Unlimited usage with advanced features
 - **Reset Time**: Daily at midnight UTC
-- **Behavior**: Shows countdown timer and upgrade options when limit reached
+- **Behavior**: Smart notifications with countdown timers and upgrade prompts
 
 ### Subscription Plans
 
 #### 🆓 Free Plan ($0/forever)
 
-- 2 resume analyses per day
-- Basic interview questions
-- Standard processing time
-- Email support
+- 2 AI analyses per day across all tools
+- Basic career suggestions and role matching
+- Standard ATS compatibility check
+- Essential interview questions
+- Community support via email
 
 #### 🚀 Pro Plan ($9.99/month)
 
-- 20 resume analyses per day
-- Advanced interview questions
-- Priority processing
-- Detailed candidate insights
+- 20 AI analyses per day with priority processing
+- Advanced career guidance with market insights
+- Comprehensive ATS optimization with keyword suggestions
+- Personalized interview preparation scenarios
+- Detailed progress tracking and analytics
 - Email & chat support
-- Export to PDF/Excel
+- Export capabilities (PDF/Excel)
 
 #### ⭐ Premium Plan ($19.99/month)
 
-- Unlimited resume analyses
-- AI-powered insights
-- Custom question templates
-- Team collaboration tools
-- Priority support
-- API access
-- White-label options
+- Unlimited AI analyses across all features
+- Premium career counseling with industry experts
+- Advanced ATS analysis with competitor insights
+- AI-powered mock interviews with feedback
+- Team collaboration tools for HR teams
+- HireDisk Pro access for recruitment
+- Priority customer support
+- API access for integrations
+- White-label options for enterprises
 
 ### Caching Policy
 
@@ -137,45 +182,90 @@ const API_BASE_URL = "https://your-backend-url.com";
 
 ## 🌐 API Integration
 
-### Upload Endpoint
+### Core Endpoints
+
+#### Resume Analysis
 
 ```http
-POST /upload-resume
+POST /api/analyze-resume
 Content-Type: multipart/form-data
 Body: FormData with 'resume' file field
+Authorization: Bearer <token>
 ```
 
-### Response Format
+#### ATS Compatibility Check
 
-**Success (200)**:
+```http
+POST /api/ats-analyze
+Content-Type: multipart/form-data
+Body: FormData with 'resume' file field and 'jobDescription' text
+Authorization: Bearer <token>
+```
 
-```json
-{
-  "analysis": "Detailed resume analysis...",
-  "questions": ["Question 1", "Question 2", ...]
+#### Interview Preparation
+
+```http
+POST /api/generate-questions
+Content-Type: application/json
+Body: {
+  "resumeData": {...},
+  "jobRole": "Software Engineer",
+  "experience": "3 years"
 }
+Authorization: Bearer <token>
 ```
 
-**Rate Limit (429)**:
+#### Career Suggestions
+
+```http
+POST /api/career-suggestions
+Content-Type: application/json
+Body: {
+  "skills": [...],
+  "interests": [...],
+  "experience": "3 years"
+}
+Authorization: Bearer <token>
+```
+
+### Response Formats
+
+**Success Response**:
 
 ```json
 {
-  "detail": {
-    "error": "Rate limit exceeded",
-    "message": "You have exceeded the daily limit...",
-    "retry_after": 85995
+  "success": true,
+  "data": {
+    "analysis": "Detailed analysis text...",
+    "score": 85,
+    "recommendations": [...],
+    "questions": [...]
+  },
+  "usage": {
+    "remaining": 15,
+    "resetTime": "2025-09-11T00:00:00Z"
   }
 }
 ```
 
-**Error (400/500)**:
+**Rate Limit Response**:
 
 ```json
 {
-  "detail": {
-    "error": "Error type",
-    "message": "Error description"
-  }
+  "success": false,
+  "error": "Rate limit exceeded",
+  "message": "Daily limit reached. Resets in 14 hours.",
+  "retryAfter": 50400
+}
+```
+
+**Authentication Error**:
+
+```json
+{
+  "success": false,
+  "error": "Authentication required",
+  "message": "Please log in to continue"
 }
 ```
 
@@ -246,23 +336,53 @@ In development, check browser console for detailed error messages and network re
 - **Issue**: Rate limit increases, technical support, feature requests
 - **Response Time**: Usually within 24-48 hours
 
-## 🛠️ Development
+## 🆕 Recent Features
 
-### Adding New Features
+### v2.2.0 - ATS Analyzer (September 2025)
 
-1. Create components in `src/components/`
-2. Add utilities in `src/utils/`
-3. Update error handling in `errorHandler.js`
-4. Add appropriate error boundaries
-5. Test error scenarios thoroughly
+- **Resume Optimization**: AI-powered ATS compatibility analysis
+- **Keyword Matching**: Automatic keyword suggestions for job applications
+- **Compatibility Scoring**: Detailed ATS compatibility reports
+- **Industry Insights**: Job market trends and requirements analysis
 
-### Code Style
+### v2.1.0 - InterviewPrep AI (September 2025)
 
-- Use functional components with hooks
-- Follow React best practices
-- Include comprehensive error handling
-- Add fallback components for critical features
-- Use Tailwind CSS for styling
+- **AI Interview Practice**: Personalized interview question generation
+- **Progress Tracking**: Monitor interview preparation progress
+- **Custom Scenarios**: Industry-specific interview simulations
+- **Feedback System**: Detailed performance analysis and tips
+
+### v2.0.0 - Major Platform Enhancement (August 2025)
+
+- **Multi-Feature Architecture**: Unified platform for all career tools
+- **Advanced Authentication**: Clerk-powered secure authentication
+- **Responsive Design**: Mobile-first approach with modern UI
+- **Comprehensive FAQ**: Categorized help system for all features
+
+## 🏛️ Architecture Overview
+
+### Technology Stack
+
+- **Frontend**: React 18 with Hooks, Vite build system
+- **Styling**: Tailwind CSS with custom design system
+- **Authentication**: Clerk authentication service
+- **State Management**: React Context API
+- **Routing**: React Router for client-side navigation
+- **API Communication**: Axios with custom error handling
+
+### Component Architecture
+
+- **Feature-based Organization**: Components grouped by functionality
+- **Reusable Components**: Shared UI elements across features
+- **Error Boundaries**: Graceful error handling at component level
+- **Progressive Enhancement**: Core functionality works without JavaScript
+
+### Data Management
+
+- **Static Data**: JSON files for FAQs, testimonials, and pricing
+- **API Integration**: RESTful APIs for dynamic content
+- **Local Storage**: Token persistence and user preferences
+- **Caching Strategy**: Optimized for performance and offline use
 
 ## 📄 License
 
@@ -270,8 +390,9 @@ This project is private and proprietary. All rights reserved.
 
 ---
 
-**Last Updated**: December 2024
-**Version**: 1.0.0
+**Last Updated**: September 2025
+**Version**: 2.2.0
+**Platform**: JobPsych - Complete AI Career Development Suite
 
 ## 🐳 Docker
 
