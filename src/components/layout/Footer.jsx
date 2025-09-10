@@ -11,8 +11,8 @@ const Footer = ({ getDestination }) => {
             <p className="text-gray-400 text-sm">
               A unified platform offering smart career direction for individuals
               through Role Suggestions, AI-powered interview practice with
-              InterviewPrep AI, and advanced recruitment tools for HR with
-              HireDisk Pro.
+              InterviewPrep AI, resume optimization with ATS Analyzer, and
+              advanced recruitment tools for HR with HireDisk Pro.
             </p>
           </div>
           <div>
@@ -23,9 +23,8 @@ const Footer = ({ getDestination }) => {
               <li>• Career Role Matching</li>
               <li>• Personality & Skills Fit</li>
               <li>• AI Interview Practice</li>
-              <li>• Progress Tracking</li>
-              <li>• Resume Parsing & Scoring</li>
               <li>• Tailored Interview Questions</li>
+              <li>• ATS Compatibility Analysis</li>
               <li>• Recruiter-Friendly Summaries</li>
             </ul>
           </div>
@@ -64,6 +63,12 @@ const Footer = ({ getDestination }) => {
                 </span>
                 <span>InterviewPrep AI Added (September 2025)</span>
               </li>
+              <li className="flex items-center gap-2">
+                <span className="px-2 py-0.5 bg-orange-900 rounded text-xs text-orange-300 font-medium">
+                  v2.2.0
+                </span>
+                <span>ATS Analyzer Launched (September 2025)</span>
+              </li>
             </ul>
           </div>
           <div>
@@ -87,6 +92,15 @@ const Footer = ({ getDestination }) => {
                   className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
                 >
                   Try InterviewPrep AI
+                </NavigationButton>
+              </li>
+              <li>
+                •{" "}
+                <NavigationButton
+                  to="/ats-analyzer"
+                  className="hover:text-indigo-300 bg-transparent border-none p-0 cursor-pointer text-gray-400 font-inherit"
+                >
+                  Analyze Resume with ATS
                 </NavigationButton>
               </li>
               <li>
