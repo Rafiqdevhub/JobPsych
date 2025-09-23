@@ -43,7 +43,6 @@ const LandingPage = () => {
       <Header scrollToPricing={scrollToPricing} />
       <HeroSection />
       <FeaturesSection />
-
       <FAQSection />
       <TestimonialsSection />
       <Footer getDestination={getDestination} />

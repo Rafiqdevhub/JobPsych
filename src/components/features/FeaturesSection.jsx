@@ -6,7 +6,6 @@ const FeaturesSection = () => {
       id="features"
       className="relative pt-6 pb-10 sm:pt-10 sm:pb-24 bg-slate-900"
     >
-      {/* Dark Background with Gradient */}
       <div className="absolute inset-0 bg-slate-900">
         <div className="absolute inset-0 opacity-20">
           <div className="h-full w-full bg-gradient-to-br from-indigo-500/10 to-blue-500/10"></div>
@@ -43,7 +42,7 @@ const FeaturesSection = () => {
 
               <p className="text-gray-300 leading-relaxed">
                 Upload your resume, mention target role & job description to get
-                personalized career recommendations - completely free!
+                personalized career recommendations completely free!
               </p>
             </div>
           </div>
@@ -92,7 +91,7 @@ const FeaturesSection = () => {
 
             <div className="relative z-10">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-orange-800/70 text-orange-300 text-xs font-medium mb-4">
-                HireDisk Premium
+                HireDisk
               </div>
 
               <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors duration-300">
@@ -159,8 +158,7 @@ const FeaturesSection = () => {
               practicing real interview questions with instant feedback.
             </p>
             <p className="mb-2">
-              HireDisk is our premium AI hiring tool for HR teams and
-              recruiters.
+              HireDisk is our AI hiring tool for HR teams and recruiters.
             </p>
             <p className="mb-2">
               ATS Analyzer helps you optimize your resume to beat Applicant
@@ -178,8 +176,7 @@ const FeaturesSection = () => {
               optimize your resume, or try{" "}
               <span className="text-blue-400 font-bold">InterviewPrep AI</span>{" "}
               for interview practice. If you're an HR team or recruiter, start
-              with{" "}
-              <span className="text-orange-400 font-bold">HireDisk Pro</span>.
+              with <span className="text-orange-400 font-bold">HireDisk</span>.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-12 max-w-6xl mx-auto">
@@ -193,13 +190,15 @@ const FeaturesSection = () => {
                   <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
                     1
                   </div>
-                  <span className="text-gray-300">Upload your resume</span>
+                  <span className="text-gray-300 text-sm">
+                    Upload your resume
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
                     2
                   </div>
-                  <span className="text-gray-300">
+                  <span className="text-gray-300 text-sm">
                     Mention target role & job description
                   </span>
                 </div>
@@ -207,8 +206,7 @@ const FeaturesSection = () => {
                   <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
                     3
                   </div>
-                  <span className="text-gray-300">
-                    {" "}
+                  <span className="text-gray-300 text-sm">
                     Get career recommendations & role fit analysis
                   </span>
                 </div>

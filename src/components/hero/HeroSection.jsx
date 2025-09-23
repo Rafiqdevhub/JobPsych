@@ -213,7 +213,7 @@ const HeroSection = ({ resumeData }) => {
           </div>
 
           {/* Scroll Down Indicator */}
-          <div className="mt-20 flex flex-col items-center justify-center">
+          <div className="mt-20 hidden md:flex flex-col items-center justify-center">
             <p className="text-gray-400 text-sm mb-6 font-medium">
               Discover More Features Below
             </p>
