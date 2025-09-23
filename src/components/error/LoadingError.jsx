@@ -54,14 +54,14 @@ const LoadingError = ({
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300"
+        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-all duration-300"
         onClick={onClose}
       />
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="max-w-lg w-full">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 text-center border-2 border-gray-200 relative overflow-hidden transform transition-all duration-500 hover:scale-[1.02] ring-4 ring-white/50">
-            <div className="absolute inset-0 bg-gradient-to-br from-red-50/90 via-orange-50/70 to-yellow-50/90 -z-10"></div>
+          <div className="bg-slate-800 rounded-3xl shadow-2xl p-8 text-center border-2 border-slate-600 relative overflow-hidden transform transition-all duration-500 hover:scale-[1.02] ring-4 ring-slate-700/50">
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-800/90 via-slate-700/70 to-slate-800/90 -z-10"></div>
 
             <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
               <div className="absolute -top-2 -left-2 w-4 h-4 bg-red-400 rounded-full opacity-20 animate-ping"></div>
@@ -78,36 +78,36 @@ const LoadingError = ({
             {onClose && (
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-all duration-200 transform hover:scale-110 hover:rotate-90 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-700 transition-all duration-200 transform hover:scale-110 hover:rotate-90 focus:outline-none focus:ring-2 focus:ring-slate-500"
               >
-                <XMarkIcon className="h-5 w-5 text-gray-500" />
+                <XMarkIcon className="h-5 w-5 text-slate-400" />
               </button>
             )}
 
-            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-gradient-to-br from-red-100 to-red-200 mb-6 relative shadow-lg">
+            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-gradient-to-br from-red-500/20 to-red-600/20 mb-6 relative shadow-lg border border-red-500/30">
               <div className="absolute inset-0 bg-red-500 rounded-2xl opacity-10 animate-pulse"></div>
               <div className="absolute inset-0 bg-red-400 rounded-2xl opacity-5 animate-ping"></div>
-              <ExclamationCircleIcon className="h-10 w-10 text-red-600 relative z-10 transform transition-transform duration-300 hover:scale-110 hover:rotate-12" />
+              <ExclamationCircleIcon className="h-10 w-10 text-red-400 relative z-10 transform transition-transform duration-300 hover:scale-110 hover:rotate-12" />
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
+            <h3 className="text-2xl font-bold text-white mb-4 leading-tight">
               {details.title}
             </h3>
 
-            <p className="text-gray-600 mb-8 leading-relaxed text-base">
+            <p className="text-slate-300 mb-8 leading-relaxed text-base">
               {details.message}
             </p>
 
             {details.suggestions.length > 0 && (
-              <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-100 text-left shadow-md">
-                <h4 className="text-base font-bold text-blue-800 mb-3 flex items-center">
+              <div className="mb-8 p-6 bg-gradient-to-r from-indigo-500/20 to-blue-500/20 rounded-xl border-2 border-indigo-500/30 text-left shadow-md">
+                <h4 className="text-base font-bold text-indigo-300 mb-3 flex items-center">
                   <DocumentIcon className="h-5 w-5 mr-2" />
                   Try these solutions:
                 </h4>
-                <ul className="text-sm text-blue-700 space-y-2">
+                <ul className="text-sm text-indigo-200 space-y-2">
                   {details.suggestions.map((suggestion, index) => (
                     <li key={index} className="flex items-start">
-                      <span className="inline-block w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      <span className="inline-block w-2 h-2 bg-indigo-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                       {suggestion}
                     </li>
                   ))}
@@ -119,7 +119,7 @@ const LoadingError = ({
               {showRetry && onRetry && (
                 <button
                   onClick={onRetry}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-blue-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
                 >
                   <ArrowPathIcon className="h-5 w-5 mr-2" />
                   Try Again
@@ -129,7 +129,7 @@ const LoadingError = ({
               {showReset && onReset && (
                 <button
                   onClick={onReset}
-                  className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-base font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-gray-300 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                  className="inline-flex items-center px-6 py-3 border-2 border-slate-600 text-base font-semibold rounded-xl text-slate-300 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-slate-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
                 >
                   <DocumentIcon className="h-5 w-5 mr-2" />
                   Upload New File
@@ -139,19 +139,19 @@ const LoadingError = ({
               {onClose && (
                 <button
                   onClick={onClose}
-                  className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-base font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-gray-300 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
+                  className="inline-flex items-center px-6 py-3 border-2 border-slate-600 text-base font-semibold rounded-xl text-slate-300 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-slate-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
                 >
                   Cancel
                 </button>
               )}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-100">
-              <p className="text-sm text-gray-500 mb-2">
+            <div className="mt-8 pt-6 border-t border-slate-600">
+              <p className="text-sm text-slate-400 mb-2">
                 Need help? Make sure your resume is properly formatted and try
                 again.
               </p>
-              <div className="flex items-center justify-center space-x-4 text-xs text-gray-400">
+              <div className="flex items-center justify-center space-x-4 text-xs text-slate-500">
                 <span>Error ID: {Date.now()}</span>
                 <span>•</span>
                 <span>JobPsych AI</span>

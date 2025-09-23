@@ -17,7 +17,6 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900"
     >
-      {/* Dark Background */}
       <div className="absolute inset-0 bg-slate-900">
         <div className="absolute inset-0 opacity-20">
           <div className="h-full w-full bg-gradient-to-br from-indigo-500/10 to-blue-500/10"></div>
@@ -26,12 +25,10 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl text-center">
-          {/* Dark Theme Badge */}
           <div className="inline-flex items-center px-8 py-4 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium mb-8">
             AI-Powered Career Intelligence Platform
           </div>
 
-          {/* Dark Theme Hero Title */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 text-white leading-tight">
             <div className="mb-4">Transform Your</div>
             <TypewriterText
@@ -44,7 +41,6 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
             />
           </h1>
 
-          {/* Dark Theme Subtitle */}
           <p className="mt-8 text-xl sm:text-2xl md:text-3xl leading-relaxed text-gray-300 max-w-4xl mx-auto">
             <span className="font-semibold text-indigo-400">
               Four Powerful AI Tools:
@@ -82,7 +78,7 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
                   index: 2,
                 },
                 {
-                  title: "HireDisk Pro",
+                  title: "HireDisk",
                   description: "AI hiring intelligence for recruiters",
                   color: "text-orange-400",
                   bgColor: "bg-slate-700",
@@ -133,7 +129,7 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
                 bgColor: "bg-emerald-600 hover:bg-emerald-700",
               },
               {
-                label: "HireDisk Pro",
+                label: "HireDisk",
                 href: isSignedIn ? "/hire-disk" : "/sign-in",
                 bgColor: "bg-orange-600 hover:bg-orange-700",
               },

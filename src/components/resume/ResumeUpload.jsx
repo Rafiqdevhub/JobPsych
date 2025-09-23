@@ -114,22 +114,22 @@ function ResumeUpload({
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+    <div className="max-w-xl mx-auto bg-slate-700/80 p-6 rounded-xl shadow-lg border border-slate-600">
+      <h2 className="text-2xl font-semibold text-white mb-6 text-center">
         Review Candidate Resume
       </h2>
 
       {isPremium && (
-        <div className="mb-4 bg-gradient-to-r from-amber-100 to-yellow-100 border border-amber-200 rounded-lg p-3">
+        <div className="mb-4 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 rounded-lg p-3">
           <div className="flex items-center justify-center space-x-2">
             <svg
-              className="h-5 w-5 text-amber-600"
+              className="h-5 w-5 text-amber-400"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-sm font-medium text-amber-800">
+            <span className="text-sm font-medium text-amber-300">
               Premium Analysis Enabled
             </span>
           </div>
@@ -139,10 +139,10 @@ function ResumeUpload({
       <div
         className={`relative p-10 border-2 border-dashed rounded-xl text-center cursor-pointer ${
           isLoading
-            ? "bg-gray-100 border-gray-300 cursor-not-allowed"
+            ? "bg-slate-600/30 border-slate-500 cursor-not-allowed"
             : selectedFile
-            ? "bg-blue-50 border-blue-400"
-            : "border-gray-300 hover:border-blue-400 hover:bg-blue-50/30"
+            ? "bg-indigo-500/20 border-indigo-400"
+            : "border-slate-500 hover:border-indigo-400 hover:bg-indigo-500/10"
         }`}
         onClick={openFileDialog}
         onDrop={handleDrop}
@@ -160,26 +160,28 @@ function ResumeUpload({
 
         {isLoading ? (
           <div className="flex flex-col items-center">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
-            <p className="mt-4 text-base text-blue-600">Processing resume...</p>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-400"></div>
+            <p className="mt-4 text-base text-indigo-300">
+              Processing resume...
+            </p>
           </div>
         ) : selectedFile ? (
           <>
-            <DocumentIcon className="mx-auto h-12 w-12 text-blue-500" />
-            <p className="mt-4 text-base font-medium text-blue-700">
+            <DocumentIcon className="mx-auto h-12 w-12 text-indigo-400" />
+            <p className="mt-4 text-base font-medium text-indigo-300">
               {selectedFile.name}
             </p>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-slate-400">
               {(selectedFile.size / 1024).toFixed(1)} KB
             </p>
           </>
         ) : (
           <>
-            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <p className="mt-4 text-base text-gray-600">
+            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-slate-400" />
+            <p className="mt-4 text-base text-slate-300">
               Upload candidate's resume (drag & drop or click here)
             </p>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-slate-400">
               Accepts PDF, DOC, and DOCX formats
             </p>
           </>
@@ -187,10 +189,10 @@ function ResumeUpload({
       </div>
 
       <div className="mt-4 text-center space-y-2">
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-slate-400">
           Our AI will analyze the resume and help you prepare for the interview
         </p>
-        <p className="text-xs text-blue-500">
+        <p className="text-xs text-indigo-400">
           Get instant insights and tailored interview questions
         </p>
       </div>
