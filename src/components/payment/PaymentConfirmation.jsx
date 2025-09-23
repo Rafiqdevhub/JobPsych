@@ -3,7 +3,6 @@ import {
   generatePaymentSummary,
   validatePaymentAmount,
 } from "../../utils/paymentService";
-import { useUserManager } from "../../hooks/useUserManager";
 
 const PaymentConfirmation = ({
   planId,
@@ -11,22 +10,20 @@ const PaymentConfirmation = ({
   onCancel,
   isProcessing = false,
 }) => {
-  const { clerkUser } = useUserManager();
+  // Simple user info for non-auth mode
+  const userInfo = { email: "user@example.com" };
   const [paymentSummary, setPaymentSummary] = useState(null);
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    if (planId && clerkUser?.primaryEmailAddress?.emailAddress) {
-      const summary = generatePaymentSummary(
-        planId,
-        clerkUser.primaryEmailAddress.emailAddress
-      );
+    if (planId && userInfo?.email) {
+      const summary = generatePaymentSummary(planId, userInfo.email);
       setPaymentSummary(summary);
 
       const valid = validatePaymentAmount(planId, summary.payment.amount);
       setIsValid(valid);
     }
-  }, [planId, clerkUser]);
+  }, [planId, userInfo?.email]);
 
   if (!paymentSummary) {
     return (

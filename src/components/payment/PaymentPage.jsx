@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
 import { Elements } from "@stripe/react-stripe-js";
 import {
   createPayment,
@@ -15,8 +14,16 @@ import PaymentConfirmation from "./PaymentConfirmation";
 import PaymentStatusTracker from "./PaymentStatusTracker";
 
 const PaymentForm = ({ selectedPlan, planId }) => {
-  const { user } = useUser();
-  const { upgradeUserPlan } = useUserManager();
+  // Simple user info for non-auth mode
+  const user = useMemo(
+    () => ({
+      email: "user@example.com",
+      firstName: "User",
+      lastName: "",
+    }),
+    []
+  );
+  const { upgradeUserPlan } = useUserManager(user);
   const [clientSecret, setClientSecret] = useState(null);
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -328,7 +335,6 @@ const PaymentForm = ({ selectedPlan, planId }) => {
 const PaymentPage = () => {
   const [searchParams] = useSearchParams();
   const planId = searchParams.get("plan");
-  const { isSignedIn } = useUser();
   const [error] = useState(null);
   const [success, setSuccess] = useState(false);
   const [, setIsProcessing] = useState(false);
@@ -434,24 +440,7 @@ const PaymentPage = () => {
     }
   }, [planId, navigate, success]);
 
-  useEffect(() => {
-    if (!isSignedIn) {
-      localStorage.setItem("selectedPlan", planId);
-      localStorage.setItem("redirectToPayment", "true");
-      navigate("/sign-in");
-    }
-  }, [isSignedIn, navigate, planId]);
-
-  if (!isSignedIn) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
-        <p className="ml-3 text-lg font-medium text-gray-700">
-          Redirecting to sign in...
-        </p>
-      </div>
-    );
-  }
+  // Removed authentication check - now allows direct access to payment
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-12">

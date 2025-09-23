@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.32.4",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
     "@stripe/react-stripe-js": "^3.7.0",

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { useUserManager } from "@hooks/useUserManager";
 import {
   roleSuggestionsFeatures,
@@ -11,7 +10,6 @@ import NavigationButton from "@components/buttons/NavigationButton";
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const { isSignedIn } = useUser();
   const { userPlan, isPro, isBackendSynced } = useUserManager();
   const [showFeatures, setShowFeatures] = useState(false);
   const [showContact, setShowContact] = useState(false);
@@ -126,37 +124,24 @@ function Header() {
                 <span className="hidden sm:inline">Contact</span>
                 <span className="sm:hidden">✉️</span>
               </button>
-              {!isSignedIn ? (
-                <SignInButton mode="modal">
-                  <button
-                    type="button"
-                    className="px-3 xs:px-4 sm:px-5 py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm sm:text-base font-semibold rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none focus:outline-none bg-green-800/70 text-green-200 hover:bg-green-700/80"
+              <div className="flex items-center space-x-1.5 xs:space-x-2 sm:space-x-3">
+                {isBackendSynced && (
+                  <span
+                    className={`px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 text-xs font-medium rounded-full ${
+                      isPro
+                        ? "bg-yellow-800/70 text-yellow-200"
+                        : "bg-green-800/70 text-green-200"
+                    }`}
                   >
-                    <span className="hidden sm:inline">Sign In</span>
-                    <span className="sm:hidden">🔑</span>
-                  </button>
-                </SignInButton>
-              ) : (
-                <div className="flex items-center space-x-1.5 xs:space-x-2 sm:space-x-3">
-                  {isBackendSynced && (
-                    <span
-                      className={`px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 text-xs font-medium rounded-full ${
-                        isPro
-                          ? "bg-yellow-800/70 text-yellow-200"
-                          : "bg-green-800/70 text-green-200"
-                      }`}
-                    >
-                      <span className="hidden sm:inline">
-                        {userPlan === "pro" ? "Pro Plan" : "Free Plan"}
-                      </span>
-                      <span className="sm:hidden">
-                        {userPlan === "pro" ? "Pro" : "Free"}
-                      </span>
+                    <span className="hidden sm:inline">
+                      {userPlan === "pro" ? "Pro Plan" : "Free Plan"}
                     </span>
-                  )}
-                  <UserButton />
-                </div>
-              )}
+                    <span className="sm:hidden">
+                      {userPlan === "pro" ? "Pro" : "Free"}
+                    </span>
+                  </span>
+                )}
+              </div>
 
               {scrolled && (
                 <button
@@ -238,38 +223,22 @@ function Header() {
                       <span className="text-sm xs:text-base">Contact</span>
                     </button>
 
-                    {!isSignedIn ? (
-                      <div className="border-t border-slate-600 mt-2 pt-2 mx-2">
-                        <SignInButton mode="modal">
-                          <button
-                            type="button"
-                            className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold rounded-md xs:rounded-lg bg-green-800/70 text-green-200 hover:bg-green-700/80 transition-all w-full"
-                            onClick={() => setMobileDropdownOpen(false)}
+                    {/* Removed authentication UI - now shows simplified mobile menu */}
+                    <div className="border-t border-slate-600 mt-2 pt-2 px-3 xs:px-4">
+                      <div className="flex items-center justify-between">
+                        {isBackendSynced && (
+                          <span
+                            className={`px-2 xs:px-3 py-1 text-xs font-medium rounded-full ${
+                              isPro
+                                ? "bg-yellow-800/70 text-yellow-200"
+                                : "bg-green-800/70 text-green-200"
+                            }`}
                           >
-                            <span className="text-sm xs:text-base">
-                              Sign In
-                            </span>
-                          </button>
-                        </SignInButton>
+                            {userPlan === "pro" ? "Pro" : "Free"}
+                          </span>
+                        )}
                       </div>
-                    ) : (
-                      <div className="border-t border-slate-600 mt-2 pt-2 px-3 xs:px-4">
-                        <div className="flex items-center justify-between">
-                          {isBackendSynced && (
-                            <span
-                              className={`px-2 xs:px-3 py-1 text-xs font-medium rounded-full ${
-                                isPro
-                                  ? "bg-yellow-800/70 text-yellow-200"
-                                  : "bg-green-800/70 text-green-200"
-                              }`}
-                            >
-                              {userPlan === "pro" ? "Pro" : "Free"}
-                            </span>
-                          )}
-                          <UserButton />
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </nav>
                 </div>
               )}

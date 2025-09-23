@@ -7,7 +7,6 @@ import {
 
 const SubscriptionManagement = () => {
   const {
-    clerkUser,
     userPlan,
     subscriptionStatus,
     isActive,
@@ -15,6 +14,11 @@ const SubscriptionManagement = () => {
     resumeLimit,
     refreshUserData,
   } = useUserManager();
+
+  // Simple user object for demonstration
+  const userInfo = {
+    email: "user@example.com",
+  };
 
   const [subscriptionDetails, setSubscriptionDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,16 +28,14 @@ const SubscriptionManagement = () => {
 
   useEffect(() => {
     const loadSubscriptionDetails = async () => {
-      if (!clerkUser?.primaryEmailAddress?.emailAddress) {
+      if (!userInfo?.email) {
         setIsLoading(false);
         return;
       }
 
       try {
         setError(null);
-        const details = await getSubscriptionDetails(
-          clerkUser.primaryEmailAddress.emailAddress
-        );
+        const details = await getSubscriptionDetails(userInfo.email);
         setSubscriptionDetails(details);
       } catch (err) {
         console.error("Error loading subscription details:", err);
@@ -44,14 +46,14 @@ const SubscriptionManagement = () => {
     };
 
     loadSubscriptionDetails();
-  }, [clerkUser, userPlan, subscriptionStatus]);
+  }, [userInfo?.email, userPlan, subscriptionStatus]);
 
   const handleCancelSubscription = async () => {
-    if (!clerkUser?.primaryEmailAddress?.emailAddress) return;
+    if (!userInfo?.email) return;
 
     try {
       setIsCanceling(true);
-      await cancelSubscription(clerkUser.primaryEmailAddress.emailAddress);
+      await cancelSubscription(userInfo.email);
       await refreshUserData();
       setShowCancelModal(false);
     } catch (err) {
@@ -220,15 +222,11 @@ const SubscriptionManagement = () => {
             <div className="space-y-1 text-sm text-gray-600">
               <p>
                 <span className="font-medium">Email:</span>{" "}
-                {subscriptionDetails?.email ||
-                  clerkUser?.primaryEmailAddress?.emailAddress}
+                {subscriptionDetails?.email || userInfo?.email}
               </p>
               <p>
                 <span className="font-medium">Name:</span>{" "}
-                {subscriptionDetails?.name ||
-                  `${clerkUser?.firstName || ""} ${
-                    clerkUser?.lastName || ""
-                  }`.trim()}
+                {subscriptionDetails?.name || "User"}
               </p>
               {subscriptionDetails?.created_at && (
                 <p>

@@ -43,6 +43,3 @@ yarn-error.log*
 .classpath
 *.launch
 .settings/
-
-# Clerk authentication-specific files
-**/clerk.secrets.json

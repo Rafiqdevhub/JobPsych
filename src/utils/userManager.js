@@ -1,14 +1,14 @@
 import { createUser, getUserByEmail } from "./paymentService";
 
-export const syncUserWithBackend = async (clerkUser) => {
+export const syncUserWithBackend = async (userInfo) => {
   try {
-    if (!clerkUser) {
-      throw new Error("Clerk user is required");
+    if (!userInfo) {
+      throw new Error("User info is required");
     }
 
-    const email = clerkUser.primaryEmailAddress?.emailAddress;
-    const firstName = clerkUser.firstName || "";
-    const lastName = clerkUser.lastName || "";
+    const email = userInfo.email;
+    const firstName = userInfo.firstName || "";
+    const lastName = userInfo.lastName || "";
     const fullName = `${firstName} ${lastName}`.trim() || "JobPsych User";
 
     if (!email) {
@@ -33,9 +33,7 @@ export const syncUserWithBackend = async (clerkUser) => {
 
     if (error.message && error.message.includes("already exists")) {
       try {
-        const existingUser = await getUserByEmail(
-          clerkUser.primaryEmailAddress?.emailAddress
-        );
+        const existingUser = await getUserByEmail(userInfo.email);
         return existingUser?.data || null;
       } catch (fetchError) {
         console.error("Failed to fetch existing user:", fetchError);
@@ -114,9 +112,9 @@ export const updateUserPlan = async (
   }
 };
 
-export const ensureUserInBackend = async (clerkUser) => {
+export const ensureUserInBackend = async (userInfo) => {
   try {
-    const backendUser = await syncUserWithBackend(clerkUser);
+    const backendUser = await syncUserWithBackend(userInfo);
 
     if (backendUser) {
       return {

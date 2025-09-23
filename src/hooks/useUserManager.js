@@ -1,10 +1,9 @@
 /**
  * User Management Hook
- * Custom React hook for integrating Clerk auth with backend user management
+ * Custom React hook for managing user authentication and backend synchronization
  */
 
 import { useState, useEffect } from "react";
-import { useUser } from "@clerk/clerk-react";
 import {
   getUserSubscriptionStatus,
   ensureUserInBackend,
@@ -15,8 +14,7 @@ import {
  * Custom hook for managing user authentication and backend synchronization
  * @returns {Object} User management state and functions
  */
-export const useUserManager = () => {
-  const { user: clerkUser, isSignedIn, isLoaded } = useUser();
+export const useUserManager = (userInfo = null) => {
   const [backendUser, setBackendUser] = useState(null);
   const [userPlan, setUserPlan] = useState("free");
   const [subscriptionStatus, setSubscriptionStatus] = useState("inactive");
@@ -24,10 +22,10 @@ export const useUserManager = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncError, setSyncError] = useState(null);
 
-  // Sync user with backend when Clerk user changes
+  // Sync user with backend when user info changes
   useEffect(() => {
     const syncUser = async () => {
-      if (!isLoaded || !isSignedIn || !clerkUser) {
+      if (!userInfo) {
         setBackendUser(null);
         setIsBackendSynced(false);
         return;
@@ -41,7 +39,7 @@ export const useUserManager = () => {
         setIsSyncing(true);
         setSyncError(null);
 
-        const userStatus = await ensureUserInBackend(clerkUser);
+        const userStatus = await ensureUserInBackend(userInfo);
 
         if (userStatus.exists && userStatus.user) {
           setBackendUser(userStatus.user);
@@ -68,26 +66,24 @@ export const useUserManager = () => {
     };
 
     syncUser();
-  }, [clerkUser, isSignedIn, isLoaded, isBackendSynced]);
+  }, [userInfo, isBackendSynced]);
 
   // Function to refresh user data from backend
   const refreshUserData = async () => {
-    if (!clerkUser?.primaryEmailAddress?.emailAddress) {
+    if (!userInfo?.email) {
       return;
     }
 
     try {
       setIsSyncing(true);
-      const subscriptionData = await getUserSubscriptionStatus(
-        clerkUser.primaryEmailAddress.emailAddress
-      );
+      const subscriptionData = await getUserSubscriptionStatus(userInfo.email);
 
       if (subscriptionData) {
         setUserPlan(subscriptionData.plan_type);
         setSubscriptionStatus(subscriptionData.subscription_status);
 
         // Update the full backend user data
-        const userStatus = await ensureUserInBackend(clerkUser);
+        const userStatus = await ensureUserInBackend(userInfo);
         if (userStatus.user) {
           setBackendUser(userStatus.user);
         }
@@ -102,14 +98,14 @@ export const useUserManager = () => {
 
   // Function to update user plan
   const upgradeUserPlan = async (newPlan, newStatus = "active") => {
-    if (!clerkUser?.primaryEmailAddress?.emailAddress) {
+    if (!userInfo?.email) {
       throw new Error("User email not available");
     }
 
     try {
       setIsSyncing(true);
       const updatedUser = await updateUserPlan(
-        clerkUser.primaryEmailAddress.emailAddress,
+        userInfo.email,
         newPlan,
         newStatus
       );
@@ -156,9 +152,9 @@ export const useUserManager = () => {
 
   // Function to get user display information
   const getUserDisplayInfo = () => {
-    const email = clerkUser?.primaryEmailAddress?.emailAddress || "";
-    const name = clerkUser
-      ? `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
+    const email = userInfo?.email || "";
+    const name = userInfo
+      ? `${userInfo.firstName || ""} ${userInfo.lastName || ""}`.trim() ||
         "JobPsych User"
       : "Guest";
 
@@ -175,10 +171,8 @@ export const useUserManager = () => {
   };
 
   return {
-    // Clerk user data
-    clerkUser,
-    isSignedIn,
-    isLoaded,
+    // User data
+    userInfo,
 
     // Backend user data
     backendUser,

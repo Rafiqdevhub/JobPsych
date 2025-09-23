@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import TypewriterText from "@components/TypewriterText";
 
-const HeroSection = ({ isSignedIn, resumeData }) => {
+const HeroSection = ({ resumeData }) => {
   const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const HeroSection = ({ isSignedIn, resumeData }) => {
               },
               {
                 label: "HireDisk",
-                href: isSignedIn ? "/hire-disk" : "/sign-in",
+                href: "/hire-disk",
                 bgColor: "bg-orange-600 hover:bg-orange-700",
               },
             ].map((button) => (

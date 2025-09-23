@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
 import { API_ENDPOINTS } from "@utils/api";
 import { generalTips } from "@data/candidateTips";
@@ -914,7 +913,7 @@ const RoleSuggestion = () => {
                   <div className="relative group">
                     <label
                       htmlFor="targetRole"
-                      className="block text-sm font-bold text-violet-400 mb-3 flex items-center gap-2"
+                      className="text-sm font-bold text-violet-400 mb-3 flex items-center gap-2"
                     >
                       <svg
                         className="h-5 w-5"
@@ -968,7 +967,7 @@ const RoleSuggestion = () => {
                   <div className="relative group">
                     <label
                       htmlFor="jobDescription"
-                      className="block text-sm font-bold text-cyan-400 mb-3 flex items-center gap-2"
+                      className="text-sm font-bold text-cyan-400 mb-3 flex items-center gap-2"
                     >
                       <svg
                         className="h-5 w-5"
@@ -1133,17 +1132,4 @@ const RoleSuggestion = () => {
   );
 };
 
-const ProtectedDashboard = () => {
-  return (
-    <>
-      <SignedIn>
-        <RoleSuggestion />
-      </SignedIn>
-      <SignedOut>
-        <RoleSuggestion />
-      </SignedOut>
-    </>
-  );
-};
-
-export default ProtectedDashboard;
+export default RoleSuggestion;

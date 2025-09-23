@@ -1,6 +1,6 @@
 # Docker Guide
 
-End-to-end instructions to containerize and run the JobPsych frontend (Vite + React) using the provided Dockerfile and Nginx runtime.
+End-tYou can pass Vite build-time envs (e.g., Stripe keys) as `--build-arg`. If you don't need them, you can skip.-end instructions to containerize and run the JobPsych frontend (Vite + React) using the provided Dockerfile and Nginx runtime.
 
 This guide assumes Windows with PowerShell (pwsh.exe) and Docker Desktop.
 
@@ -25,11 +25,10 @@ You can pass Vite build-time envs (e.g., Stripe or Clerk keys) as `--build-arg`.
 
 PowerShell examples:
 
-- Optional: set Stripe/Clerk keys
+- Optional: set Stripe keys
 
 ```powershell
 $env:VITE_STRIPE_PUBLISHABLE_KEY = "pk_test_..."
-$env:VITE_CLERK_PUBLISHABLE_KEY = "pk_test_..."
 ```
 
 - Build the image from the frontend folder (where the Dockerfile is)
@@ -37,7 +36,6 @@ $env:VITE_CLERK_PUBLISHABLE_KEY = "pk_test_..."
 ```powershell
 docker build -t jobpsych-frontend `
   --build-arg VITE_STRIPE_PUBLISHABLE_KEY="$env:VITE_STRIPE_PUBLISHABLE_KEY" `
-  --build-arg VITE_CLERK_PUBLISHABLE_KEY="$env:VITE_CLERK_PUBLISHABLE_KEY" `
   .
 ```
 

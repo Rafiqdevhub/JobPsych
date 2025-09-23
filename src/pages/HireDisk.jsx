@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useUser, useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import {
   UserCircleIcon,
@@ -19,9 +18,15 @@ import StandardQuestions from "@components/StandardQuestions";
 import { features } from "@data/features";
 
 const PremiumDashboard = () => {
-  const { user } = useUser();
-  const { signOut } = useClerk();
   const navigate = useNavigate();
+
+  // Simple user state (can be replaced with your own auth system)
+  const [user] = useState({
+    firstName: "User",
+    lastName: "",
+    email: "user@example.com",
+    imageUrl: null,
+  });
 
   // For local dev, ignore payment/scan limits
   const [currentFile, setCurrentFile] = useState(null);
@@ -252,7 +257,9 @@ const PremiumDashboard = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      // Clear local storage and redirect to home
+      localStorage.clear();
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -315,9 +322,7 @@ const PremiumDashboard = () => {
               </div>
               <div className="text-left hidden sm:block">
                 <p className="text-sm font-medium text-gray-900 truncate max-w-24">
-                  {user?.firstName ||
-                    user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
-                    "User"}
+                  {user?.firstName || user?.email?.split("@")[0] || "User"}
                 </p>
                 <p className="text-xs text-gray-500">Premium Member</p>
               </div>
@@ -337,9 +342,7 @@ const PremiumDashboard = () => {
                 <p className="text-sm font-medium text-gray-900 truncate">
                   {user?.firstName} {user?.lastName || ""}
                 </p>
-                <p className="text-xs text-gray-500 truncate">
-                  {user?.emailAddresses[0]?.emailAddress}
-                </p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
               </div>
               <div className="py-1">
                 <button
