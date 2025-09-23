@@ -227,7 +227,6 @@ const RoleSuggestion = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-x-hidden">
-      {/* Enhanced Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-cyan-900/10 to-rose-900/20"></div>
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -240,7 +239,6 @@ const RoleSuggestion = () => {
           style={{ animationDelay: "4s" }}
         ></div>
 
-        {/* Animated Particles */}
         <div className="absolute inset-0 overflow-hidden">
           <div
             className="absolute top-20 left-20 w-2 h-2 bg-violet-400/40 rounded-full animate-bounce"
@@ -261,7 +259,6 @@ const RoleSuggestion = () => {
         </div>
       </div>
 
-      {/* Modern Floating Header */}
       <header className="sticky top-4 z-30 mx-4 mt-4">
         <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-4">
           <div className="container mx-auto flex items-center justify-between">
