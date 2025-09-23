@@ -67,7 +67,7 @@ function Header({ scrollToPricing }) {
         <div
           className="fixed w-full top-0 left-0 z-40 h-[56px] xs:h-[64px] sm:h-[72px] md:h-[80px] pointer-events-none"
           style={{
-            background: "#ebf8ff",
+            background: "#0f172a", // slate-900
             opacity: 1,
           }}
         />
@@ -82,8 +82,8 @@ function Header({ scrollToPricing }) {
             className={`flex items-center justify-between rounded-lg xs:rounded-xl px-2 xs:px-3 sm:px-4 md:px-6 py-2 xs:py-2.5 sm:py-3 transition-all duration-300
               ${
                 scrolled
-                  ? "bg-white/90 backdrop-blur-md hover:shadow-xl"
-                  : "bg-transparent"
+                  ? "bg-slate-800/90 backdrop-blur-md hover:shadow-xl border border-slate-700"
+                  : "bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"
               }
             `}
           >
@@ -100,7 +100,7 @@ function Header({ scrollToPricing }) {
                     className="h-7 w-7 xs:h-8 xs:w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 object-contain transform transition-all duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h1 className="ml-1.5 xs:ml-2 text-lg xs:text-xl sm:text-2xl font-bold text-indigo-600 transition-all duration-300 tracking-tight cursor-pointer">
+                <h1 className="ml-1.5 xs:ml-2 text-lg xs:text-xl sm:text-2xl font-bold text-indigo-400 transition-all duration-300 tracking-tight cursor-pointer">
                   <span className="hidden xs:inline">JobPsych</span>
                   <span className="xs:hidden">JobPsych</span>
                 </h1>
@@ -111,7 +111,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={() => setShowFeatures(true)}
-                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
+                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-emerald-200 bg-emerald-800/70 hover:bg-emerald-700/80 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
               >
                 <span className="hidden sm:inline">Features</span>
                 <span className="sm:hidden">🧩</span>
@@ -119,7 +119,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={scrollToPricing}
-                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
+                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-purple-200 bg-purple-800/70 hover:bg-purple-700/80 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
               >
                 <span className="hidden sm:inline">Pricing</span>
                 <span className="sm:hidden">💸</span>
@@ -127,7 +127,7 @@ function Header({ scrollToPricing }) {
               <button
                 type="button"
                 onClick={() => setShowContact(true)}
-                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-indigo-700 bg-indigo-100 hover:bg-indigo-200 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
+                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-indigo-200 bg-indigo-800/70 hover:bg-indigo-700/80 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
               >
                 <span className="hidden sm:inline">Contact</span>
                 <span className="sm:hidden">✉️</span>
@@ -136,7 +136,7 @@ function Header({ scrollToPricing }) {
                 <SignInButton mode="modal">
                   <button
                     type="button"
-                    className="px-3 xs:px-4 sm:px-5 py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm sm:text-base font-semibold rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none focus:outline-none bg-green-100 text-blue-700 hover:bg-green-200"
+                    className="px-3 xs:px-4 sm:px-5 py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm sm:text-base font-semibold rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none focus:outline-none bg-green-800/70 text-green-200 hover:bg-green-700/80"
                   >
                     <span className="hidden sm:inline">Sign In</span>
                     <span className="sm:hidden">🔑</span>
@@ -148,8 +148,8 @@ function Header({ scrollToPricing }) {
                     <span
                       className={`px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 text-xs font-medium rounded-full ${
                         isPro
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-green-100 text-green-800"
+                          ? "bg-yellow-800/70 text-yellow-200"
+                          : "bg-green-800/70 text-green-200"
                       }`}
                     >
                       <span className="hidden sm:inline">
@@ -170,7 +170,7 @@ function Header({ scrollToPricing }) {
                   onClick={() =>
                     window.scrollTo({ top: 0, behavior: "smooth" })
                   }
-                  className="ml-1 xs:ml-2 p-1.5 xs:p-2 rounded-full bg-indigo-200 hover:bg-indigo-300 shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center"
+                  className="ml-1 xs:ml-2 p-1.5 xs:p-2 rounded-full bg-indigo-800/70 hover:bg-indigo-700/80 shadow-md transition-all duration-300 cursor-pointer border-none flex items-center justify-center"
                   aria-label="Scroll to top"
                 >
                   <svg
@@ -179,7 +179,7 @@ function Header({ scrollToPricing }) {
                     viewBox="0 0 24 24"
                     strokeWidth={2}
                     stroke="currentColor"
-                    className="h-4 w-4 xs:h-5 xs:w-5 text-indigo-700"
+                    className="h-4 w-4 xs:h-5 xs:w-5 text-indigo-200"
                     aria-hidden="true"
                   >
                     <title>Scroll to top</title>
@@ -198,11 +198,11 @@ function Header({ scrollToPricing }) {
                 id="mobile-nav-hamburger"
                 type="button"
                 aria-label="Open mobile menu"
-                className="p-1.5 xs:p-2 rounded-lg xs:rounded-xl bg-indigo-100 shadow-md border-none flex items-center justify-center hover:bg-indigo-200 transition-colors duration-300"
+                className="p-1.5 xs:p-2 rounded-lg xs:rounded-xl bg-indigo-800/70 shadow-md border-none flex items-center justify-center hover:bg-indigo-700/80 transition-colors duration-300"
                 onClick={() => setMobileDropdownOpen((open) => !open)}
               >
                 <svg
-                  className="h-5 w-5 xs:h-6 xs:w-6 text-indigo-700"
+                  className="h-5 w-5 xs:h-6 xs:w-6 text-indigo-200"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -219,7 +219,7 @@ function Header({ scrollToPricing }) {
               {mobileDropdownOpen && (
                 <div
                   id="mobile-nav-dropdown"
-                  className="absolute top-10 xs:top-12 right-0 w-48 xs:w-56 bg-white rounded-lg xs:rounded-xl shadow-xl border border-gray-100 py-2 xs:py-4 z-50 animate-fade-in-up"
+                  className="absolute top-10 xs:top-12 right-0 w-48 xs:w-56 bg-slate-800 rounded-lg xs:rounded-xl shadow-xl border border-slate-700 py-2 xs:py-4 z-50 animate-fade-in-up"
                 >
                   <nav className="flex flex-col gap-1 xs:gap-2">
                     <button
@@ -228,7 +228,7 @@ function Header({ scrollToPricing }) {
                         setShowFeatures(true);
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-emerald-700 bg-emerald-100 rounded-md xs:rounded-lg hover:bg-emerald-200 transition-all mx-2"
+                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-emerald-200 bg-emerald-800/70 rounded-md xs:rounded-lg hover:bg-emerald-700/80 transition-all mx-2"
                     >
                       🧩 <span className="text-sm xs:text-base">Features</span>
                     </button>
@@ -238,7 +238,7 @@ function Header({ scrollToPricing }) {
                         scrollToPricing();
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-purple-700 bg-purple-100 rounded-md xs:rounded-lg hover:bg-purple-200 transition-all mx-2"
+                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-purple-200 bg-purple-800/70 rounded-md xs:rounded-lg hover:bg-purple-700/80 transition-all mx-2"
                     >
                       💸 <span className="text-sm xs:text-base">Pricing</span>
                     </button>
@@ -248,17 +248,17 @@ function Header({ scrollToPricing }) {
                         setShowContact(true);
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-indigo-700 bg-indigo-100 rounded-md xs:rounded-lg hover:bg-indigo-200 transition-all mx-2"
+                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-indigo-200 bg-indigo-800/70 rounded-md xs:rounded-lg hover:bg-indigo-700/80 transition-all mx-2"
                     >
                       ✉️ <span className="text-sm xs:text-base">Contact</span>
                     </button>
 
                     {!isSignedIn ? (
-                      <div className="border-t border-gray-200 mt-2 pt-2 mx-2">
+                      <div className="border-t border-slate-600 mt-2 pt-2 mx-2">
                         <SignInButton mode="modal">
                           <button
                             type="button"
-                            className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold rounded-md xs:rounded-lg bg-green-100 text-blue-700 hover:bg-green-200 transition-all w-full"
+                            className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold rounded-md xs:rounded-lg bg-green-800/70 text-green-200 hover:bg-green-700/80 transition-all w-full"
                             onClick={() => setMobileDropdownOpen(false)}
                           >
                             🔑{" "}
@@ -269,14 +269,14 @@ function Header({ scrollToPricing }) {
                         </SignInButton>
                       </div>
                     ) : (
-                      <div className="border-t border-gray-200 mt-2 pt-2 px-3 xs:px-4">
+                      <div className="border-t border-slate-600 mt-2 pt-2 px-3 xs:px-4">
                         <div className="flex items-center justify-between">
                           {isBackendSynced && (
                             <span
                               className={`px-2 xs:px-3 py-1 text-xs font-medium rounded-full ${
                                 isPro
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-green-100 text-green-800"
+                                  ? "bg-yellow-800/70 text-yellow-200"
+                                  : "bg-green-800/70 text-green-200"
                               }`}
                             >
                               {userPlan === "pro" ? "Pro" : "Free"}
@@ -296,20 +296,20 @@ function Header({ scrollToPricing }) {
 
       {showFeatures && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-2 xs:px-4">
-          <div className="bg-white rounded-2xl xs:rounded-3xl shadow-2xl p-3 xs:p-4 sm:p-6 lg:p-8 max-w-sm xs:max-w-md sm:max-w-4xl lg:max-w-6xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh]">
+          <div className="bg-slate-800 rounded-2xl xs:rounded-3xl shadow-2xl p-3 xs:p-4 sm:p-6 lg:p-8 max-w-sm xs:max-w-md sm:max-w-4xl lg:max-w-6xl w-full relative animate-fade-in-up overflow-y-auto max-h-[90vh] border border-slate-700">
             <button
-              className="absolute top-3 xs:top-4 right-3 xs:right-4 text-gray-400 hover:text-gray-700 text-xl xs:text-2xl font-bold focus:outline-none cursor-pointer"
+              className="absolute top-3 xs:top-4 right-3 xs:right-4 text-slate-400 hover:text-slate-200 text-xl xs:text-2xl font-bold focus:outline-none cursor-pointer"
               onClick={() => setShowFeatures(false)}
               aria-label="Close features modal"
             >
               &times;
             </button>
-            <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-center mb-4 xs:mb-6 sm:mb-8 text-indigo-600">
+            <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-center mb-4 xs:mb-6 sm:mb-8 text-indigo-300">
               JobPsych Tools & Features
             </h2>
             <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 lg:gap-8">
-              <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-emerald-100 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-emerald-700 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
+              <div className="bg-gradient-to-br from-emerald-900/50 to-blue-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-emerald-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-emerald-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
                   Suggestions
                 </h3>
                 <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
@@ -319,10 +319,10 @@ function Header({ scrollToPricing }) {
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-emerald-800">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-emerald-200">
                           {f.title}
                         </div>
-                        <div className="text-gray-600 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
                           {f.description}
                         </div>
                       </div>
@@ -330,8 +330,8 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-blue-100 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-blue-700 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
+              <div className="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-blue-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-blue-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
                   InterviewPrep AI
                 </h3>
                 <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
@@ -341,10 +341,10 @@ function Header({ scrollToPricing }) {
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-blue-800">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-blue-200">
                           {f.title}
                         </div>
-                        <div className="text-gray-600 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
                           {f.description}
                         </div>
                       </div>
@@ -352,8 +352,8 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-yellow-100 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-yellow-700 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
+              <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-yellow-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-yellow-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
                   HireDesk
                 </h3>
                 <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
@@ -363,10 +363,10 @@ function Header({ scrollToPricing }) {
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-yellow-800">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-yellow-200">
                           {f.title}
                         </div>
-                        <div className="text-gray-600 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
                           {f.description}
                         </div>
                       </div>
@@ -432,7 +432,7 @@ function Header({ scrollToPricing }) {
                       value={contactForm.name}
                       onChange={handleContactChange}
                       required
-                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300 text-sm xs:text-base"
+                      className="w-full rounded-lg border border-slate-600 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-slate-700/80 text-slate-100 placeholder-slate-400 hover:border-slate-500 transition-all duration-300 text-sm xs:text-base"
                       placeholder="Your Name"
                     />
                   </div>
@@ -446,7 +446,7 @@ function Header({ scrollToPricing }) {
                       value={contactForm.email}
                       onChange={handleContactChange}
                       required
-                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300 text-sm xs:text-base"
+                      className="w-full rounded-lg border border-slate-600 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-slate-700/80 text-slate-100 placeholder-slate-400 hover:border-slate-500 transition-all duration-300 text-sm xs:text-base"
                       placeholder="you@email.com"
                     />
                   </div>
@@ -460,13 +460,13 @@ function Header({ scrollToPricing }) {
                       onChange={handleContactChange}
                       required
                       rows={3}
-                      className="w-full rounded-lg border border-indigo-200 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/80 text-gray-900 placeholder-gray-400 hover:border-indigo-300 transition-all duration-300 resize-none text-sm xs:text-base"
+                      className="w-full rounded-lg border border-slate-600 px-3 py-2 xs:py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-slate-700/80 text-slate-100 placeholder-slate-400 hover:border-slate-500 transition-all duration-300 resize-none text-sm xs:text-base"
                       placeholder="Tell us about your career goals, interview preparation needs, or hiring requirements..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-yellow-400 text-white font-semibold py-2.5 xs:py-3 rounded-lg shadow hover:bg-yellow-500 transition-all cursor-pointer text-sm xs:text-base sm:text-lg transform hover:scale-[1.02]"
+                    className="w-full bg-indigo-600 text-white font-semibold py-2.5 xs:py-3 rounded-lg shadow hover:bg-indigo-700 transition-all cursor-pointer text-sm xs:text-base sm:text-lg transform hover:scale-[1.02]"
                   >
                     Send Message
                   </button>

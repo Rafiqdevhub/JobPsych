@@ -4,7 +4,6 @@ import { shouldApplyRateLimits } from "@utils/env";
 import Footer from "@components/layout/Footer";
 import HeroSection from "@components/hero/HeroSection";
 import FeaturesSection from "@components/features/FeaturesSection";
-import PricingSection from "@components/pricing/PricingSection";
 import FAQSection from "@components/faq/FAQSection";
 import TestimonialsSection from "@components/testimonials/TestimonialsSection";
 import Header from "@components/layout/Header";
@@ -102,10 +101,7 @@ const LandingPage = () => {
         shouldApplyRateLimits={shouldApplyRateLimits}
       />
       <FeaturesSection />
-      <PricingSection
-        pricingRef={pricingRef}
-        handlePlanSelection={handlePlanSelection}
-      />
+
       <FAQSection />
       <TestimonialsSection />
       <Footer getDestination={getDestination} />
