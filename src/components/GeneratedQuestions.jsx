@@ -119,49 +119,48 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
 
   if (!questions || questions.length === 0)
     return (
-      <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
-        <p className="text-gray-500 text-center">
+      <div className="bg-slate-800/70 rounded-xl shadow-lg p-6 mt-8 border border-slate-600">
+        <p className="text-gray-300 text-center">
           Upload a resume to generate interview questions.
         </p>
       </div>
     );
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 mt-8 transform transition-all duration-300 hover:shadow-xl">
+    <div className="bg-slate-800/70 rounded-xl shadow-lg p-6 mt-8 transform transition-all duration-300 hover:shadow-xl border border-slate-600">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <ChatBubbleIcon />
-          <h2 className="text-2xl font-semibold text-gray-800 ml-2">
+          <h2 className="text-2xl font-semibold text-gray-100 ml-2">
             Interview Guide
           </h2>
         </div>
         <div className="flex items-center space-x-4">
-          <span className="text-sm text-gray-500 mr-2">
+          <span className="text-sm text-gray-400 mr-2">
             Click categories to expand and view questions
           </span>
         </div>
       </div>
 
-      <div className="mt-6 mb-8 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+      <div className="mt-6 mb-8 p-5 bg-indigo-500/20 rounded-xl border border-indigo-500/30 shadow-sm">
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0 mt-1">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center shadow-sm">
               <span className="text-white text-sm font-bold">💡</span>
             </div>
           </div>
           <div className="flex-1">
-            <h4 className="text-base font-semibold text-blue-800 mb-2">
+            <h4 className="text-base font-semibold text-indigo-300 mb-2">
               {isPlan === "pro" ? "Pro Tips:" : "Tips:"}
             </h4>
-            <ul className="text-sm text-blue-700 space-y-2">
+            <ul className="text-sm text-indigo-200 space-y-2">
               <li className="flex items-start">
-                <span className="mr-2 text-blue-500">•</span>
+                <span className="mr-2 text-indigo-400">•</span>
                 <span>
                   Click on category headers to expand and see questions
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 text-blue-500">•</span>
+                <span className="mr-2 text-indigo-400">•</span>
                 <span>
                   Questions are automatically tailored based on the candidate's
                   resume
@@ -181,22 +180,22 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
             category.questions.length > 0 && (
               <div
                 key={key}
-                className="border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+                className="border border-slate-600 rounded-xl overflow-hidden shadow-sm"
               >
                 <div
                   onClick={() => toggleCategory(key)}
                   className={`flex items-center justify-between p-6 cursor-pointer transition-all duration-300 border-2 hover:shadow-md ${
                     isExpanded
-                      ? "bg-blue-50 border-blue-200 shadow-sm"
-                      : "bg-gray-50 border-transparent hover:border-gray-200 hover:bg-blue-50"
+                      ? "bg-indigo-500/20 border-indigo-500/30 shadow-sm"
+                      : "bg-slate-700/50 border-transparent hover:border-slate-600 hover:bg-indigo-500/10"
                   }`}
                 >
                   <div className="flex items-center space-x-4">
                     <div
-                      className={`p-3 bg-white rounded-lg shadow-sm transition-all duration-300 ${
+                      className={`p-3 bg-slate-700 rounded-lg shadow-sm transition-all duration-300 ${
                         isExpanded
-                          ? "bg-blue-100 shadow-md"
-                          : "hover:bg-blue-50"
+                          ? "bg-indigo-500/30 shadow-md"
+                          : "hover:bg-indigo-500/20"
                       }`}
                     >
                       <CategoryIcon />
@@ -205,16 +204,16 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                       <h3
                         className={`text-lg font-semibold transition-colors duration-300 ${
                           isExpanded
-                            ? "text-blue-800"
-                            : "text-gray-800 hover:text-blue-700"
+                            ? "text-indigo-300"
+                            : "text-gray-100 hover:text-indigo-300"
                         }`}
                       >
                         {category.title}
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-300 mt-1">
                         {category.description}
                       </p>
-                      <span className="text-xs text-blue-500 font-medium">
+                      <span className="text-xs text-indigo-400 font-medium">
                         • Click the icon to {isExpanded ? "collapse" : "expand"}{" "}
                         ➡️
                       </span>
@@ -222,8 +221,8 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <div
-                      className={`transform transition-all duration-300 p-2 rounded-full hover:bg-blue-100 ${
-                        isExpanded ? "rotate-90 bg-blue-50" : "rotate-0"
+                      className={`transform transition-all duration-300 p-2 rounded-full hover:bg-indigo-500/20 ${
+                        isExpanded ? "rotate-90 bg-indigo-500/20" : "rotate-0"
                       }`}
                     >
                       <ChevronRightIcon />
@@ -232,21 +231,21 @@ function GeneratedQuestions({ questions, isPlan = "pro" }) {
                 </div>
 
                 {isExpanded && (
-                  <div className="bg-white">
-                    <div className="px-6 py-4 border-t border-gray-100">
+                  <div className="bg-slate-800">
+                    <div className="px-6 py-4 border-t border-slate-600">
                       <div className="space-y-3">
                         {category.questions.map((question, index) => {
                           return (
                             <div
                               key={index}
-                              className="p-4 rounded-lg transition-all duration-200 border-2 bg-gray-50 hover:bg-gray-100 border-transparent hover:border-gray-300"
+                              className="p-4 rounded-lg transition-all duration-200 border-2 bg-slate-700/50 hover:bg-slate-600/50 border-transparent hover:border-slate-500"
                             >
                               <div className="flex-1">
-                                <p className="font-medium text-gray-700 leading-relaxed">
+                                <p className="font-medium text-gray-200 leading-relaxed">
                                   {question.question}
                                 </p>
                                 {question.context && (
-                                  <p className="mt-2 text-sm text-gray-500 italic">
+                                  <p className="mt-2 text-sm text-gray-400 italic">
                                     💡 {question.context}
                                   </p>
                                 )}
