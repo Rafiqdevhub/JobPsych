@@ -6,9 +6,10 @@ import {
   interviewPrepFeatures,
 } from "@data/roleSuggetionsFeatures";
 import { hrSuggestions } from "@data/hireSuggestions";
+import { atsAnalyzerFeatures } from "@data/atsAnalyzerFeatures";
 import NavigationButton from "@components/buttons/NavigationButton";
 
-function Header({ scrollToPricing }) {
+function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { isSignedIn } = useUser();
   const { userPlan, isPro, isBackendSynced } = useUserManager();
@@ -116,14 +117,7 @@ function Header({ scrollToPricing }) {
                 <span className="hidden sm:inline">Features</span>
                 <span className="sm:hidden">🧩</span>
               </button>
-              <button
-                type="button"
-                onClick={scrollToPricing}
-                className="px-3 xs:px-4 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 text-xs xs:text-sm sm:text-base font-semibold text-purple-200 bg-purple-800/70 hover:bg-purple-700/80 rounded-lg xs:rounded-xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg border-none"
-              >
-                <span className="hidden sm:inline">Pricing</span>
-                <span className="sm:hidden">💸</span>
-              </button>
+
               <button
                 type="button"
                 onClick={() => setShowContact(true)}
@@ -230,18 +224,9 @@ function Header({ scrollToPricing }) {
                       }}
                       className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-emerald-200 bg-emerald-800/70 rounded-md xs:rounded-lg hover:bg-emerald-700/80 transition-all mx-2"
                     >
-                      🧩 <span className="text-sm xs:text-base">Features</span>
+                      <span className="text-sm xs:text-base">Features</span>
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        scrollToPricing();
-                        setMobileDropdownOpen(false);
-                      }}
-                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-purple-200 bg-purple-800/70 rounded-md xs:rounded-lg hover:bg-purple-700/80 transition-all mx-2"
-                    >
-                      💸 <span className="text-sm xs:text-base">Pricing</span>
-                    </button>
+
                     <button
                       type="button"
                       onClick={() => {
@@ -250,7 +235,7 @@ function Header({ scrollToPricing }) {
                       }}
                       className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-indigo-200 bg-indigo-800/70 rounded-md xs:rounded-lg hover:bg-indigo-700/80 transition-all mx-2"
                     >
-                      ✉️ <span className="text-sm xs:text-base">Contact</span>
+                      <span className="text-sm xs:text-base">Contact</span>
                     </button>
 
                     {!isSignedIn ? (
@@ -261,7 +246,6 @@ function Header({ scrollToPricing }) {
                             className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold rounded-md xs:rounded-lg bg-green-800/70 text-green-200 hover:bg-green-700/80 transition-all w-full"
                             onClick={() => setMobileDropdownOpen(false)}
                           >
-                            🔑{" "}
                             <span className="text-sm xs:text-base">
                               Sign In
                             </span>
@@ -307,22 +291,22 @@ function Header({ scrollToPricing }) {
             <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-center mb-4 xs:mb-6 sm:mb-8 text-indigo-300">
               JobPsych Tools & Features
             </h2>
-            <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 lg:gap-8">
-              <div className="bg-gradient-to-br from-emerald-900/50 to-blue-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-emerald-700/50 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-emerald-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
-                  Suggestions
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 sm:gap-4 lg:gap-6">
+              <div className="bg-gradient-to-br from-emerald-900/50 to-blue-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-emerald-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-base lg:text-lg font-bold text-emerald-300 mb-2 xs:mb-3 sm:mb-3 lg:mb-4 flex items-center gap-1 xs:gap-2">
+                  Role Suggestions
                 </h3>
-                <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
-                  {roleSuggestionsFeatures.map((f, i) => (
+                <ul className="space-y-1 xs:space-y-2 sm:space-y-2 lg:space-y-3">
+                  {roleSuggestionsFeatures.slice(0, 4).map((f, i) => (
                     <li key={i} className="flex items-start gap-2 xs:gap-3">
-                      <span className="text-base xs:text-lg sm:text-xl lg:text-2xl">
+                      <span className="text-sm xs:text-base sm:text-base lg:text-lg flex-shrink-0">
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-emerald-200">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-emerald-200">
                           {f.title}
                         </div>
-                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight">
                           {f.description}
                         </div>
                       </div>
@@ -330,21 +314,21 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-blue-700/50 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-blue-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
+              <div className="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-blue-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-base lg:text-lg font-bold text-blue-300 mb-2 xs:mb-3 sm:mb-3 lg:mb-4 flex items-center gap-1 xs:gap-2">
                   InterviewPrep AI
                 </h3>
-                <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
-                  {interviewPrepFeatures.map((f, i) => (
+                <ul className="space-y-1 xs:space-y-2 sm:space-y-2 lg:space-y-3">
+                  {interviewPrepFeatures.slice(0, 4).map((f, i) => (
                     <li key={i} className="flex items-start gap-2 xs:gap-3">
-                      <span className="text-base xs:text-lg sm:text-xl lg:text-2xl">
+                      <span className="text-sm xs:text-base sm:text-base lg:text-lg flex-shrink-0">
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-blue-200">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-blue-200">
                           {f.title}
                         </div>
-                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight">
                           {f.description}
                         </div>
                       </div>
@@ -352,21 +336,43 @@ function Header({ scrollToPricing }) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-6 shadow-xl border border-yellow-700/50 flex flex-col">
-                <h3 className="text-sm xs:text-base sm:text-lg lg:text-2xl font-bold text-yellow-300 mb-2 xs:mb-3 sm:mb-4 flex items-center gap-1 xs:gap-2">
-                  HireDesk
+              <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-purple-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-base lg:text-lg font-bold text-purple-300 mb-2 xs:mb-3 sm:mb-3 lg:mb-4 flex items-center gap-1 xs:gap-2">
+                  ATS Analyzer
                 </h3>
-                <ul className="space-y-2 xs:space-y-3 sm:space-y-4">
-                  {hrSuggestions.map((f, i) => (
+                <ul className="space-y-1 xs:space-y-2 sm:space-y-2 lg:space-y-3">
+                  {atsAnalyzerFeatures.slice(0, 4).map((f, i) => (
                     <li key={i} className="flex items-start gap-2 xs:gap-3">
-                      <span className="text-base xs:text-lg sm:text-xl lg:text-2xl">
+                      <span className="text-sm xs:text-base sm:text-base lg:text-lg flex-shrink-0">
                         {f.icon}
                       </span>
                       <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-base lg:text-lg text-yellow-200">
+                        <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-purple-200">
                           {f.title}
                         </div>
-                        <div className="text-slate-300 text-xs xs:text-xs sm:text-sm lg:text-base">
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight">
+                          {f.description}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-yellow-700/50 flex flex-col">
+                <h3 className="text-sm xs:text-base sm:text-base lg:text-lg font-bold text-yellow-300 mb-2 xs:mb-3 sm:mb-3 lg:mb-4 flex items-center gap-1 xs:gap-2">
+                  HireDisk
+                </h3>
+                <ul className="space-y-1 xs:space-y-2 sm:space-y-2 lg:space-y-3">
+                  {hrSuggestions.slice(0, 4).map((f, i) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3">
+                      <span className="text-sm xs:text-base sm:text-base lg:text-lg flex-shrink-0">
+                        {f.icon}
+                      </span>
+                      <div>
+                        <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-yellow-200">
+                          {f.title}
+                        </div>
+                        <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight">
                           {f.description}
                         </div>
                       </div>
@@ -399,10 +405,10 @@ function Header({ scrollToPricing }) {
               </h2>
 
               <p className="text-sm xs:text-base sm:text-lg text-white/90 mb-3 xs:mb-4 max-w-xs xs:max-w-sm sm:max-w-xl text-center leading-relaxed">
-                Have questions about Role Suggestions, InterviewPrep AI(JobCrack
-                AI), or HireDisk? Need enterprise solutions or want to learn
-                more about our AI-powered tools? Our team is here to help you
-                succeed.
+                Have questions about Role Suggestions, InterviewPrep AI, ATS
+                Analyzer, or HireDisk? Need enterprise solutions or want to
+                learn more about our AI-powered tools? Our team is here to help
+                you succeed.
               </p>
 
               {contactSubmitted ? (
@@ -470,69 +476,6 @@ function Header({ scrollToPricing }) {
                   >
                     Send Message
                   </button>
-
-                  <div className="mt-3 xs:mt-4 sm:mt-6 flex flex-col xs:flex-row items-center justify-center gap-3 xs:gap-4 sm:gap-6">
-                    <div className="flex items-center gap-1.5 xs:gap-2 text-white">
-                      <svg
-                        className="h-4 w-4 xs:h-5 xs:w-5 text-yellow-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <title>Career Guidance Icon</title>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <span className="text-xs xs:text-sm sm:text-base">
-                        Career Guidance
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 xs:gap-2 text-white">
-                      <svg
-                        className="h-4 w-4 xs:h-5 xs:w-5 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <title>Interview Practice Icon</title>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                        />
-                      </svg>
-                      <span className="text-xs xs:text-sm sm:text-base">
-                        JobCrack AI
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 xs:gap-2 text-white">
-                      <svg
-                        className="h-4 w-4 xs:h-5 xs:w-5 text-emerald-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <title>Hiring Intelligence Icon</title>
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0V8a2 2 0 01-2 2H8a2 2 0 01-2-2V6m8 0H8"
-                        />
-                      </svg>
-                      <span className="text-xs xs:text-sm sm:text-base">
-                        Hiring Intelligence
-                      </span>
-                    </div>
-                  </div>
                 </form>
               )}
             </div>
