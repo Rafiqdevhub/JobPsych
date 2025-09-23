@@ -300,7 +300,6 @@ export const getSubscriptionDetails = async (email) => {
       name: userData.name,
       plan_type: userData.plan_type,
       subscription_status: userData.subscription_status,
-      stripe_customer_id: userData.stripe_customer_id,
       created_at: userData.created_at,
       updated_at: userData.updated_at,
       plan_details:

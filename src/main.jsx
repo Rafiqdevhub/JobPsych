@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import DashboardWrapper from "@components/dashboard/DashboardWrapper.jsx";
-import PaymentPage from "@components/payment/PaymentPage.jsx";
 import ToastProvider from "@components/toast/ToastManager.jsx";
 import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
 import NotFound from "@pages/NotFound.jsx";
@@ -33,10 +32,7 @@ const router = createBrowserRouter([
         path: "premium-dashboard",
         element: <DashboardWrapper />,
       },
-      {
-        path: "payment",
-        element: <PaymentPage />,
-      },
+
       {
         path: "interview-prep-ai",
         element: <InterviewPrepAI />,

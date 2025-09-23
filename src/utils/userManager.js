@@ -53,7 +53,6 @@ export const getUserSubscriptionStatus = async (email) => {
       return {
         plan_type: user.data.plan_type,
         subscription_status: user.data.subscription_status,
-        stripe_customer_id: user.data.stripe_customer_id,
         user_id: user.data.user_id,
         created_at: user.data.created_at,
         updated_at: user.data.updated_at,
