@@ -1,6 +1,7 @@
 import "./index.css";
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Chatbot from "./components/Chatbot";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       </div>
 
       <Outlet />
+      <Chatbot />
     </div>
   );
 };
