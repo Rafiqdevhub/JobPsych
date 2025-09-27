@@ -79,7 +79,6 @@ const InterviewPrepAI = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 max-h-none lg:max-h-[75vh]">
           <div className="lg:col-span-3">
@@ -179,7 +178,6 @@ const InterviewPrepAI = () => {
           </div>
 
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
-            {/* Why Choose Our AI Interview Platform */}
             <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-indigo-500/30 transition-all duration-300">
               <h3 className="text-sm sm:text-md font-bold text-indigo-400 mb-2 sm:mb-3 flex items-center gap-2">
                 Why Our AI Platform?
@@ -229,7 +227,6 @@ const InterviewPrepAI = () => {
               </div>
             </div>
 
-            {/* What You'll Master */}
             <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-purple-500/30 transition-all duration-300">
               <h3 className="text-sm sm:text-md font-bold text-purple-400 mb-2 sm:mb-3 flex items-center gap-2">
                 Skills You'll Master
@@ -315,7 +312,6 @@ const InterviewPrepAI = () => {
               </div>
             </div>
 
-            {/* Ready to Practice */}
             <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4">
               <div className="text-center">
                 <p className="text-white font-semibold text-xs sm:text-sm mb-1 sm:mb-2">
@@ -327,7 +323,6 @@ const InterviewPrepAI = () => {
               </div>
             </div>
 
-            {/* AI Interview Integration - Hidden on mobile for space */}
             <div className="hidden sm:block bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-emerald-500/30 p-4 sm:p-6 hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300">
               <div className="flex items-start space-x-3">
                 <div className="flex-1">
@@ -354,12 +349,11 @@ const InterviewPrepAI = () => {
           </div>
         </div>
 
-        {/* Mobile Call-to-Action - Only visible on mobile */}
         <div className="block sm:hidden mt-4">
           <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-xl p-4">
             <div className="text-center">
               <h4 className="text-sm font-bold text-emerald-400 mb-2">
-                🚀 AI Interview Ready?
+                AI Interview Ready?
               </h4>
               <p className="text-xs text-slate-300 mb-3">
                 Tap the button above to start your personalized AI interview

@@ -19,7 +19,7 @@ const LandingPage = () => {
 
   const getDestination = () => {
     if (!shouldApplyRateLimits()) {
-      return "/hire-disk";
+      return "/hiredisk";
     }
 
     if (uploadCount >= 2) {

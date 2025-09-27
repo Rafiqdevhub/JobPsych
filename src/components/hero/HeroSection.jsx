@@ -49,7 +49,6 @@ const HeroSection = ({ resumeData }) => {
             intelligent hiring solutions.
           </p>
 
-          {/* Dark Theme Feature Cards */}
           <div className="mt-16 p-8 bg-slate-800 rounded-3xl border border-slate-700 shadow-2xl">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
               {[
@@ -110,41 +109,84 @@ const HeroSection = ({ resumeData }) => {
             </div>
           </div>
 
-          {/* Simple Action Buttons */}
-          <div className="mt-16 flex flex-col lg:flex-row items-center justify-center gap-4 flex-wrap">
+          <div className="mt-16 flex flex-row items-center justify-center gap-4 flex-wrap md:flex-nowrap">
             {[
               {
                 label: "Role Suggestions",
                 href: "/role-suggestions",
-                bgColor: "bg-blue-600 hover:bg-blue-700",
+                gradient: "from-blue-500 via-blue-600 to-indigo-600",
+                hoverGradient: "from-blue-600 via-blue-700 to-indigo-700",
+                glowColor: "shadow-blue-500/50",
+                borderColor: "border-blue-400/50",
+                icon: "🎯",
               },
               {
                 label: "InterviewPrep AI",
-                href: "/interview-prep-ai",
-                bgColor: "bg-purple-600 hover:bg-purple-700",
+                href: "/interview-prepai",
+                gradient: "from-purple-500 via-purple-600 to-pink-600",
+                hoverGradient: "from-purple-600 via-purple-700 to-pink-700",
+                glowColor: "shadow-purple-500/50",
+                borderColor: "border-purple-400/50",
+                icon: "🤖",
               },
               {
                 label: "ATS Analyzer",
                 href: "/ats-analyzer",
-                bgColor: "bg-emerald-600 hover:bg-emerald-700",
+                gradient: "from-emerald-500 via-emerald-600 to-teal-600",
+                hoverGradient: "from-emerald-600 via-emerald-700 to-teal-700",
+                glowColor: "shadow-emerald-500/50",
+                borderColor: "border-emerald-400/50",
+                icon: "📊",
               },
               {
                 label: "HireDisk",
-                href: "/hire-disk",
-                bgColor: "bg-orange-600 hover:bg-orange-700",
+                href: "/hiredisk",
+                gradient: "from-orange-500 via-orange-600 to-red-600",
+                hoverGradient: "from-orange-600 via-orange-700 to-red-700",
+                glowColor: "shadow-orange-500/50",
+                borderColor: "border-orange-400/50",
+                icon: "💼",
               },
-            ].map((button) => (
+            ].map((button, index) => (
               <button
                 key={button.label}
                 onClick={() => (window.location.href = button.href)}
-                className={`group px-8 py-4 min-w-[220px] ${button.bgColor} text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3 border-none cursor-pointer`}
+                className={`group relative overflow-hidden px-6 py-4 min-w-[200px] flex-1 max-w-[240px] bg-gradient-to-r ${button.gradient} text-white font-bold rounded-2xl shadow-2xl ${button.glowColor} hover:shadow-3xl transform hover:scale-110 hover:-translate-y-1 transition-all duration-500 flex items-center justify-center space-x-2 border-2 ${button.borderColor} hover:border-white/50 cursor-pointer`}
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                  backgroundSize: "200% 200%",
+                }}
               >
-                <span className="font-semibold">{button.label}</span>
-                <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-r ${button.hoverGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                ></div>
+
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+
+                <div
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${button.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
+                ></div>
+
+                <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                  <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-100"></div>
+                  <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-300"></div>
+                  <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-500"></div>
+                </div>
+
+                <div className="relative z-10 flex items-center space-x-2">
+                  <span className="text-lg group-hover:scale-110 transition-transform duration-300">
+                    {button.icon}
+                  </span>
+                  <span className="font-bold text-sm md:text-base tracking-wide group-hover:tracking-wider transition-all duration-300">
+                    {button.label}
+                  </span>
+                  <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" />
+                </div>
+
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-white/30 transition-all duration-500"></div>
               </button>
             ))}
           </div>
-          {/* Simple Resume Recommendations */}
           {resumeData?.roleRecommendations?.length > 0 && (
             <div className="mt-12 space-y-4">
               <h3 className="text-2xl font-bold text-white mb-8 text-center">
@@ -193,7 +235,6 @@ const HeroSection = ({ resumeData }) => {
             </div>
           )}
 
-          {/* Dark Theme Stats Section */}
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { label: "AI Analyses", value: "50K+" },

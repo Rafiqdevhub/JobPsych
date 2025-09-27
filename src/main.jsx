@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import DashboardWrapper from "@components/dashboard/DashboardWrapper.jsx";
 import ToastProvider from "@components/toast/ToastManager.jsx";
 import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
 import NotFound from "@pages/NotFound.jsx";
@@ -28,13 +27,9 @@ const router = createBrowserRouter([
         path: "role-suggestions",
         element: <RoleSuggestion />,
       },
-      {
-        path: "premium-dashboard",
-        element: <DashboardWrapper />,
-      },
 
       {
-        path: "interview-prep-ai",
+        path: "interview-prepai",
         element: <InterviewPrepAI />,
       },
       {
@@ -42,7 +37,7 @@ const router = createBrowserRouter([
         element: <ATSAnalyzer />,
       },
       {
-        path: "hire-disk",
+        path: "hiredisk",
         element: <HireDisk />,
       },
       {
