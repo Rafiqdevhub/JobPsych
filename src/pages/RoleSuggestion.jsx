@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
 import { API_ENDPOINTS } from "@utils/api";
 import { generalTips } from "@data/candidateTips";
 import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
-import ResumeDetailsWrapper from "@components/resume/ResumeDetailsWrapper";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
 
@@ -23,33 +22,6 @@ const RoleSuggestion = () => {
   });
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
-
-  useEffect(() => {
-    if (alertMessage) {
-      const timer = setTimeout(() => {
-        setAlertMessage("");
-        setAlertType("");
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [alertMessage]);
-
-  const redirectToPayment = (planId = "pro") => {
-    localStorage.setItem("selectedPlan", planId);
-    window.location.href = `/payment?plan=${planId}`;
-  };
-
-  useEffect(() => {
-    const handleOpenPricingModal = (_event) => {
-      redirectToPayment();
-    };
-
-    window.addEventListener("open-pricing-modal", handleOpenPricingModal);
-
-    return () => {
-      window.removeEventListener("open-pricing-modal", handleOpenPricingModal);
-    };
-  }, []);
 
   const handleFileUpload = async (file) => {
     setIsLoading(true);
@@ -464,10 +436,6 @@ const RoleSuggestion = () => {
                       ></div>
                     </div>
                   </div>
-                  <ResumeDetailsWrapper
-                    resumeData={resumeData}
-                    isLoading={isLoading}
-                  />
                 </div>
               ) : (
                 /* Upload Prompt */
