@@ -4,18 +4,15 @@ import NavigationButton from "@components/buttons/NavigationButton";
 const Footer = ({ getDestination }) => {
   return (
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700/50">
-      {/* Enhanced Background with Multiple Layers */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-blue-500/5"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent"></div>
-        {/* Decorative circles */}
         <div className="absolute top-10 left-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-xl"></div>
         <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-500/5 rounded-full blur-xl"></div>
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-500/5 rounded-full blur-lg"></div>
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl overflow-hidden px-6 py-16 sm:py-20 lg:px-8">
-        {/* Brand Section with Enhanced Styling */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center p-6 bg-gradient-to-r from-slate-800/80 to-slate-700/80 rounded-2xl border border-slate-600/50 backdrop-blur-sm shadow-2xl mb-8">
             <div className="text-center">
@@ -58,7 +55,7 @@ const Footer = ({ getDestination }) => {
               A unified platform offering smart career direction for individuals
               through Role Suggestions, AI-powered interview practice with
               InterviewPrep AI, resume optimization with ATS Analyzer, and
-              advanced recruitment tools for HR with HireDisk Pro.
+              advanced recruitment tools for HR with HireDisk.
             </p>
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
@@ -191,8 +188,8 @@ const Footer = ({ getDestination }) => {
                   icon: "📄",
                 },
                 {
-                  label: "Upgrade to HireDisk Pro",
-                  to: "/sign-up",
+                  label: "HireDisk",
+                  to: "/hiredisk",
                   icon: "⭐",
                 },
               ].map((item, index) => (
@@ -248,7 +245,6 @@ const Footer = ({ getDestination }) => {
           </div>
         </div>
 
-        {/* Enhanced Footer Bottom with Social Proof */}
         <div className="border-t border-slate-700/50 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-6 mb-4 md:mb-0">
