@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
-import { API_ENDPOINTS } from "@utils/api";
+
 import { generalTips } from "@data/candidateTips";
 import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
+import { ANALYZE_RESUME } from "../utils/api";
 
 const RoleSuggestion = () => {
   const [resumeData, setResumeData] = useState(null);
@@ -86,7 +87,7 @@ const RoleSuggestion = () => {
         formData.append("job_description", jobDescription.trim());
       }
 
-      const response = await fetch(API_ENDPOINTS.ANALYZE_RESUME, {
+      const response = await fetch(ANALYZE_RESUME, {
         method: "POST",
         body: formData,
         mode: "cors",

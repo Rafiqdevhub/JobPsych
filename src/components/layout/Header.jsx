@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useUserManager } from "@hooks/useUserManager";
+
 import {
   roleSuggestionsFeatures,
   interviewPrepFeatures,
@@ -10,7 +10,7 @@ import NavigationButton from "@components/buttons/NavigationButton";
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const { userPlan, isPro, isBackendSynced } = useUserManager();
+
   const [showFeatures, setShowFeatures] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [contactForm, setContactForm] = useState({
@@ -124,24 +124,6 @@ function Header() {
                 <span className="hidden sm:inline">Contact</span>
                 <span className="sm:hidden">✉️</span>
               </button>
-              <div className="flex items-center space-x-1.5 xs:space-x-2 sm:space-x-3">
-                {isBackendSynced && (
-                  <span
-                    className={`px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 text-xs font-medium rounded-full ${
-                      isPro
-                        ? "bg-yellow-800/70 text-yellow-200"
-                        : "bg-green-800/70 text-green-200"
-                    }`}
-                  >
-                    <span className="hidden sm:inline">
-                      {userPlan === "pro" ? "Pro Plan" : "Free Plan"}
-                    </span>
-                    <span className="sm:hidden">
-                      {userPlan === "pro" ? "Pro" : "Free"}
-                    </span>
-                  </span>
-                )}
-              </div>
 
               {scrolled && (
                 <button
@@ -222,23 +204,6 @@ function Header() {
                     >
                       <span className="text-sm xs:text-base">Contact</span>
                     </button>
-
-                    {/* Removed authentication UI - now shows simplified mobile menu */}
-                    <div className="border-t border-slate-600 mt-2 pt-2 px-3 xs:px-4">
-                      <div className="flex items-center justify-between">
-                        {isBackendSynced && (
-                          <span
-                            className={`px-2 xs:px-3 py-1 text-xs font-medium rounded-full ${
-                              isPro
-                                ? "bg-yellow-800/70 text-yellow-200"
-                                : "bg-green-800/70 text-green-200"
-                            }`}
-                          >
-                            {userPlan === "pro" ? "Pro" : "Free"}
-                          </span>
-                        )}
-                      </div>
-                    </div>
                   </nav>
                 </div>
               )}
