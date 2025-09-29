@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
-
 import { generalTips } from "@data/candidateTips";
 import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
@@ -14,6 +13,7 @@ const RoleSuggestion = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [targetRole, setTargetRole] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -24,7 +24,70 @@ const RoleSuggestion = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
 
+  // Load persisted data on component mount
+  useEffect(() => {
+    const persistedData = localStorage.getItem("roleSuggestionData");
+    if (persistedData) {
+      try {
+        const {
+          resumeData: savedResumeData,
+          roleRecommendations: savedRecommendations,
+          targetRole: savedTargetRole,
+          jobDescription: savedJobDescription,
+        } = JSON.parse(persistedData);
+        if (savedResumeData) {
+          setResumeData(savedResumeData);
+          setRoleRecommendations(savedRecommendations || []);
+          setTargetRole(savedTargetRole || "");
+          setJobDescription(savedJobDescription || "");
+        }
+      } catch (error) {
+        console.warn("Failed to load persisted data:", error);
+      }
+    }
+  }, []);
+
+  // Persist data to localStorage
+  const persistData = (data) => {
+    try {
+      localStorage.setItem("roleSuggestionData", JSON.stringify(data));
+    } catch (error) {
+      console.warn("Failed to persist data:", error);
+    }
+  };
+
+  // Clear persisted data
+  const clearPersistedData = () => {
+    try {
+      localStorage.removeItem("roleSuggestionData");
+    } catch (error) {
+      console.warn("Failed to clear persisted data:", error);
+    }
+  };
+
   const handleFileUpload = async (file) => {
+    // Clear previous analysis data when new file is uploaded
+    setResumeData(null);
+    setRoleRecommendations([]);
+    clearPersistedData();
+
+    // Store the new file for analysis
+    setUploadedFile(file);
+    setAlertMessage(
+      "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis."
+    );
+    setAlertType("success");
+
+    // Auto-hide success message after 5 seconds
+    setTimeout(() => {
+      setAlertMessage("");
+      setAlertType("");
+    }, 5000);
+  };
+
+  const analyzeResume = async () => {
+    if (!uploadedFile) return;
+
     setIsLoading(true);
     setError({
       show: false,
@@ -35,7 +98,7 @@ const RoleSuggestion = () => {
     });
 
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
-    if (file.size > MAX_FILE_SIZE) {
+    if (uploadedFile.size > MAX_FILE_SIZE) {
       setError({
         show: true,
         message:
@@ -48,37 +111,9 @@ const RoleSuggestion = () => {
       return;
     }
 
-    const allowedTypes = [
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/msword",
-      "application/octet-stream",
-      "application/x-msword",
-      "application/vnd.ms-word",
-      "",
-    ];
-
-    const allowedExtensions = [".pdf", ".doc", ".docx"];
-    const fileExtension = file.name
-      .toLowerCase()
-      .substring(file.name.lastIndexOf("."));
-    const isValidExtension = allowedExtensions.includes(fileExtension);
-
-    if (!allowedTypes.includes(file.type) && !isValidExtension) {
-      setError({
-        show: true,
-        message: "Please upload a PDF or Word document (DOC/DOCX).",
-        type: "warning",
-        category: "file",
-        originalError: "File type not supported",
-      });
-      setIsLoading(false);
-      return;
-    }
-
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", uploadedFile);
 
       if (targetRole.trim()) {
         formData.append("target_role", targetRole.trim());
@@ -141,17 +176,33 @@ const RoleSuggestion = () => {
           )}.\nFor best results, please include Personal Info, Work Experience, Education, and Skills.`
         );
         setAlertType("warning");
+      } else {
+        const successMessage = targetRole
+          ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
+          : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
+
+        setAlertMessage(successMessage);
+        setAlertType("success");
+
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setAlertMessage("");
+          setAlertType("");
+        }, 5000);
       }
 
       setResumeData(resumeDataFromResponse);
       setRoleRecommendations(roleRecommendationsFromResponse);
 
-      const successMessage = targetRole
-        ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
-        : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
+      // Persist the analysis data
+      persistData({
+        resumeData: resumeDataFromResponse,
+        roleRecommendations: roleRecommendationsFromResponse,
+        targetRole,
+        jobDescription,
+        timestamp: new Date().toISOString(),
+      });
 
-      setAlertMessage(successMessage);
-      setAlertType("success");
       setIsLoading(false);
     } catch (error) {
       const errorCategory = getErrorCategory(error);
@@ -272,7 +323,6 @@ const RoleSuggestion = () => {
 
       <main className="flex-1 relative z-10 px-4">
         <div className="container mx-auto py-12 space-y-12">
-          {/* Hero Section with Floating Cards */}
           <div className="relative">
             <div className="text-center space-y-8">
               <div className="relative inline-block">
@@ -343,7 +393,6 @@ const RoleSuggestion = () => {
             </div>
           </div>
 
-          {/* Modern Tips Section */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
             <div className="relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
@@ -399,12 +448,10 @@ const RoleSuggestion = () => {
               </div>
             </div>
           </div>
-          {/* Main Content Area - Dynamic */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-rose-600/10 via-violet-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
             <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden">
               {resumeData ? (
-                /* Resume Analysis Results */
                 <div className="p-8">
                   <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 p-3 rounded-2xl mb-4">
@@ -439,7 +486,6 @@ const RoleSuggestion = () => {
                   </div>
                 </div>
               ) : (
-                /* Upload Prompt */
                 <div className="p-8 md:p-16 text-center">
                   <div className="max-w-4xl mx-auto space-y-8">
                     <div className="relative">
@@ -476,7 +522,6 @@ const RoleSuggestion = () => {
                       </p>
                     </div>
 
-                    {/* Feature Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
                       <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-2xl p-4 hover:border-violet-500/50 transition-all duration-300 group">
                         <div className="w-12 h-12 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300">
@@ -579,7 +624,6 @@ const RoleSuggestion = () => {
               )}
             </div>
           </div>
-          {/* Role Recommendations - Modern Cards */}
           {roleRecommendations.length > 0 && (
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-teal-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
@@ -630,13 +674,11 @@ const RoleSuggestion = () => {
                             : ""
                         }`}
                       >
-                        {/* Background Effects */}
                         <div
                           className={`absolute inset-0 bg-gradient-to-br ${gradient}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                         ></div>
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
 
-                        {/* Best Match Badge */}
                         {isBestMatch && (
                           <div className="absolute -top-3 -right-3 z-20">
                             <div className="relative">
@@ -648,7 +690,6 @@ const RoleSuggestion = () => {
                           </div>
                         )}
 
-                        {/* Match Percentage - Modern Design */}
                         <div className="flex justify-between items-start mb-6">
                           <div
                             className={`relative w-16 h-16 bg-gradient-to-r ${gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
@@ -678,12 +719,10 @@ const RoleSuggestion = () => {
                           </div>
                         </div>
 
-                        {/* Role Name */}
                         <h3 className="text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors duration-300">
                           {role.roleName}
                         </h3>
 
-                        {/* Reasoning */}
                         <div className="mb-6">
                           <div className="bg-slate-700/50 rounded-xl p-4 border border-slate-600/30">
                             <p className="text-slate-300 text-sm leading-relaxed italic">
@@ -692,9 +731,7 @@ const RoleSuggestion = () => {
                           </div>
                         </div>
 
-                        {/* Skills Grid */}
                         <div className="space-y-4">
-                          {/* Matching Skills */}
                           <div>
                             <h4 className="text-sm font-semibold text-emerald-400 mb-2 flex items-center gap-2">
                               <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
@@ -729,7 +766,6 @@ const RoleSuggestion = () => {
                             </div>
                           </div>
 
-                          {/* Skills to Develop */}
                           <div>
                             <h4 className="text-sm font-semibold text-amber-400 mb-2 flex items-center gap-2">
                               <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
@@ -766,7 +802,6 @@ const RoleSuggestion = () => {
                           </div>
                         </div>
 
-                        {/* Career Level & Industry Fit */}
                         <div className="flex justify-between items-center mt-6 pt-4 border-t border-slate-600/30">
                           <div className="text-center">
                             <div className="text-xs text-slate-400 mb-1">
@@ -1006,6 +1041,105 @@ const RoleSuggestion = () => {
                   />
                 </div>
               </div>
+
+              {/* Analyze Button - Only show when file is uploaded but not analyzed */}
+              {uploadedFile && !resumeData && (
+                <div className="relative mt-8">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-teal-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
+                  <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 p-3 rounded-2xl mb-6">
+                        <svg
+                          className="h-8 w-8 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                          />
+                        </svg>
+                        <h3 className="text-2xl font-bold text-white">
+                          Ready to Analyze
+                        </h3>
+                      </div>
+
+                      <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
+                        Your resume "{uploadedFile.name}" has been uploaded
+                        successfully. Click the button below to start the
+                        AI-powered analysis and get personalized career
+                        insights.
+                      </p>
+
+                      <button
+                        onClick={analyzeResume}
+                        disabled={isLoading}
+                        className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-12 py-4 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="relative flex items-center gap-3">
+                          {isLoading ? (
+                            <>
+                              <svg
+                                className="animate-spin h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                ></circle>
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                ></path>
+                              </svg>
+                              <span>Analyzing Resume...</span>
+                            </>
+                          ) : (
+                            <>
+                              <svg
+                                className="h-6 w-6 transform group-hover:rotate-12 transition-transform duration-300"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                                />
+                              </svg>
+                              <span>Analyze Resume</span>
+                            </>
+                          )}
+                        </div>
+                      </button>
+
+                      <div className="mt-6 flex justify-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <div
+                          className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.4s" }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
