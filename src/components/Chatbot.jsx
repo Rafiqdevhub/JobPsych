@@ -3,7 +3,6 @@ import { useAIChat } from "../hooks/useAIChat.js";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef(null);
@@ -63,83 +62,31 @@ const Chatbot = () => {
   return (
     <>
       <div
-        className={`fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 transition-all duration-500 ${
-          hasEntered ? "animate-chatbot-entrance" : "opacity-0 scale-0"
+        className={`fixed bottom-6 right-6 z-50 transition-all duration-700 ${
+          hasEntered
+            ? "translate-y-0 opacity-100 scale-100"
+            : "translate-y-16 opacity-0 scale-75"
         }`}
       >
-        <div
-          className={`absolute bottom-full right-0 mb-2 md:mb-3 px-2 md:px-3 py-1 md:py-2 bg-gray-900 text-white text-xs md:text-sm rounded-lg shadow-lg transition-all duration-300 transform ${
-            showTooltip
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-2 pointer-events-none"
-          }`}
-        >
-          💬 Chat with Jobpsych Assistant
-          <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-        </div>
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-ping opacity-20"></div>
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 animate-pulse opacity-30 scale-110"></div>
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 animate-pulse opacity-20 scale-125"></div>
 
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 animate-ping opacity-20"></div>
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-300 to-purple-300 animate-pulse opacity-10"></div>
-
-        <div className="absolute -top-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full flex items-center justify-center animate-bounce">
-          <span className="text-white text-xs font-bold leading-none">!</span>
+        <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-red-400 to-pink-400 rounded-full flex items-center justify-center animate-bounce shadow-lg">
+          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
         </div>
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-          className="group relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white p-3 md:p-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 ease-in-out cursor-pointer border-2 border-white/20 backdrop-blur-sm min-w-[48px] min-h-[48px] md:min-w-[56px] md:min-h-[56px] flex items-center justify-center"
-          aria-label="Open chat assistant"
+          className="group relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 ease-out cursor-pointer border-2 border-white/20 backdrop-blur-sm"
+          aria-label="Open AI Assistant"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-400/40 via-purple-400/40 to-pink-400/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-          <div className="absolute inset-0 rounded-full bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-
-          {isOpen ? (
-            <svg
-              className="w-6 h-6 relative z-10 transform transition-transform duration-300 group-hover:rotate-90"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              className="w-6 h-6 relative z-10 transform transition-transform duration-300 group-hover:scale-110"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-          )}
-        </button>
-      </div>
-
-      <div
-        className={`fixed bottom-20 right-4 left-4 md:left-auto md:bottom-24 md:right-6 w-auto md:w-96 max-w-[calc(100vw-2rem)] md:max-w-[calc(100vw-3rem)] z-40 transition-all duration-500 ease-in-out transform ${
-          isOpen
-            ? "translate-y-0 opacity-100 scale-100"
-            : "translate-y-4 opacity-0 scale-95 pointer-events-none"
-        }`}
-      >
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 md:p-4 rounded-t-2xl shadow-lg">
-          <div className="flex items-center space-x-2 md:space-x-3">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-full flex items-center justify-center">
+          <div className="relative z-10 flex items-center justify-center">
+            {isOpen ? (
               <svg
-                className="w-4 h-4 md:w-6 md:h-6"
+                className="w-6 h-6 transform transition-transform duration-300 group-hover:rotate-90"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -147,40 +94,111 @@ const Chatbot = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  strokeWidth={2.5}
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
+            ) : (
+              <div className="relative">
+                <svg
+                  className="w-6 h-6 transform transition-transform duration-300 group-hover:scale-110"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping opacity-75"></div>
+              </div>
+            )}
+          </div>
+        </button>
+      </div>
+
+      {/* Chat Window */}
+      <div
+        className={`fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] z-40 transition-all duration-500 ease-out transform ${
+          isOpen
+            ? "translate-y-0 opacity-100 scale-100"
+            : "translate-y-8 opacity-0 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white p-4 rounded-t-2xl shadow-xl">
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white shadow-sm">
+                <div className="w-full h-full bg-green-400 rounded-full animate-pulse"></div>
+              </div>
             </div>
+
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-base md:text-lg truncate">
+              <h3 className="font-bold text-lg truncate bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent">
                 JobPsych AI
               </h3>
-              <p className="text-xs md:text-sm opacity-90 truncate">
-                Your career assistant
+              <p className="text-sm opacity-90 truncate">
+                Career Intelligence Assistant
               </p>
             </div>
-            <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs hidden sm:inline">Online</span>
+
+            <div className="flex items-center space-x-2">
+              <div className="flex space-x-1">
+                <div className="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse"></div>
+                <div
+                  className="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
+                <div
+                  className="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse"
+                  style={{ animationDelay: "0.4s" }}
+                ></div>
+              </div>
+              <span className="text-xs font-medium">Online</span>
+            </div>
+          </div>
+
+          <div className="mt-3 pt-3 border-t border-white/20">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium opacity-80">Mode:</span>
+              <select
+                value={sessionType}
+                onChange={(e) => changeSessionType(e.target.value)}
+                className="text-xs bg-white/20 border border-white/30 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-white/50 text-white backdrop-blur-sm cursor-pointer"
+              >
+                <option value="general" className="text-gray-800">
+                  General
+                </option>
+                <option value="coaching" className="text-gray-800">
+                  Coaching
+                </option>
+                <option value="analysis" className="text-gray-800">
+                  Analysis
+                </option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div className="bg-white h-80 md:h-96 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4 shadow-lg">
-          {/* Session Type Selector */}
-          <div className="flex items-center justify-center mb-2">
-            <select
-              value={sessionType}
-              onChange={(e) => changeSessionType(e.target.value)}
-              className="text-xs bg-gray-100 border border-gray-300 rounded-full px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="general">General</option>
-              <option value="coaching">Coaching</option>
-              <option value="analysis">Analysis</option>
-            </select>
-          </div>
-
+        <div className="bg-white/95 backdrop-blur-sm h-96 overflow-y-auto p-4 space-y-4 shadow-xl border-x border-b border-gray-200/50">
           {chatMessages.map((message) => (
             <div
               key={message.id}
@@ -189,21 +207,21 @@ const Chatbot = () => {
               }`}
             >
               <div
-                className={`max-w-[85%] md:max-w-[80%] p-2 md:p-3 rounded-2xl shadow-sm ${
+                className={`max-w-[85%] p-3 rounded-2xl shadow-sm ${
                   message.sender === "user"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white ml-4"
                     : message.isError
-                    ? "bg-red-100 text-red-800"
-                    : "bg-gray-100 text-gray-800"
+                    ? "bg-red-50 text-red-800 border border-red-200"
+                    : "bg-gray-50 text-gray-800 mr-4 border border-gray-200"
                 }`}
               >
                 <p className="text-sm leading-relaxed">{message.text}</p>
                 <p
-                  className={`text-xs mt-1 ${
+                  className={`text-xs mt-2 ${
                     message.sender === "user"
-                      ? "text-blue-100"
+                      ? "text-indigo-100"
                       : message.isError
-                      ? "text-red-600"
+                      ? "text-red-500"
                       : "text-gray-500"
                   }`}
                 >
@@ -216,34 +234,53 @@ const Chatbot = () => {
             </div>
           ))}
 
+          {/* Typing Indicator */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-gray-100 p-2 md:p-3 rounded-2xl shadow-sm">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.1s" }}
-                  ></div>
-                  <div
-                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.2s" }}
-                  ></div>
+              <div className="bg-gray-50 p-3 rounded-2xl shadow-sm border border-gray-200 mr-4">
+                <div className="flex space-x-2 items-center">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+                    <div
+                      className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.1s" }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.2s" }}
+                    ></div>
+                  </div>
+                  <span className="text-xs text-gray-500 ml-2">
+                    AI is thinking...
+                  </span>
                 </div>
               </div>
             </div>
           )}
 
+          {/* Error Message */}
           {error && (
             <div className="flex justify-center">
-              <div className="bg-red-100 text-red-800 p-2 md:p-3 rounded-2xl shadow-sm text-sm">
-                <p>{error}</p>
+              <div className="bg-red-50 text-red-800 p-3 rounded-2xl shadow-sm border border-red-200 text-sm max-w-[85%]">
+                <div className="flex items-center space-x-2">
+                  <svg
+                    className="w-4 h-4 text-red-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p>{error}</p>
+                </div>
                 <button
-                  onClick={() => {
-                    // Retry functionality could be added here
-                    setInputValue(""); // Clear error by allowing retry
-                  }}
-                  className="mt-1 text-xs underline hover:no-underline"
+                  onClick={() => setInputValue("")}
+                  className="mt-2 text-xs underline hover:no-underline text-red-600 hover:text-red-700"
                 >
                   Try again
                 </button>
@@ -254,44 +291,72 @@ const Chatbot = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="bg-white p-3 md:p-4 rounded-b-2xl shadow-lg border-t">
-          <div className="flex space-x-2">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask JobPsych AI..."
-              className="flex-1 px-3 md:px-4 py-2 md:py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm md:text-sm min-h-[40px] md:min-h-[44px]"
-              disabled={isLoading}
-            />
+        {/* Input Area */}
+        <div className="bg-white/95 backdrop-blur-sm p-4 rounded-b-2xl shadow-xl border-x border-b border-gray-200/50">
+          <div className="flex space-x-3">
+            <div className="flex-1 relative">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask me anything about your career..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm pr-12 bg-gray-50/50 backdrop-blur-sm"
+                disabled={isLoading}
+              />
+              {inputValue && (
+                <button
+                  onClick={() => setInputValue("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-300 disabled:to-gray-400 text-white p-2 md:p-2 rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:cursor-not-allowed disabled:transform-none min-w-[40px] min-h-[40px] md:min-w-[44px] md:min-h-[44px] flex items-center justify-center"
+              className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 text-white p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
             >
-              <svg
-                className="w-4 h-4 md:w-5 md:h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                />
-              </svg>
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </div>
 
+      {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-30 transition-opacity duration-300"
+          className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
           onClick={() => setIsOpen(false)}
         />
       )}
