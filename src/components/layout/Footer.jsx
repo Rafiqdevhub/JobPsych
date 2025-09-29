@@ -1,7 +1,7 @@
 import React from "react";
 import NavigationButton from "@components/buttons/NavigationButton";
 
-const Footer = ({ getDestination }) => {
+const Footer = () => {
   return (
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-t border-slate-700/50">
       <div className="absolute inset-0">
@@ -174,12 +174,12 @@ const Footer = ({ getDestination }) => {
               {[
                 {
                   label: "Explore Role Suggestions",
-                  to: getDestination(),
+                  to: "/role-suggestions",
                   icon: "🎯",
                 },
                 {
                   label: "Try InterviewPrep AI",
-                  to: "/interview-dashboard",
+                  to: "/interview-prepai",
                   icon: "🤖",
                 },
                 {
