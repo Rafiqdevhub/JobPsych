@@ -336,7 +336,7 @@ const RoleSuggestion = () => {
           <div className="container mx-auto flex items-center justify-between">
             <NavigationButton
               to="/"
-              className="group relative overflow-hidden bg-gradient-to-r from-violet-600 to-cyan-600 px-6 py-3 text-white font-bold rounded-xl shadow-lg hover:shadow-violet-500/25 transition-all duration-300 transform hover:scale-105"
+              className="group relative overflow-hidden bg-gradient-to-r from-violet-600 to-cyan-600 px-6 py-3 text-white font-bold rounded-xl shadow-lg hover:shadow-violet-500/25 transition-all duration-300 transform hover:scale-105 cursor-pointer"
               aria-label="Go to Home Dashboard"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -352,7 +352,7 @@ const RoleSuggestion = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Home</span>
+                <span>Back to Home</span>
               </div>
             </NavigationButton>
 
