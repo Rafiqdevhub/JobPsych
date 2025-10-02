@@ -5,7 +5,15 @@ import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
+import ResumeRateLimitError from "@components/error/ResumeRateLimitError";
+import ResumeRateLimitInfo from "@components/resume/ResumeRateLimitInfo";
 import { ANALYZE_RESUME } from "../utils/api";
+import {
+  getResumeAnalysisRateLimit,
+  canMakeResumeAnalysisRequest,
+  incrementResumeAnalysisCount,
+  handleRateLimitHeaders,
+} from "../utils/resumeRateLimitService";
 
 const RoleSuggestion = () => {
   const [resumeData, setResumeData] = useState(null);
@@ -23,8 +31,10 @@ const RoleSuggestion = () => {
   });
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
+  const [rateLimitInfo, setRateLimitInfo] = useState(null);
+  const [showRateLimitModal, setShowRateLimitModal] = useState(false);
 
-  // Load persisted data on component mount
+  // Load persisted data and rate limit info on component mount
   useEffect(() => {
     const persistedData = localStorage.getItem("roleSuggestionData");
     if (persistedData) {
@@ -45,9 +55,11 @@ const RoleSuggestion = () => {
         console.warn("Failed to load persisted data:", error);
       }
     }
+
+    const rateLimitData = getResumeAnalysisRateLimit();
+    setRateLimitInfo(rateLimitData);
   }, []);
 
-  // Persist data to localStorage
   const persistData = (data) => {
     try {
       localStorage.setItem("roleSuggestionData", JSON.stringify(data));
@@ -56,7 +68,6 @@ const RoleSuggestion = () => {
     }
   };
 
-  // Clear persisted data
   const clearPersistedData = () => {
     try {
       localStorage.removeItem("roleSuggestionData");
@@ -66,19 +77,16 @@ const RoleSuggestion = () => {
   };
 
   const handleFileUpload = async (file) => {
-    // Clear previous analysis data when new file is uploaded
     setResumeData(null);
     setRoleRecommendations([]);
     clearPersistedData();
 
-    // Store the new file for analysis
     setUploadedFile(file);
     setAlertMessage(
       "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis."
     );
     setAlertType("success");
 
-    // Auto-hide success message after 5 seconds
     setTimeout(() => {
       setAlertMessage("");
       setAlertType("");
@@ -87,6 +95,13 @@ const RoleSuggestion = () => {
 
   const analyzeResume = async () => {
     if (!uploadedFile) return;
+
+    if (!canMakeResumeAnalysisRequest()) {
+      const rateLimitData = getResumeAnalysisRateLimit();
+      setRateLimitInfo(rateLimitData);
+      setShowRateLimitModal(true);
+      return;
+    }
 
     setIsLoading(true);
     setError({
@@ -122,11 +137,31 @@ const RoleSuggestion = () => {
         formData.append("job_description", jobDescription.trim());
       }
 
+      try {
+        incrementResumeAnalysisCount();
+      } catch (rateLimitError) {
+        setError({
+          show: true,
+          message: rateLimitError.message,
+          type: "error",
+          category: "rate_limit",
+          originalError: rateLimitError,
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const response = await fetch(ANALYZE_RESUME, {
         method: "POST",
         body: formData,
         mode: "cors",
       });
+
+      // Handle server-side rate limiting headers
+      const serverRateLimit = handleRateLimitHeaders(response);
+      if (serverRateLimit) {
+        setRateLimitInfo(serverRateLimit);
+      }
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -136,6 +171,15 @@ const RoleSuggestion = () => {
           error = JSON.parse(errorText);
         } catch {
           error = { message: errorText || "Unknown error occurred" };
+        }
+
+        // Special handling for rate limit errors
+        if (response.status === 429) {
+          const rateLimitData = getResumeAnalysisRateLimit();
+          setRateLimitInfo(rateLimitData);
+          setShowRateLimitModal(true);
+          setIsLoading(false);
+          return;
         }
 
         throw new Error(error.message || "Failed to analyze resume");
@@ -184,7 +228,6 @@ const RoleSuggestion = () => {
         setAlertMessage(successMessage);
         setAlertType("success");
 
-        // Auto-hide success message after 5 seconds
         setTimeout(() => {
           setAlertMessage("");
           setAlertType("");
@@ -194,7 +237,6 @@ const RoleSuggestion = () => {
       setResumeData(resumeDataFromResponse);
       setRoleRecommendations(roleRecommendationsFromResponse);
 
-      // Persist the analysis data
       persistData({
         resumeData: resumeDataFromResponse,
         roleRecommendations: roleRecommendationsFromResponse,
@@ -202,6 +244,9 @@ const RoleSuggestion = () => {
         jobDescription,
         timestamp: new Date().toISOString(),
       });
+
+      const updatedRateLimit = getResumeAnalysisRateLimit();
+      setRateLimitInfo(updatedRateLimit);
 
       setIsLoading(false);
     } catch (error) {
@@ -246,6 +291,10 @@ const RoleSuggestion = () => {
     setError({ ...error, show: false });
     setAlertMessage("");
     setAlertType("");
+  };
+
+  const handleRateLimitModalClose = () => {
+    setShowRateLimitModal(false);
   };
 
   return (
@@ -312,7 +361,7 @@ const RoleSuggestion = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full blur opacity-75 animate-pulse"></div>
                 <div className="relative bg-slate-800/90 backdrop-blur-sm px-6 py-2 rounded-full border border-slate-600/50">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 font-bold text-sm">
-                    ✨ AI-Powered Career Intelligence
+                    AI-Powered Career Intelligence
                   </span>
                 </div>
               </div>
@@ -881,7 +930,6 @@ const RoleSuggestion = () => {
           )}
         </div>
 
-        {/* Modern Upload Form Section */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/10 via-violet-600/10 to-rose-600/10 rounded-3xl blur-xl"></div>
           <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden">
@@ -911,7 +959,6 @@ const RoleSuggestion = () => {
                 </p>
               </div>
 
-              {/* Enhanced Input Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div className="space-y-4">
                   <div className="relative group">
@@ -1022,7 +1069,6 @@ const RoleSuggestion = () => {
                 </div>
               </div>
 
-              {/* Upload Component with Enhanced Styling */}
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-rose-600/5 to-amber-600/5 rounded-2xl"></div>
                 <div className="relative">
@@ -1042,7 +1088,16 @@ const RoleSuggestion = () => {
                 </div>
               </div>
 
-              {/* Analyze Button - Only show when file is uploaded but not analyzed */}
+              {rateLimitInfo && (
+                <div className="mt-8">
+                  <ResumeRateLimitInfo
+                    remaining={rateLimitInfo.remaining}
+                    total={5}
+                    resetTime={rateLimitInfo.resetTime}
+                  />
+                </div>
+              )}
+
               {uploadedFile && !resumeData && (
                 <div className="relative mt-8">
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-teal-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
@@ -1076,7 +1131,10 @@ const RoleSuggestion = () => {
 
                       <button
                         onClick={analyzeResume}
-                        disabled={isLoading}
+                        disabled={
+                          isLoading ||
+                          (rateLimitInfo && rateLimitInfo.remaining <= 0)
+                        }
                         className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-12 py-4 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -1103,6 +1161,23 @@ const RoleSuggestion = () => {
                                 ></path>
                               </svg>
                               <span>Analyzing Resume...</span>
+                            </>
+                          ) : rateLimitInfo && rateLimitInfo.remaining <= 0 ? (
+                            <>
+                              <svg
+                                className="h-6 w-6 text-red-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                                />
+                              </svg>
+                              <span>Daily Limit Reached</span>
                             </>
                           ) : (
                             <>
@@ -1144,10 +1219,8 @@ const RoleSuggestion = () => {
           </div>
         </div>
 
-        {/* Special Error Modals */}
         {renderSpecialError()}
 
-        {/* Enhanced Alert Messages */}
         {alertMessage && (
           <div className="fixed top-8 right-8 z-50 max-w-md">
             <div className="relative">
@@ -1231,6 +1304,13 @@ const RoleSuggestion = () => {
           </div>
         )}
       </main>
+
+      {showRateLimitModal && (
+        <ResumeRateLimitError
+          onClose={handleRateLimitModalClose}
+          resetTime={rateLimitInfo?.resetTime}
+        />
+      )}
     </div>
   );
 };
