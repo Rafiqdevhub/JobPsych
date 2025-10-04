@@ -333,7 +333,7 @@ const RoleSuggestion = () => {
 
       <header className="sticky top-4 z-30 mx-4 mt-4">
         <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-4">
-          <div className="container mx-auto flex items-center justify-between">
+          <div className="container mx-auto flex items-center justify-between gap-4">
             <NavigationButton
               to="/"
               className="group relative overflow-hidden bg-gradient-to-r from-violet-600 to-cyan-600 px-6 py-3 text-white font-bold rounded-xl shadow-lg hover:shadow-violet-500/25 transition-all duration-300 transform hover:scale-105 cursor-pointer"
@@ -352,16 +352,140 @@ const RoleSuggestion = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>Back to Home</span>
+                <span className="hidden sm:inline">Back to Home</span>
+                <span className="sm:hidden">Home</span>
               </div>
             </NavigationButton>
 
-            <div className="hidden md:flex items-center gap-4">
-              <div className="relative">
+            <div className="flex items-center gap-3">
+              {/* Daily Analysis Quota - Compact for header */}
+              {rateLimitInfo && (
+                <div className="relative group">
+                  <div
+                    className={`absolute inset-0 ${
+                      rateLimitInfo.remaining > 3
+                        ? "bg-gradient-to-r from-emerald-600/20 to-emerald-500/20"
+                        : rateLimitInfo.remaining > 1
+                        ? "bg-gradient-to-r from-amber-600/20 to-amber-500/20"
+                        : "bg-gradient-to-r from-red-600/20 to-red-500/20"
+                    } rounded-xl blur opacity-75`}
+                  ></div>
+                  <div
+                    className={`relative bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-xl border ${
+                      rateLimitInfo.remaining > 3
+                        ? "border-emerald-500/30"
+                        : rateLimitInfo.remaining > 1
+                        ? "border-amber-500/30"
+                        : "border-red-500/30"
+                    } transition-all duration-300`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full animate-pulse ${
+                          rateLimitInfo.remaining > 3
+                            ? "bg-emerald-400"
+                            : rateLimitInfo.remaining > 1
+                            ? "bg-amber-400"
+                            : "bg-red-400"
+                        }`}
+                      ></div>
+                      <div className="flex items-center gap-1.5">
+                        <svg
+                          className="h-4 w-4 text-slate-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                        <span className="text-white font-semibold text-sm">
+                          <span
+                            className={
+                              rateLimitInfo.remaining > 3
+                                ? "text-emerald-400"
+                                : rateLimitInfo.remaining > 1
+                                ? "text-amber-400"
+                                : "text-red-400"
+                            }
+                          >
+                            {rateLimitInfo.remaining}
+                          </span>
+                          <span className="text-slate-400">/5</span>
+                        </span>
+                        <span className="hidden md:inline text-slate-300 text-xs">
+                          analyses left
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tooltip on hover */}
+                  <div className="absolute top-full right-0 mt-2 w-64 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
+                    <div className="bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl p-3 shadow-2xl">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-white">
+                          Daily Analysis Quota
+                        </span>
+                        <span className="text-xs text-slate-400">
+                          {(() => {
+                            const now = Date.now();
+                            const timeRemaining = rateLimitInfo.resetTime - now;
+                            if (timeRemaining <= 0) return "Resets soon";
+                            const hours = Math.floor(
+                              timeRemaining / (1000 * 60 * 60)
+                            );
+                            const minutes = Math.floor(
+                              (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+                            );
+                            return hours > 0
+                              ? `Resets in ${hours}h ${minutes}m`
+                              : `Resets in ${minutes}m`;
+                          })()}
+                        </span>
+                      </div>
+                      <div className="w-full bg-slate-700/50 rounded-full h-1.5 mb-2">
+                        <div
+                          className={`h-1.5 rounded-full transition-all duration-500 ${
+                            rateLimitInfo.remaining > 3
+                              ? "bg-gradient-to-r from-emerald-500 to-emerald-400"
+                              : rateLimitInfo.remaining > 1
+                              ? "bg-gradient-to-r from-amber-500 to-amber-400"
+                              : "bg-gradient-to-r from-red-500 to-red-400"
+                          }`}
+                          style={{
+                            width: `${(rateLimitInfo.remaining / 5) * 100}%`,
+                          }}
+                        ></div>
+                      </div>
+                      <p className="text-xs text-slate-300">
+                        {rateLimitInfo.remaining > 0
+                          ? `You have ${rateLimitInfo.remaining} resume ${
+                              rateLimitInfo.remaining === 1
+                                ? "analysis"
+                                : "analyses"
+                            } remaining today`
+                          : "Daily limit reached. Upgrade for unlimited access"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* AI Badge - Hidden on small screens when quota is shown */}
+              <div
+                className={`relative ${
+                  rateLimitInfo ? "hidden lg:block" : "hidden md:block"
+                }`}
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full blur opacity-75 animate-pulse"></div>
                 <div className="relative bg-slate-800/90 backdrop-blur-sm px-6 py-2 rounded-full border border-slate-600/50">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 font-bold text-sm">
-                    AI-Powered Career Intelligence
+                    ✨ AI-Powered Career Intelligence
                   </span>
                 </div>
               </div>
@@ -1087,16 +1211,6 @@ const RoleSuggestion = () => {
                   />
                 </div>
               </div>
-
-              {rateLimitInfo && (
-                <div className="mt-8">
-                  <ResumeRateLimitInfo
-                    remaining={rateLimitInfo.remaining}
-                    total={5}
-                    resetTime={rateLimitInfo.resetTime}
-                  />
-                </div>
-              )}
 
               {uploadedFile && !resumeData && (
                 <div className="relative mt-8">
