@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/// <reference types="vitest" />
 export default defineConfig(() => {
   return {
     plugins: [tailwindcss()],
@@ -20,6 +21,32 @@ export default defineConfig(() => {
         "@utils": path.resolve(__dirname, "./src/utils"),
         "@data": path.resolve(__dirname, "./src/data"),
         "@hooks": path.resolve(__dirname, "./src/hooks"),
+        "@test": path.resolve(__dirname, "./src/test"),
+      },
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      setupFiles: ["./src/test/setup.js"],
+      css: true,
+      coverage: {
+        provider: "v8",
+        reporter: ["text", "json", "html"],
+        exclude: [
+          "node_modules/",
+          "src/test/",
+          "**/*.d.ts",
+          "**/*.config.js",
+          "dist/",
+        ],
+        thresholds: {
+          global: {
+            branches: 70,
+            functions: 70,
+            lines: 70,
+            statements: 70,
+          },
+        },
       },
     },
   };
