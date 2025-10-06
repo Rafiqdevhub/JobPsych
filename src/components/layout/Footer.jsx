@@ -175,28 +175,24 @@ const Footer = () => {
                 {
                   label: "Explore Role Suggestions",
                   to: "/role-suggestions",
-                  icon: "🎯",
                 },
                 {
                   label: "Try InterviewPrep AI",
                   to: "/interview-prepai",
-                  icon: "🤖",
                 },
                 {
                   label: "Analyze Resume with ATS",
                   to: "/ats-analyzer",
-                  icon: "📄",
                 },
                 {
                   label: "HireDisk",
                   to: "/hiredisk",
-                  icon: "⭐",
                 },
               ].map((item, index) => (
                 <NavigationButton
                   key={index}
                   to={item.to}
-                  className="group flex items-center w-full p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg border border-slate-600/30 hover:border-indigo-500/50 transition-all duration-300 text-gray-300 hover:text-white"
+                  className="group flex items-center w-full p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg border border-slate-600/30 hover:border-indigo-500/50 transition-all duration-300 text-gray-300 hover:text-white cursor-pointer"
                 >
                   <span className="text-lg mr-3">{item.icon}</span>
                   <span className="text-sm font-medium">{item.label}</span>
@@ -215,32 +211,6 @@ const Footer = () => {
                   </svg>
                 </NavigationButton>
               ))}
-              <button
-                onClick={() => {
-                  document
-                    .getElementById("features")
-                    .scrollIntoView({ behavior: "smooth" });
-                }}
-                className="group flex items-center w-full p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg border border-slate-600/30 hover:border-indigo-500/50 transition-all duration-300 text-gray-300 hover:text-white"
-              >
-                <span className="text-lg mr-3">📚</span>
-                <span className="text-sm font-medium">
-                  Learn More About Features
-                </span>
-                <svg
-                  className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
             </div>
           </div>
         </div>

@@ -118,7 +118,6 @@ const HeroSection = ({ resumeData }) => {
                 hoverGradient: "from-blue-600 via-blue-700 to-indigo-700",
                 glowColor: "shadow-blue-500/50",
                 borderColor: "border-blue-400/50",
-                icon: "🎯",
               },
               {
                 label: "InterviewPrep AI",
@@ -127,7 +126,6 @@ const HeroSection = ({ resumeData }) => {
                 hoverGradient: "from-purple-600 via-purple-700 to-pink-700",
                 glowColor: "shadow-purple-500/50",
                 borderColor: "border-purple-400/50",
-                icon: "🤖",
               },
               {
                 label: "ATS Analyzer",
@@ -136,7 +134,6 @@ const HeroSection = ({ resumeData }) => {
                 hoverGradient: "from-emerald-600 via-emerald-700 to-teal-700",
                 glowColor: "shadow-emerald-500/50",
                 borderColor: "border-emerald-400/50",
-                icon: "📊",
               },
               {
                 label: "HireDisk",
@@ -145,7 +142,6 @@ const HeroSection = ({ resumeData }) => {
                 hoverGradient: "from-orange-600 via-orange-700 to-red-700",
                 glowColor: "shadow-orange-500/50",
                 borderColor: "border-orange-400/50",
-                icon: "💼",
               },
             ].map((button, index) => (
               <button
