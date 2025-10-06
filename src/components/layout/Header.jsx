@@ -184,24 +184,27 @@ function Header() {
               {mobileDropdownOpen && (
                 <div
                   id="mobile-nav-dropdown"
-                  className="absolute top-10 xs:top-12 right-0 w-48 xs:w-56 bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-lg xs:rounded-xl shadow-2xl border border-slate-700/80 py-2 xs:py-4 z-50 animate-fade-in-up overflow-hidden"
+                  className="absolute top-16 xs:top-18 sm:top-20 right-0 w-56 xs:w-64 bg-slate-900 border-2 border-red-500 py-4 z-[100] rounded-xl shadow-2xl"
+                  style={{
+                    minHeight: "100px",
+                    backgroundColor: "rgba(15, 23, 42, 0.95)",
+                  }}
                 >
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500"></div>
+                  <div className="text-white text-center mb-2 font-bold">
+                    Mobile Menu
+                  </div>
 
-                  <nav className="flex flex-col gap-1 xs:gap-2 relative">
+                  <nav className="flex flex-col gap-2 relative px-2">
                     <button
                       type="button"
                       onClick={() => {
                         setShowFeatures(true);
                         setMobileDropdownOpen(false);
                       }}
-                      className="flex items-center gap-2 xs:gap-3 px-3 xs:px-4 py-2 xs:py-2.5 text-sm xs:text-base font-semibold text-emerald-200 bg-gradient-to-r from-emerald-800/70 to-emerald-700/70 rounded-md xs:rounded-lg hover:from-emerald-700/80 hover:to-emerald-600/80 transition-all duration-300 mx-2 transform hover:scale-105 hover:-translate-y-0.5 group relative overflow-hidden"
+                      className="flex items-center justify-center gap-3 px-4 py-3 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg border-2 border-emerald-400 transition-all duration-300"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-500"></div>
-
-                      <span className="text-sm xs:text-base relative z-10">
-                        Features
-                      </span>
+                      <span className="text-lg">🧩</span>
+                      <span>Features</span>
                     </button>
                   </nav>
                 </div>
