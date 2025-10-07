@@ -1451,6 +1451,83 @@ export default MyComponent;
 - Safari (latest)
 - Edge (latest)
 
+#### Test Coverage
+
+**Current Coverage Report (October 2025):**
+
+```text
+ % Coverage report from v8
+-----------------------------|---------|----------|---------|---------|-------------------------------------------
+File                         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-----------------------------|---------|----------|---------|---------|-------------------------------------------
+All files                    |   38.97 |    83.92 |      68 |   38.97 |
+ src                         |       0 |        0 |       0 |       0 |
+  App.jsx                    |       0 |        0 |       0 |       0 | 1-20
+  main.jsx                   |       0 |        0 |       0 |       0 | 1-60
+ src/components              |   90.63 |    85.36 |   81.81 |   90.63 |
+  Chatbot.jsx                |   98.36 |     87.5 |      90 |   98.36 | 51-52,67,214,224
+  TypewriterText.jsx         |       0 |        0 |       0 |       0 | 1-26
+ src/components/buttons      |   80.39 |       40 |   66.66 |   80.39 |
+  NavigationButton.jsx       |   80.39 |       40 |   66.66 |   80.39 | 26,31-33,37-38,50-53
+ src/components/error        |   97.82 |    85.71 |     100 |   97.82 |
+  ErrorBoundary.jsx          |   98.71 |     92.3 |     100 |   98.71 | 27-28
+  LoadingError.jsx           |     100 |      100 |     100 |     100 |
+  NetworkError.jsx           |   95.55 |    57.14 |     100 |   95.55 | 22,24,33,35,44,46
+  RateLimitError.jsx         |   95.33 |    86.66 |     100 |   95.33 | 24-26,49-52
+  ResumeRateLimitError.jsx   |     100 |      100 |     100 |     100 |
+ src/components/faq          |     100 |    96.66 |     100 |     100 |
+  FAQDropdown.jsx            |     100 |      100 |     100 |     100 |
+  FAQSection.jsx             |     100 |    66.66 |     100 |     100 | 46
+ src/components/features     |     100 |      100 |     100 |     100 |
+  FeaturesSection.jsx        |     100 |      100 |     100 |     100 |
+ src/components/hero         |       0 |        0 |       0 |       0 |
+  HeroSection.jsx            |       0 |        0 |       0 |       0 | 1-283
+ src/components/layout       |    51.6 |    93.54 |   72.72 |    51.6 |
+  Header.jsx                 |     100 |    96.66 |      80 |     100 | 77
+ src/components/resume       |   60.21 |     87.5 |      90 |   60.21 |
+  ResumeRateLimitInfo.jsx    |       0 |        0 |       0 |       0 | 1-111
+  ResumeUpload.jsx           |     100 |    90.32 |     100 |     100 | 48,93,102
+ src/components/testimonials |     100 |      100 |     100 |     100 |
+  TestimonialsSection.jsx    |     100 |      100 |     100 |     100 |
+ src/components/toast        |   27.64 |    66.66 |   11.11 |   27.64 |
+  SimpleToast.jsx            |       0 |        0 |       0 |       0 | 1-113
+  Toast.jsx                  |   31.55 |      100 |       0 |   31.55 | ...23-136,140-153,157-170,174-187,338-587
+  ToastManager.jsx           |   34.54 |      100 |      50 |   34.54 | ...03-114,141-144,150-165,172-187,190-195
+ src/hooks                   |   98.27 |    97.43 |     100 |   98.27 |
+  useAIChat.js               |   98.14 |    97.29 |     100 |   98.14 | 81-83
+  useToast.js                |     100 |      100 |     100 |     100 |
+ src/pages                   |       0 |        0 |       0 |       0 |
+  ATSAnalyzer.jsx            |       0 |        0 |       0 |       0 | 1-415
+  HireDisk.jsx               |       0 |        0 |       0 |       0 | 1-381
+  InterviewPrepAI.jsx        |       0 |        0 |       0 |       0 | 1-378
+  LandingPage.jsx            |       0 |        0 |       0 |       0 | 1-40
+  NotFound.jsx               |       0 |        0 |       0 |       0 | 1-54
+  RoleSuggestion.jsx         |       0 |        0 |       0 |       0 | 1-1432
+ src/utils                   |   98.87 |    85.43 |     100 |    98.87 |
+  aiApi.js                   |   98.74 |    67.74 |     100 |   98.74 | 32,59-60
+  api.js                     |     100 |      100 |     100 |     100 |
+  env.js                     |     100 |      100 |     100 |     100 |
+  errorHandler.js            |   99.18 |    93.61 |     100 |    99.18 | 59
+  resumeRateLimitService.js  |    98.7 |    90.47 |     100 |    98.7 | 91-92
+-----------------------------|---------|----------|---------|---------|-------------------------------------------
+```
+
+**Coverage Summary:**
+
+- **Overall Coverage**: 38.97% (Statements), 83.92% (Branches), 68% (Functions), 38.97% (Lines)
+- **Components Coverage**: 90.63% (High coverage for reusable components)
+- **Error Components**: 97.82% (Excellent coverage for error handling)
+- **Hooks Coverage**: 98.27% (Well-tested custom hooks)
+- **Utils Coverage**: 98.87% (Comprehensive utility testing)
+- **Test Files**: 19 test files, 360 passed tests, 1 skipped
+
+**Key Coverage Highlights:**
+
+- **Error Boundary Components**: 97.82% coverage (ErrorBoundary: 98.71%, RateLimitError: 95.33%)
+- **Core Components**: Chatbot (98.36%), NavigationButton (80.39%)
+- **Utility Functions**: 98.87% coverage across all utility modules
+- **Custom Hooks**: 98.27% coverage with comprehensive testing
+
 ### Common Development Tasks
 
 #### Adding a New Page
