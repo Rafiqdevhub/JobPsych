@@ -88,6 +88,7 @@ const NetworkError = ({
 
             {onClose && (
               <button
+                type="button"
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-700 transition-all duration-200 transform hover:scale-110 hover:rotate-90 focus:outline-none focus:ring-2 focus:ring-slate-500"
               >
@@ -126,6 +127,7 @@ const NetworkError = ({
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               {showRetry && onRetry && (
                 <button
+                  type="button"
                   onClick={onRetry}
                   className="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
                 >
@@ -136,6 +138,7 @@ const NetworkError = ({
 
               {onClose && (
                 <button
+                  type="button"
                   onClick={onClose}
                   className="inline-flex items-center px-6 py-3 border-2 border-slate-600 text-base font-semibold rounded-xl text-slate-300 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-slate-500 transform transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-lg"
                 >
