@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { ToastProvider } from "../../components/toast/ToastManager";
 import ErrorBoundary from "../../components/error/ErrorBoundary";
+import { expect } from "vitest";
 import {
   mockUserProfiles,
   mockResumeData,

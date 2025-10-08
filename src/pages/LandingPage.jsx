@@ -15,7 +15,7 @@ const LandingPage = () => {
     if (storedCount) {
       setUploadCount(parseInt(storedCount));
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const pricingRef = React.useRef(null);
 
