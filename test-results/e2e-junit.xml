@@ -1,0 +1,92 @@
+<testsuites id="" name="" tests="5" failures="5" skipped="0" errors="0" time="3.6589190000000005">
+<testsuite name="basic.spec.js" timestamp="2025-10-08T16:35:59.962Z" hostname="chromium" tests="1" failures="1" skipped="0" time="0.006" errors="0">
+<testcase name="JobPsych E2E Tests › basic page load" classname="basic.spec.js" time="0.006">
+<failure message="basic.spec.js:4:3 basic page load" type="FAILURE">
+<![CDATA[  [chromium] › basic.spec.js:4:3 › JobPsych E2E Tests › basic page load ────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\LENOVO\AppData\Local\ms-playwright\winldd-1007\PrintDeps.exe
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browser:               ║
+    ║                                                                         ║
+    ║     npx playwright install winldd                                       ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic.spec.js" timestamp="2025-10-08T16:35:59.962Z" hostname="firefox" tests="1" failures="1" skipped="0" time="0.006" errors="0">
+<testcase name="JobPsych E2E Tests › basic page load" classname="basic.spec.js" time="0.006">
+<failure message="basic.spec.js:4:3 basic page load" type="FAILURE">
+<![CDATA[  [firefox] › basic.spec.js:4:3 › JobPsych E2E Tests › basic page load ─────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\LENOVO\AppData\Local\ms-playwright\firefox-1495\firefox\firefox.exe
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic.spec.js" timestamp="2025-10-08T16:35:59.962Z" hostname="webkit" tests="1" failures="1" skipped="0" time="0.007" errors="0">
+<testcase name="JobPsych E2E Tests › basic page load" classname="basic.spec.js" time="0.007">
+<failure message="basic.spec.js:4:3 basic page load" type="FAILURE">
+<![CDATA[  [webkit] › basic.spec.js:4:3 › JobPsych E2E Tests › basic page load ──────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\LENOVO\AppData\Local\ms-playwright\webkit-2215\Playwright.exe
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic.spec.js" timestamp="2025-10-08T16:35:59.962Z" hostname="Mobile Chrome" tests="1" failures="1" skipped="0" time="0.007" errors="0">
+<testcase name="JobPsych E2E Tests › basic page load" classname="basic.spec.js" time="0.007">
+<failure message="basic.spec.js:4:3 basic page load" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › basic.spec.js:4:3 › JobPsych E2E Tests › basic page load ───────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\LENOVO\AppData\Local\ms-playwright\winldd-1007\PrintDeps.exe
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browser:               ║
+    ║                                                                         ║
+    ║     npx playwright install winldd                                       ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="basic.spec.js" timestamp="2025-10-08T16:35:59.962Z" hostname="Mobile Safari" tests="1" failures="1" skipped="0" time="0.003" errors="0">
+<testcase name="JobPsych E2E Tests › basic page load" classname="basic.spec.js" time="0.003">
+<failure message="basic.spec.js:4:3 basic page load" type="FAILURE">
+<![CDATA[  [Mobile Safari] › basic.spec.js:4:3 › JobPsych E2E Tests › basic page load ───────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\LENOVO\AppData\Local\ms-playwright\webkit-2215\Playwright.exe
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+</testsuites>

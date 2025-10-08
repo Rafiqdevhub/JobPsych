@@ -47,4 +47,21 @@ export default [
       "no-var": "error",
     },
   },
+  // Configuration for config files (playwright.config.js, vite.config.js, etc.)
+  {
+    files: ["*.config.js", "*.config.mjs"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+    },
+  },
 ];
