@@ -12,7 +12,10 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:integration": "vitest run --config ./src/test/integration.config.js",
+    "test:integration:watch": "vitest --config ./src/test/integration.config.js --watch",
+    "test:integration:coverage": "vitest run --config ./src/test/integration.config.js --coverage"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
