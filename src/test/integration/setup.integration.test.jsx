@@ -30,6 +30,6 @@ describe("Integration Test Setup", () => {
 
     expect(data.success).toBe(true);
     expect(data.data.status).toBe("OK");
-    expect(data.data.environment).toBe("integration-test");
+    expect(data.data.environment).toBe("test");
   });
 });

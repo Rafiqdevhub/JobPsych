@@ -1,7 +1,5 @@
 import { AI_API_BASE_URL } from "./api.js";
 
-const AI_API_BASE_URL_CONSTANT = AI_API_BASE_URL;
-
 /**
  * Generic request function with error handling
  * @param {string} endpoint - API endpoint
@@ -9,11 +7,7 @@ const AI_API_BASE_URL_CONSTANT = AI_API_BASE_URL;
  * @param {string} baseURL - Base URL override (optional)
  * @returns {Promise<any>} Response data
  */
-async function makeRequest(
-  endpoint,
-  options = {},
-  baseURL = AI_API_BASE_URL_CONSTANT
-) {
+async function makeRequest(endpoint, options = {}, baseURL = AI_API_BASE_URL) {
   const url = `${baseURL}${endpoint}`;
 
   const config = {

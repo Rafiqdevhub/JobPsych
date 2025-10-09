@@ -222,17 +222,20 @@ export const mockApiResponses = {
       data: {
         skillGapAnalysis: {
           type: "analysis",
-          gaps: [
-            "TypeScript proficiency needed for senior roles",
-            "AWS cloud experience required",
-            "Docker containerization skills beneficial",
-          ],
+          result: {
+            gaps: [
+              "TypeScript proficiency needed for senior roles",
+              "AWS cloud experience required",
+              "Docker containerization skills beneficial",
+            ],
+          },
+          confidence: 0.7,
+          insights: ["Need training in advanced technologies"],
           recommendations: [
             "Complete TypeScript certification course",
             "Get AWS Certified Developer certification",
             "Practice with Docker in personal projects",
           ],
-          timeline: "3-6 months",
         },
         timestamp: new Date().toISOString(),
       },

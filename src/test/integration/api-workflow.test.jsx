@@ -84,7 +84,8 @@ describe("API Workflow Integration Tests", () => {
 
     expect(response.success).toBe(true);
     expect(response.data).toHaveProperty("result");
-    expect(response.data.result).toHaveProperty("sentiment");
+    expect(response.data.result).toHaveProperty("result");
+    expect(response.data.result.result).toHaveProperty("sentiment");
     expect(response.data.result).toHaveProperty("confidence");
   });
 

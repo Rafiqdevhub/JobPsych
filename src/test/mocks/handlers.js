@@ -1,6 +1,10 @@
 import { http, HttpResponse } from "msw";
 
-const BASE_URL = "https://evaai-seven.vercel.app/api";
+const BASE_URL = "/api";
+
+// Simple rate limiting simulation
+globalThis.requestCount = 0;
+const RATE_LIMIT_THRESHOLD = 3;
 
 export const handlers = [
   // Health endpoints
@@ -52,22 +56,79 @@ export const handlers = [
   }),
 
   // AI endpoints
-  http.post(`${BASE_URL}/ai/chat`, () => {
+  http.post(`${BASE_URL}/ai/chat`, async ({ request }) => {
+    const body = await request.json();
+
+    // Simulate validation error for empty messages
+    if (!body.message || body.message.trim() === "") {
+      return new HttpResponse(
+        JSON.stringify({ message: "Validation error: Message is required" }),
+        { status: 400 }
+      );
+    }
+
+    // Simulate rate limiting after a few requests
+    globalThis.requestCount++;
+    if (globalThis.requestCount > RATE_LIMIT_THRESHOLD) {
+      return new HttpResponse(
+        JSON.stringify({ message: "Rate limit exceeded" }),
+        { status: 429 }
+      );
+    }
+
     return HttpResponse.json({
       success: true,
       data: {
-        response: "This is a mock AI response",
+        response: "This is a helpful AI response for your career question.",
         timestamp: new Date().toISOString(),
+        sessionId: "session-123",
+        confidence: 0.95,
       },
     });
   }),
 
-  http.post(`${BASE_URL}/ai/coaching`, () => {
+  // Also handle absolute URLs for custom base URL tests
+  http.post("http://localhost:5000/api/ai/chat", async ({ request }) => {
+    const body = await request.json();
+
+    // Simulate validation error for empty messages
+    if (!body.message || body.message.trim() === "") {
+      return new HttpResponse(
+        JSON.stringify({ message: "Validation error: Message is required" }),
+        { status: 400 }
+      );
+    }
+
+    // Simulate rate limiting after a few requests
+    globalThis.requestCount++;
+    if (globalThis.requestCount > RATE_LIMIT_THRESHOLD) {
+      return new HttpResponse(
+        JSON.stringify({ message: "Rate limit exceeded" }),
+        { status: 429 }
+      );
+    }
+
     return HttpResponse.json({
       success: true,
       data: {
-        response: "This is coaching advice",
-        coachingType: "general",
+        response: "This is a helpful AI response for your career question.",
+        timestamp: new Date().toISOString(),
+        sessionId: "session-123",
+        confidence: 0.95,
+      },
+    });
+  }),
+
+  http.post(`${BASE_URL}/ai/coaching`, async ({ request }) => {
+    const body = await request.json();
+    const coachingType = body.sessionType || "general";
+
+    return HttpResponse.json({
+      success: true,
+      data: {
+        response:
+          "Based on your situation, I recommend focusing on building specific skills and networking. Let's break this down into actionable steps...",
+        coachingType,
         timestamp: new Date().toISOString(),
       },
     });
@@ -79,10 +140,14 @@ export const handlers = [
       data: {
         analysis: {
           type: "fit",
-          result: { score: 85 },
-          confidence: 0.9,
-          insights: ["Good fit"],
-          recommendations: ["Apply"],
+          score: 88,
+          recommendations: [
+            "Strong technical background matches the requirements",
+            "Consider highlighting leadership experience",
+            "Add more quantifiable achievements",
+          ],
+          skills: ["JavaScript", "React", "Node.js", "Python"],
+          gaps: ["AWS experience could be beneficial"],
         },
         timestamp: new Date().toISOString(),
       },
@@ -95,9 +160,12 @@ export const handlers = [
       data: {
         result: {
           type: "sentiment",
-          result: { sentiment: "positive" },
+          result: {
+            sentiment: "positive",
+            scores: { positive: 0.92, negative: 0.05, neutral: 0.03 },
+          },
           confidence: 0.95,
-          insights: ["Positive content"],
+          insights: ["Positive content detected"],
           recommendations: [],
         },
         analysisType: "sentiment",
@@ -110,7 +178,8 @@ export const handlers = [
     return HttpResponse.json({
       success: true,
       data: {
-        recommendations: "Consider senior roles",
+        recommendations:
+          "Based on your current role as Junior Developer and your 2 years of web development experience, here are your recommended career paths: 1. Senior Software Engineer (6-12 months) - Focus on deepening technical skills and taking on more complex projects. 2. Technical Lead (2-3 years) - Develop leadership and mentoring skills while continuing to grow technically.",
         timestamp: new Date().toISOString(),
       },
     });
@@ -122,10 +191,17 @@ export const handlers = [
       data: {
         preparation: {
           type: "technical",
-          result: { questions: ["Q1", "Q2"] },
+          result: {
+            questions: [
+              "Tell me about yourself",
+              "What are your strengths and weaknesses?",
+              "Why do you want to work here?",
+              "Where do you see yourself in 5 years?",
+            ],
+          },
           confidence: 0.8,
-          insights: ["Prepare well"],
-          recommendations: ["Practice"],
+          insights: ["Prepare well for behavioral questions"],
+          recommendations: ["Practice common interview questions"],
         },
         interviewType: "technical",
         timestamp: new Date().toISOString(),
@@ -139,10 +215,20 @@ export const handlers = [
       data: {
         skillGapAnalysis: {
           type: "analysis",
-          result: { gaps: ["Skill1"] },
+          result: {
+            gaps: [
+              "TypeScript proficiency needed for senior roles",
+              "AWS cloud experience required",
+              "Docker containerization skills beneficial",
+            ],
+          },
           confidence: 0.7,
-          insights: ["Need training"],
-          recommendations: ["Take course"],
+          insights: ["Need training in advanced technologies"],
+          recommendations: [
+            "Complete TypeScript certification course",
+            "Get AWS Certified Developer certification",
+            "Practice with Docker in personal projects",
+          ],
         },
         timestamp: new Date().toISOString(),
       },

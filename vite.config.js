@@ -29,6 +29,7 @@ export default defineConfig(() => {
       environment: "jsdom",
       setupFiles: ["./src/test/setup.js"],
       css: true,
+      exclude: ["**/e2e/**", "**/node_modules/**"],
       coverage: {
         provider: "v8",
         reporter: ["text", "json", "html"],
@@ -38,6 +39,7 @@ export default defineConfig(() => {
           "**/*.d.ts",
           "**/*.config.js",
           "dist/",
+          "e2e/",
         ],
         thresholds: {
           global: {

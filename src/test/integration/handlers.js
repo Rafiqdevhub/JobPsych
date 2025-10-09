@@ -11,12 +11,13 @@ export const integrationHandlers = [
         status: "OK",
         timestamp: new Date().toISOString(),
         uptime: 123.456,
-        environment: "integration-test",
+        environment: "test",
         version: "1.0.0",
-        services: {
-          ai: "operational",
-          database: "operational",
-          storage: "operational",
+        memory: {
+          rss: 1000000,
+          heapTotal: 2000000,
+          heapUsed: 1500000,
+          external: 500000,
         },
       },
     });
@@ -28,25 +29,23 @@ export const integrationHandlers = [
       data: {
         status: "OK",
         timestamp: new Date().toISOString(),
-        uptime: 456.789,
-        environment: "integration-test",
+        uptime: 123.456,
+        environment: "test",
         version: "1.0.0",
         memory: {
-          rss: 104857600, // 100MB
-          heapTotal: 67108864, // 64MB
-          heapUsed: 33554432, // 32MB
-          external: 2097152, // 2MB
+          rss: 1000000,
+          heapTotal: 2000000,
+          heapUsed: 1500000,
+          external: 500000,
         },
         system: {
-          platform: "linux",
-          nodeVersion: "20.10.0",
+          platform: "test",
+          nodeVersion: "20.0.0",
           arch: "x64",
         },
         services: {
-          ai: "operational",
-          database: "operational",
-          storage: "operational",
-          cache: "operational",
+          ai: "OK",
+          database: "OK",
         },
       },
     });
@@ -160,21 +159,20 @@ export const integrationHandlers = [
       success: true,
       data: {
         preparation: {
-          type: interviewType || "general",
-          questions: [
-            "Tell me about yourself",
-            "What are your strengths and weaknesses?",
-            "Why do you want to work here?",
-            "Where do you see yourself in 5 years?",
-          ],
-          tips: [
-            "Research the company thoroughly",
-            "Prepare specific examples from your experience",
-            "Practice your answers out loud",
-            "Prepare thoughtful questions for the interviewer",
-          ],
-          confidence: 0.88,
+          type: interviewType || "technical",
+          result: {
+            questions: [
+              "Tell me about yourself",
+              "What are your strengths and weaknesses?",
+              "Why do you want to work here?",
+              "Where do you see yourself in 5 years?",
+            ],
+          },
+          confidence: 0.8,
+          insights: ["Prepare well for behavioral questions"],
+          recommendations: ["Practice common interview questions"],
         },
+        interviewType: interviewType || "technical",
         timestamp: new Date().toISOString(),
       },
     });
@@ -223,30 +221,53 @@ export const integrationHandlers = [
     switch (analysisType) {
       case "sentiment":
         result = {
-          sentiment: "positive",
-          confidence: 0.92,
-          scores: { positive: 0.92, negative: 0.05, neutral: 0.03 },
+          type: "sentiment",
+          result: {
+            sentiment: "positive",
+            scores: { positive: 0.92, negative: 0.05, neutral: 0.03 },
+          },
+          confidence: 0.95,
+          insights: ["Positive content detected"],
+          recommendations: [],
         };
         break;
       case "summary":
         result = {
-          summary:
-            "The text discusses career development and skill improvement strategies.",
-          keyPoints: [
-            "Continuous learning is essential",
-            "Skill development leads to career growth",
-            "Networking plays important role",
-          ],
+          type: "summary",
+          result: {
+            summary:
+              "The text discusses career development and skill improvement strategies.",
+            keyPoints: [
+              "Continuous learning is essential",
+              "Skill development leads to career growth",
+              "Networking plays important role",
+            ],
+          },
+          confidence: 0.88,
+          insights: ["Career-focused content", "Emphasis on skill development"],
+          recommendations: ["Consider expanding on networking strategies"],
         };
         break;
       case "keywords":
         result = {
-          keywords: ["career", "development", "skills", "learning", "growth"],
-          relevance: [0.95, 0.89, 0.87, 0.82, 0.78],
+          type: "keywords",
+          result: {
+            keywords: ["career", "development", "skills", "learning", "growth"],
+            relevance: [0.95, 0.89, 0.87, 0.82, 0.78],
+          },
+          confidence: 0.91,
+          insights: ["Technical and professional keywords identified"],
+          recommendations: ["Focus on emerging technologies"],
         };
         break;
       default:
-        result = { analysis: "General analysis completed" };
+        result = {
+          type: "general",
+          result: { analysis: "General analysis completed" },
+          confidence: 0.5,
+          insights: ["General content analysis"],
+          recommendations: [],
+        };
     }
 
     return HttpResponse.json({
@@ -354,7 +375,7 @@ export const integrationHandlers = [
     return HttpResponse.json({
       success: true,
       data: {
-        models: ["gpt-4", "gpt-3.5-turbo", "claude-3", "gemini-pro"],
+        models: ["gpt-4", "gpt-3.5-turbo"],
         default: "gpt-4",
       },
     });
@@ -365,10 +386,10 @@ export const integrationHandlers = [
     return HttpResponse.json({
       success: true,
       data: {
-        status: "operational",
-        models: ["gpt-4", "gpt-3.5-turbo", "claude-3", "gemini-pro"],
-        provider: "google",
-        features: ["chat", "analysis", "coaching", "interview_prep"],
+        status: "OK",
+        models: ["gpt-4", "gpt-3.5-turbo"],
+        provider: "OpenAI",
+        features: ["chat", "analysis"],
         lastCheck: new Date().toISOString(),
       },
     });
