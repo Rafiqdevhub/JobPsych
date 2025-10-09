@@ -9,13 +9,13 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
 This document provides a **step-by-step plan** to set up, configure, and execute End-to-End (E2E) tests for the JobPsych frontend application using Playwright. Each step is designed to be executed independently to ensure proper setup and validation.
 
 ---
 
-## 🎯 Testing Objectives
+## Testing Objectives
 
 1. ✅ Verify Playwright setup and configuration
 2. ✅ Test development environment readiness
@@ -27,7 +27,7 @@ This document provides a **step-by-step plan** to set up, configure, and execute
 
 ---
 
-## 📦 STEP 1: Environment Setup & Verification
+## STEP 1: Environment Setup & Verification
 
 ### 1.1 Verify Playwright Installation
 
@@ -102,7 +102,7 @@ Get-ChildItem -Path "./e2e" -Filter "*.spec.js"
 
 ---
 
-## ⚙️ STEP 2: Configuration Setup
+## STEP 2: Configuration Setup
 
 ### 2.1 Update Playwright Configuration
 
@@ -207,7 +207,7 @@ export default defineConfig({
 
 ---
 
-## 🚀 STEP 3: Initial Test Run - Smoke Tests
+## STEP 3: Initial Test Run - Smoke Tests
 
 ### 3.1 Start Development Server (Manual)
 
@@ -279,7 +279,7 @@ Running 15 tests using 1 worker
 
 ---
 
-## 📊 STEP 4: Progressive Test Execution
+## STEP 4: Progressive Test Execution
 
 ### 4.1 Test Individual Pages (One at a Time)
 
