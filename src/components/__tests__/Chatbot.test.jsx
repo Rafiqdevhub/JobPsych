@@ -265,7 +265,7 @@ describe("Chatbot Component", () => {
     );
 
     fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyPress(input, { key: "Enter", charCode: 13 });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
 
     expect(mockSendMessage).toHaveBeenCalledWith("Test message");
   });
@@ -283,7 +283,12 @@ describe("Chatbot Component", () => {
     );
 
     fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyPress(input, { key: "Enter", charCode: 13, shiftKey: true });
+    fireEvent.keyDown(input, {
+      key: "Enter",
+      code: "Enter",
+      charCode: 13,
+      shiftKey: true,
+    });
 
     expect(mockSendMessage).not.toHaveBeenCalled();
   });
@@ -301,7 +306,7 @@ describe("Chatbot Component", () => {
     );
 
     fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyPress(input, { key: "Enter", charCode: 13 });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
 
     expect(input.value).toBe("");
   });

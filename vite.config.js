@@ -26,7 +26,8 @@ export default defineConfig(() => {
     },
     test: {
       globals: true,
-      environment: "jsdom",
+      environment: "happy-dom",
+      globalSetup: ["./src/test/globalSetup.js"],
       setupFiles: ["./src/test/setup.js"],
       css: true,
       exclude: ["**/e2e/**", "**/node_modules/**"],

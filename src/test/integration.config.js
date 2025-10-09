@@ -21,7 +21,8 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: "jsdom",
+    environment: "happy-dom",
+    globalSetup: ["./src/test/globalSetup.js"],
     setupFiles: ["./src/test/integration/setup.js"],
     include: [
       "**/*.integration.test.{js,jsx,ts,tsx}",
