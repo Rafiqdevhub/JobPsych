@@ -51,6 +51,17 @@ export const integrationHandlers = [
     });
   }),
 
+  // Custom base URL handler for testing
+  http.post("http://localhost:5000/api/ai/chat", () => {
+    return HttpResponse.json({
+      success: true,
+      data: {
+        response: "Custom URL response",
+        timestamp: new Date().toISOString(),
+      },
+    });
+  }),
+
   // AI Chat endpoints
   http.post("/api/ai/chat", async ({ request }) => {
     const {
