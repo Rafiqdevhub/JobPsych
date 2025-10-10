@@ -14,6 +14,8 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./e2e",
+  /* Maximum time one test can run for. */
+  timeout: 60000, // Increased to 60s for Firefox networkidle waits
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -46,7 +48,11 @@ export default defineConfig({
 
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        // Firefox needs more time for networkidle state
+        navigationTimeout: 60000,
+      },
     },
 
     {

@@ -14,7 +14,7 @@ test.describe("Smoke Test - Step 1 Verification", () => {
 
   test("should have working navigation", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Check if navigation or header exists
     const nav = page.locator("nav, header");
