@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@test/test-utils";
+import { render, screen, fireEvent, act } from "@test/test-utils";
 import { expect, test, vi, describe, beforeEach, afterEach } from "vitest";
 import Chatbot from "../Chatbot";
 
@@ -58,7 +58,11 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     const chatWindow = screen
       .getByText("JobPsych AI")
@@ -73,12 +77,20 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     expect(screen.getByText("JobPsych AI")).toBeInTheDocument();
 
     // Click button again to close
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     // Chat window should still be rendered but not visible
     const chatWindow = screen
@@ -94,13 +106,21 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     expect(screen.getByText("JobPsych AI")).toBeInTheDocument();
 
     // Click backdrop to close
     const backdrop = document.querySelector(".fixed.inset-0.z-30");
-    fireEvent.click(backdrop);
+    act(() => {
+      act(() => {
+        fireEvent.click(backdrop);
+      });
+    });
 
     // Chat window should still be rendered but not visible
     const chatWindow = screen
@@ -135,7 +155,11 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     expect(screen.getByText("Hello")).toBeInTheDocument();
     expect(screen.getByText("Hi there!")).toBeInTheDocument();
@@ -161,7 +185,11 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      act(() => {
+        fireEvent.click(chatbotButton);
+      });
+    });
 
     const messageContainer =
       screen.getByText("User message").parentElement.parentElement;
@@ -188,7 +216,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const messageContainer =
       screen.getByText("Assistant message").parentElement.parentElement;
@@ -206,7 +236,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     expect(screen.getByText("AI is thinking...")).toBeInTheDocument();
   });
@@ -223,7 +255,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
     expect(screen.getByText("Try again")).toBeInTheDocument();
@@ -235,7 +269,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
@@ -246,8 +282,12 @@ describe("Chatbot Component", () => {
         btn.querySelector('svg path[d*="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"]')
       );
 
-    fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.click(sendButton);
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test message" } });
+    });
+    act(() => {
+      fireEvent.click(sendButton);
+    });
 
     expect(mockSendMessage).toHaveBeenCalledWith("Test message");
   });
@@ -258,14 +298,20 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
     );
 
-    fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test message" } });
+    });
+    act(() => {
+      fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    });
 
     expect(mockSendMessage).toHaveBeenCalledWith("Test message");
   });
@@ -276,18 +322,24 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
     );
 
-    fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyDown(input, {
-      key: "Enter",
-      code: "Enter",
-      charCode: 13,
-      shiftKey: true,
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test message" } });
+    });
+    act(() => {
+      fireEvent.keyDown(input, {
+        key: "Enter",
+        code: "Enter",
+        charCode: 13,
+        shiftKey: true,
+      });
     });
 
     expect(mockSendMessage).not.toHaveBeenCalled();
@@ -299,14 +351,20 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
     );
 
-    fireEvent.change(input, { target: { value: "Test message" } });
-    fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test message" } });
+    });
+    act(() => {
+      fireEvent.keyDown(input, { key: "Enter", code: "Enter", charCode: 13 });
+    });
 
     expect(input.value).toBe("");
   });
@@ -317,7 +375,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const sendButton = screen
       .getAllByRole("button")
@@ -338,7 +398,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const sendButton = screen
       .getAllByRole("button")
@@ -362,7 +424,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
@@ -376,10 +440,14 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const select = screen.getByDisplayValue("General");
-    fireEvent.change(select, { target: { value: "coaching" } });
+    act(() => {
+      fireEvent.change(select, { target: { value: "coaching" } });
+    });
 
     expect(mockChangeSessionType).toHaveBeenCalledWith("coaching");
   });
@@ -390,7 +458,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
@@ -406,7 +476,9 @@ describe("Chatbot Component", () => {
       );
     expect(clearButtons).toHaveLength(0);
 
-    fireEvent.change(input, { target: { value: "Test" } });
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test" } });
+    });
 
     // Clear button should appear when input has value
     const clearButtonAfter = screen
@@ -425,12 +497,16 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
     );
-    fireEvent.change(input, { target: { value: "Test message" } });
+    act(() => {
+      fireEvent.change(input, { target: { value: "Test message" } });
+    });
 
     const clearButton = screen
       .getAllByRole("button")
@@ -439,7 +515,9 @@ describe("Chatbot Component", () => {
           btn.className.includes("absolute") &&
           btn.className.includes("right-3")
       );
-    fireEvent.click(clearButton);
+    act(() => {
+      fireEvent.click(clearButton);
+    });
 
     expect(input.value).toBe("");
   });
@@ -450,7 +528,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const input = screen.getByPlaceholderText(
       "Ask me anything about your career..."
@@ -479,7 +559,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     expect(screen.getByText("02:30 PM")).toBeInTheDocument();
   });
@@ -490,7 +572,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     expect(screen.getByText("Online")).toBeInTheDocument();
   });
@@ -520,7 +604,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const chatWindow = screen
       .getByText("JobPsych AI")
@@ -536,7 +622,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     const backdrop = document.querySelector(".fixed.inset-0.z-30");
     expect(backdrop).toBeInTheDocument();
@@ -553,7 +641,9 @@ describe("Chatbot Component", () => {
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
     });
-    fireEvent.click(chatbotButton);
+    act(() => {
+      fireEvent.click(chatbotButton);
+    });
 
     // Should show spinner instead of send icon
     const sendButton = screen
