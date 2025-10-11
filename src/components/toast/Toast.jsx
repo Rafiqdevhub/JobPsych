@@ -360,7 +360,7 @@ function Toast({
   message,
   title,
   type = "error",
-  show,
+  show = true,
   onClose,
   duration = 5000,
   showProgress = true,
@@ -406,7 +406,8 @@ function Toast({
 
       const interval = setInterval(() => {
         setProgress((prev) => {
-          const newProgress = prev - 100 / (duration / 100);
+          const decrement = 100 / (duration / 100);
+          const newProgress = Math.max(0, prev - decrement);
           if (newProgress <= 0) {
             clearInterval(interval);
             handleClose();
@@ -421,11 +422,13 @@ function Toast({
   }, [show, duration, handleClose]);
 
   useEffect(() => {
-    setIsVisible(show);
+    if (!isClosing) {
+      setIsVisible(show);
+    }
     if (!show) {
       setIsClosing(false);
     }
-  }, [show]);
+  }, [show, isClosing]);
 
   const getPositionClasses = () => {
     switch (position) {
