@@ -8,7 +8,7 @@ import TestimonialsSection from "@components/testimonials/TestimonialsSection";
 import Header from "@components/layout/Header";
 
 const LandingPage = () => {
-  const [setUploadCount] = useState(0);
+  const [uploadCount, setUploadCount] = useState(0);
 
   useEffect(() => {
     const storedCount = localStorage.getItem("resumeUploadCount");
@@ -32,6 +32,9 @@ const LandingPage = () => {
       <FeaturesSection />
       <FAQSection />
       <TestimonialsSection />
+      <div ref={pricingRef} data-testid="pricing-section">
+        {/* Pricing section would go here */}
+      </div>
       <Footer />
     </div>
   );
