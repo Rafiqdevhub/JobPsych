@@ -1,12 +1,11 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import Toast from "./Toast";
+import { ToastContext } from "./ToastContext";
 import {
   formatErrorMessage,
   getErrorType,
   getErrorCategory,
 } from "../../utils/errorHandler";
-
-export const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
@@ -184,14 +183,6 @@ const getPositionContainerClasses = (position) => {
     case "bottom-right":
       return "bottom-4 right-4 flex flex-col-reverse max-w-sm";
   }
-};
-
-export const useToast = () => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
-  return context;
 };
 
 export default ToastProvider;

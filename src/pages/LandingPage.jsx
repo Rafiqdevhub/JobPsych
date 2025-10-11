@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import Footer from "@components/layout/Footer";
 import HeroSection from "@components/hero/HeroSection";
@@ -8,15 +8,6 @@ import TestimonialsSection from "@components/testimonials/TestimonialsSection";
 import Header from "@components/layout/Header";
 
 const LandingPage = () => {
-  const [uploadCount, setUploadCount] = useState(0);
-
-  useEffect(() => {
-    const storedCount = localStorage.getItem("resumeUploadCount");
-    if (storedCount) {
-      setUploadCount(parseInt(storedCount));
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const pricingRef = React.useRef(null);
 
   const scrollToPricing = () => {
