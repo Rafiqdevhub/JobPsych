@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, act } from "@test/test-utils";
-import { expect, test, vi, describe, beforeEach, afterEach } from "vitest";
+import { expect, test, vi, describe, beforeEach } from "vitest";
 import Chatbot from "../Chatbot";
 
 // Mock the useAIChat hook
@@ -32,13 +32,13 @@ describe("Chatbot Component", () => {
     Element.prototype.scrollIntoView = vi.fn();
   });
 
-  afterEach(() => {
-    vi.runOnlyPendingTimers();
-    vi.useRealTimers();
-  });
-
   test("renders chatbot button with initial state", () => {
     render(<Chatbot />);
+
+    // Run timers to complete entrance animation
+    act(() => {
+      vi.runAllTimers();
+    });
 
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,
@@ -54,6 +54,11 @@ describe("Chatbot Component", () => {
 
   test("opens chat window when button is clicked", () => {
     render(<Chatbot />);
+
+    // Run timers to complete entrance animation
+    act(() => {
+      vi.runAllTimers();
+    });
 
     const chatbotButton = screen.getByRole("button", {
       name: /open ai assistant/i,

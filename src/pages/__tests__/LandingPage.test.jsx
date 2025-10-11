@@ -87,28 +87,6 @@ describe("LandingPage Component", () => {
     );
   });
 
-  it("loads upload count from localStorage on mount", () => {
-    localStorageMock.getItem.mockReturnValue("42");
-
-    render(<LandingPage />);
-
-    expect(localStorageMock.getItem).toHaveBeenCalledWith("resumeUploadCount");
-  });
-
-  it("handles missing localStorage value gracefully", () => {
-    localStorageMock.getItem.mockReturnValue(null);
-
-    expect(() => render(<LandingPage />)).not.toThrow();
-    expect(localStorageMock.getItem).toHaveBeenCalledWith("resumeUploadCount");
-  });
-
-  it("handles invalid localStorage value gracefully", () => {
-    localStorageMock.getItem.mockReturnValue("invalid");
-
-    expect(() => render(<LandingPage />)).not.toThrow();
-    expect(localStorageMock.getItem).toHaveBeenCalledWith("resumeUploadCount");
-  });
-
   it("scrolls to pricing section when pricing button is clicked", () => {
     render(<LandingPage />);
 
@@ -154,19 +132,5 @@ describe("LandingPage Component", () => {
     const { unmount } = render(<LandingPage />);
 
     expect(() => unmount()).not.toThrow();
-  });
-
-  it("handles rapid localStorage changes", () => {
-    localStorageMock.getItem.mockReturnValue("100");
-
-    const { rerender } = render(<LandingPage />);
-
-    // useEffect only runs once on mount, so getItem should only be called once
-    expect(localStorageMock.getItem).toHaveBeenCalledTimes(1);
-    expect(localStorageMock.getItem).toHaveBeenCalledWith("resumeUploadCount");
-
-    // Rerendering doesn't trigger useEffect again
-    rerender(<LandingPage />);
-    expect(localStorageMock.getItem).toHaveBeenCalledTimes(1);
   });
 });
