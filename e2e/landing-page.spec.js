@@ -53,9 +53,13 @@ test.describe("Landing Page - Navigation", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
+    await page.waitForLoadState("networkidle");
   });
 
   test("should have navigation links", async ({ page }) => {
+    // Wait a bit for React to fully render
+    await page.waitForTimeout(1000);
+
     const links = page.getByRole("link");
     const linkCount = await links.count();
 

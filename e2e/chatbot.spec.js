@@ -8,7 +8,9 @@ test.describe("Chatbot - Toggle Functionality", () => {
   });
 
   test("should have chatbot toggle button", async ({ page }) => {
-    const toggleBtn = page.getByRole("button", { name: /chat|message|help/i });
+    const toggleBtn = page.getByRole("button", {
+      name: /chat|message|help|assistant/i,
+    });
     const chatIcon = page.locator('[class*="chat"], [class*="message"]');
 
     const btnCount = await toggleBtn.count();

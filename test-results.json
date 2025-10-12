@@ -87,7 +87,7 @@
     ],
     "shard": null,
     "updateSnapshots": "missing",
-    "updateSourceMethod": "3way",
+    "updateSourceMethod": "patch",
     "version": "1.56.0",
     "workers": 4,
     "webServer": {
@@ -98,539 +98,6 @@
     }
   },
   "suites": [
-    {
-      "title": "ats-analyzer.spec.js",
-      "file": "ats-analyzer.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "ATS Analyzer - Page Load",
-          "file": "ats-analyzer.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load ATS Analyzer page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4134,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:27.391Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-6f9c2bc1a7e876cb106b",
-              "file": "ats-analyzer.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 3925,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:27.384Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-8d43c4bf0587f0a1ef26",
-              "file": "ats-analyzer.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display file upload area",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4044,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:27.447Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-550c0e281f9ceffe5838",
-              "file": "ats-analyzer.spec.js",
-              "line": 24,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "ATS Analyzer - File Upload Interface",
-          "file": "ats-analyzer.spec.js",
-          "line": 35,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have file input element",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 4176,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:27.452Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-a960a77ddf7336ba026d",
-              "file": "ats-analyzer.spec.js",
-              "line": 41,
-              "column": 3
-            },
-            {
-              "title": "should display upload instructions",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 4591,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:32.111Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-63055080de1c830ac9cb",
-              "file": "ats-analyzer.spec.js",
-              "line": 55,
-              "column": 3
-            },
-            {
-              "title": "should show file size limit",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4513,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:32.207Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-88e9a3653462a47ebe77",
-              "file": "ats-analyzer.spec.js",
-              "line": 64,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "ATS Analyzer - Form Elements",
-          "file": "ats-analyzer.spec.js",
-          "line": 75,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have job description input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4541,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:32.296Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-24eb255dc506701449cc",
-              "file": "ats-analyzer.spec.js",
-              "line": 81,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in job description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 4711,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:32.344Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-a5c72d9887495eb1f542",
-              "file": "ats-analyzer.spec.js",
-              "line": 95,
-              "column": 3
-            },
-            {
-              "title": "should have analyze button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1666,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:36.732Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-ad6dcc363e63a3861bb5",
-              "file": "ats-analyzer.spec.js",
-              "line": 108,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "ATS Analyzer - Features Display",
-          "file": "ats-analyzer.spec.js",
-          "line": 120,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display features or benefits",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4963,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:36.751Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-4cd48bcfc7ffba6e3c9c",
-              "file": "ats-analyzer.spec.js",
-              "line": 126,
-              "column": 3
-            },
-            {
-              "title": "should show helpful tips",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1517,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:36.876Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-81a42b32926c541cde0d",
-              "file": "ats-analyzer.spec.js",
-              "line": 135,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "ATS Analyzer - Navigation",
-          "file": "ats-analyzer.spec.js",
-          "line": 146,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1362,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:37.083Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-72dad583f78b49f0e320",
-              "file": "ats-analyzer.spec.js",
-              "line": 147,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1949,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:38.418Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-9ef670100ff1879c3a92",
-              "file": "ats-analyzer.spec.js",
-              "line": 161,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "ATS Analyzer - Mobile Experience",
-          "file": "ats-analyzer.spec.js",
-          "line": 174,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 260,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:38.428Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "14daef22c984e7ef2cc5-09fd872aafe0c8d452ef",
-              "file": "ats-analyzer.spec.js",
-              "line": 175,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
     {
       "title": "chatbot.spec.js",
       "file": "chatbot.spec.js",
@@ -657,15 +124,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1797,
+                      "duration": 7119,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:38.486Z",
+                      "startTime": "2025-10-12T05:36:18.004Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -694,12 +161,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2633,
+                      "duration": 7034,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:38.737Z",
+                      "startTime": "2025-10-12T05:36:18.011Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -725,15 +192,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 5009,
+                      "duration": 6740,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:40.307Z",
+                      "startTime": "2025-10-12T05:36:18.031Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -742,6 +209,210 @@
                 }
               ],
               "id": "c66bd7d676c8947acb91-a807839785088e4162fd",
+              "file": "chatbot.spec.js",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "should have chatbot toggle button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22575,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:04.257Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-6a54d47b7e329afbf3f7",
+              "file": "chatbot.spec.js",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "should toggle chatbot on click",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 30911,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:04.343Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-15feb7742722543b44c8",
+              "file": "chatbot.spec.js",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "should close chatbot when clicking close",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 14153,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:04.314Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-ec0d75c5dee918054abd",
+              "file": "chatbot.spec.js",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "should have chatbot toggle button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5783,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:21.529Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-081d814eea10a20d5bdd",
+              "file": "chatbot.spec.js",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "should toggle chatbot on click",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6088,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:22.738Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-a6c80677a6d634690905",
+              "file": "chatbot.spec.js",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "should close chatbot when clicking close",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6290,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:23.678Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-bb21c050e0267d800f32",
               "file": "chatbot.spec.js",
               "line": 40,
               "column": 3
@@ -767,15 +438,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 5281,
+                      "duration": 7350,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:40.414Z",
+                      "startTime": "2025-10-12T05:36:18.098Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -801,15 +472,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4947,
+                      "duration": 7565,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:41.403Z",
+                      "startTime": "2025-10-12T05:36:25.883Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -835,15 +506,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 4423,
+                      "duration": 8657,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:41.763Z",
+                      "startTime": "2025-10-12T05:36:26.278Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -869,15 +540,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5878,
+                      "duration": 8149,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:45.367Z",
+                      "startTime": "2025-10-12T05:36:26.396Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -886,6 +557,278 @@
                 }
               ],
               "id": "c66bd7d676c8947acb91-bdc33348e6eb8b6fd9b1",
+              "file": "chatbot.spec.js",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have message input field",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 35006,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:04.044Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-7e543372aafe3283b574",
+              "file": "chatbot.spec.js",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "should allow typing in message input",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 24983,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:21.362Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-aacf284ae214b4ee2023",
+              "file": "chatbot.spec.js",
+              "line": 89,
+              "column": 3
+            },
+            {
+              "title": "should have send button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21829,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:33.417Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-56bf234baccce91fa23b",
+              "file": "chatbot.spec.js",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "send button should be enabled with text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 23474,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:43.794Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-7569c01df557956ac347",
+              "file": "chatbot.spec.js",
+              "line": 111,
+              "column": 3
+            },
+            {
+              "title": "should have message input field",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6658,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:22.553Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-6030743b99c94072ef7b",
+              "file": "chatbot.spec.js",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "should allow typing in message input",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 8515,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:30.195Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-f75836ae2a63a0d1337d",
+              "file": "chatbot.spec.js",
+              "line": 89,
+              "column": 3
+            },
+            {
+              "title": "should have send button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5748,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:30.419Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-622eb4681b69740f1213",
+              "file": "chatbot.spec.js",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "send button should be enabled with text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5500,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:30.600Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-df5661ce6c63b82668ed",
               "file": "chatbot.spec.js",
               "line": 111,
               "column": 3
@@ -911,15 +854,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 5640,
+                      "duration": 7718,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:45.733Z",
+                      "startTime": "2025-10-12T05:36:26.588Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -948,12 +891,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 7694,
+                      "duration": 5888,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:46.217Z",
+                      "startTime": "2025-10-12T05:36:33.520Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -962,6 +905,142 @@
                 }
               ],
               "id": "c66bd7d676c8947acb91-04b2bca73af9615b00f8",
+              "file": "chatbot.spec.js",
+              "line": 156,
+              "column": 3
+            },
+            {
+              "title": "should have messages container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 20817,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:45.174Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-0648d289ce646f822264",
+              "file": "chatbot.spec.js",
+              "line": 145,
+              "column": 3
+            },
+            {
+              "title": "should display welcome message",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 25408,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:46.700Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-fc75286677237f37bb27",
+              "file": "chatbot.spec.js",
+              "line": 156,
+              "column": 3
+            },
+            {
+              "title": "should have messages container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6915,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:30.943Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-96c8903b4b8971a2f3f7",
+              "file": "chatbot.spec.js",
+              "line": 145,
+              "column": 3
+            },
+            {
+              "title": "should display welcome message",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7340,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:36.272Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-4f46c1371f14a98f2808",
               "file": "chatbot.spec.js",
               "line": 156,
               "column": 3
@@ -987,15 +1066,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 5075,
+                      "duration": 4980,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:46.378Z",
+                      "startTime": "2025-10-12T05:36:34.391Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1021,15 +1100,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2291,
+                      "duration": 4415,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:51.300Z",
+                      "startTime": "2025-10-12T05:36:34.627Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1038,6 +1117,142 @@
                 }
               ],
               "id": "c66bd7d676c8947acb91-3a51863a7cb1b8b3dda9",
+              "file": "chatbot.spec.js",
+              "line": 183,
+              "column": 3
+            },
+            {
+              "title": "chatbot toggle should be keyboard accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 19841,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:37:55.679Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-46613623dfd1301cde15",
+              "file": "chatbot.spec.js",
+              "line": 172,
+              "column": 3
+            },
+            {
+              "title": "should have proper ARIA labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 12601,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:06.244Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-26da8cb72732ac83d92b",
+              "file": "chatbot.spec.js",
+              "line": 183,
+              "column": 3
+            },
+            {
+              "title": "chatbot toggle should be keyboard accessible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5581,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:36.347Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-771f459175c239f96c8b",
+              "file": "chatbot.spec.js",
+              "line": 172,
+              "column": 3
+            },
+            {
+              "title": "should have proper ARIA labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5185,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:38.038Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-912f50bff55c7f8e41f9",
               "file": "chatbot.spec.js",
               "line": 183,
               "column": 3
@@ -1063,15 +1278,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2045,
+                      "duration": 5667,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:51.401Z",
+                      "startTime": "2025-10-12T05:36:35.010Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1097,15 +1312,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2039,
+                      "duration": 4043,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:51.484Z",
+                      "startTime": "2025-10-12T05:36:39.110Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1131,15 +1346,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1707,
+                      "duration": 3457,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:53.467Z",
+                      "startTime": "2025-10-12T05:36:39.470Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1148,6 +1363,210 @@
                 }
               ],
               "id": "c66bd7d676c8947acb91-496a2adb8d8f218ce12e",
+              "file": "chatbot.spec.js",
+              "line": 217,
+              "column": 3
+            },
+            {
+              "title": "should be available on landing page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 15321,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:07.816Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-e3a9e06be7ac35f18c0b",
+              "file": "chatbot.spec.js",
+              "line": 197,
+              "column": 3
+            },
+            {
+              "title": "should be available on ATS Analyzer page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 13857,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:12.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-ddb4560c46d21318b64d",
+              "file": "chatbot.spec.js",
+              "line": 207,
+              "column": 3
+            },
+            {
+              "title": "should be available on Interview Prep page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15710,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:15.820Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-b6bb2aa7f188a011da96",
+              "file": "chatbot.spec.js",
+              "line": 217,
+              "column": 3
+            },
+            {
+              "title": "should be available on landing page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5408,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:38.963Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-f2f907451104e86caa34",
+              "file": "chatbot.spec.js",
+              "line": 197,
+              "column": 3
+            },
+            {
+              "title": "should be available on ATS Analyzer page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4933,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:42.089Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-7bd681030a0b2783a3f2",
+              "file": "chatbot.spec.js",
+              "line": 207,
+              "column": 3
+            },
+            {
+              "title": "should be available on Interview Prep page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5203,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:43.384Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c66bd7d676c8947acb91-88d5e167f4d977d4679f",
               "file": "chatbot.spec.js",
               "line": 217,
               "column": 3
@@ -1173,15 +1592,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 363,
+                      "duration": 546,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:53.547Z",
+                      "startTime": "2025-10-12T05:36:39.557Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1193,60 +1612,9 @@
               "file": "chatbot.spec.js",
               "line": 229,
               "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "hire-disk.spec.js",
-      "file": "hire-disk.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Hire Disk - Page Load",
-          "file": "hire-disk.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load Hire Disk page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1595,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:53.666Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-91ea378699643751eb5a",
-              "file": "hire-disk.spec.js",
-              "line": 10,
-              "column": 3
             },
             {
-              "title": "should display page heading",
+              "title": "should work on mobile devices",
               "ok": true,
               "tags": [],
               "tests": [
@@ -1254,19 +1622,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 6,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2651,
+                      "duration": 3102,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:53.965Z",
+                      "startTime": "2025-10-12T05:38:19.082Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1274,13 +1642,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "dfc071a7823b4467165c-5495c3f0367bfb8f238a",
-              "file": "hire-disk.spec.js",
-              "line": 15,
+              "id": "c66bd7d676c8947acb91-f15c43ac93d32fb146e7",
+              "file": "chatbot.spec.js",
+              "line": 229,
               "column": 3
             },
             {
-              "title": "should display main content",
+              "title": "should work on mobile devices",
               "ok": true,
               "tags": [],
               "tests": [
@@ -1288,171 +1656,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2057,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:53.980Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-af80e4ada1b1c23c741e",
-              "file": "hire-disk.spec.js",
-              "line": 24,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Features",
-          "file": "hire-disk.spec.js",
-          "line": 34,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display features or information",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2011,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:55.361Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-e1fc2fec5cb2ebe0fac8",
-              "file": "hire-disk.spec.js",
-              "line": 40,
-              "column": 3
-            },
-            {
-              "title": "should have interactive elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1803,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:55.289Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-3b376d47ac5d3be5d1cc",
-              "file": "hire-disk.spec.js",
-              "line": 47,
-              "column": 3
-            },
-            {
-              "title": "should have call-to-action elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1581,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:56.082Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-bf4f7c8af89b902c76e7",
-              "file": "hire-disk.spec.js",
-              "line": 57,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - User Interaction",
-          "file": "hire-disk.spec.js",
-          "line": 70,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should handle button clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
+                      "workerIndex": 11,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2309,
+                      "duration": 2177,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:13:56.644Z",
+                      "startTime": "2025-10-12T05:39:43.817Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1460,812 +1676,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "dfc071a7823b4467165c-7a331295174ba75f87fa",
-              "file": "hire-disk.spec.js",
-              "line": 76,
-              "column": 3
-            },
-            {
-              "title": "should handle navigation clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2296,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:57.117Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-26102f24d2f2a701f2d2",
-              "file": "hire-disk.spec.js",
-              "line": 90,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Layout",
-          "file": "hire-disk.spec.js",
-          "line": 100,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have header/navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1645,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:57.404Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-c58ccd6290016e57fc95",
-              "file": "hire-disk.spec.js",
-              "line": 106,
-              "column": 3
-            },
-            {
-              "title": "should have footer",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 4822,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:57.692Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-7b78f7651a0b04069735",
-              "file": "hire-disk.spec.js",
-              "line": 115,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Navigation",
-          "file": "hire-disk.spec.js",
-          "line": 125,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1773,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:58.984Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-3f2abf63d7e6b66cbd56",
-              "file": "hire-disk.spec.js",
-              "line": 126,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1301,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:59.079Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-c4bb5ed737c32c9bca5c",
-              "file": "hire-disk.spec.js",
-              "line": 140,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Mobile Experience",
-          "file": "hire-disk.spec.js",
-          "line": 153,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 3704,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:13:59.439Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-48f83c6c6c779f756e8f",
-              "file": "hire-disk.spec.js",
-              "line": 154,
-              "column": 3
-            },
-            {
-              "title": "should have mobile-friendly elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 256,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:00.405Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-ffac3176663b4de46765",
-              "file": "hire-disk.spec.js",
-              "line": 166,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "interview-prep.spec.js",
-      "file": "interview-prep.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Interview Prep - Page Load",
-          "file": "interview-prep.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load Interview Prep page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1581,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:00.714Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-01c78a55536c9489294d",
-              "file": "interview-prep.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1596,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:00.824Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-e2ce7848a899a17a916b",
-              "file": "interview-prep.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display page description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1714,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:02.319Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-3ff166e8900edf124d76",
-              "file": "interview-prep.spec.js",
-              "line": 24,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Input Fields",
-          "file": "interview-prep.spec.js",
-          "line": 34,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have job description input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1641,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:02.450Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-c0e02be43920b8b3b1f7",
-              "file": "interview-prep.spec.js",
-              "line": 40,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in job description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1578,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:02.572Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-dd4aac07587cf6ad3a83",
-              "file": "interview-prep.spec.js",
-              "line": 54,
-              "column": 3
-            },
-            {
-              "title": "should have role input field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2400,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:03.221Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-b127b83d525deb7dca96",
-              "file": "interview-prep.spec.js",
-              "line": 67,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Interview Type",
-          "file": "interview-prep.spec.js",
-          "line": 82,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have interview type options",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 2056,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:04.062Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-6183c7ebfc2f9575b056",
-              "file": "interview-prep.spec.js",
-              "line": 88,
-              "column": 3
-            },
-            {
-              "title": "should allow selecting interview type",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 2447,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:04.115Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-c7d913c3c4c4f5aea1bb",
-              "file": "interview-prep.spec.js",
-              "line": 97,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Generate Questions",
-          "file": "interview-prep.spec.js",
-          "line": 113,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have generate button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2032,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:04.184Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-bcb771a82e61f05a95ef",
-              "file": "interview-prep.spec.js",
-              "line": 119,
-              "column": 3
-            },
-            {
-              "title": "should enable generate button with input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1925,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:05.660Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-e845a71b6562ed831fa1",
-              "file": "interview-prep.spec.js",
-              "line": 130,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Features",
-          "file": "interview-prep.spec.js",
-          "line": 150,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display tips or best practices",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1586,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:06.142Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-deb84cfd724d2c0ac87a",
-              "file": "interview-prep.spec.js",
-              "line": 156,
-              "column": 3
-            },
-            {
-              "title": "should show features or examples",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1450,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:06.251Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-a02797cae345035f4341",
-              "file": "interview-prep.spec.js",
-              "line": 165,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Navigation",
-          "file": "interview-prep.spec.js",
-          "line": 176,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1723,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:06.587Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-9c8b7c2698cfd6ceeb8a",
-              "file": "interview-prep.spec.js",
-              "line": 177,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Interview Prep - Mobile Experience",
-          "file": "interview-prep.spec.js",
-          "line": 192,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1245,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:07.624Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "aab7f6505e378a4c9771-10b50f541f994de0e700",
-              "file": "interview-prep.spec.js",
-              "line": 193,
+              "id": "c66bd7d676c8947acb91-63981ae70b931d967780",
+              "file": "chatbot.spec.js",
+              "line": 229,
               "column": 3
             }
           ]
@@ -2301,12 +1714,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2419,
+                      "duration": 3190,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:07.755Z",
+                      "startTime": "2025-10-12T05:36:40.229Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2332,15 +1745,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2150,
+                      "duration": 4760,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:07.771Z",
+                      "startTime": "2025-10-12T05:36:40.911Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2366,15 +1779,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1899,
+                      "duration": 4205,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:08.345Z",
+                      "startTime": "2025-10-12T05:36:43.035Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2400,15 +1813,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2228,
+                      "duration": 4520,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:08.903Z",
+                      "startTime": "2025-10-12T05:36:43.449Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2434,15 +1847,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2072,
+                      "duration": 2870,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:09.948Z",
+                      "startTime": "2025-10-12T05:36:43.567Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2451,6 +1864,346 @@
                 }
               ],
               "id": "3e0fb330acbf3aa1aea3-ad0dc1448995e3373485",
+              "file": "landing-page.spec.js",
+              "line": 42,
+              "column": 3
+            },
+            {
+              "title": "should load landing page successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 12288,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:22.542Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-c2388c496cfc79908928",
+              "file": "landing-page.spec.js",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "should display navigation header",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 16729,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:23.837Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-01119bb6c78d31e84add",
+              "file": "landing-page.spec.js",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "should display hero section",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 18707,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:26.611Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-a87b5e964241516ef6a2",
+              "file": "landing-page.spec.js",
+              "line": 24,
+              "column": 3
+            },
+            {
+              "title": "should display main content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12808,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:31.944Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-873d60cc1f06c08da02f",
+              "file": "landing-page.spec.js",
+              "line": 33,
+              "column": 3
+            },
+            {
+              "title": "should display footer",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 12170,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:35.204Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-56116da2503748bba9a8",
+              "file": "landing-page.spec.js",
+              "line": 42,
+              "column": 3
+            },
+            {
+              "title": "should load landing page successfully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5447,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:44.540Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-62bda057cd8f118da69d",
+              "file": "landing-page.spec.js",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "should display navigation header",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5248,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:46.174Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-209ceb5e27648ce51775",
+              "file": "landing-page.spec.js",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "should display hero section",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5817,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:47.173Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-81586120138a879eaf03",
+              "file": "landing-page.spec.js",
+              "line": 24,
+              "column": 3
+            },
+            {
+              "title": "should display main content",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5605,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:48.820Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-76b6155b24f0bee62a1a",
+              "file": "landing-page.spec.js",
+              "line": 33,
+              "column": 3
+            },
+            {
+              "title": "should display footer",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 6030,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:50.160Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-c2ab9f17832acda9fc7e",
               "file": "landing-page.spec.js",
               "line": 42,
               "column": 3
@@ -2476,15 +2229,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2049,
+                      "duration": 6724,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:10.201Z",
+                      "startTime": "2025-10-12T05:36:46.009Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2494,7 +2247,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-6525a7b19d08a3974ab2",
               "file": "landing-page.spec.js",
-              "line": 58,
+              "line": 59,
               "column": 3
             },
             {
@@ -2510,15 +2263,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2127,
+                      "duration": 6874,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:10.271Z",
+                      "startTime": "2025-10-12T05:36:46.528Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2528,7 +2281,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-52cfa82203c5de0eea2f",
               "file": "landing-page.spec.js",
-              "line": 65,
+              "line": 69,
               "column": 3
             },
             {
@@ -2547,12 +2300,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 2398,
+                      "duration": 7047,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:11.156Z",
+                      "startTime": "2025-10-12T05:36:47.399Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2562,7 +2315,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-5231a126f78004205c06",
               "file": "landing-page.spec.js",
-              "line": 76,
+              "line": 80,
               "column": 3
             },
             {
@@ -2581,12 +2334,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2410,
+                      "duration": 7998,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:12.052Z",
+                      "startTime": "2025-10-12T05:36:48.118Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2596,7 +2349,279 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-a06b14f84c22a4add7c5",
               "file": "landing-page.spec.js",
-              "line": 87,
+              "line": 91,
+              "column": 3
+            },
+            {
+              "title": "should have navigation links",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 13672,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:40.782Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-956eb87b3224a287ad6d",
+              "file": "landing-page.spec.js",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "should navigate to ATS Analyzer",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9312,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:45.783Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-0b11e2090fe260949693",
+              "file": "landing-page.spec.js",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "should navigate to Interview Prep",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 9837,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:45.816Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-570dfe5516312ccb34c3",
+              "file": "landing-page.spec.js",
+              "line": 80,
+              "column": 3
+            },
+            {
+              "title": "should navigate to Role Suggestion",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 15151,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:47.766Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-46add8e62c234a477a96",
+              "file": "landing-page.spec.js",
+              "line": 91,
+              "column": 3
+            },
+            {
+              "title": "should have navigation links",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 9420,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:51.565Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-bc732e6fb89b9468423c",
+              "file": "landing-page.spec.js",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "should navigate to ATS Analyzer",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8960,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:53.083Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-835565949d9c66c727fc",
+              "file": "landing-page.spec.js",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "should navigate to Interview Prep",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6517,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:54.544Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-928760720d8d1c719133",
+              "file": "landing-page.spec.js",
+              "line": 80,
+              "column": 3
+            },
+            {
+              "title": "should navigate to Role Suggestion",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 7569,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:56.430Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-7a0116b8d21f65bcb176",
+              "file": "landing-page.spec.js",
+              "line": 91,
               "column": 3
             }
           ]
@@ -2604,7 +2629,7 @@
         {
           "title": "Landing Page - Features",
           "file": "landing-page.spec.js",
-          "line": 99,
+          "line": 103,
           "column": 6,
           "specs": [
             {
@@ -2620,15 +2645,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2106,
+                      "duration": 3728,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:12.277Z",
+                      "startTime": "2025-10-12T05:36:52.800Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2638,7 +2663,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-8581caaa821169aad40f",
               "file": "landing-page.spec.js",
-              "line": 106,
+              "line": 110,
               "column": 3
             },
             {
@@ -2654,15 +2679,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1963,
+                      "duration": 3414,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:12.426Z",
+                      "startTime": "2025-10-12T05:36:53.471Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2672,7 +2697,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-67f1327e36d691b02608",
               "file": "landing-page.spec.js",
-              "line": 115,
+              "line": 119,
               "column": 3
             },
             {
@@ -2691,12 +2716,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 3066,
+                      "duration": 5035,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:13.581Z",
+                      "startTime": "2025-10-12T05:36:54.523Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2706,7 +2731,211 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-82cbfba3102e2b3afaea",
               "file": "landing-page.spec.js",
-              "line": 129,
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should display features section",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 13252,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:54.750Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-b805fc24abff5db69fb3",
+              "file": "landing-page.spec.js",
+              "line": 110,
+              "column": 3
+            },
+            {
+              "title": "should display call-to-action buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13650,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:55.476Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-06eff98e39191c57ec19",
+              "file": "landing-page.spec.js",
+              "line": 119,
+              "column": 3
+            },
+            {
+              "title": "should have working scroll interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 13164,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:38:55.798Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-baf4ec84dd503bb88004",
+              "file": "landing-page.spec.js",
+              "line": 133,
+              "column": 3
+            },
+            {
+              "title": "should display features section",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6496,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:01.078Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-316fd240b63e06d03cfb",
+              "file": "landing-page.spec.js",
+              "line": 110,
+              "column": 3
+            },
+            {
+              "title": "should display call-to-action buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5977,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:01.264Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-d20365a4aa8b3b9379c6",
+              "file": "landing-page.spec.js",
+              "line": 119,
+              "column": 3
+            },
+            {
+              "title": "should have working scroll interactions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7446,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:02.161Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-dc3aa93de8bdc2c3ff81",
+              "file": "landing-page.spec.js",
+              "line": 133,
               "column": 3
             }
           ]
@@ -2714,7 +2943,7 @@
         {
           "title": "Landing Page - Mobile Responsive",
           "file": "landing-page.spec.js",
-          "line": 140,
+          "line": 144,
           "column": 6,
           "specs": [
             {
@@ -2730,15 +2959,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 302,
+                      "duration": 934,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:14.415Z",
+                      "startTime": "2025-10-12T05:36:56.190Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2748,7 +2977,75 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-85e19f2e5c3f4599a544",
               "file": "landing-page.spec.js",
-              "line": 141,
+              "line": 145,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5129,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:03.211Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-5a83440cdeb4fbf17cc6",
+              "file": "landing-page.spec.js",
+              "line": 145,
+              "column": 3
+            },
+            {
+              "title": "should be responsive on mobile viewport",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1688,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:04.219Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-8fd16a50e31d135dc554",
+              "file": "landing-page.spec.js",
+              "line": 145,
               "column": 3
             }
           ]
@@ -2756,7 +3053,7 @@
         {
           "title": "Landing Page - Performance",
           "file": "landing-page.spec.js",
-          "line": 157,
+          "line": 161,
           "column": 6,
           "specs": [
             {
@@ -2772,15 +3069,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2401,
+                      "duration": 2485,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:14.417Z",
+                      "startTime": "2025-10-12T05:36:56.657Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2790,7 +3087,7 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-19328a9b27b6ebb443ef",
               "file": "landing-page.spec.js",
-              "line": 158,
+              "line": 162,
               "column": 3
             },
             {
@@ -2806,15 +3103,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 2426,
+                      "duration": 3053,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:14.510Z",
+                      "startTime": "2025-10-12T05:36:56.976Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2824,932 +3121,11 @@
               ],
               "id": "3e0fb330acbf3aa1aea3-dacf25eb15f555a0167e",
               "file": "landing-page.spec.js",
-              "line": 167,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "role-suggestion.spec.js",
-      "file": "role-suggestion.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Role Suggestion - Page Load",
-          "file": "role-suggestion.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load Role Suggestion page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 2018,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:14.766Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-c3544c7b8a448865f111",
-              "file": "role-suggestion.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1500,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:16.699Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-16d8857e843ea761dc18",
-              "file": "role-suggestion.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display page description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1701,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:16.805Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9aa184306448c5c81642",
-              "file": "role-suggestion.spec.js",
-              "line": 26,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Input Fields",
-          "file": "role-suggestion.spec.js",
-          "line": 36,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have skills input field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1612,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:16.870Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-53343d328029942bb753",
-              "file": "role-suggestion.spec.js",
-              "line": 42,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in skills field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1659,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:16.983Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-813f4d1e720c611aeb88",
-              "file": "role-suggestion.spec.js",
-              "line": 54,
-              "column": 3
-            },
-            {
-              "title": "should have experience input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1464,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:18.225Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-38d64dfa7e009bcdc04e",
-              "file": "role-suggestion.spec.js",
-              "line": 76,
-              "column": 3
-            },
-            {
-              "title": "should have interests input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1454,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:18.506Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-b6d3861f5c3feb84014b",
-              "file": "role-suggestion.spec.js",
-              "line": 86,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Generate Suggestions",
-          "file": "role-suggestion.spec.js",
-          "line": 101,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have generate/submit button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1470,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:18.530Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-a4d1e8a68e3d1997dd92",
-              "file": "role-suggestion.spec.js",
-              "line": 107,
-              "column": 3
-            },
-            {
-              "title": "should validate required fields",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1478,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:18.668Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-bf5f7491ec00953cf065",
-              "file": "role-suggestion.spec.js",
-              "line": 118,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Features Display",
-          "file": "role-suggestion.spec.js",
-          "line": 131,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display features or benefits",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1502,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:19.720Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-701294a621377ec5e4dd",
-              "file": "role-suggestion.spec.js",
-              "line": 137,
-              "column": 3
-            },
-            {
-              "title": "should show helpful tips",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1670,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:19.984Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-aa1d96839de58994f0b3",
-              "file": "role-suggestion.spec.js",
-              "line": 146,
-              "column": 3
-            },
-            {
-              "title": "should have example roles or categories",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1657,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:20.028Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-e9f10830956de28d122a",
-              "file": "role-suggestion.spec.js",
-              "line": 156,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Navigation",
-          "file": "role-suggestion.spec.js",
-          "line": 166,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1842,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:20.167Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-4ec181a0f7aa8ac1c9e4",
-              "file": "role-suggestion.spec.js",
-              "line": 167,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1506,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:21.271Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9e26b166c390242087d5",
-              "file": "role-suggestion.spec.js",
-              "line": 181,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Mobile Experience",
-          "file": "role-suggestion.spec.js",
-          "line": 194,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 238,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:21.679Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-7617becf766a5d364850",
-              "file": "role-suggestion.spec.js",
-              "line": 195,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "smoke.spec.js",
-      "file": "smoke.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Smoke Test - Step 1 Verification",
-          "file": "smoke.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load the homepage",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1449,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:21.732Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "2c14808d47b386fba9eb-74c884f0b0add61e73d8",
-              "file": "smoke.spec.js",
-              "line": 5,
-              "column": 3
-            },
-            {
-              "title": "should have working navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1640,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:21.964Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "2c14808d47b386fba9eb-1a23f039b43fd91d4a33",
-              "file": "smoke.spec.js",
-              "line": 15,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "user-journeys.spec.js",
-      "file": "user-journeys.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "User Journey - New User Exploration",
-          "file": "user-journeys.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should complete new user exploration flow",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3384,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:22.058Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-54c06eeadff9b9cd79af",
-              "file": "user-journeys.spec.js",
-              "line": 5,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Resume Analysis Flow",
-          "file": "user-journeys.spec.js",
-          "line": 39,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate through resume analysis journey",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2366,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:22.838Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-c4007c1d79efde370bc1",
-              "file": "user-journeys.spec.js",
-              "line": 40,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Interview Preparation Flow",
-          "file": "user-journeys.spec.js",
-          "line": 71,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should complete interview preparation journey",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 2046,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:23.213Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-a98f0e6570c547538b35",
-              "file": "user-journeys.spec.js",
-              "line": 72,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Career Exploration Flow",
-          "file": "user-journeys.spec.js",
-          "line": 108,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should explore career suggestion features",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1900,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:23.636Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-97a2e19aa156b251c15f",
-              "file": "user-journeys.spec.js",
-              "line": 109,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Multi-Feature Navigation",
-          "file": "user-journeys.spec.js",
-          "line": 142,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate between multiple features",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 4208,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:25.226Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-a8554bc529c3175471eb",
-              "file": "user-journeys.spec.js",
-              "line": 143,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Chatbot Interaction",
-          "file": "user-journeys.spec.js",
-          "line": 170,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should interact with chatbot across pages",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 4417,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:25.290Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-db7d633741f8bb08c611",
-              "file": "user-journeys.spec.js",
               "line": 171,
               "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Complete Application Flow",
-          "file": "user-journeys.spec.js",
-          "line": 216,
-          "column": 6,
-          "specs": [
+            },
             {
-              "title": "should complete full application workflow",
+              "title": "should load within acceptable time",
               "ok": true,
               "tags": [],
               "tests": [
@@ -3757,61 +3133,19 @@
                   "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4311,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-11T16:14:25.469Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fa632f62551477bf86e7-3bc53efa10f46c8a0cfa",
-              "file": "user-journeys.spec.js",
-              "line": 217,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "User Journey - Error Recovery",
-          "file": "user-journeys.spec.js",
-          "line": 264,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should handle navigation errors gracefully",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
+                      "workerIndex": 4,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 3744,
+                      "duration": 6896,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-11T16:14:25.564Z",
+                      "startTime": "2025-10-12T05:39:08.372Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -3819,9 +3153,111 @@
                   "status": "expected"
                 }
               ],
-              "id": "fa632f62551477bf86e7-d7a52b618a338964f359",
-              "file": "user-journeys.spec.js",
-              "line": 265,
+              "id": "3e0fb330acbf3aa1aea3-9c26dd4a08f3320b4914",
+              "file": "landing-page.spec.js",
+              "line": 162,
+              "column": 3
+            },
+            {
+              "title": "should have no console errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6138,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:39:08.591Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-6ec5f6ae68ef4d1b0a4e",
+              "file": "landing-page.spec.js",
+              "line": 171,
+              "column": 3
+            },
+            {
+              "title": "should load within acceptable time",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4437,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:06.026Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-11d33eabb3c1519a14d0",
+              "file": "landing-page.spec.js",
+              "line": 162,
+              "column": 3
+            },
+            {
+              "title": "should have no console errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5962,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-12T05:40:07.349Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e0fb330acbf3aa1aea3-1dd921a2ad62ef54f458",
+              "file": "landing-page.spec.js",
+              "line": 171,
               "column": 3
             }
           ]
@@ -3831,9 +3267,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-10-11T16:13:24.081Z",
-    "duration": 66016.72500000003,
-    "expected": 97,
+    "startTime": "2025-10-12T05:36:09.305Z",
+    "duration": 245983.98799999998,
+    "expected": 90,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
