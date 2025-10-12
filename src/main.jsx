@@ -1,16 +1,28 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import ToastProvider from "@components/toast/ToastManager.jsx";
 import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
-import NotFound from "@pages/NotFound.jsx";
-import ATSAnalyzer from "@pages/ATSAnalyzer.jsx";
-import LandingPage from "@pages/LandingPage.jsx";
-import RoleSuggestion from "@pages/RoleSuggestion.jsx";
-import InterviewPrepAI from "@pages/InterviewPrepAI.jsx";
-import HireDisk from "@pages/HireDisk";
+import "@utils/performanceMonitor.js";
+
+const NotFound = lazy(() => import("@pages/NotFound.jsx"));
+const ATSAnalyzer = lazy(() => import("@pages/ATSAnalyzer.jsx"));
+const LandingPage = lazy(() => import("@pages/LandingPage.jsx"));
+const RoleSuggestion = lazy(() => import("@pages/RoleSuggestion.jsx"));
+const InterviewPrepAI = lazy(() => import("@pages/InterviewPrepAI.jsx"));
+const HireDisk = lazy(() => import("@pages/HireDisk"));
+
+// Loading component for Suspense fallback
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-slate-900">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
+      <p className="text-gray-300">Loading...</p>
+    </div>
+  </div>
+);
 
 const router = createBrowserRouter([
   {
@@ -20,29 +32,51 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <LandingPage />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <LandingPage />
+          </Suspense>
+        ),
       },
-
       {
         path: "role-suggestions",
-        element: <RoleSuggestion />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <RoleSuggestion />
+          </Suspense>
+        ),
       },
-
       {
         path: "interview-prepai",
-        element: <InterviewPrepAI />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <InterviewPrepAI />
+          </Suspense>
+        ),
       },
       {
         path: "ats-analyzer",
-        element: <ATSAnalyzer />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ATSAnalyzer />
+          </Suspense>
+        ),
       },
       {
         path: "hiredisk",
-        element: <HireDisk />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <HireDisk />
+          </Suspense>
+        ),
       },
       {
         path: "*",
-        element: <NotFound />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <NotFound />
+          </Suspense>
+        ),
       },
     ],
   },

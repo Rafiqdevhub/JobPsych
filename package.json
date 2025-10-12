@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:analyze": "vite build --mode analyze && npx vite-bundle-analyzer dist/assets/*.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
@@ -54,6 +55,7 @@
     "msw": "^2.11.3",
     "terser": "^5.40.0",
     "vite": "^6.3.5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

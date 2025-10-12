@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /// <reference types="vitest" />
-export default defineConfig(() => {
+export default defineConfig(({ mode: _mode }) => {
   return {
     plugins: [tailwindcss()],
     server: {
@@ -23,6 +23,22 @@ export default defineConfig(() => {
         "@hooks": path.resolve(__dirname, "./src/hooks"),
         "@test": path.resolve(__dirname, "./src/test"),
       },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Vendor chunks
+            "react-vendor": ["react", "react-dom", "react-router-dom"],
+            "ui-vendor": ["@heroicons/react", "@headlessui/react"],
+            "form-vendor": ["react-dropzone"],
+            "http-vendor": ["axios"],
+          },
+        },
+      },
+      // Performance budgets
+      chunkSizeWarningLimit: 1000, // Warn if chunks exceed 1000kb
+      reportCompressedSize: true,
     },
     test: {
       globals: true,
