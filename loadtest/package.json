@@ -1,0 +1,18 @@
+{
+  "name": "loadtest",
+  "version": "1.0.0",
+  "description": "Load and stress testing for JobPsych Frontend",
+  "scripts": {
+    "test:load": "artillery run artillery-config.yml",
+    "test:load:report": "artillery run artillery-config.yml --output report.json && artillery report report.json",
+    "test:k6": "k6 run k6-load-test.js",
+    "test:k6:cloud": "k6 cloud k6-load-test.js",
+    "test:stress": "playwright test stress-test.spec.js",
+    "test:memory": "playwright test memory-leak-test.spec.js --headed",
+    "test:all": "npm run test:load && npm run test:stress && npm run test:memory"
+  },
+  "devDependencies": {
+    "artillery": "^2.0.0",
+    "k6": "^0.0.0"
+  }
+}

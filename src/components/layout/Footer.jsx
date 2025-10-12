@@ -266,6 +266,13 @@ const Footer = () => {
               >
                 Terms of Service
               </NavigationButton>
+              <span className="mx-2">•</span>
+              <NavigationButton
+                to="/security-audit"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors duration-300 inline-block cursor-pointer"
+              >
+                Security Audit
+              </NavigationButton>
             </p>
           </div>
         </div>

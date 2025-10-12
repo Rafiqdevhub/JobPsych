@@ -1,0 +1,114 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    # Ramp up phase
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: "Ramp up load"
+    # Sustained load phase
+    - duration: 300
+      arrivalRate: 50
+      name: "Sustained load"
+    # Spike test phase
+    - duration: 60
+      arrivalRate: 100
+      name: "Spike test"
+  processor: "./load-test-processor.js"
+  plugins:
+    expect: {}
+    metrics-by-endpoint: {}
+  http:
+    timeout: 30
+  ensure:
+    maxErrorRate: 5 # Max 5% error rate
+    p95: 2000 # 95th percentile response time under 2s
+    p99: 5000 # 99th percentile response time under 5s
+
+scenarios:
+  # Test landing page load
+  - name: "Load Landing Page"
+    weight: 30
+    flow:
+      - get:
+          url: "/"
+          expect:
+            - statusCode: 200
+            - contentType: text/html
+            - hasHeader: "content-security-policy"
+      - think: 3
+
+  # Test role suggestions feature
+  - name: "Role Suggestions Journey"
+    weight: 20
+    flow:
+      - get:
+          url: "/role-suggestions"
+          expect:
+            - statusCode: 200
+      - think: 5
+      - post:
+          url: "/api/analyze-resume"
+          json:
+            file: "{{ $randomString() }}"
+            analysis_type: "role_suggestions"
+          capture:
+            - json: "$.success"
+              as: "success"
+      - think: 3
+
+  # Test ATS Analyzer
+  - name: "ATS Analyzer Journey"
+    weight: 20
+    flow:
+      - get:
+          url: "/ats-analyzer"
+          expect:
+            - statusCode: 200
+      - think: 5
+      - post:
+          url: "/api/analyze-resume"
+          json:
+            file: "{{ $randomString() }}"
+            analysis_type: "ats_score"
+      - think: 2
+
+  # Test Interview Prep
+  - name: "Interview Prep Journey"
+    weight: 15
+    flow:
+      - get:
+          url: "/interview-prepai"
+          expect:
+            - statusCode: 200
+      - think: 3
+
+  # Test AI Chat
+  - name: "AI Chat Interaction"
+    weight: 10
+    flow:
+      - get:
+          url: "/"
+      - think: 2
+      - post:
+          url: "/api/ai/chat"
+          json:
+            message: "{{ $randomString() }}"
+            sessionType: "general"
+          expect:
+            - statusCode: [200, 429] # Allow rate limiting
+      - think: 5
+
+  # Test Security Audit Dashboard
+  - name: "Security Audit Dashboard"
+    weight: 5
+    flow:
+      - get:
+          url: "/security-audit"
+          expect:
+            - statusCode: 200
+      - think: 2

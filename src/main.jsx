@@ -15,6 +15,9 @@ const InterviewPrepAI = lazy(() => import("@pages/InterviewPrepAI.jsx"));
 const HireDisk = lazy(() => import("@pages/HireDisk"));
 const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("@pages/TermsOfService.jsx"));
+const SecurityAuditDashboard = lazy(() =>
+  import("@components/security/SecurityAuditDashboard.jsx")
+);
 
 // Loading component for Suspense fallback
 const PageLoader = () => (
@@ -85,6 +88,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <TermsOfService />
+          </Suspense>
+        ),
+      },
+      {
+        path: "security-audit",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <SecurityAuditDashboard />
           </Suspense>
         ),
       },

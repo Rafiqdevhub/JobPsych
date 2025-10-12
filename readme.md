@@ -1,687 +1,143 @@
 # JobPsych Frontend
 
-A comprehensive AI-powered career development platform offering smart career guidance, resume optimization, interview preparation, and recruitment tools. Built with React 19, Vite, Tailwind CSS, and modern web technologies.
+JobPsych is a production-ready, AI-powered career development platform that helps candidates explore roles, tune resumes, and prepare for interviews while giving hiring teams collaboration tools. The project ships with hardened security, comprehensive QA coverage, and detailed operational playbooks.
 
-## Table of Contents
+---
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Quick Start](#-quick-start)
-- [Complete Application Workflow](#-complete-application-workflow)
-- [Project Structure](#-project-structure)
-- [Configuration](#-configuration)
-- [API Integration](#-api-integration)
-- [Component Architecture](#-component-architecture)
-- [User Journey](#-user-journey)
-- [Rate Limiting System](#-rate-limiting-system)
-- [Error Handling](#-error-handling)
-- [Deployment](#-deployment)
-- [Development Guide](#-development-guide)
-- [Troubleshooting](#-troubleshooting)
-- [Support](#-support)
+## Project Snapshot
 
-## Overview
+- **Status**: Production ready (Oct 12 2025)
+- **Core Features**: Role Suggestions, ATS Analyzer, InterviewPrep AI, HireDisk Pro, AI Chat Assistant, Security Audit Dashboard
+- **Performance**: 229 KB bundle (69 KB gzipped), ~5 s production build, ~2 s page load
+- **Quality**: 625+ automated tests, >80 % coverage, dedicated load/stress/memory suites
+- **Docs**: Full deployment & rollback guides, QA completion report, security operations manual
 
-JobPsych is a full-stack career development platform that helps job seekers optimize their resumes, prepare for interviews, and discover career opportunities. The platform integrates multiple AI-powered tools into a unified experience with modern UI/UX and enterprise-grade features.
+---
 
-## Features
+## Architecture Overview
 
-### AI-Powered Career Tools
+- **Framework**: React 19 + Vite 6 + React Router 7
+- **Styling**: Tailwind CSS 4 with design tokens, glassmorphism accents, responsive layout
+- **State & UX**: Context providers for auth/toasts, custom hooks, modular feature folders
+- **Testing Stack**: Vitest, Testing Library, Playwright (E2E, stress, memory), Artillery, K6
+- **Security & Monitoring**: CSP, hardened headers, rate limiting, security dashboard (`/security-audit`), performance monitor utilities
 
-- **Role Suggestions**: AI-driven career matching based on skills, personality, and market trends
-- **ATS Analyzer**: Resume optimization tool that ensures compatibility with Applicant Tracking Systems
-- **InterviewPrep AI**: Generate personalized interview questions and practice scenarios
-- **HireDisk Pro**: Advanced recruitment platform for HR professionals and hiring managers
+> See `PROJECT-SUMMARY.md` for a phase-by-phase breakdown, metrics, and deliverables.
 
-### Core Functionality
+---
 
-- **Resume Upload & Analysis**: Support for PDF, DOC, and DOCX files with drag-and-drop interface
-- **Real-time AI Analysis**: Instant feedback with detailed insights and improvement suggestions
-- **Custom Interview Questions**: Generate tailored questions based on resume content and job requirements
-- **Progress Tracking**: Monitor career development and interview preparation progress
-- **Multi-tier Subscription**: Flexible pricing plans (Free, Pro, Premium) with upgrade options
+## Feature Modules
 
-### User Experience
+| Route               | Description                                                   | Key Components                                                        |
+| ------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `/`                 | Landing experience, feature overview, testimonials, FAQ       | `HeroSection`, `FeaturesSection`, `FAQSection`, `TestimonialsSection` |
+| `/role-suggestions` | Resume-driven role matching with rate limits and insights     | `ResumeUpload`, `ResumeRateLimitInfo`, `RoleRecommendations`          |
+| `/ats-analyzer`     | Multi-platform ATS compatibility report with actionable fixes | `ATSAnalyzerResults`, `KeywordDensityChart`                           |
+| `/interview-prepai` | Question library, practice flow, progress tracking            | `InterviewPracticeBoard`, `ProgressSummary`                           |
+| `/hiredisk`         | Recruiter workspace with candidate tools (premium)            | `HireDiskDashboard`, `QuestionGenerator`                              |
+| `/security-audit`   | Real-time security posture, threat/event log                  | `SecurityAuditDashboard`                                              |
 
-- **Mobile-Responsive Design**: Optimized for all device sizes and screen resolutions
-- **Intuitive Navigation**: Clean, modern interface with smooth transitions
-- **Real-time Feedback**: Loading states, progress indicators, and instant results
-- **Comprehensive FAQ System**: Categorized help sections for all features
-- **Success Stories**: Testimonials showcasing real user experiences
-- **Progressive Web App**: Offline functionality with service worker support
+Static data lives in `src/data`, reusable UI in `src/components`, and feature routes in `src/pages`.
 
-### Security & Performance
+---
 
-- **Secure Authentication**: Clerk-powered authentication with token management
-- **File Type Validation**: Client-side and server-side verification for uploaded files
-- **Rate Limiting**: Intelligent usage limits with clear notifications and upgrade paths
-- **Error Boundaries**: Graceful error handling to prevent application crashes
-- **Optimized Performance**: Fast loading with Vite's optimized build process
-
-## Quick Start
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- Modern web browser with JavaScript enabled
+- Node.js ≥ 20, npm ≥ 10
+- Modern browser for local testing
 
-### Installation
+### Installation & Development
 
 ```bash
-# Clone the repository
-git clone
-cd
-
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
+npm run dev       # http://localhost:3000
+npm run lint      # ESLint
+npm run build     # Production build
+npm run preview   # Serve dist/ locally
 ```
 
-### Available Scripts
+Environment overrides go in `.env` (e.g. `VITE_AI_API_URL`, `VITE_RESUME_API_URL`). Refer to `PRODUCTION-DEPLOYMENT-GUIDE.md` for the full variable matrix.
+
+---
+
+## Testing & Quality Assurance
+
+| Command                                    | Purpose                                                     |
+| ------------------------------------------ | ----------------------------------------------------------- |
+| `npm run test`                             | Unit suite (Vitest + Testing Library)                       |
+| `npm run test:integration`                 | Integration scenarios                                       |
+| `npm run test:e2e` / `npm run test:e2e:ui` | Playwright journeys (CLI/UI mode)                           |
+| `npm run test:stress`                      | Playwright stress scenarios (`e2e/stress-test.spec.js`)     |
+| `npm run test:memory`                      | Long-haul memory profiling (`e2e/memory-leak-test.spec.js`) |
+| `npm run test:qa`                          | PowerShell orchestrated QA suite (`run-qa-suite.ps1`)       |
+
+Additional tooling lives in `loadtest/`:
+
+- `artillery-config.yml` + `load-test-processor.js`
+- `k6-load-test.js`
+
+Run these against a live dev server. Results roll up into the QA reports captured in `PHASE-6-FINAL-QA-COMPLETE.md`.
+
+---
+
+## Deployment & Operations
+
+Use the dedicated manuals for end-to-end instructions:
+
+- `PRODUCTION-DEPLOYMENT-GUIDE.md` – preflight checklist, environment setup, platform-specific deploys (Vercel, Netlify, AWS, Docker)
+- `ROLLBACK-STRATEGY.md` – incident response runbooks, platform rollback recipes, post-mortem templates
+- `PROJECT-SUMMARY.md` – release readiness snapshot, KPIs, acceptance criteria
+
+Key commands:
 
 ```bash
-npm run dev      # Start development server (usually http://localhost:3000)
-npm run build    # Build for production
-npm run preview  # Preview production build locally
-npm run lint     # Run ESLint code analysis
-```
-
-## 🔄 Complete Application Workflow
-
-### Application Architecture
+npm run build    # Creates dist/
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        JobPsych Platform                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐           │
-│  │   Landing   │  │     Role     │  │  Interview   │           │
-│  │    Page     │→│  Suggestions │  │   Prep AI    │           │
-│  └─────────────┘  └──────────────┘  └──────────────┘           │
-│                                                                   │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐           │
-│  │     ATS     │  │   HireDisk   │  │   Chatbot    │           │
-│  │   Analyzer  │  │              │  │  (Support)   │           │
-│  └─────────────┘  └──────────────┘  └──────────────┘           │
-│                                                                   │
-└─────────────────────────────────────────────────────────────────┘
-                            ↓
-        ┌───────────────────────────────────────┐
-        │      Backend AI Services              │
-        ├───────────────────────────────────────┤
-        │  • Resume Analysis API                │
-        │  • Career Coaching AI                 │
-        │  • Interview Question Generator       │
-        │  • ATS Compatibility Checker          │
-        └───────────────────────────────────────┘
-```
 
-### User Journey Flow
-
-#### 1. **Landing Page** (`/`)
-
-**Entry Point & Discovery**
-
-```
-User Visits → Sees Hero Section → Explores Features → Views FAQ
-                                        ↓
-                        Chooses Tool → Navigates to Feature
-```
-
-**Key Components:**
-
-- `HeroSection`: Main call-to-action with animated gradients
-- `FeaturesSection`: Showcases all 4 main tools with icons
-- `FAQSection`: Answers common questions about each tool
-- `TestimonialsSection`: Social proof from real users
-- `Footer`: Quick navigation and contact information
-- `Header`: Global navigation with authentication support
-
-**Features:**
-
-- Mobile-responsive design with glassmorphism effects
-- Smooth scroll animations and transitions
-- Real-time feature cards with hover effects
-- SEO-optimized with meta tags and structured data
+Docker support (`Dockerfile`, `docker-compose.yml`, `nginx.conf`) enables containerized rollouts; GitHub Actions under `.github/workflows/` provide CI hooks.
 
 ---
 
-#### 2. **Role Suggestions** (`/role-suggestions`)
+## Security & Compliance
 
-**AI-Powered Career Guidance (100% Free)**
+- Strict Content Security Policy and hardened headers (see `nginx.conf`)
+- Client and server-side rate limiting with rich UX feedback (`resumeRateLimitService.js`)
+- Toast-driven error UX, error boundaries, and fallback components for resilience
+- Privacy & legal surfaces: `PrivacyPolicy.jsx`, `TermsOfService.jsx`, cookie consent banner
+- Monitoring entry point: `/security-audit` dashboard + `@utils/performanceMonitor`
 
-**Workflow:**
-
-```
-Upload Resume → (Optional) Add Target Role/Job Description → Analyze
-                                    ↓
-            AI Processing (5-15 seconds) → Display Results
-                                    ↓
-        ┌─────────────────────────┬──────────────────────────┐
-        │  Role Recommendations   │   Skill Analysis         │
-        │  - Job Titles           │   - Technical Skills     │
-        │  - Industry Match       │   - Soft Skills          │
-        │  - Seniority Level      │   - Certifications       │
-        └─────────────────────────┴──────────────────────────┘
-```
-
-**Key Features:**
-
-- **Rate Limiting**: 5 analyses per day (resets at midnight UTC)
-  - Visual quota display in header (X/5 analyses left)
-  - Color-coded status indicator (green/amber/red)
-  - Hover tooltip with detailed information
-  - Modal notification when limit reached
-  - Countdown timer for reset
-- **File Upload**:
-  - Drag & drop interface with visual feedback
-  - Supported formats: PDF, DOC, DOCX
-  - File size validation
-  - Real-time upload progress
-- **Optional Inputs**:
-  - Target Role: Specify desired position
-  - Job Description: Paste job posting for better matching
-- **Analysis Results**:
-  - Top 3 recommended roles with match scores
-  - Skills breakdown (technical, soft, certifications)
-  - Career path suggestions
-  - Industry insights
-  - Salary expectations
-- **UI Components**:
-  - Animated gradient backgrounds
-  - Glassmorphism cards
-  - Pulsing status indicators
-  - Responsive grid layout
-
-**Technical Implementation:**
-
-```javascript
-// Rate Limiting Check
-const rateLimitInfo = getResumeAnalysisRateLimit();
-if (rateLimitInfo.remaining <= 0) {
-  showRateLimitModal(); // Display upgrade modal
-  return;
-}
-
-// File Upload
-const formData = new FormData();
-formData.append("resume", file);
-formData.append("targetRole", targetRole);
-formData.append("jobDescription", jobDescription);
-
-// API Call
-const response = await fetch(ANALYZE_RESUME, {
-  method: "POST",
-  body: formData,
-});
-
-// Increment Counter
-incrementResumeAnalysisCount();
-
-// Display Results
-setRoleRecommendations(response.data.recommendations);
-```
+`SECURITY-AUDIT-GUIDE.md` and `SECURITY-DASHBOARD-QUICKSTART.md` document day-two operations.
 
 ---
 
-#### 3. **InterviewPrep AI** (`/interview-prepai`)
+## Documentation Index
 
-**AI Interview Practice Platform (Free)**
-
-**Workflow:**
-
-```
-Select Category → Review Sample Questions → Practice Recording
-                                    ↓
-                    Track Progress → Get Feedback → Improve
-```
-
-**Key Features:**
-
-- **Question Categories**:
-  - Technical Skills
-  - Behavioral
-  - Situational
-  - Leadership
-  - Industry-Specific
-- **Practice Mode**:
-  - Recording simulation with timer
-  - Question randomization
-- **Progress Tracking**:
-  - Questions practiced
-  - Time spent
-  - Confidence ratings
-  - Weak areas identification
-- **AI Feedback**:
-  - Answer structure analysis
-  - Key points identification
-  - Improvement suggestions
-  - Best practice tips
-
-**Components:**
-
-- Interactive question cards
-- Recording interface
-- Progress dashboard
-- Performance analytics
-- Tips and resources section
+| Doc                              | Focus                                          |
+| -------------------------------- | ---------------------------------------------- |
+| `PROJECT-SUMMARY.md`             | High-level status, metrics, phase deliverables |
+| `PRODUCTION-DEPLOYMENT-GUIDE.md` | Deployment procedures & checklists             |
+| `ROLLBACK-STRATEGY.md`           | Incident management, rollback playbook         |
+| `PHASE-6-FINAL-QA-COMPLETE.md`   | Final QA evidence & reporting                  |
+| `DOCKER.md`                      | Container build/run notes                      |
+| `WORKFLOW.md`                    | API catalogue, feature integration workflows   |
+| `test-docs/…`                    | E2E planning, execution reports                |
 
 ---
 
-#### 4. **ATS Analyzer** (`/ats-analyzer`)
+## Support
 
-**Resume Optimization Tool**
-
-**Workflow:**
-
-```
-Upload Resume → (Optional) Add Job Description → Analyze
-                                    ↓
-                    ATS Compatibility Check (Multiple Platforms)
-                                    ↓
-        ┌──────────────────────────────────────────────┐
-        │  Compatibility Scores by Platform:           │
-        │  • Workday: 85%                              │
-        │  • Greenhouse: 78%                           │
-        │  • LinkedIn: 92%                             │
-        │  • Taleo: 88%                                │
-        └──────────────────────────────────────────────┘
-                                    ↓
-        ┌──────────────────────────────────────────────┐
-        │  Optimization Recommendations:               │
-        │  • Add missing keywords                      │
-        │  • Improve formatting                        │
-        │  • Fix parsing issues                        │
-        │  • Enhance skill descriptions                │
-        └──────────────────────────────────────────────┘
-```
-
-**Key Features:**
-
-- **Multi-Platform Analysis**:
-  - Workday compatibility
-  - Greenhouse optimization
-  - Lever parsing
-- **Keyword Optimization**:
-  - Industry-specific keywords
-  - Role-relevant skills
-  - Action verbs suggestions
-  - Buzzword warnings
-- **Formatting Check**:
-  - Section structure validation
-  - Header/footer issues
-  - Table/column detection
-  - Font and spacing recommendations
-- **Scoring System**:
-  - Overall ATS score (0-100)
-  - Platform-specific scores
-  - Category breakdowns
-  - Improvement priority list
-
-**Components:**
-
-- Upload interface with preview
-- Multi-platform score cards
-- Keyword density chart
-- Formatting issue list
-- Before/after comparison
-- Downloadable report
+- **Email**: `rafkhan9323@gmail.com`
+- **Issue Template**: See “Report an Issue” section in `WORKFLOW.md`
+- **Rate Limit Extensions**: Contact support with intended usage and SLA needs
 
 ---
 
-#### 5. **HireDisk** (`/hiredisk`)
+## License
 
-**Premium Recruitment Platform (Pro/Premium)**
-
-**Workflow:**
-
-```
-HR Professional Login → Upload Candidate Resumes → Generate Questions
-                                    ↓
-        ┌────────────────────────────────────────────┐
-        │  AI-Generated Interview Questions:         │
-        │  • Role-specific questions                 │
-        │  • Skill assessment queries                │
-        │  • Cultural fit questions                  │
-        │  • Technical challenges                    │
-        └────────────────────────────────────────────┘
-                                    ↓
-        Schedule Interviews → Track Candidates → Make Decisions
-```
-
-**Key Features:**
-
-- **Candidate Management**:
-  - Bulk resume upload
-  - Candidate database
-  - Status tracking
-  - Notes and ratings
-- **Question Generation**:
-  - AI-powered question creation
-  - Customizable templates
-  - Industry-specific questions
-  - Difficulty adjustment
-- **Interview Scheduling**:
-  - Calendar integration
-  - Email notifications
-  - Reminder system
-  - Time zone handling
-- **Team Collaboration**:
-  - Multi-user access
-  - Feedback sharing
-  - Decision workflows
-  - Analytics dashboard
-
----
-
-### Global Features (All Pages)
-
-#### Chatbot Support
-
-**AI-Powered Help Assistant**
-
-```
-User Click → Chatbot Opens → Ask Question → Get Answer
-                                    ↓
-            Complex Query → Escalate to Human Support
-```
-
-**Features:**
-
-- Context-aware responses
-- Quick action buttons
-- Feature navigation
-- Contact form integration
-- 24/7 availability
-
-**Implementation:**
-
-```javascript
-// Chatbot Component
-<Chatbot
-  position="bottom-right"
-  greeting="Hi! How can I help you today?"
-  suggestions={[
-    "How does rate limiting work?",
-    "What file formats are supported?",
-    "How to upgrade my plan?",
-  ]}
-/>
-```
-
-#### Navigation System
-
-**Seamless Multi-Page Navigation**
-
-```
-┌──────────────────────────────────────┐
-│  Header (Sticky)                     │
-│  ┌────────────────────────────────┐  │
-│  │ Logo │ Features │ Auth │ Menu │  │
-│  └────────────────────────────────┘  │
-└──────────────────────────────────────┘
-                ↓
-┌──────────────────────────────────────┐
-│  Main Content Area                   │
-│  (Route-specific component)          │
-└──────────────────────────────────────┘
-                ↓
-┌──────────────────────────────────────┐
-│  Footer                              │
-│  ┌────────────────────────────────┐  │
-│  │ Quick Links │ Features │ Legal │  │
-│  └────────────────────────────────┘  │
-└──────────────────────────────────────┘
-```
-
-**Components:**
-
-- `Header`: Sticky navigation with authentication
-- `Footer`: Quick access to all features
-- `NavigationButton`: Reusable navigation component
-- `ErrorBoundary`: Graceful error handling
-
----
-
-### Data Flow Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    React Frontend                        │
-│                                                          │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────┐ │
-│  │   UI Layer   │←──→│  State Mgmt  │←──→│  Storage │ │
-│  │  (Components)│    │   (Context)  │    │(localStorage)│
-│  └──────────────┘    └──────────────┘    └──────────┘ │
-│         ↕                    ↕                          │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │          API Communication Layer                  │ │
-│  │  • Rate Limit Service                            │ │
-│  │  • Error Handler                                 │ │
-│  │  • Request Interceptors                          │ │
-│  └──────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-                         ↕
-┌─────────────────────────────────────────────────────────┐
-│                  Backend Services                        │
-│                                                          │
-│  ┌──────────────┐    ┌──────────────┐                  │
-│  │ Resume API   │    │  Career AI   │                  │
-│  │ (Vercel)     │    │  (Gemini)    │                  │
-│  └──────────────┘    └──────────────┘                  │
-│                                                          │
-│  ┌──────────────┐    ┌──────────────┐                  │
-│  │  ATS Engine  │    │  Interview   │                  │
-│  │              │    │  Generator   │                  │
-│  └──────────────┘    └──────────────┘                  │
-└─────────────────────────────────────────────────────────┘
-```
-
-### State Management
-
-**Context Providers:**
-
-- `AuthContext`: User authentication state
-- `ToastProvider`: Global notifications
-- `ErrorBoundary`: Application-level error handling
-
-**Local Storage:**
-
-- `resume_analysis_rate_limit`: Rate limiting data
-- `authUser`: User profile information
-- `authAccessToken`: JWT access token
-- `authRefreshToken`: Refresh token
-
-**Session State:**
-
-- Component-level state (useState)
-- Form data (controlled inputs)
-- UI state (modals, dropdowns, loading)
-
----
-
-### Performance Optimizations
-
-```
-Build Time:
-├── Vite Code Splitting
-├── Tree Shaking
-├── CSS Purging (Tailwind)
-└── Asset Optimization
-
-Runtime:
-├── Lazy Loading Components
-├── Debounced Input Handlers
-├── Memoized Calculations
-├── Optimized Re-renders
-└── Image Lazy Loading
-
-Network:
-├── Request Batching
-├── Response Caching
-├── API Rate Limiting
-└── CDN Asset Delivery
-```
-
-## Project Structure
-
-```text
-jobpsych-frontend/
-├── public/                    # Static assets
-│   ├── favicon.ico           # App favicon
-│   └── logo.png              # Brand logo
-│
-├── src/
-│   ├── components/           # React components organized by feature
-│   │   ├── buttons/
-│   │   │   └── NavigationButton.jsx    # Reusable navigation button
-│   │   ├── error/
-│   │   │   ├── ErrorBoundary.jsx       # Global error boundary
-│   │   │   ├── LoadingError.jsx        # Loading state errors
-│   │   │   ├── NetworkError.jsx        # Network failure handler
-│   │   │   └── RateLimitError.jsx      # Rate limit notifications
-│   │   ├── faq/
-│   │   │   ├── FAQDropdown.jsx         # Collapsible FAQ item
-│   │   │   └── FAQSection.jsx          # FAQ container
-│   │   ├── features/
-│   │   │   └── FeaturesSection.jsx     # Features showcase
-│   │   ├── hero/
-│   │   │   └── HeroSection.jsx         # Landing page hero
-│   │   ├── layout/
-│   │   │   ├── Footer.jsx              # Global footer
-│   │   │   └── Header.jsx              # Global header
-│   │   ├── resume/
-│   │   │   ├── ResumeUpload.jsx        # File upload component
-│   │   │   ├── ResumeRateLimitInfo.jsx # Rate limit display
-│   │   │   └── ResumeRateLimitError.jsx# Limit reached modal
-│   │   ├── testimonials/
-│   │   │   └── TestimonialsSection.jsx # User testimonials
-│   │   ├── toast/
-│   │   │   ├── Toast.jsx               # Toast notification
-│   │   │   ├── SimpleToast.jsx         # Fallback toast
-│   │   │   └── ToastManager.jsx        # Toast provider
-│   │   ├── Chatbot.jsx                 # AI support chatbot
-│   │   └── TypewriterText.jsx          # Animated text effect
-│   │
-│   ├── context/
-│   │   └── AuthContext.jsx             # Authentication context
-│   │
-│   ├── data/                           # Static data files
-│   │   ├── atsAnalyzerFeatures.js      # ATS feature data
-│   │   ├── candidateTips.js            # Resume tips
-│   │   ├── enhancePlan.js              # Pricing plans
-│   │   ├── faqs.js                     # FAQ content
-│   │   ├── features.js                 # Platform features
-│   │   ├── hireSuggestions.js          # Hiring tips
-│   │   ├── roleSuggetionsFeatures.js   # Role features
-│   │   └── testimonials.js             # User testimonials
-│   │
-│   ├── hooks/
-│   │   ├── useToast.js                 # Toast notification hook
-│   │   └── useUserManager.js           # User management hook
-│   │
-│   ├── pages/                          # Route pages
-│   │   ├── ATSAnalyzer.jsx             # ATS analyzer page
-│   │   ├── HireDisk.jsx                # HireDisk platform
-│   │   ├── InterviewPrepAI.jsx         # Interview practice
-│   │   ├── LandingPage.jsx             # Home page
-│   │   ├── NotFound.jsx                # 404 page
-│   │   └── RoleSuggestion.jsx          # Resume analysis
-│   │
-│   ├── utils/                          # Utility functions
-│   │   ├── api.js                      # API endpoints config
-│   │   ├── errorHandler.js             # Error utilities
-│   │   ├── paymentService.js           # Payment integration
-│   │   ├── rateLimitService.js         # Rate limit tracking
-│   │   ├── resumeRateLimitService.js   # Resume-specific limits
-│   │   └── userManager.js              # User management
-│   │
-│   ├── App.jsx                         # Root component
-│   ├── main.jsx                        # App entry point
-│   └── index.css                       # Global styles
-│
-├── .github/
-│   ├── copilot-instructions.md         # AI assistant guide
-│   └── workflows/                      # GitHub Actions
-│       └── dockerhub-push-image.yml    # Docker build workflow
-│
-├── docker-compose.yml                  # Docker Compose config
-├── Dockerfile                          # Docker build config
-├── nginx.conf                          # Nginx server config
-├── vercel.json                         # Vercel deployment config
-├── vite.config.js                      # Vite configuration
-├── tailwind.config.js                  # Tailwind CSS config
-├── eslint.config.js                    # ESLint configuration
-├── package.json                        # Dependencies
-├── DOCKER.md                           # Docker documentation
-└── readme.md                           # This file
-```
-
-## Component Architecture
-
-### Core Components
-
-#### 1. **Page Components** (`src/pages/`)
-
-**LandingPage.jsx**
-
-- Purpose: Main entry point and feature showcase
-- Features: Hero, Features, FAQ, Testimonials
-- Navigation: Links to all tools
-- SEO: Optimized meta tags and structured data
-
-**RoleSuggestion.jsx**
-
-- Purpose: Resume analysis and career matching
-- State Management: Rate limiting, file upload, analysis results
-- Key Features:
-  - Resume upload with drag & drop
-  - Optional target role and job description
-  - Rate limiting (5/day) with visual indicators
-  - AI-powered role recommendations
-  - Skill gap analysis
-- Dependencies: ResumeUpload, ResumeRateLimitInfo, ResumeRateLimitError
-
-**InterviewPrepAI.jsx**
-
-- Purpose: Interview practice and preparation
-- Features:
-  - Sample question library
-  - Recording simulation
-  - Progress tracking
-  - Performance analytics
-- Components: Question cards, recording interface, progress dashboard
-
-**ATSAnalyzer.jsx**
-
-- Purpose: Resume ATS compatibility checking
-- Features:
-  - Multi-platform ATS testing
-  - Keyword optimization
-  - Formatting recommendations
-  - Compatibility scoring
-- Output: Detailed analysis report with actionable items
-
-**HireDisk.jsx**
-
-- Purpose: Professional recruitment platform
-- Target: HR professionals and hiring managers
-- Features:
-  - Candidate management
-  - Interview question generation
-  - Team collaboration
-  - Analytics dashboard
-
-**NotFound.jsx**
-
-- Purpose: 404 error page
-- Design: Matches app theme with helpful navigation
-- Features: Quick links back to main pages
-
----
+Private & proprietary. All rights reserved.
 
 #### 2. **Layout Components** (`src/components/layout/`)
 
