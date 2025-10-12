@@ -253,13 +253,19 @@ const Footer = () => {
               <span className="mx-2">•</span>
               Your data remains private and protected.
               <span className="mx-2">•</span>
-              <span className="text-indigo-400 hover:text-indigo-300 cursor-pointer transition-colors duration-300">
+              <NavigationButton
+                to="/privacy-policy"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors duration-300 inline-block cursor-pointer"
+              >
                 Privacy Policy
-              </span>
+              </NavigationButton>
               <span className="mx-2">•</span>
-              <span className="text-indigo-400 hover:text-indigo-300 cursor-pointer transition-colors duration-300">
+              <NavigationButton
+                to="/terms-of-service"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors duration-300 inline-block cursor-pointer"
+              >
                 Terms of Service
-              </span>
+              </NavigationButton>
             </p>
           </div>
         </div>

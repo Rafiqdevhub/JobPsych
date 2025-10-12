@@ -48,7 +48,7 @@ export const trackPageLoad = () => {
 
   // Log performance metrics
   if (isDevelopment) {
-    console.warn("🚀 JobPsych Performance Metrics:");
+    console.warn("JobPsych Performance Metrics:");
     console.warn(`Initial page load: ${loadTime.toFixed(2)}ms`);
   }
 

@@ -1,0 +1,48 @@
+# Robots.txt for JobPsych
+# https://jobpsych.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+
+# Disallow access to admin areas (if any)
+Disallow: /admin/
+Disallow: /api/admin/
+
+# Disallow access to private user data
+Disallow: /api/user/
+Disallow: /api/private/
+
+# Disallow access to development/test files
+Disallow: /test/
+Disallow: /tests/
+Disallow: /coverage/
+Disallow: /e2e/
+
+# Allow access to sitemap
+Allow: /sitemap.xml
+
+# Crawl delay to be respectful to our servers
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block unwanted bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

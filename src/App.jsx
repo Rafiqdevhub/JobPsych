@@ -2,6 +2,7 @@ import "./index.css";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Chatbot from "./components/Chatbot";
+import CookieConsentBanner from "./components/privacy/CookieConsentBanner";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
 
       <Outlet />
       <Chatbot />
+      <CookieConsentBanner />
     </div>
   );
 };

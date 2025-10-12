@@ -13,6 +13,8 @@ const LandingPage = lazy(() => import("@pages/LandingPage.jsx"));
 const RoleSuggestion = lazy(() => import("@pages/RoleSuggestion.jsx"));
 const InterviewPrepAI = lazy(() => import("@pages/InterviewPrepAI.jsx"));
 const HireDisk = lazy(() => import("@pages/HireDisk"));
+const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy.jsx"));
+const TermsOfService = lazy(() => import("@pages/TermsOfService.jsx"));
 
 // Loading component for Suspense fallback
 const PageLoader = () => (
@@ -67,6 +69,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <HireDisk />
+          </Suspense>
+        ),
+      },
+      {
+        path: "privacy-policy",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <PrivacyPolicy />
+          </Suspense>
+        ),
+      },
+      {
+        path: "terms-of-service",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <TermsOfService />
           </Suspense>
         ),
       },
