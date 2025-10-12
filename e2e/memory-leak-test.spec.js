@@ -409,7 +409,7 @@ test.describe("Long-Running Session Stability", () => {
         await expect(page.locator("body")).toBeVisible({ timeout: 10000 });
       } catch (error) {
         errorCount++;
-        // eslint-disable-next-line no-console
+
         console.error(`Error during long session: ${error}`);
       }
     }

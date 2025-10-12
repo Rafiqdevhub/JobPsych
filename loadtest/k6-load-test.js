@@ -1,3 +1,4 @@
+/* global __ENV */
 import http from "k6/http";
 import { check, sleep, group } from "k6";
 import { Rate, Trend, Counter } from "k6/metrics";
@@ -27,7 +28,10 @@ export const options = {
   },
 };
 
-const BASE_URL = __ENV.BASE_URL || "http://localhost:3000";
+const BASE_URL =
+  typeof __ENV !== "undefined" && __ENV.BASE_URL
+    ? __ENV.BASE_URL
+    : "http://localhost:3000";
 
 // Utility function to check response
 function checkResponse(response, checkName) {
@@ -218,8 +222,8 @@ function securityAuditJourney() {
 
 // Setup function - runs once at the start
 export function setup() {
-  console.log(`Starting load test against ${BASE_URL}`);
-  console.log(
+  console.warn(`Starting load test against ${BASE_URL}`);
+  console.warn(
     `Test will simulate ${options.stages.reduce(
       (max, stage) => Math.max(max, stage.target),
       0
@@ -228,6 +232,6 @@ export function setup() {
 }
 
 // Teardown function - runs once at the end
-export function teardown(data) {
-  console.log("Load test completed");
+export function teardown(_data) {
+  console.warn("Load test completed");
 }

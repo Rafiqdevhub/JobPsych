@@ -64,4 +64,29 @@ export default [
       ...js.configs.recommended.rules,
     },
   },
+  // Node environment for load testing utilities
+  {
+    files: ["loadtest/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      "no-console": ["error", { allow: ["warn", "error"] }],
+      "no-unused-vars": [
+        "error",
+        {
+          varsIgnorePattern: "^[A-Z_]",
+          argsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
 ];

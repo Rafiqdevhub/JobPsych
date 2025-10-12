@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import ToastProvider from "@components/toast/ToastManager.jsx";
 import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
+import PageLoader from "@components/loading/PageLoader.jsx";
 import "@utils/performanceMonitor.js";
 
 const NotFound = lazy(() => import("@pages/NotFound.jsx"));
@@ -17,16 +18,6 @@ const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("@pages/TermsOfService.jsx"));
 const SecurityAuditDashboard = lazy(() =>
   import("@components/security/SecurityAuditDashboard.jsx")
-);
-
-// Loading component for Suspense fallback
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-slate-900">
-    <div className="text-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-      <p className="text-gray-300">Loading...</p>
-    </div>
-  </div>
 );
 
 const router = createBrowserRouter([

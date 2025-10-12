@@ -1,3 +1,4 @@
+/* eslint-env node */
 // Load test processor for Artillery
 // Provides custom functions and utilities for load testing
 
@@ -20,7 +21,7 @@ module.exports = {
   // Log response time
   logResponse: function (requestParams, response, context, ee, next) {
     if (response.timings) {
-      console.log(
+      console.warn(
         `Request to ${requestParams.url} took ${response.timings.phases.total}ms`
       );
     }
@@ -112,7 +113,7 @@ module.exports = {
           });
         }
       }
-    } catch (e) {
+    } catch {
       // Ignore JSON parse errors for HTML responses
     }
     return next();

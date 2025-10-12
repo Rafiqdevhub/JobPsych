@@ -4,6 +4,7 @@
  */
 
 import { test, expect } from "@playwright/test";
+import { Buffer } from "node:buffer";
 
 test.describe("Stress Testing Suite", () => {
   test.describe.configure({ mode: "parallel", timeout: 120000 });
@@ -176,7 +177,7 @@ test.describe("Stress Testing Suite", () => {
           localStorage.setItem(`stress_test_${i}`, "x".repeat(1000));
           i++;
         }
-      } catch (e) {
+      } catch {
         // Quota exceeded - expected
       }
     });
