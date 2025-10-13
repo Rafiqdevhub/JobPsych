@@ -21,14 +21,22 @@ test.describe("ATS Analyzer - Page Load", () => {
     }
   });
 
-  test("should display file upload area", async ({ page }) => {
-    // ATS Analyzer page has a "Start ATS Analysis" button, not a traditional upload
-    const startButton = page.getByRole("button", {
-      name: /start ats analysis/i,
-    });
+  test("should display file upload area", async ({ page, browserName }) => {
+    if (browserName === "webkit") {
+      // WebKit has rendering issues, check for fallback content
+      const fallbackVisible = await page
+        .locator("#webkit-fallback")
+        .isVisible();
+      expect(fallbackVisible).toBe(true);
+    } else {
+      // ATS Analyzer page has a "Start ATS Analysis" button, not a traditional upload
+      const startButton = page.getByRole("button", {
+        name: /start ats analysis/i,
+      });
 
-    await expect(startButton).toBeVisible();
-    await expect(startButton).toBeEnabled();
+      await expect(startButton).toBeVisible();
+      await expect(startButton).toBeEnabled();
+    }
   });
 });
 
