@@ -2,10 +2,20 @@ name: Continuous Testing & Reporting
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, staging]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, staging]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Test environment"
+        required: false
+        default: "development"
+        type: choice
+        options:
+          - development
+          - staging
+          - production
 
 jobs:
   # Unit Tests Job
@@ -15,6 +25,9 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
+    env:
+      NODE_ENV: test
+      VITE_APP_ENVIRONMENT: ${{ github.event.inputs.environment || 'development' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -97,6 +110,9 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      VITE_APP_ENVIRONMENT: ${{ github.event.inputs.environment || 'development' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -146,6 +162,54 @@ jobs:
         if: failure()
         with:
           name: e2e-test-videos
+          path: test-results/videos/
+
+  # Staging E2E Tests Job (runs against staging environment)
+  staging-e2e-tests:
+    name: Staging E2E Tests
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/staging' || github.event.inputs.environment == 'staging'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Wait for staging environment to be ready
+        run: sleep 30
+
+      - name: Run E2E tests against staging
+        run: npx playwright test
+        env:
+          # Note: Configure STAGING_URL secret in repository settings
+          BASE_URL: "https://jobpsych-staging.vercel.app"
+          VITE_APP_ENVIRONMENT: staging
+        continue-on-error: true
+
+      - name: Upload staging E2E test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: staging-e2e-test-results
+          path: |
+            test-results/
+            playwright-report/
+
+      - name: Upload staging E2E test videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: staging-e2e-test-videos
           path: test-results/videos/
 
   # Performance Tests Job
