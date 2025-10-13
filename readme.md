@@ -86,7 +86,7 @@ Run these against a live dev server. Results roll up into the QA reports capture
 
 Use the dedicated manuals for end-to-end instructions:
 
-- `PRODUCTION-DEPLOYMENT-GUIDE.md` – preflight checklist, environment setup, platform-specific deploys (Vercel, Netlify, AWS, Docker)
+- `PRODUCTION-DEPLOYMENT-GUIDE.md` – preflight checklist, environment setup, mandatory staging deployment, platform-specific deploys (Vercel, Netlify, AWS, Docker)
 - `ROLLBACK-STRATEGY.md` – incident response runbooks, platform rollback recipes, post-mortem templates
 - `PROJECT-SUMMARY.md` – release readiness snapshot, KPIs, acceptance criteria
 
@@ -119,6 +119,7 @@ Docker support (`Dockerfile`, `docker-compose.yml`, `nginx.conf`) enables contai
 | -------------------------------- | ---------------------------------------------- |
 | `PROJECT-SUMMARY.md`             | High-level status, metrics, phase deliverables |
 | `PRODUCTION-DEPLOYMENT-GUIDE.md` | Deployment procedures & checklists             |
+| `STAGING-SETUP-GUIDE.md`         | Staging environment configuration & workflows  |
 | `ROLLBACK-STRATEGY.md`           | Incident management, rollback playbook         |
 | `PHASE-6-FINAL-QA-COMPLETE.md`   | Final QA evidence & reporting                  |
 | `DOCKER.md`                      | Container build/run notes                      |

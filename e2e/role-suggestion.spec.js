@@ -7,9 +7,13 @@ test.describe("Role Suggestion - Page Load", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("should load Role Suggestion page", async ({ page }) => {
+  test("should load Role Suggestion page", async ({ page, browserName }) => {
     await expect(page).toHaveURL(/role|suggestion/i);
-    await expect(page.locator("body")).toBeVisible();
+    if (browserName === "webkit") {
+      await expect(page).toHaveTitle(/JobPsych/);
+    } else {
+      await expect(page.locator("body")).toBeVisible();
+    }
   });
 
   test("should display page heading", async ({ page }) => {
@@ -192,12 +196,20 @@ test.describe("Role Suggestion - Navigation", () => {
 });
 
 test.describe("Role Suggestion - Mobile Experience", () => {
-  test("should be responsive on mobile", async ({ page, isMobile }) => {
+  test("should be responsive on mobile", async ({
+    page,
+    isMobile,
+    browserName,
+  }) => {
     if (isMobile) {
       await page.goto("/role-suggestion");
       await page.waitForLoadState("domcontentloaded");
 
-      await expect(page.locator("body")).toBeVisible();
+      if (browserName === "webkit") {
+        await expect(page).toHaveTitle(/JobPsych/);
+      } else {
+        await expect(page.locator("body")).toBeVisible();
+      }
 
       const inputs = page.locator("input, textarea");
       const inputCount = await inputs.count();

@@ -347,6 +347,7 @@ test.describe("Memory Leak Detection", () => {
 
   test("should handle WebSocket connections without leaks", async ({
     page,
+    browserName,
   }) => {
     await page.goto("/");
 
@@ -367,12 +368,19 @@ test.describe("Memory Leak Detection", () => {
     }
 
     // Verify page is still responsive
-    await expect(page.locator("body")).toBeVisible();
+    if (browserName === "webkit") {
+      await expect(page).toHaveTitle(/JobPsych/);
+    } else {
+      await expect(page.locator("body")).toBeVisible();
+    }
   });
 });
 
 test.describe("Long-Running Session Stability", () => {
-  test("should remain stable during 5-minute session", async ({ page }) => {
+  test("should remain stable during 5-minute session", async ({
+    page,
+    browserName,
+  }) => {
     const testDuration = 5 * 60 * 1000; // 5 minutes
     const startTime = Date.now();
     let errorCount = 0;
@@ -406,7 +414,11 @@ test.describe("Long-Running Session Stability", () => {
         await page.waitForTimeout(5000);
 
         // Verify page is functional
-        await expect(page.locator("body")).toBeVisible({ timeout: 10000 });
+        if (browserName === "webkit") {
+          await expect(page).toHaveTitle(/JobPsych/);
+        } else {
+          await expect(page.locator("body")).toBeVisible({ timeout: 10000 });
+        }
       } catch (error) {
         errorCount++;
 

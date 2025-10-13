@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:staging": "vite build --mode staging",
     "build:analyze": "vite build --mode analyze && npx vite-bundle-analyzer dist/assets/*.js",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -23,7 +24,9 @@
     "test:e2e:headed": "playwright test --headed",
     "test:stress": "playwright test e2e/stress-test.spec.js --workers=1",
     "test:memory": "playwright test e2e/memory-leak-test.spec.js --workers=1",
-    "test:qa": "pwsh -File ./run-qa-suite.ps1"
+    "test:qa": "pwsh -File ./run-qa-suite.ps1",
+    "deploy:staging": "npm run build:staging && vercel --prod=false",
+    "deploy:production": "npm run build && vercel --prod"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",

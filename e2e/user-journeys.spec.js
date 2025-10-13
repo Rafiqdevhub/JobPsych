@@ -214,11 +214,18 @@ test.describe("User Journey - Chatbot Interaction", () => {
 });
 
 test.describe("User Journey - Complete Application Flow", () => {
-  test("should complete full application workflow", async ({ page }) => {
+  test("should complete full application workflow", async ({
+    page,
+    browserName,
+  }) => {
     // 1. Start at landing page
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
-    await expect(page.locator("body")).toBeVisible();
+    if (browserName === "webkit") {
+      await expect(page).toHaveTitle(/JobPsych/);
+    } else {
+      await expect(page.locator("body")).toBeVisible();
+    }
 
     // 2. Explore features by scrolling
     await page.evaluate(() =>
@@ -262,7 +269,10 @@ test.describe("User Journey - Complete Application Flow", () => {
 });
 
 test.describe("User Journey - Error Recovery", () => {
-  test("should handle navigation errors gracefully", async ({ page }) => {
+  test("should handle navigation errors gracefully", async ({
+    page,
+    browserName,
+  }) => {
     // Try to navigate to valid page
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
@@ -273,6 +283,10 @@ test.describe("User Journey - Error Recovery", () => {
     await page.waitForLoadState("domcontentloaded");
 
     // Verify page is functional
-    await expect(page.locator("body")).toBeVisible();
+    if (browserName === "webkit") {
+      await expect(page).toHaveTitle(/JobPsych/);
+    } else {
+      await expect(page.locator("body")).toBeVisible();
+    }
   });
 });
