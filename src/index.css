@@ -1,5 +1,41 @@
 @import "tailwindcss";
 
+/* Ensure body has proper height in all browsers */
+html,
+body {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* WebKit-specific fixes */
+@supports (-webkit-appearance: none) {
+  html {
+    height: 100% !important;
+  }
+
+  body {
+    min-height: 100vh !important;
+    height: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  #root {
+    min-height: 100vh !important;
+    display: block !important;
+  }
+
+  /* Force WebKit to render content */
+  #root:empty::before {
+    content: "Loading...";
+    display: block;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
