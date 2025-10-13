@@ -243,7 +243,7 @@ test.describe("Stress Testing Suite", () => {
     });
   });
 
-  test("should handle rapid route changes", async ({ page, browserName }) => {
+  test("should handle rapid route changes", async ({ page }) => {
     const routes = [
       "/",
       "/role-suggestions",
@@ -387,7 +387,7 @@ test.describe("Stress Testing Suite", () => {
     }
   });
 
-  test("should measure resource limits", async ({ page, browserName }) => {
+  test("should measure resource limits", async ({ page }) => {
     await page.goto("/");
 
     const metrics = await page.evaluate(() => {
