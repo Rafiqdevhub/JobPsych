@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 4
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "reporter": [
@@ -41,7 +41,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "chromium",
         "name": "chromium",
@@ -57,7 +57,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "firefox",
         "name": "firefox",
@@ -73,7 +73,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "webkit",
         "name": "webkit",
@@ -89,7 +89,7 @@
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
     "version": "1.56.0",
-    "workers": 4,
+    "workers": 1,
     "webServer": {
       "command": "npm run dev",
       "url": "http://localhost:3000",
@@ -98,1495 +98,6 @@
     }
   },
   "suites": [
-    {
-      "title": "hire-disk.spec.js",
-      "file": "hire-disk.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Hire Disk - Page Load",
-          "file": "hire-disk.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load Hire Disk page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1463,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:32.524Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-91ea378699643751eb5a",
-              "file": "hire-disk.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1563,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:32.524Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-5495c3f0367bfb8f238a",
-              "file": "hire-disk.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display main content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1363,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:32.559Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-af80e4ada1b1c23c741e",
-              "file": "hire-disk.spec.js",
-              "line": 24,
-              "column": 3
-            },
-            {
-              "title": "should load Hire Disk page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 5885,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:31.655Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-358b8435e1c594a9473b",
-              "file": "hire-disk.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 5417,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:31.880Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-792aaa3d04a8ee2454d3",
-              "file": "hire-disk.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display main content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 6873,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:46.058Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-be23c535c489758be991",
-              "file": "hire-disk.spec.js",
-              "line": 24,
-              "column": 3
-            },
-            {
-              "title": "should load Hire Disk page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1451,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:33.173Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-67535920ce8cd4b6c93d",
-              "file": "hire-disk.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1693,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:32.332Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-5e637c87f6a8178a5dcc",
-              "file": "hire-disk.spec.js",
-              "line": 15,
-              "column": 3
-            },
-            {
-              "title": "should display main content",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1556,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:32.310Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-b7d7ad38ebcb3bf41d15",
-              "file": "hire-disk.spec.js",
-              "line": 24,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Features",
-          "file": "hire-disk.spec.js",
-          "line": 34,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display features or information",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1545,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:32.525Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-e1fc2fec5cb2ebe0fac8",
-              "file": "hire-disk.spec.js",
-              "line": 40,
-              "column": 3
-            },
-            {
-              "title": "should have interactive elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1574,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:34.217Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-3b376d47ac5d3be5d1cc",
-              "file": "hire-disk.spec.js",
-              "line": 47,
-              "column": 3
-            },
-            {
-              "title": "should have call-to-action elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1355,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:34.288Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-bf4f7c8af89b902c76e7",
-              "file": "hire-disk.spec.js",
-              "line": 89,
-              "column": 3
-            },
-            {
-              "title": "should display features or information",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2298,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:38.754Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-ca4c7647eab59d619c5a",
-              "file": "hire-disk.spec.js",
-              "line": 40,
-              "column": 3
-            },
-            {
-              "title": "should have interactive elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2170,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:39.565Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-78591332bced1412b3c1",
-              "file": "hire-disk.spec.js",
-              "line": 47,
-              "column": 3
-            },
-            {
-              "title": "should have call-to-action elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2234,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:41.109Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-37f7819839de3dfe9cf4",
-              "file": "hire-disk.spec.js",
-              "line": 89,
-              "column": 3
-            },
-            {
-              "title": "should display features or information",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1669,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:35.417Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-8b2267a3f8d410b4c8f6",
-              "file": "hire-disk.spec.js",
-              "line": 40,
-              "column": 3
-            },
-            {
-              "title": "should have interactive elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1459,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [
-                        {
-                          "text": "WebKit: Page loaded but no interactive elements found, accepting as valid\n"
-                        }
-                      ],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:34.096Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-a80cf7d78063dec9d001",
-              "file": "hire-disk.spec.js",
-              "line": 47,
-              "column": 3
-            },
-            {
-              "title": "should have call-to-action elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1485,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:34.238Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-8dd58d22f3676b680a5e",
-              "file": "hire-disk.spec.js",
-              "line": 89,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - User Interaction",
-          "file": "hire-disk.spec.js",
-          "line": 102,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should handle button clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1312,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:34.298Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-7a331295174ba75f87fa",
-              "file": "hire-disk.spec.js",
-              "line": 108,
-              "column": 3
-            },
-            {
-              "title": "should handle navigation clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1216,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:34.329Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-26102f24d2f2a701f2d2",
-              "file": "hire-disk.spec.js",
-              "line": 122,
-              "column": 3
-            },
-            {
-              "title": "should handle button clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2338,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:41.906Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-2f2dcd6621b7c194de5c",
-              "file": "hire-disk.spec.js",
-              "line": 108,
-              "column": 3
-            },
-            {
-              "title": "should handle navigation clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2017,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:43.550Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-6ce043dff74914790491",
-              "file": "hire-disk.spec.js",
-              "line": 122,
-              "column": 3
-            },
-            {
-              "title": "should handle button clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1398,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:34.790Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-a378e28873725153649d",
-              "file": "hire-disk.spec.js",
-              "line": 108,
-              "column": 3
-            },
-            {
-              "title": "should handle navigation clicks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1492,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:35.593Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-8900a01feb3afb62e9e9",
-              "file": "hire-disk.spec.js",
-              "line": 122,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Layout",
-          "file": "hire-disk.spec.js",
-          "line": 132,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have header/navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1194,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:35.583Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-c58ccd6290016e57fc95",
-              "file": "hire-disk.spec.js",
-              "line": 138,
-              "column": 3
-            },
-            {
-              "title": "should have footer",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1144,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:35.664Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-7b78f7651a0b04069735",
-              "file": "hire-disk.spec.js",
-              "line": 147,
-              "column": 3
-            },
-            {
-              "title": "should have header/navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 3153,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:44.340Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-5a182af58d9754967930",
-              "file": "hire-disk.spec.js",
-              "line": 138,
-              "column": 3
-            },
-            {
-              "title": "should have footer",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2009,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:45.641Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-e89444ace2a2a685cf5c",
-              "file": "hire-disk.spec.js",
-              "line": 147,
-              "column": 3
-            },
-            {
-              "title": "should have header/navigation",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1451,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:35.759Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-bd4ce1a6e2e9dae8a83a",
-              "file": "hire-disk.spec.js",
-              "line": 138,
-              "column": 3
-            },
-            {
-              "title": "should have footer",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1370,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:36.223Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-54ca56ce0a3df4305a42",
-              "file": "hire-disk.spec.js",
-              "line": 147,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Navigation",
-          "file": "hire-disk.spec.js",
-          "line": 157,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1168,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:35.728Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-3f2abf63d7e6b66cbd56",
-              "file": "hire-disk.spec.js",
-              "line": 158,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1089,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:35.827Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-c4bb5ed737c32c9bca5c",
-              "file": "hire-disk.spec.js",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 3712,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:47.545Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-b59176daea0e03e00f78",
-              "file": "hire-disk.spec.js",
-              "line": 158,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 3546,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:47.695Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-982a0b59f3de2ad384d0",
-              "file": "hire-disk.spec.js",
-              "line": 172,
-              "column": 3
-            },
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1619,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:37.123Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-a9e1874ce3b5b4812d10",
-              "file": "hire-disk.spec.js",
-              "line": 158,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1611,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:37.247Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-a3bd500bfe49aa298961",
-              "file": "hire-disk.spec.js",
-              "line": 172,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Hire Disk - Mobile Experience",
-          "file": "hire-disk.spec.js",
-          "line": 185,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 261,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:36.814Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-48f83c6c6c779f756e8f",
-              "file": "hire-disk.spec.js",
-              "line": 186,
-              "column": 3
-            },
-            {
-              "title": "should have mobile-friendly elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 242,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:13:36.859Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-ffac3176663b4de46765",
-              "file": "hire-disk.spec.js",
-              "line": 198,
-              "column": 3
-            },
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1068,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:51.288Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-f8f5cd258ab82ccd36d3",
-              "file": "hire-disk.spec.js",
-              "line": 186,
-              "column": 3
-            },
-            {
-              "title": "should have mobile-friendly elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 829,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:51.331Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-12f310a2d6fa16818646",
-              "file": "hire-disk.spec.js",
-              "line": 198,
-              "column": 3
-            },
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 783,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:37.248Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-c50ca84574fc17214d1b",
-              "file": "hire-disk.spec.js",
-              "line": 186,
-              "column": 3
-            },
-            {
-              "title": "should have mobile-friendly elements",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 664,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:37.623Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "dfc071a7823b4467165c-03cc0d68acfdbcfb134f",
-              "file": "hire-disk.spec.js",
-              "line": 198,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
     {
       "title": "memory-leak-test.spec.js",
       "file": "memory-leak-test.spec.js",
@@ -1616,7 +127,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 108893,
+                      "duration": 97957,
                       "errors": [],
                       "stdout": [
                         {
@@ -1631,7 +142,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:36.950Z",
+                      "startTime": "2025-10-13T15:40:06.718Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1657,10 +168,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10096,
+                      "duration": 6132,
                       "errors": [],
                       "stdout": [
                         {
@@ -1672,7 +183,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:36.971Z",
+                      "startTime": "2025-10-13T15:41:44.875Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1698,10 +209,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 59393,
+                      "duration": 58618,
                       "errors": [],
                       "stdout": [
                         {
@@ -1710,7 +221,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:37.130Z",
+                      "startTime": "2025-10-13T15:41:51.029Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1736,10 +247,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9687,
+                      "duration": 6994,
                       "errors": [],
                       "stdout": [
                         {
@@ -1751,7 +262,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:37.136Z",
+                      "startTime": "2025-10-13T15:42:49.687Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1777,10 +288,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1826,
+                      "duration": 1611,
                       "errors": [],
                       "stdout": [
                         {
@@ -1792,7 +303,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:46.897Z",
+                      "startTime": "2025-10-13T15:42:56.747Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1818,15 +329,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1818,
+                      "duration": 2110,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:47.100Z",
+                      "startTime": "2025-10-13T15:42:58.409Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1852,19 +363,19 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 29762,
+                      "duration": 30772,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 1311,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 557\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 777,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 126\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 757,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 180\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 690,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 93\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 928,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 274\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 864,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 182\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 741,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 87\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 927,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 167\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 857,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 138\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 707,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 109\n  }\n]\n"
+                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 1488,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 655\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 744,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 133\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 722,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 137\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 806,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 171\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 816,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 179\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 804,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 175\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 867,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 158\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 909,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 178\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 818,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 181\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 775,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 157\n  }\n]\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:48.765Z",
+                      "startTime": "2025-10-13T15:43:00.559Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1890,15 +401,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3865,
+                      "duration": 3378,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:48.958Z",
+                      "startTime": "2025-10-13T15:43:31.380Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1924,15 +435,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 2,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 160024,
+                      "duration": 80218,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:14:52.258Z",
+                      "startTime": "2025-10-13T15:44:06.920Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1958,10 +469,10 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 42615,
+                      "duration": 13577,
                       "errors": [],
                       "stdout": [
                         {
@@ -1973,7 +484,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:14:52.445Z",
+                      "startTime": "2025-10-13T15:45:27.707Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1999,15 +510,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 62584,
+                      "duration": 58356,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:14:56.024Z",
+                      "startTime": "2025-10-13T15:45:41.315Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2033,10 +544,10 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 7,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 96467,
+                      "duration": 14710,
                       "errors": [],
                       "stdout": [
                         {
@@ -2048,7 +559,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:15:30.173Z",
+                      "startTime": "2025-10-13T15:46:39.692Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2074,10 +585,10 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11615,
+                      "duration": 2230,
                       "errors": [],
                       "stdout": [
                         {
@@ -2089,7 +600,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:15:35.128Z",
+                      "startTime": "2025-10-13T15:46:54.425Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2115,15 +626,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 5860,
+                      "duration": 2099,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:15:46.778Z",
+                      "startTime": "2025-10-13T15:46:56.678Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2149,19 +660,19 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 55516,
+                      "duration": 31199,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 4302,\n    \"memory\": null,\n    \"navigation\": 3652\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 4554,\n    \"memory\": null,\n    \"navigation\": 3951\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 2647,\n    \"memory\": null,\n    \"navigation\": 2036\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 2464,\n    \"memory\": null,\n    \"navigation\": 1865\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 2319,\n    \"memory\": null,\n    \"navigation\": 1422\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 2104,\n    \"memory\": null,\n    \"navigation\": 1520\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 3439,\n    \"memory\": null,\n    \"navigation\": 2838\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 3221,\n    \"memory\": null,\n    \"navigation\": 2578\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 2846,\n    \"memory\": null,\n    \"navigation\": 2242\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 2583,\n    \"memory\": null,\n    \"navigation\": 1950\n  }\n]\n"
+                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 1085,\n    \"memory\": null,\n    \"navigation\": 506\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 828,\n    \"memory\": null,\n    \"navigation\": 290\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 1598,\n    \"memory\": null,\n    \"navigation\": 1068\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 735,\n    \"memory\": null,\n    \"navigation\": 206\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 797,\n    \"memory\": null,\n    \"navigation\": 267\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 784,\n    \"memory\": null,\n    \"navigation\": 256\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 785,\n    \"memory\": null,\n    \"navigation\": 251\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 799,\n    \"memory\": null,\n    \"navigation\": 279\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 957,\n    \"memory\": null,\n    \"navigation\": 421\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 1132,\n    \"memory\": null,\n    \"navigation\": 588\n  }\n]\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:15:52.686Z",
+                      "startTime": "2025-10-13T15:46:58.798Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2176,7 +687,7 @@
             },
             {
               "title": "should handle WebSocket connections without leaks",
-              "ok": true,
+              "ok": false,
               "tags": [],
               "tests": [
                 {
@@ -2187,20 +698,52 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 11203,
-                      "errors": [],
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 874856,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 300000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 300000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 300000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "D:\\Development\\Projects\\Ideas based projects\\JobPsych\\jobpsych frontend\\e2e\\memory-leak-test.spec.js",
+                            "column": 18,
+                            "line": 407
+                          },
+                          "message": "Error: page.waitForTimeout: Test timeout of 300000ms exceeded.\n\n\u001b[0m \u001b[90m 405 |\u001b[39m       })\u001b[33m;\u001b[39m\n \u001b[90m 406 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 407 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m100\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 408 |\u001b[39m     }\n \u001b[90m 409 |\u001b[39m\n \u001b[90m 410 |\u001b[39m     \u001b[90m// Verify page is still responsive\u001b[39m\u001b[0m\n\u001b[2m    at D:\\Development\\Projects\\Ideas based projects\\JobPsych\\jobpsych frontend\\e2e\\memory-leak-test.spec.js:407:18\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:15:58.705Z",
+                      "startTime": "2025-10-13T15:47:30.040Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Development\\Projects\\Ideas based projects\\JobPsych\\jobpsych frontend\\test-results\\memory-leak-test-Memory-Le-3f41f-t-connections-without-leaks-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\Development\\Projects\\Ideas based projects\\JobPsych\\jobpsych frontend\\test-results\\memory-leak-test-Memory-Le-3f41f-t-connections-without-leaks-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Development\\Projects\\Ideas based projects\\JobPsych\\jobpsych frontend\\test-results\\memory-leak-test-Memory-Le-3f41f-t-connections-without-leaks-firefox\\error-context.md"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "be2bef5cd631f2350952-4ce45de4369881bb4533",
@@ -2219,22 +762,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 125884,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:38.108Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-3e4f2197ff0a7915691c",
@@ -2253,29 +782,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 23455,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Initial listeners: 0\n"
-                        },
-                        {
-                          "text": "Final listeners: 0\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:38.338Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-502e08abccc6c9a03a56",
@@ -2294,41 +802,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 7261,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [
-                        {
-                          "text": "Toggle button not found or already open, continuing...\n"
-                        },
-                        {
-                          "text": "Chat input not visible on iteration 0, skipping...\n"
-                        },
-                        {
-                          "text": "Chat input not visible on iteration 1, skipping...\n"
-                        },
-                        {
-                          "text": "Chat input not visible on iteration 2, skipping...\n"
-                        },
-                        {
-                          "text": "Chat input not visible on iteration 3, skipping...\n"
-                        },
-                        {
-                          "text": "Chat input not visible on iteration 4, skipping...\n"
-                        }
-                      ],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:38.825Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-8ebde164e7acd3c24b9a",
@@ -2347,29 +822,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 23498,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Initial DOM nodes: 50\n"
-                        },
-                        {
-                          "text": "Final DOM nodes: 50\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:38.942Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-3c459d818c9e0a51c531",
@@ -2388,29 +842,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3103,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Initial localStorage: 2981 bytes\n"
-                        },
-                        {
-                          "text": "Final localStorage: 2 bytes\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:46.150Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-0f88ee50172dd59f5297",
@@ -2429,22 +862,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1926,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:49.318Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-41da0875e842423bfefc",
@@ -2463,26 +882,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 32044,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 1284,\n    \"memory\": null,\n    \"navigation\": 720\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 1052,\n    \"memory\": null,\n    \"navigation\": 528\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 1027,\n    \"memory\": null,\n    \"navigation\": 513\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 1051,\n    \"memory\": null,\n    \"navigation\": 532\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 1064,\n    \"memory\": null,\n    \"navigation\": 548\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 1094,\n    \"memory\": null,\n    \"navigation\": 564\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 1037,\n    \"memory\": null,\n    \"navigation\": 522\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 1067,\n    \"memory\": null,\n    \"navigation\": 557\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 1053,\n    \"memory\": null,\n    \"navigation\": 529\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 1055,\n    \"memory\": null,\n    \"navigation\": 525\n  }\n]\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:51.336Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-ddaccaedfca732831632",
@@ -2501,22 +902,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 4098,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:01.872Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-f409b278defc2ae8c402",
@@ -2545,10 +932,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 31296,
+                      "duration": 30919,
                       "errors": [],
                       "stdout": [
                         {
@@ -2557,7 +944,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:13:52.858Z",
+                      "startTime": "2025-10-13T15:43:34.795Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2583,24 +970,27 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 35662,
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "interrupted",
+                      "duration": 25385,
                       "errors": [],
-                      "stdout": [
+                      "stdout": [],
+                      "stderr": [
                         {
-                          "text": "Session completed with 0 errors\n"
+                          "text": "Error during long session: page.waitForTimeout: Target page, context or browser has been closed\n"
+                        },
+                        {
+                          "text": "Error during long session: page.goto: Target page, context or browser has been closed\n"
                         }
                       ],
-                      "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T15:16:09.999Z",
+                      "startTime": "2025-10-13T16:01:54.573Z",
                       "annotations": [],
                       "attachments": []
                     }
                   ],
-                  "status": "expected"
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-07240bbc76a3018900f6",
@@ -2619,26 +1009,8 @@
                   "expectedStatus": "passed",
                   "projectId": "webkit",
                   "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 31166,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Session completed with 0 errors\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:02.542Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "be2bef5cd631f2350952-48ac3d51bb2919a60442",
@@ -2649,1602 +1021,15 @@
           ]
         }
       ]
-    },
-    {
-      "title": "role-suggestion.spec.js",
-      "file": "role-suggestion.spec.js",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Role Suggestion - Page Load",
-          "file": "role-suggestion.spec.js",
-          "line": 4,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should load Role Suggestion page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1213,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:18.590Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-c3544c7b8a448865f111",
-              "file": "role-suggestion.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1259,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:19.853Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-16d8857e843ea761dc18",
-              "file": "role-suggestion.spec.js",
-              "line": 19,
-              "column": 3
-            },
-            {
-              "title": "should display page description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1229,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:21.160Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9aa184306448c5c81642",
-              "file": "role-suggestion.spec.js",
-              "line": 30,
-              "column": 3
-            },
-            {
-              "title": "should load Role Suggestion page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 6251,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:16:45.792Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-0630fc6dd61a49c9e370",
-              "file": "role-suggestion.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7257,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:16:48.700Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-ab97fe1072a2642318f7",
-              "file": "role-suggestion.spec.js",
-              "line": 19,
-              "column": 3
-            },
-            {
-              "title": "should display page description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 6042,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:16:52.577Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-e143543eeb840021644f",
-              "file": "role-suggestion.spec.js",
-              "line": 30,
-              "column": 3
-            },
-            {
-              "title": "should load Role Suggestion page",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1616,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:06.090Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-5be330a2c4b1cdcda1b0",
-              "file": "role-suggestion.spec.js",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "should display page heading",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1578,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:07.773Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-f8897ead1db956b32fad",
-              "file": "role-suggestion.spec.js",
-              "line": 19,
-              "column": 3
-            },
-            {
-              "title": "should display page description",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1420,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:09.426Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-d907cca7dd7df39613ec",
-              "file": "role-suggestion.spec.js",
-              "line": 30,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Input Fields",
-          "file": "role-suggestion.spec.js",
-          "line": 40,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have skills input field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1179,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:22.424Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-53343d328029942bb753",
-              "file": "role-suggestion.spec.js",
-              "line": 46,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in skills field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1186,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:23.634Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-813f4d1e720c611aeb88",
-              "file": "role-suggestion.spec.js",
-              "line": 66,
-              "column": 3
-            },
-            {
-              "title": "should have experience input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1055,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:24.245Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-38d64dfa7e009bcdc04e",
-              "file": "role-suggestion.spec.js",
-              "line": 88,
-              "column": 3
-            },
-            {
-              "title": "should have interests input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1021,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:24.861Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-b6d3861f5c3feb84014b",
-              "file": "role-suggestion.spec.js",
-              "line": 106,
-              "column": 3
-            },
-            {
-              "title": "should have skills input field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 5751,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:16:56.400Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-1d974ad9db5522b51b66",
-              "file": "role-suggestion.spec.js",
-              "line": 46,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in skills field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 8019,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:16:58.802Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-dd41b0e854529a9dfa96",
-              "file": "role-suggestion.spec.js",
-              "line": 66,
-              "column": 3
-            },
-            {
-              "title": "should have experience input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7300,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:02.453Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9ded325d229459a90b90",
-              "file": "role-suggestion.spec.js",
-              "line": 88,
-              "column": 3
-            },
-            {
-              "title": "should have interests input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 6762,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:06.901Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-b5bd5bf47ed32be34144",
-              "file": "role-suggestion.spec.js",
-              "line": 106,
-              "column": 3
-            },
-            {
-              "title": "should have skills input field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1592,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:10.920Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-94770a9a8c9f4875600e",
-              "file": "role-suggestion.spec.js",
-              "line": 46,
-              "column": 3
-            },
-            {
-              "title": "should allow typing in skills field",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1552,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:12.582Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-02c8cfa9fd797066a04e",
-              "file": "role-suggestion.spec.js",
-              "line": 66,
-              "column": 3
-            },
-            {
-              "title": "should have experience input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1523,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:14.209Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9a63ede49b5f9137ef30",
-              "file": "role-suggestion.spec.js",
-              "line": 88,
-              "column": 3
-            },
-            {
-              "title": "should have interests input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1493,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:15.801Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-d3e8f29a4e78e96f818c",
-              "file": "role-suggestion.spec.js",
-              "line": 106,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Generate Suggestions",
-          "file": "role-suggestion.spec.js",
-          "line": 121,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should have generate/submit button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1011,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:25.345Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-a4d1e8a68e3d1997dd92",
-              "file": "role-suggestion.spec.js",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "should validate required fields",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1112,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:25.919Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-bf5f7491ec00953cf065",
-              "file": "role-suggestion.spec.js",
-              "line": 138,
-              "column": 3
-            },
-            {
-              "title": "should have generate/submit button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 5270,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:09.093Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-bd7707b33443edb30aa2",
-              "file": "role-suggestion.spec.js",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "should validate required fields",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7239,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:10.045Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-26e8c09d440e227e818b",
-              "file": "role-suggestion.spec.js",
-              "line": 138,
-              "column": 3
-            },
-            {
-              "title": "should have generate/submit button",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1617,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:17.370Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-77318e072d3e5b36b5e7",
-              "file": "role-suggestion.spec.js",
-              "line": 127,
-              "column": 3
-            },
-            {
-              "title": "should validate required fields",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1647,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:19.060Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-51b228d3ed3f0273588e",
-              "file": "role-suggestion.spec.js",
-              "line": 138,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Features Display",
-          "file": "role-suggestion.spec.js",
-          "line": 151,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should display features or benefits",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1084,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:26.387Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-701294a621377ec5e4dd",
-              "file": "role-suggestion.spec.js",
-              "line": 157,
-              "column": 3
-            },
-            {
-              "title": "should show helpful tips",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1025,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:27.065Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-aa1d96839de58994f0b3",
-              "file": "role-suggestion.spec.js",
-              "line": 166,
-              "column": 3
-            },
-            {
-              "title": "should have example roles or categories",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1126,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:27.499Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-e9f10830956de28d122a",
-              "file": "role-suggestion.spec.js",
-              "line": 176,
-              "column": 3
-            },
-            {
-              "title": "should display features or benefits",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 6453,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:13.769Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-64ae6cb7f6d886e075e2",
-              "file": "role-suggestion.spec.js",
-              "line": 157,
-              "column": 3
-            },
-            {
-              "title": "should show helpful tips",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 6498,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:15.523Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-3304f8472499aea139a6",
-              "file": "role-suggestion.spec.js",
-              "line": 166,
-              "column": 3
-            },
-            {
-              "title": "should have example roles or categories",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 6090,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:17.642Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-e3ca1eb52f62eeadf462",
-              "file": "role-suggestion.spec.js",
-              "line": 176,
-              "column": 3
-            },
-            {
-              "title": "should display features or benefits",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1695,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:20.776Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-913b3c19b9292b597fe5",
-              "file": "role-suggestion.spec.js",
-              "line": 157,
-              "column": 3
-            },
-            {
-              "title": "should show helpful tips",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1429,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:22.545Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-78e175ff212c42124be6",
-              "file": "role-suggestion.spec.js",
-              "line": 166,
-              "column": 3
-            },
-            {
-              "title": "should have example roles or categories",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1540,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:23.495Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-ad012785d7c8cf1c1301",
-              "file": "role-suggestion.spec.js",
-              "line": 176,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Navigation",
-          "file": "role-suggestion.spec.js",
-          "line": 186,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 970,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:28.124Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-4ec181a0f7aa8ac1c9e4",
-              "file": "role-suggestion.spec.js",
-              "line": 187,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 985,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:28.680Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9e26b166c390242087d5",
-              "file": "role-suggestion.spec.js",
-              "line": 219,
-              "column": 3
-            },
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 5431,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:20.367Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-d581299924ae877c1f4f",
-              "file": "role-suggestion.spec.js",
-              "line": 187,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4824,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:22.139Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-a476240c0ec9c2d3a5ae",
-              "file": "role-suggestion.spec.js",
-              "line": 219,
-              "column": 3
-            },
-            {
-              "title": "should navigate back to home",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1424,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:24.040Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-102afcc18805d046b55b",
-              "file": "role-suggestion.spec.js",
-              "line": 187,
-              "column": 3
-            },
-            {
-              "title": "should have navigation menu",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1401,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:25.107Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-06391dd2db645cf85af3",
-              "file": "role-suggestion.spec.js",
-              "line": 219,
-              "column": 3
-            }
-          ]
-        },
-        {
-          "title": "Role Suggestion - Mobile Experience",
-          "file": "role-suggestion.spec.js",
-          "line": 232,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 272,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:14:29.124Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-7617becf766a5d364850",
-              "file": "role-suggestion.spec.js",
-              "line": 233,
-              "column": 3
-            },
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1834,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:17:23.852Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-9132630f40281fbf16a5",
-              "file": "role-suggestion.spec.js",
-              "line": 233,
-              "column": 3
-            },
-            {
-              "title": "should be responsive on mobile",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "webkit",
-                  "projectName": "webkit",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 756,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-13T15:18:25.522Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "b551fc3cc9be3082b272-faea8a7cd6932739f904",
-              "file": "role-suggestion.spec.js",
-              "line": 233,
-              "column": 3
-            }
-          ]
-        }
-      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-10-13T15:13:29.152Z",
-    "duration": 375445.206,
-    "expected": 114,
-    "skipped": 0,
-    "unexpected": 0,
+    "startTime": "2025-10-13T15:40:04.641Z",
+    "duration": 1348479.159,
+    "expected": 16,
+    "skipped": 10,
+    "unexpected": 1,
     "flaky": 0
   }
 }
