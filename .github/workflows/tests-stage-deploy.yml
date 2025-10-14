@@ -191,6 +191,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ./artifacts
+      - name: Make test summary script executable
+        run: chmod +x ./scripts/generate-test-summary.sh
       - name: Generate test summary report
         run: ./scripts/generate-test-summary.sh
       - name: Upload test summary
@@ -329,6 +331,8 @@ jobs:
         with:
           name: build-artifact
           path: dist/
+      - name: Make validation script executable
+        run: chmod +x ./scripts/validate-staging.sh
       - name: Comprehensive staging validation
         run: ./scripts/validate-staging.sh https://jobpsych-staging.vercel.app
       - name: Create staging approval notification
