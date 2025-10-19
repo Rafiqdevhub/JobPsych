@@ -6,7 +6,6 @@ import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
 import ResumeRateLimitError from "@components/error/ResumeRateLimitError";
-import ResumeRateLimitInfo from "@components/resume/ResumeRateLimitInfo";
 import { ANALYZE_RESUME } from "../utils/api";
 import {
   getResumeAnalysisRateLimit,
@@ -199,40 +198,30 @@ const RoleSuggestion = () => {
         throw new Error("No data returned from API");
       }
 
-      const resumeDataFromResponse = responseData.resumeData || responseData;
+      const resumeDataFromResponse = {
+        ...(responseData.resumeData || responseData),
+        // Flatten preparationPlan nested fields to top level for easier access
+        ...(responseData.preparationPlan && {
+          interview_preparation:
+            responseData.preparationPlan.interview_preparation,
+          resume_improvements: responseData.preparationPlan.resume_improvements,
+          success_metrics: responseData.preparationPlan.success_metrics,
+        }),
+      };
       const roleRecommendationsFromResponse =
         responseData.roleRecommendations || [];
 
-      const requiredSections = [
-        "personalInfo",
-        "workExperience",
-        "education",
-        "skills",
-      ];
-      const missingSections = requiredSections.filter(
-        (section) => !resumeDataFromResponse[section]
-      );
+      const successMessage = targetRole
+        ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
+        : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
 
-      if (missingSections.length > 0) {
-        setAlertMessage(
-          `Some important sections are missing from your resume: ${missingSections.join(
-            ", "
-          )}.\nFor best results, please include Personal Info, Work Experience, Education, and Skills.`
-        );
-        setAlertType("warning");
-      } else {
-        const successMessage = targetRole
-          ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
-          : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
+      setAlertMessage(successMessage);
+      setAlertType("success");
 
-        setAlertMessage(successMessage);
-        setAlertType("success");
-
-        setTimeout(() => {
-          setAlertMessage("");
-          setAlertType("");
-        }, 5000);
-      }
+      setTimeout(() => {
+        setAlertMessage("");
+        setAlertType("");
+      }, 5000);
 
       setResumeData(resumeDataFromResponse);
       setRoleRecommendations(roleRecommendationsFromResponse);
@@ -485,10 +474,50 @@ const RoleSuggestion = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full blur opacity-75 animate-pulse"></div>
                 <div className="relative bg-slate-800/90 backdrop-blur-sm px-6 py-2 rounded-full border border-slate-600/50">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 font-bold text-sm">
-                    ✨ AI-Powered Career Intelligence
+                    AI-Powered Career Intelligence
                   </span>
                 </div>
               </div>
+
+              {/* Clear All Data Button */}
+              {resumeData && (
+                <button
+                  onClick={() => {
+                    clearPersistedData();
+                    setResumeData(null);
+                    setRoleRecommendations([]);
+                    setUploadedFile(null);
+                    setTargetRole("");
+                    setJobDescription("");
+                    setAlertMessage("All data cleared successfully!");
+                    setAlertType("success");
+                    setTimeout(() => {
+                      setAlertMessage("");
+                      setAlertType("");
+                    }, 3000);
+                  }}
+                  className="group relative overflow-hidden px-4 py-2 text-sm font-bold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 bg-slate-800/60 border border-slate-600/50 hover:border-rose-500/50 text-rose-400 hover:text-rose-300"
+                  title="Clear all analysis data cursor-pointer"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-rose-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center gap-2">
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    <span className="hidden sm:inline">Clear</span>
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -797,12 +826,14 @@ const RoleSuggestion = () => {
               )}
             </div>
           </div>
-          {roleRecommendations.length > 0 && (
+
+          {/* Resume Score Section */}
+          {resumeData?.resumeScore && (
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-teal-600/10 to-cyan-600/10 rounded-3xl blur-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 rounded-3xl blur-xl"></div>
               <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
                 <div className="text-center mb-12">
-                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 p-3 rounded-2xl mb-4">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 p-3 rounded-2xl mb-4">
                     <svg
                       className="h-8 w-8 text-white"
                       fill="none"
@@ -813,20 +844,310 @@ const RoleSuggestion = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                       />
                     </svg>
                     <h2 className="text-3xl font-bold text-white">
-                      Career Matches
+                      Resume Score
                     </h2>
                   </div>
-                  <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-                    Discover the perfect roles that match your skills and
-                    experience
+                  <p className="text-slate-300 text-lg">
+                    Your resume performance breakdown
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+                  {[
+                    {
+                      label: "Overall",
+                      value: resumeData.resumeScore.overall_score,
+                      color: "from-violet-600 to-purple-600",
+                    },
+                    {
+                      label: "Technical",
+                      value: resumeData.resumeScore.technical_score,
+                      color: "from-cyan-600 to-blue-600",
+                    },
+                    {
+                      label: "Experience",
+                      value: resumeData.resumeScore.experience_score,
+                      color: "from-emerald-600 to-teal-600",
+                    },
+                    {
+                      label: "Education",
+                      value: resumeData.resumeScore.education_score,
+                      color: "from-rose-600 to-pink-600",
+                    },
+                    {
+                      label: "Communication",
+                      value: resumeData.resumeScore.communication_score,
+                      color: "from-amber-600 to-orange-600",
+                    },
+                  ].map((score, idx) => (
+                    <div key={idx} className="text-center">
+                      <div
+                        className={`relative w-24 h-24 mx-auto mb-4 bg-gradient-to-r ${score.color} rounded-2xl flex items-center justify-center shadow-lg`}
+                      >
+                        <div className="text-3xl font-black text-white">
+                          {Math.round(score.value)}
+                        </div>
+                      </div>
+                      <div className="text-sm font-semibold text-slate-300">
+                        {score.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {resumeData.resumeScore.reasoning && (
+                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30 mb-4">
+                    <h4 className="text-sm font-semibold text-blue-400 mb-2">
+                      Analysis
+                    </h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {resumeData.resumeScore.reasoning}
+                    </p>
+                  </div>
+                )}
+
+                {resumeData.resumeScore.strengths &&
+                  resumeData.resumeScore.strengths.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                        Strengths
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.resumeScore.strengths.map(
+                          (strength, idx) => (
+                            <li
+                              key={idx}
+                              className="flex gap-3 text-sm text-slate-300"
+                            >
+                              <span className="text-emerald-400 flex-shrink-0">
+                                ✓
+                              </span>
+                              <span>{strength}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                {resumeData.resumeScore.weaknesses &&
+                  resumeData.resumeScore.weaknesses.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-amber-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                        Areas to Improve
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.resumeScore.weaknesses.map(
+                          (weakness, idx) => (
+                            <li
+                              key={idx}
+                              className="flex gap-3 text-sm text-slate-300"
+                            >
+                              <span className="text-amber-400 flex-shrink-0">
+                                ⚠
+                              </span>
+                              <span>{weakness}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                {resumeData.resumeScore.improvement_suggestions &&
+                  resumeData.resumeScore.improvement_suggestions.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        Improvement Suggestions
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.resumeScore.improvement_suggestions.map(
+                          (suggestion, idx) => (
+                            <li
+                              key={idx}
+                              className="flex gap-3 text-sm text-slate-300"
+                            >
+                              <span className="text-cyan-400 flex-shrink-0">
+                                →
+                              </span>
+                              <span>{suggestion}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+              </div>
+            </div>
+          )}
+
+          {/* Personality Insights Section */}
+          {resumeData?.personalityInsights && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-600/10 via-rose-600/10 to-red-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-600 to-rose-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Personality Profile
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Your work style and professional traits
+                  </p>
+                </div>
+
+                {resumeData.personalityInsights.traits && (
+                  <div className="space-y-4 mb-8">
+                    {Object.entries(resumeData.personalityInsights.traits).map(
+                      ([trait, score]) => (
+                        <div key={trait}>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-semibold text-slate-300 capitalize">
+                              {trait}
+                            </span>
+                            <span className="text-xs font-bold text-cyan-400">
+                              {Math.round(score)}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-slate-700/50 rounded-full h-2 border border-slate-600/30">
+                            <div
+                              className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-500"
+                              style={{ width: `${score}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+
+                {resumeData.personalityInsights.work_style && (
+                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30 mb-4">
+                    <h4 className="text-sm font-semibold text-pink-400 mb-2">
+                      Work Style
+                    </h4>
+                    <p className="text-slate-300 text-sm">
+                      {resumeData.personalityInsights.work_style}
+                    </p>
+                  </div>
+                )}
+
+                {(resumeData.personalityInsights.leadership_potential !==
+                  undefined ||
+                  resumeData.personalityInsights.team_player_score !==
+                    undefined) && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    {resumeData.personalityInsights.leadership_potential !==
+                      undefined && (
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30">
+                        <h4 className="text-sm font-semibold text-amber-400 mb-3">
+                          Leadership Potential
+                        </h4>
+                        <div className="flex items-center gap-4">
+                          <div className="text-3xl font-bold text-amber-400">
+                            {Math.round(
+                              resumeData.personalityInsights
+                                .leadership_potential
+                            )}
+                            %
+                          </div>
+                          <div className="flex-1">
+                            <div className="w-full bg-slate-700/50 rounded-full h-2 border border-slate-600/30">
+                              <div
+                                className="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all duration-500"
+                                style={{
+                                  width: `${resumeData.personalityInsights.leadership_potential}%`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {resumeData.personalityInsights.team_player_score !==
+                      undefined && (
+                      <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30">
+                        <h4 className="text-sm font-semibold text-teal-400 mb-3">
+                          Team Player Score
+                        </h4>
+                        <div className="flex items-center gap-4">
+                          <div className="text-3xl font-bold text-teal-400">
+                            {Math.round(
+                              resumeData.personalityInsights.team_player_score
+                            )}
+                            %
+                          </div>
+                          <div className="flex-1">
+                            <div className="w-full bg-slate-700/50 rounded-full h-2 border border-slate-600/30">
+                              <div
+                                className="bg-gradient-to-r from-teal-500 to-cyan-500 h-2 rounded-full transition-all duration-500"
+                                style={{
+                                  width: `${resumeData.personalityInsights.team_player_score}%`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {resumeData.personalityInsights.analysis && (
+                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30">
+                    <h4 className="text-sm font-semibold text-rose-400 mb-2">
+                      Analysis
+                    </h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {resumeData.personalityInsights.analysis}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {roleRecommendations.length > 0 && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/15 via-teal-600/10 to-cyan-600/15 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-10 shadow-2xl">
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 p-4 rounded-2xl mb-6 shadow-lg shadow-emerald-500/20">
+                    <h2 className="text-4xl font-black text-white">
+                      Career Matches
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg max-w-3xl mx-auto leading-relaxed">
+                    Discover the perfect roles tailored to your unique skill set
+                    and experience
+                  </p>
+                  <div className="mt-6 flex justify-center gap-2">
+                    <div className="h-1 w-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
+                    <div className="h-1 w-8 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full opacity-60"></div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                   {roleRecommendations.map((role, index) => {
                     const isBestMatch = index === 0;
                     const gradients = [
@@ -841,87 +1162,121 @@ const RoleSuggestion = () => {
                     return (
                       <div
                         key={index}
-                        className={`group relative overflow-hidden bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-3xl p-6 hover:border-violet-500/50 transition-all duration-500 transform hover:scale-105 hover:shadow-2xl ${
+                        className={`group relative overflow-hidden rounded-2xl transition-all duration-500 transform ${
                           isBestMatch
-                            ? "ring-2 ring-violet-400/50 shadow-violet-500/20 shadow-2xl"
-                            : ""
+                            ? "md:col-span-2 xl:col-span-1 hover:scale-105"
+                            : "hover:scale-105"
                         }`}
                       >
                         <div
-                          className={`absolute inset-0 bg-gradient-to-br ${gradient}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                          className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
                         ></div>
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
 
-                        {isBestMatch && (
-                          <div className="absolute -top-3 -right-3 z-20">
-                            <div className="relative">
-                              <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-purple-600 rounded-full blur-md animate-pulse"></div>
-                              <div className="relative bg-gradient-to-r from-violet-600 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg border border-violet-400/30">
-                                ⭐ Best Match
+                        <div
+                          className={`relative h-full bg-gradient-to-br from-slate-800/80 to-slate-900/95 backdrop-blur-xl border transition-all duration-500 rounded-2xl p-6 flex flex-col ${
+                            isBestMatch
+                              ? "border-emerald-500/40 shadow-2xl shadow-emerald-500/20 ring-2 ring-emerald-400/30"
+                              : "border-slate-700/50 shadow-lg hover:shadow-2xl hover:border-slate-600/80"
+                          }`}
+                        >
+                          <div
+                            className={`absolute top-0 left-0 h-1 w-0 group-hover:w-full bg-gradient-to-r ${gradient} transition-all duration-500 rounded-t-2xl`}
+                          ></div>
+
+                          {isBestMatch && (
+                            <div className="absolute -top-2 -right-2 z-20">
+                              <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur-lg animate-pulse"></div>
+                                <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-xl border border-emerald-300/50 flex items-center gap-1">
+                                  <svg
+                                    className="w-4 h-4"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                  </svg>
+                                  Best Match
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between items-start mb-5">
+                            <div
+                              className={`relative w-14 h-14 bg-gradient-to-br ${gradient} rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110`}
+                            >
+                              <svg
+                                className="h-7 w-7 text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
+                                />
+                              </svg>
+                            </div>
+
+                            <div className="text-right">
+                              <div
+                                className={`text-4xl font-black mb-1 ${
+                                  role.matchPercentage >= 85
+                                    ? "text-emerald-400"
+                                    : role.matchPercentage >= 70
+                                    ? "text-cyan-400"
+                                    : "text-amber-400"
+                                }`}
+                              >
+                                {Math.round(role.matchPercentage)}%
+                              </div>
+                              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                Match
                               </div>
                             </div>
                           </div>
-                        )}
 
-                        <div className="flex justify-between items-start mb-6">
-                          <div
-                            className={`relative w-16 h-16 bg-gradient-to-r ${gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
-                          >
-                            <svg
-                              className="h-8 w-8 text-white"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m-8 0V6a2 2 0 00-2 2v6.341"
-                              />
-                            </svg>
+                          <h3 className="text-lg font-bold text-white mb-1 group-hover:text-emerald-300 transition-colors duration-300 line-clamp-2">
+                            {role.roleName}
+                          </h3>
+
+                          <div className="flex gap-2 mb-4">
+                            <span className="inline-block bg-slate-700/50 text-slate-300 text-xs font-semibold px-2 py-1 rounded-lg border border-slate-600/30">
+                              {role.careerLevel}
+                            </span>
+                            <span className="inline-block bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-2 py-1 rounded-lg border border-emerald-500/30">
+                              {role.industryFit}
+                            </span>
                           </div>
 
-                          <div className="text-right">
-                            <div className="text-3xl font-black text-emerald-400 mb-1">
-                              {Math.round(role.matchPercentage)}%
-                            </div>
-                            <div className="text-xs text-slate-400 uppercase tracking-wider">
-                              Match Score
-                            </div>
-                          </div>
-                        </div>
-
-                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors duration-300">
-                          {role.roleName}
-                        </h3>
-
-                        <div className="mb-6">
-                          <div className="bg-slate-700/50 rounded-xl p-4 border border-slate-600/30">
-                            <p className="text-slate-300 text-sm leading-relaxed italic">
-                              "{role.reasoning}"
+                          <div className="mb-5 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 group-hover:border-slate-600/75 transition-all duration-300">
+                            <p className="text-slate-300 text-xs leading-relaxed line-clamp-3">
+                              {role.reasoning}
                             </p>
                           </div>
-                        </div>
 
-                        <div className="space-y-4">
-                          <div>
-                            <h4 className="text-sm font-semibold text-emerald-400 mb-2 flex items-center gap-2">
+                          <div className="mb-4">
+                            <div className="flex items-center gap-2 mb-3">
                               <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-                              Matching Skills
-                            </h4>
+                              <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                                Matching Skills
+                              </h4>
+                            </div>
                             <div className="flex flex-wrap gap-2">
                               {role.requiredSkills &&
                               role.requiredSkills.length > 0 ? (
                                 role.requiredSkills
-                                  .slice(0, 4)
+                                  .slice(0, 3)
                                   .map((skill, skillIndex) => (
                                     <span
                                       key={skillIndex}
-                                      className="bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-full border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors duration-200"
+                                      className="bg-emerald-500/15 text-emerald-300 text-xs px-2.5 py-1 rounded-lg border border-emerald-500/30 hover:bg-emerald-500/25 hover:border-emerald-400/50 transition-all duration-200 font-medium truncate"
                                     >
-                                      {skill.length > 12
-                                        ? skill.slice(0, 10) + "..."
+                                      ✓{" "}
+                                      {skill.length > 10
+                                        ? skill.slice(0, 8) + "..."
                                         : skill}
                                     </span>
                                   ))
@@ -931,65 +1286,59 @@ const RoleSuggestion = () => {
                                 </span>
                               )}
                               {role.requiredSkills &&
-                                role.requiredSkills.length > 4 && (
-                                  <span className="text-slate-400 text-xs">
-                                    +{role.requiredSkills.length - 4} more
+                                role.requiredSkills.length > 3 && (
+                                  <span className="text-slate-400 text-xs font-medium flex items-center">
+                                    +{role.requiredSkills.length - 3} more
                                   </span>
                                 )}
                             </div>
                           </div>
 
-                          <div>
-                            <h4 className="text-sm font-semibold text-amber-400 mb-2 flex items-center gap-2">
+                          <div className="mb-5">
+                            <div className="flex items-center gap-2 mb-3">
                               <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
-                              Growth Areas
-                            </h4>
-                            <div className="bg-amber-500/10 rounded-lg p-3 border border-amber-500/20">
+                              <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                                Growth Areas
+                              </h4>
+                            </div>
+                            <div className="bg-amber-500/8 rounded-lg p-3 border border-amber-500/20">
                               {role.missingSkills &&
                               role.missingSkills.length > 0 ? (
-                                <ul className="text-amber-300 text-xs space-y-1">
+                                <ul className="text-amber-300 text-xs space-y-1.5">
                                   {role.missingSkills
-                                    .slice(0, 3)
+                                    .slice(0, 2)
                                     .map((skill, skillIndex) => (
                                       <li
                                         key={skillIndex}
                                         className="flex items-center gap-2"
                                       >
-                                        <span className="w-1 h-1 bg-amber-400 rounded-full"></span>
-                                        {skill}
+                                        <span className="w-1.5 h-1.5 bg-amber-400 rounded-full flex-shrink-0"></span>
+                                        <span>{skill}</span>
                                       </li>
                                     ))}
-                                  {role.missingSkills.length > 3 && (
-                                    <li className="text-slate-400 italic">
-                                      +{role.missingSkills.length - 3} more
-                                      areas
+                                  {role.missingSkills.length > 2 && (
+                                    <li className="text-slate-400 italic text-xs">
+                                      +{role.missingSkills.length - 2} more
+                                      skills to develop
                                     </li>
                                   )}
                                 </ul>
                               ) : (
-                                <span className="text-slate-400 text-xs italic">
-                                  No major gaps detected!
-                                </span>
+                                <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
+                                  <svg
+                                    className="w-4 h-4"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                  No major gaps!
+                                </div>
                               )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex justify-between items-center mt-6 pt-4 border-t border-slate-600/30">
-                          <div className="text-center">
-                            <div className="text-xs text-slate-400 mb-1">
-                              Level
-                            </div>
-                            <div className="text-sm font-semibold text-white">
-                              {role.careerLevel}
-                            </div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-xs text-slate-400 mb-1">
-                              Fit
-                            </div>
-                            <div className="text-sm font-semibold text-white">
-                              {role.industryFit}
                             </div>
                           </div>
                         </div>
@@ -1000,6 +1349,701 @@ const RoleSuggestion = () => {
               </div>
             </div>
           )}
+
+          {/* Career Path Section */}
+          {resumeData?.careerPath && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-cyan-600/10 to-blue-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-600 to-cyan-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Career Roadmap
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Your path to professional growth
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  {resumeData.careerPath.current_level && (
+                    <div className="bg-slate-800/60 rounded-xl p-6 border border-slate-600/50">
+                      <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
+                        Current Level
+                      </h4>
+                      <p className="text-xl font-bold text-cyan-400">
+                        {resumeData.careerPath.current_level}
+                      </p>
+                    </div>
+                  )}
+                  {resumeData.careerPath.timeline && (
+                    <div className="bg-slate-800/60 rounded-xl p-6 border border-slate-600/50">
+                      <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
+                        Timeline
+                      </h4>
+                      <p className="text-xl font-bold text-teal-400">
+                        {resumeData.careerPath.timeline}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {resumeData.careerPath.next_roles &&
+                  resumeData.careerPath.next_roles.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                        Recommended Next Roles
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.careerPath.next_roles.map((role, idx) => (
+                          <li
+                            key={idx}
+                            className="flex gap-3 text-sm text-slate-300"
+                          >
+                            <span className="text-emerald-400 flex-shrink-0">
+                              →
+                            </span>
+                            <span>{role}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                {resumeData.careerPath.required_development &&
+                  resumeData.careerPath.required_development.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-amber-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                        Required Development Areas
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.careerPath.required_development.map(
+                          (item, idx) => (
+                            <li
+                              key={idx}
+                              className="flex gap-3 text-sm text-slate-300"
+                            >
+                              <span className="text-amber-400 flex-shrink-0">
+                                •
+                              </span>
+                              <span>{item}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+              </div>
+            </div>
+          )}
+
+          {/* Preparation Plan Section */}
+          {resumeData?.preparationPlan && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 via-amber-600/10 to-yellow-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-amber-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Preparation Plan
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Strategic steps for your development
+                  </p>
+                </div>
+
+                {resumeData.preparationPlan.role_fit_score && (
+                  <div className="mb-8">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-semibold text-slate-300">
+                        Role Fit Score
+                      </span>
+                      <span className="text-2xl font-black text-orange-400">
+                        {Math.round(resumeData.preparationPlan.role_fit_score)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-700/50 rounded-full h-3 border border-slate-600/30">
+                      <div
+                        className="bg-gradient-to-r from-orange-500 to-amber-500 h-3 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${resumeData.preparationPlan.role_fit_score}%`,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+
+                {resumeData.preparationPlan.role_fit_assessment && (
+                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30 mb-6">
+                    <h4 className="text-sm font-semibold text-orange-400 mb-2">
+                      Assessment
+                    </h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {resumeData.preparationPlan.role_fit_assessment}
+                    </p>
+                  </div>
+                )}
+
+                {resumeData.preparationPlan.critical_skill_gaps &&
+                  resumeData.preparationPlan.critical_skill_gaps.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-red-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                        Critical Skill Gaps
+                      </h4>
+                      <div className="space-y-3">
+                        {resumeData.preparationPlan.critical_skill_gaps.map(
+                          (gap, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-red-500/10 rounded-lg p-4 border border-red-500/20"
+                            >
+                              <div className="flex items-start gap-3">
+                                <span className="text-red-400 flex-shrink-0 font-bold">
+                                  !
+                                </span>
+                                <div>
+                                  <h5 className="text-sm font-semibold text-red-300 mb-1">
+                                    {gap.skill}
+                                  </h5>
+                                  <p className="text-xs text-slate-300 mb-2">
+                                    <strong>Importance:</strong>{" "}
+                                    {gap.importance}
+                                  </p>
+                                  <p className="text-xs text-slate-400 leading-relaxed">
+                                    {gap.how_to_develop}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {resumeData.preparationPlan.personality_alignment && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-purple-400 mb-3 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                      Personality Alignment
+                    </h4>
+                    <div className="space-y-4">
+                      {resumeData.preparationPlan.personality_alignment
+                        .aligned_traits &&
+                        resumeData.preparationPlan.personality_alignment
+                          .aligned_traits.length > 0 && (
+                          <div className="bg-purple-500/10 rounded-lg p-4 border border-purple-500/20">
+                            <h5 className="text-xs font-semibold text-purple-400 mb-2 uppercase tracking-wider">
+                              Aligned Traits
+                            </h5>
+                            <ul className="space-y-1">
+                              {resumeData.preparationPlan.personality_alignment.aligned_traits.map(
+                                (trait, idx) => (
+                                  <li
+                                    key={idx}
+                                    className="flex gap-2 text-xs text-purple-300"
+                                  >
+                                    <span className="text-purple-400 flex-shrink-0">
+                                      ✓
+                                    </span>
+                                    <span>{trait}</span>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                      {resumeData.preparationPlan.personality_alignment
+                        .traits_to_develop &&
+                        resumeData.preparationPlan.personality_alignment
+                          .traits_to_develop.length > 0 && (
+                          <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
+                            <h5 className="text-xs font-semibold text-blue-400 mb-2 uppercase tracking-wider">
+                              Traits to Develop
+                            </h5>
+                            <ul className="space-y-1">
+                              {resumeData.preparationPlan.personality_alignment.traits_to_develop.map(
+                                (trait, idx) => (
+                                  <li
+                                    key={idx}
+                                    className="flex gap-2 text-xs text-blue-300"
+                                  >
+                                    <span className="text-blue-400 flex-shrink-0">
+                                      →
+                                    </span>
+                                    <span>{trait}</span>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                      {resumeData.preparationPlan.personality_alignment
+                        .personality_tips && (
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600/30">
+                          <h5 className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
+                            Tips
+                          </h5>
+                          <p className="text-xs text-slate-300 leading-relaxed">
+                            {
+                              resumeData.preparationPlan.personality_alignment
+                                .personality_tips
+                            }
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {resumeData.preparationPlan.strengths_to_leverage &&
+                  resumeData.preparationPlan.strengths_to_leverage.length >
+                    0 && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                        Strengths to Leverage
+                      </h4>
+                      <div className="space-y-3">
+                        {resumeData.preparationPlan.strengths_to_leverage.map(
+                          (strength, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20"
+                            >
+                              <h5 className="text-sm font-semibold text-emerald-300 mb-2">
+                                {strength.strength}
+                              </h5>
+                              <p className="text-xs text-slate-300 leading-relaxed">
+                                <strong>How to Highlight:</strong>{" "}
+                                {strength.how_to_highlight}
+                              </p>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {resumeData.preparationPlan.development_areas &&
+                  resumeData.preparationPlan.development_areas.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-rose-400 mb-3 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-rose-400 rounded-full"></div>
+                        Development Areas
+                      </h4>
+                      <div className="space-y-3">
+                        {resumeData.preparationPlan.development_areas.map(
+                          (area, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-rose-500/10 rounded-lg p-4 border border-rose-500/20"
+                            >
+                              <h5 className="text-sm font-semibold text-rose-300 mb-2">
+                                {area.weakness}
+                              </h5>
+                              <p className="text-xs text-slate-300 leading-relaxed">
+                                <strong>Action Plan:</strong> {area.action_plan}
+                              </p>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {resumeData.preparationPlan.preparation_timeline && (
+                  <div className="mt-6 space-y-4">
+                    <h4 className="text-sm font-semibold text-amber-400 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                      Timeline
+                    </h4>
+                    {Object.entries(
+                      resumeData.preparationPlan.preparation_timeline
+                    ).map(([phase, items]) => (
+                      <div
+                        key={phase}
+                        className="bg-slate-800/30 rounded-lg p-4 border border-slate-600/30"
+                      >
+                        <h5 className="text-sm font-bold text-amber-300 mb-2 capitalize">
+                          {phase.replace(/_/g, " ")}
+                        </h5>
+                        {Array.isArray(items) && (
+                          <ul className="space-y-1">
+                            {items.map((item, idx) => (
+                              <li
+                                key={idx}
+                                className="flex gap-2 text-xs text-slate-300"
+                              >
+                                <span className="text-amber-400 flex-shrink-0">
+                                  ✓
+                                </span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Readiness Timeline & Motivation Section */}
+          {(resumeData?.preparationPlan?.estimated_readiness_timeline ||
+            resumeData?.preparationPlan?.motivation_summary) && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-rose-600/10 via-pink-600/10 to-purple-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-rose-600 to-pink-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Your Journey
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Timeline and motivation for success
+                  </p>
+                </div>
+
+                {resumeData.preparationPlan.estimated_readiness_timeline && (
+                  <div className="mb-8 bg-slate-800/60 rounded-xl p-6 border border-slate-600/50">
+                    <h4 className="text-sm font-semibold text-rose-400 mb-3 flex items-center gap-2">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      Estimated Readiness Timeline
+                    </h4>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      {resumeData.preparationPlan.estimated_readiness_timeline}
+                    </p>
+                  </div>
+                )}
+
+                {resumeData.preparationPlan.motivation_summary && (
+                  <div className="bg-gradient-to-r from-rose-500/10 to-pink-500/10 rounded-xl p-6 border border-rose-500/20">
+                    <h4 className="text-sm font-semibold text-pink-400 mb-3 flex items-center gap-2">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      Your Success Message
+                    </h4>
+                    <p className="text-sm text-pink-300 leading-relaxed italic">
+                      "{resumeData.preparationPlan.motivation_summary}"
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Interview Preparation Section */}
+          {resumeData?.interview_preparation && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 via-purple-600/10 to-violet-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Interview Preparation
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Key strategies for successful interviews
+                  </p>
+                </div>
+
+                {resumeData.interview_preparation.key_points_to_emphasize &&
+                  resumeData.interview_preparation.key_points_to_emphasize
+                    .length > 0 && (
+                    <div className="mb-8">
+                      <h4 className="text-sm font-semibold text-emerald-400 mb-4 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                        Key Points to Emphasize
+                      </h4>
+                      <ul className="space-y-3">
+                        {resumeData.interview_preparation.key_points_to_emphasize.map(
+                          (point, idx) => (
+                            <li
+                              key={idx}
+                              className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20"
+                            >
+                              <p className="text-sm text-emerald-300">
+                                {point}
+                              </p>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                {resumeData.interview_preparation.common_interview_questions &&
+                  resumeData.interview_preparation.common_interview_questions
+                    .length > 0 && (
+                    <div className="mb-8">
+                      <h4 className="text-sm font-semibold text-cyan-400 mb-4 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        Common Interview Questions
+                      </h4>
+                      <div className="space-y-3">
+                        {resumeData.interview_preparation.common_interview_questions.map(
+                          (question, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-cyan-500/10 rounded-lg p-4 border border-cyan-500/20"
+                            >
+                              <p className="text-sm text-cyan-300 font-semibold">
+                                {idx + 1}. {question}
+                              </p>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                {resumeData.interview_preparation.best_answers_outline && (
+                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-600/30">
+                    <h4 className="text-sm font-semibold text-purple-400 mb-2">
+                      Answering Strategy
+                    </h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      {resumeData.interview_preparation.best_answers_outline}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Resume Improvements Section */}
+          {resumeData?.resume_improvements &&
+            resumeData.resume_improvements.length > 0 && (
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 via-emerald-600/10 to-teal-600/10 rounded-3xl blur-xl"></div>
+                <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                  <div className="text-center mb-12">
+                    <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 p-3 rounded-2xl mb-4">
+                      <svg
+                        className="h-8 w-8 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <h2 className="text-3xl font-bold text-white">
+                        Resume Enhancements
+                      </h2>
+                    </div>
+                    <p className="text-slate-300 text-lg">
+                      Section-by-section improvements
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    {resumeData.resume_improvements.map((improvement, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-slate-800/60 rounded-xl p-6 border border-slate-600/50"
+                      >
+                        <div className="mb-4">
+                          <h4 className="text-sm font-bold text-green-400 mb-2 uppercase tracking-wider">
+                            {improvement.section}
+                          </h4>
+                          <div className="flex gap-4 text-xs">
+                            <div>
+                              <span className="text-slate-400">
+                                Current Gap:
+                              </span>
+                              <p className="text-slate-300 mt-1">
+                                {improvement.current_gap}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20">
+                          <h5 className="text-xs font-semibold text-emerald-400 mb-2 uppercase tracking-wider">
+                            Recommended Improvement
+                          </h5>
+                          <p className="text-sm text-emerald-300 leading-relaxed">
+                            {improvement.improvement}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+          {/* Success Metrics Section */}
+          {resumeData?.success_metrics && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 via-amber-600/10 to-orange-600/10 rounded-3xl blur-xl"></div>
+              <div className="relative bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-600 to-amber-600 p-3 rounded-2xl mb-4">
+                    <svg
+                      className="h-8 w-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      />
+                    </svg>
+                    <h2 className="text-3xl font-bold text-white">
+                      Success Metrics
+                    </h2>
+                  </div>
+                  <p className="text-slate-300 text-lg">
+                    Milestones for achieving your career goals
+                  </p>
+                </div>
+
+                {resumeData.success_metrics.skill_readiness && (
+                  <div className="mb-6 bg-slate-800/60 rounded-xl p-6 border border-slate-600/50">
+                    <h4 className="text-sm font-semibold text-yellow-400 mb-3 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                      Skill Readiness
+                    </h4>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      {resumeData.success_metrics.skill_readiness}
+                    </p>
+                  </div>
+                )}
+
+                {resumeData.success_metrics.experience_requirements && (
+                  <div className="mb-6 bg-slate-800/60 rounded-xl p-6 border border-slate-600/50">
+                    <h4 className="text-sm font-semibold text-amber-400 mb-3 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                      Experience Requirements
+                    </h4>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      {resumeData.success_metrics.experience_requirements}
+                    </p>
+                  </div>
+                )}
+
+                {resumeData.success_metrics.confidence_checklist &&
+                  resumeData.success_metrics.confidence_checklist.length >
+                    0 && (
+                    <div className="bg-orange-500/10 rounded-xl p-6 border border-orange-500/20">
+                      <h4 className="text-sm font-semibold text-orange-400 mb-4 flex items-center gap-2">
+                        <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                        Confidence Checklist
+                      </h4>
+                      <ul className="space-y-2">
+                        {resumeData.success_metrics.confidence_checklist.map(
+                          (item, idx) => (
+                            <li
+                              key={idx}
+                              className="flex gap-3 text-sm text-orange-300"
+                            >
+                              <span className="text-orange-400 flex-shrink-0 font-bold">
+                                ✓
+                              </span>
+                              <span>{item}</span>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+              </div>
+            </div>
+          )}
+
           {renderSpecialError()}
 
           {alertMessage && (

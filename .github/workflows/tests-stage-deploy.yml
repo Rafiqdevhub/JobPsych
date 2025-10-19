@@ -405,5 +405,106 @@ jobs:
       - name: Notify deployment team
         if: success()
         run: |
-          echo "Staging deployment completed successfully!"
+          echo "🎉 Staging deployment completed successfully!"
           echo "Ready for manual QA and approval before production deployment."
+
+  # 11. Production Deployment (After staging approval)
+  production-deploy:
+    name: "Production Deployment"
+    runs-on: ubuntu-latest
+    needs: staging-validation
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    environment:
+      name: production
+      url: https://jobpsych.vercel.app
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: dist/
+      - name: Deploy to Production (Mock)
+        run: |
+          echo "Deploying build from /dist to production..."
+          echo "Production URL: https://jobpsych.vercel.app"
+          echo "In production, this would deploy to Vercel production environment"
+          echo "Mock production deployment complete."
+
+  # 12. Production Smoke Tests
+  production-smoke-tests:
+    name: "Production Smoke Tests"
+    runs-on: ubuntu-latest
+    needs: production-deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run Production Smoke Tests
+        run: npx playwright test e2e/smoke.spec.js --grep "@smoke"
+        env:
+          BASE_URL: https://jobpsych.vercel.app
+      - name: Upload production test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-smoke-test-results
+          path: |
+            test-results/
+            playwright-report/
+
+  # 13. Production Validation
+  production-validation:
+    name: "Production Validation"
+    needs: production-smoke-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: dist/
+      - name: Make validation script executable
+        run: chmod +x ./scripts/validate-staging.sh
+      - name: Comprehensive production validation
+        run: ./scripts/validate-staging.sh https://jobpsych.vercel.app
+      - name: Create production deployment summary
+        run: |
+          PROD_URL="https://jobpsych.vercel.app"
+          echo "## Production Deployment Complete" > production-deployment-summary.md
+          echo "" >> production-deployment-summary.md
+          echo "**Production URL:** $PROD_URL" >> production-deployment-summary.md
+          echo "**Deployed at:** $(date)" >> production-deployment-summary.md
+          echo "" >> production-deployment-summary.md
+          echo "### Deployment Status" >> production-deployment-summary.md
+          echo "- ✅ Staging validation passed" >> production-deployment-summary.md
+          echo "- ✅ Production deployment completed" >> production-deployment-summary.md
+          echo "- ✅ Smoke tests passed" >> production-deployment-summary.md
+          echo "- ✅ Production validation completed" >> production-deployment-summary.md
+          echo "" >> production-deployment-summary.md
+          echo "### Quick Links" >> production-deployment-summary.md
+          echo "- [View Production Site]($PROD_URL)" >> production-deployment-summary.md
+          echo "- [Monitor Application Health](./health-check-results.json)" >> production-deployment-summary.md
+
+      - name: Upload production summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-deployment-summary
+          path: production-deployment-summary.md
+
+      - name: Notify production deployment
+        if: success()
+        run: |
+          echo "Production deployment completed successfully!"
+          echo "Application is live at: https://jobpsych.vercel.app"

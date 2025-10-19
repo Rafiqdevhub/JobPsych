@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1
+      "actualWorkers": 4
     },
     "preserveOutput": "always",
     "reporter": [
@@ -41,7 +41,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "chromium",
         "name": "chromium",
@@ -57,7 +57,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "firefox",
         "name": "firefox",
@@ -73,7 +73,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "webkit",
         "name": "webkit",
@@ -99,40 +99,50 @@
   },
   "suites": [
     {
-      "title": "stress-test.spec.js",
-      "file": "stress-test.spec.js",
+      "title": "memory-leak-test.spec.js",
+      "file": "memory-leak-test.spec.js",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Stress Testing Suite",
-          "file": "stress-test.spec.js",
-          "line": 9,
+          "title": "Memory Leak Detection",
+          "file": "memory-leak-test.spec.js",
+          "line": 8,
           "column": 6,
           "specs": [
             {
-              "title": "should handle rapid navigation between pages",
+              "title": "should not leak memory during extended browsing session",
               "ok": true,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 300000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 24725,
+                      "duration": 171877,
                       "errors": [],
-                      "stdout": [],
+                      "stdout": [
+                        {
+                          "text": "Memory Growth: 0.00%\n"
+                        },
+                        {
+                          "text": "Initial Memory: 12.78 MB\n"
+                        },
+                        {
+                          "text": "Final Memory: 12.78 MB\n"
+                        }
+                      ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-13T17:24:52.502Z",
+                      "startTime": "2025-10-14T03:30:35.962Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -140,9 +150,1011 @@
                   "status": "expected"
                 }
               ],
-              "id": "738915d924cb4dae9e32-d11a308d9d7581a2198d",
-              "file": "stress-test.spec.js",
-              "line": 12,
+              "id": "be2bef5cd631f2350952-7824b1c03a0360601838",
+              "file": "memory-leak-test.spec.js",
+              "line": 11,
+              "column": 3
+            },
+            {
+              "title": "should clean up event listeners on unmount",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 44907,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial listeners: 0\n"
+                        },
+                        {
+                          "text": "Final listeners: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:30:35.960Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-7af75d52f7e1f698be1b",
+              "file": "memory-leak-test.spec.js",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "should handle long-running chatbot session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 86113,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Chat session memory growth: 0.00%\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:30:35.907Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-0e327f597de6e9957da2",
+              "file": "memory-leak-test.spec.js",
+              "line": 134,
+              "column": 3
+            },
+            {
+              "title": "should not accumulate DOM nodes over time",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 43134,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial DOM nodes: 111\n"
+                        },
+                        {
+                          "text": "Final DOM nodes: 111\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:30:35.977Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-2a300d72dd30ebf73d62",
+              "file": "memory-leak-test.spec.js",
+              "line": 216,
+              "column": 3
+            },
+            {
+              "title": "should handle localStorage cleanup properly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4940,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial localStorage: 2981 bytes\n"
+                        },
+                        {
+                          "text": "Final localStorage: 2 bytes\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:31:19.751Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-b300b86ad009e3c104b8",
+              "file": "memory-leak-test.spec.js",
+              "line": 247,
+              "column": 3
+            },
+            {
+              "title": "should detect memory leaks in file upload component",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4733,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:31:21.539Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-d0d8a1a26e9de92a9735",
+              "file": "memory-leak-test.spec.js",
+              "line": 286,
+              "column": 3
+            },
+            {
+              "title": "should measure performance over extended session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 38882,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 2329,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 1388\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 1546,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 539\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 1676,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 537\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 1626,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 409\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 1128,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 263\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 1203,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 202\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 1055,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 378\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 1287,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 263\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 922,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 220\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 940,\n    \"memory\": 12.111663818359375,\n    \"navigation\": 207\n  }\n]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:31:24.799Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-800b4dc98128c453524a",
+              "file": "memory-leak-test.spec.js",
+              "line": 342,
+              "column": 3
+            },
+            {
+              "title": "should handle WebSocket connections without leaks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7123,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:31:26.373Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-c18429b4ef6f4619b5a8",
+              "file": "memory-leak-test.spec.js",
+              "line": 388,
+              "column": 3
+            },
+            {
+              "title": "should not leak memory during extended browsing session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 229570,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:32:12.702Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-81e793f2a56bef9fc820",
+              "file": "memory-leak-test.spec.js",
+              "line": 11,
+              "column": 3
+            },
+            {
+              "title": "should clean up event listeners on unmount",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 145510,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial listeners: 0\n"
+                        },
+                        {
+                          "text": "Final listeners: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:32:12.812Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-dc8c6c4c8781f03e170f",
+              "file": "memory-leak-test.spec.js",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "should handle long-running chatbot session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 85741,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:32:12.945Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-2621e8dd5794c6b263cd",
+              "file": "memory-leak-test.spec.js",
+              "line": 134,
+              "column": 3
+            },
+            {
+              "title": "should not accumulate DOM nodes over time",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 86446,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial DOM nodes: 111\n"
+                        },
+                        {
+                          "text": "Final DOM nodes: 111\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:34:29.021Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-4f8f62ac92485e54da3d",
+              "file": "memory-leak-test.spec.js",
+              "line": 216,
+              "column": 3
+            },
+            {
+              "title": "should handle localStorage cleanup properly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 14489,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial localStorage: 2981 bytes\n"
+                        },
+                        {
+                          "text": "Final localStorage: 2 bytes\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:33:40.788Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-29e2092dd0c766afcdcc",
+              "file": "memory-leak-test.spec.js",
+              "line": 247,
+              "column": 3
+            },
+            {
+              "title": "should detect memory leaks in file upload component",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 8100,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:33:55.470Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-2a4cd2f4619ba73d4ee8",
+              "file": "memory-leak-test.spec.js",
+              "line": 286,
+              "column": 3
+            },
+            {
+              "title": "should measure performance over extended session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 59729,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 3380,\n    \"memory\": null,\n    \"navigation\": 2755\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 2570,\n    \"memory\": null,\n    \"navigation\": 1887\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 3500,\n    \"memory\": null,\n    \"navigation\": 2897\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 3038,\n    \"memory\": null,\n    \"navigation\": 2427\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 2558,\n    \"memory\": null,\n    \"navigation\": 1844\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 2172,\n    \"memory\": null,\n    \"navigation\": 1519\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 3425,\n    \"memory\": null,\n    \"navigation\": 2699\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 2365,\n    \"memory\": null,\n    \"navigation\": 1809\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 6376,\n    \"memory\": null,\n    \"navigation\": 5530\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 4140,\n    \"memory\": null,\n    \"navigation\": 3441\n  }\n]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:34:03.637Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-9866a96f5550cac8ff39",
+              "file": "memory-leak-test.spec.js",
+              "line": 342,
+              "column": 3
+            },
+            {
+              "title": "should handle WebSocket connections without leaks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 16115,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:34:42.978Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-4ce45de4369881bb4533",
+              "file": "memory-leak-test.spec.js",
+              "line": 388,
+              "column": 3
+            },
+            {
+              "title": "should not leak memory during extended browsing session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 131106,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:35:33.829Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-3e4f2197ff0a7915691c",
+              "file": "memory-leak-test.spec.js",
+              "line": 11,
+              "column": 3
+            },
+            {
+              "title": "should clean up event listeners on unmount",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 27578,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial listeners: 0\n"
+                        },
+                        {
+                          "text": "Final listeners: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:35:47.019Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-502e08abccc6c9a03a56",
+              "file": "memory-leak-test.spec.js",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "should handle long-running chatbot session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7787,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "Toggle button not found or already open, continuing...\n"
+                        },
+                        {
+                          "text": "Chat input not visible on iteration 0, skipping...\n"
+                        },
+                        {
+                          "text": "Chat input not visible on iteration 1, skipping...\n"
+                        },
+                        {
+                          "text": "Chat input not visible on iteration 2, skipping...\n"
+                        },
+                        {
+                          "text": "Chat input not visible on iteration 3, skipping...\n"
+                        },
+                        {
+                          "text": "Chat input not visible on iteration 4, skipping...\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:08.071Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-8ebde164e7acd3c24b9a",
+              "file": "memory-leak-test.spec.js",
+              "line": 134,
+              "column": 3
+            },
+            {
+              "title": "should not accumulate DOM nodes over time",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 23369,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial DOM nodes: 50\n"
+                        },
+                        {
+                          "text": "Final DOM nodes: 50\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:13.915Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-3c459d818c9e0a51c531",
+              "file": "memory-leak-test.spec.js",
+              "line": 216,
+              "column": 3
+            },
+            {
+              "title": "should handle localStorage cleanup properly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3461,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Initial localStorage: 2981 bytes\n"
+                        },
+                        {
+                          "text": "Final localStorage: 2 bytes\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:15.509Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-0f88ee50172dd59f5297",
+              "file": "memory-leak-test.spec.js",
+              "line": 247,
+              "column": 3
+            },
+            {
+              "title": "should detect memory leaks in file upload component",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1953,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:16.137Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-41da0875e842423bfefc",
+              "file": "memory-leak-test.spec.js",
+              "line": 286,
+              "column": 3
+            },
+            {
+              "title": "should measure performance over extended session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 31658,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Performance over time: [\n  {\n    \"iteration\": 0,\n    \"loadTime\": 1352,\n    \"memory\": null,\n    \"navigation\": 816\n  },\n  {\n    \"iteration\": 1,\n    \"loadTime\": 1016,\n    \"memory\": null,\n    \"navigation\": 508\n  },\n  {\n    \"iteration\": 2,\n    \"loadTime\": 1033,\n    \"memory\": null,\n    \"navigation\": 506\n  },\n  {\n    \"iteration\": 3,\n    \"loadTime\": 1020,\n    \"memory\": null,\n    \"navigation\": 498\n  },\n  {\n    \"iteration\": 4,\n    \"loadTime\": 1020,\n    \"memory\": null,\n    \"navigation\": 510\n  },\n  {\n    \"iteration\": 5,\n    \"loadTime\": 1017,\n    \"memory\": null,\n    \"navigation\": 505\n  },\n  {\n    \"iteration\": 6,\n    \"loadTime\": 1017,\n    \"memory\": null,\n    \"navigation\": 507\n  },\n  {\n    \"iteration\": 7,\n    \"loadTime\": 1027,\n    \"memory\": null,\n    \"navigation\": 517\n  },\n  {\n    \"iteration\": 8,\n    \"loadTime\": 1003,\n    \"memory\": null,\n    \"navigation\": 492\n  },\n  {\n    \"iteration\": 9,\n    \"loadTime\": 1018,\n    \"memory\": null,\n    \"navigation\": 507\n  }\n]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:18.253Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-ddaccaedfca732831632",
+              "file": "memory-leak-test.spec.js",
+              "line": 342,
+              "column": 3
+            },
+            {
+              "title": "should handle WebSocket connections without leaks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4195,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:19.044Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-f409b278defc2ae8c402",
+              "file": "memory-leak-test.spec.js",
+              "line": 388,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Long-Running Session Stability",
+          "file": "memory-leak-test.spec.js",
+          "line": 419,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should remain stable during 5-minute session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 33804,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Session completed with 0 errors\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:31:33.597Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-5639fbec9dfce209f940",
+              "file": "memory-leak-test.spec.js",
+              "line": 420,
+              "column": 3
+            },
+            {
+              "title": "should remain stable during 5-minute session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 36589,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Session completed with 0 errors\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:34:59.199Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-07240bbc76a3018900f6",
+              "file": "memory-leak-test.spec.js",
+              "line": 420,
+              "column": 3
+            },
+            {
+              "title": "should remain stable during 5-minute session",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 31857,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Session completed with 0 errors\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-14T03:36:23.299Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "be2bef5cd631f2350952-48ac3d51bb2919a60442",
+              "file": "memory-leak-test.spec.js",
+              "line": 420,
               "column": 3
             }
           ]
@@ -152,9 +1164,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-10-13T17:24:48.965Z",
-    "duration": 31249.603,
-    "expected": 1,
+    "startTime": "2025-10-14T03:30:29.822Z",
+    "duration": 437668.884,
+    "expected": 27,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

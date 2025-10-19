@@ -184,9 +184,9 @@
     <!-- Preconnect to essential domains -->
     <link rel="preconnect" href="https://jobpsych.vercel.app/" />
     <link rel="dns-prefetch" href="https://jobpsych.vercel.app/" />
-    <script type="module" crossorigin src="/assets/index-Ca9G6t1D.js"></script>
+    <script type="module" crossorigin src="/assets/index-kyAmwHga.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-CmvfTBfC.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CwjTD6EN.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-C4lZGkct.css">
   </head>
   <body>
     <noscript>
@@ -209,5 +209,51 @@
       </div>
     </noscript>
     <div id="root"></div>
+    <!-- Fallback content for WebKit -->
+    <div
+      id="webkit-fallback"
+      style="display: none; min-height: 100vh; background: #f9fafb"
+    >
+      <div style="padding: 20px; text-align: center">
+        <h1>JobPsych</h1>
+        <p>Loading...</p>
+      </div>
+    </div>
+    <!-- WebKit compatibility script -->
+    <script>
+      // WebKit-specific fixes for rendering issues
+      (function () {
+        const isWebKit =
+          navigator.userAgent.includes("WebKit") &&
+          !navigator.userAgent.includes("Chrome");
+        if (isWebKit) {
+          console.warn("Applying WebKit compatibility fixes");
+
+          // Ensure body has proper dimensions
+          document.body.style.minHeight = "100vh";
+          document.body.style.height = "auto";
+          document.documentElement.style.height = "100%";
+
+          // Force layout recalculation
+          document.body.offsetHeight;
+
+          // Show fallback content initially
+          const fallback = document.getElementById("webkit-fallback");
+          if (fallback) {
+            fallback.style.display = "block";
+          }
+
+          // Hide fallback after React mounts
+          setTimeout(function () {
+            const root = document.getElementById("root");
+            if (root && root.children.length > 0) {
+              if (fallback) {
+                fallback.style.display = "none";
+              }
+            }
+          }, 1000);
+        }
+      })();
+    </script>
   </body>
 </html>
