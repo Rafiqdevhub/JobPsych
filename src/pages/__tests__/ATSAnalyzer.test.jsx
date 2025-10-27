@@ -34,10 +34,9 @@ describe("ATSAnalyzer Component", () => {
   it("renders the main ATS Analyzer interface", () => {
     render(<ATSAnalyzer />);
 
-    expect(screen.getByText("ATS")).toBeInTheDocument();
-    expect(screen.getByText("Analyzer")).toBeInTheDocument();
+    expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
     expect(
-      screen.getByText("AI-Powered Resume Optimization")
+      screen.getByText("Beat ATS systems and land more interviews")
     ).toBeInTheDocument();
     expect(screen.getByText("Start ATS Analysis")).toBeInTheDocument();
   });
@@ -59,7 +58,7 @@ describe("ATSAnalyzer Component", () => {
     render(<ATSAnalyzer />);
 
     expect(screen.getByText("Back to Home")).toBeInTheDocument();
-    expect(screen.getByText("AI Powered")).toBeInTheDocument();
+    expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
   });
 
   it("displays status indicators and badges", () => {
@@ -79,10 +78,11 @@ describe("ATSAnalyzer Component", () => {
     render(<ATSAnalyzer />);
 
     // Check for the actual content that exists
-    expect(screen.getByText("ATS Optimization Tips")).toBeInTheDocument();
-    expect(screen.getByText("Standard Headers")).toBeInTheDocument();
-    expect(screen.getByText("Keyword Optimization")).toBeInTheDocument();
-    expect(screen.getByText("Quantifiable Results")).toBeInTheDocument();
+    expect(screen.getByText("Why Our ATS Platform?")).toBeInTheDocument();
+    // Use getAllByText to handle multiple instances
+    const realtimeElements = screen.getAllByText("Real-time Analysis");
+    expect(realtimeElements.length).toBeGreaterThan(0);
+    expect(screen.getByText("Multi-ATS Support")).toBeInTheDocument();
   });
 
   it("handles Start ATS Analysis button click", () => {
@@ -147,9 +147,10 @@ describe("ATSAnalyzer Component", () => {
     );
     expect(gradientElements.length).toBeGreaterThan(0);
 
-    // Check for animated elements
-    const animatedElements = container.querySelectorAll("[class*='animate-']");
-    expect(animatedElements.length).toBeGreaterThan(0);
+    // Note: Animated elements have been removed per design requirements
+    // Check for static blur effects instead
+    const blurElements = container.querySelectorAll("[class*='blur']");
+    expect(blurElements.length).toBeGreaterThan(0);
   });
 
   it("maintains component stability during re-renders", () => {
@@ -182,17 +183,17 @@ describe("ATSAnalyzer Component", () => {
   it("renders all feature cards in sidebar", () => {
     render(<ATSAnalyzer />);
 
-    const featureTitles = [
-      "ATS Optimization Tips",
-      "Standard Headers",
-      "Keyword Optimization",
-      "Quantifiable Results",
-      "ATS Analysis Ready?",
-    ];
+    // Use getAllByText for elements that appear multiple times
+    expect(screen.getByText("Why Our ATS Platform?")).toBeInTheDocument();
+    expect(screen.getByText("ATS Tips & Best Practices")).toBeInTheDocument();
+    expect(screen.getByText("Beat Every ATS System!")).toBeInTheDocument();
 
-    featureTitles.forEach((title) => {
-      expect(screen.getByText(title)).toBeInTheDocument();
-    });
+    // These appear in multiple places (in cards and as badges)
+    const stdHeaderElements = screen.getAllByText("Standard Headers");
+    expect(stdHeaderElements.length).toBeGreaterThan(0);
+
+    const realtimeElements = screen.getAllByText("Real-time Analysis");
+    expect(realtimeElements.length).toBeGreaterThan(0);
   });
 
   it("has proper z-index layering", () => {
