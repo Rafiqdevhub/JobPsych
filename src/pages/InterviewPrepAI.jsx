@@ -34,7 +34,7 @@ const InterviewPrepAI = () => {
             <div className="flex-shrink-0 mb-4 sm:mb-0">
               <button
                 onClick={() => (window.location.href = "/")}
-                className="inline-flex items-center gap-2 bg-indigo-600 px-6 py-3 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-indigo-600 px-6 py-3 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 cursor-pointer"
                 style={{
                   pointerEvents: "auto",
                   zIndex: 10,
@@ -82,7 +82,7 @@ const InterviewPrepAI = () => {
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 max-h-none lg:max-h-[75vh]">
           <div className="lg:col-span-3">
-            <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-700 overflow-hidden h-auto min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex flex-col">
+            <div className="bg-slate-800/90 rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-700 overflow-hidden h-auto min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex flex-col">
               <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 sm:px-6 py-3 sm:py-4 text-center">
                 <h2 className="text-lg sm:text-xl font-bold text-white flex items-center justify-center gap-2 sm:gap-3">
                   <svg
@@ -107,7 +107,7 @@ const InterviewPrepAI = () => {
                   <div className="text-center max-w-xl mx-auto px-2">
                     <div className="mb-4 sm:mb-6">
                       <div className="relative mb-3 sm:mb-4">
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur-xl opacity-20 animate-pulse"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur-xl opacity-20"></div>
                         <div className="relative bg-gradient-to-r from-indigo-600 to-purple-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl inline-block">
                           <svg
                             className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white"
@@ -142,7 +142,7 @@ const InterviewPrepAI = () => {
 
                     <button
                       onClick={handleStartInterview}
-                      className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 text-white font-bold rounded-lg sm:rounded-xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 cursor-pointer text-base sm:text-lg w-full sm:w-auto"
+                      className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 text-white font-bold rounded-lg sm:rounded-xl shadow-2xl hover:shadow-indigo-500/25 cursor-pointer text-base sm:text-lg w-full sm:w-auto"
                       style={{
                         pointerEvents: "auto",
                         zIndex: 10,
@@ -153,7 +153,7 @@ const InterviewPrepAI = () => {
                       <div className="relative flex items-center justify-center gap-2 sm:gap-3">
                         <span>Start AI Interview</span>
                         <svg
-                          className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300"
+                          className="h-4 w-4 sm:h-5 sm:w-5"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -178,12 +178,12 @@ const InterviewPrepAI = () => {
           </div>
 
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
-            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-indigo-500/30 transition-all duration-300">
+            <div className="bg-slate-800/60 rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-indigo-500/30">
               <h3 className="text-sm sm:text-md font-bold text-indigo-400 mb-2 sm:mb-3 flex items-center gap-2">
                 Why Our AI Platform?
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 transition-all duration-300">
+                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20">
                   <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">1</span>
                   </div>
@@ -197,7 +197,7 @@ const InterviewPrepAI = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all duration-300">
+                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20">
                   <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">2</span>
                   </div>
@@ -211,7 +211,7 @@ const InterviewPrepAI = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
+                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20">
                   <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">3</span>
                   </div>
@@ -227,12 +227,12 @@ const InterviewPrepAI = () => {
               </div>
             </div>
 
-            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-purple-500/30 transition-all duration-300">
+            <div className="bg-slate-800/60 rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-purple-500/30">
               <h3 className="text-sm sm:text-md font-bold text-purple-400 mb-2 sm:mb-3 flex items-center gap-2">
                 Skills You'll Master
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all duration-300">
+                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20">
                   <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg
                       className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white"
@@ -258,7 +258,7 @@ const InterviewPrepAI = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 transition-all duration-300">
+                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20">
                   <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg
                       className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white"
@@ -284,7 +284,7 @@ const InterviewPrepAI = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
+                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20">
                   <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg
                       className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white"
@@ -323,7 +323,7 @@ const InterviewPrepAI = () => {
               </div>
             </div>
 
-            <div className="hidden sm:block bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-emerald-500/30 p-4 sm:p-6 hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300">
+            <div className="hidden sm:block bg-slate-800/60 rounded-xl sm:rounded-2xl border border-emerald-500/30 p-4 sm:p-6 hover:shadow-2xl hover:border-emerald-500/50">
               <div className="flex items-start space-x-3">
                 <div className="flex-1">
                   <h4 className="text-xs sm:text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2">
