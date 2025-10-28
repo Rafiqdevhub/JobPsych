@@ -44,9 +44,6 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 mb-16">
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-sm font-bold">JP</span>
-              </div>
               <h3 className="text-lg font-semibold text-white">
                 About JobPsych
               </h3>
@@ -60,9 +57,6 @@ const Footer = () => {
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-xs">✓</span>
-              </div>
               <h3 className="text-lg font-semibold text-white">Key Features</h3>
             </div>
             <ul className="text-gray-300 space-y-3 text-sm">
@@ -94,9 +88,6 @@ const Footer = () => {
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-purple-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-xs">🚀</span>
-              </div>
               <h3 className="text-lg font-semibold text-white">
                 Release Timeline
               </h3>
@@ -160,9 +151,6 @@ const Footer = () => {
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white text-xs">→</span>
-              </div>
               <h3 className="text-lg font-semibold text-white">Quick Access</h3>
             </div>
             <div className="space-y-3">
