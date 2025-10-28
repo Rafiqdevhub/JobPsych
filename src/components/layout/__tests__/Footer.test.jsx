@@ -86,11 +86,11 @@ describe("Footer Component", () => {
     expect(screen.getByText("v1.1.0")).toBeInTheDocument();
     expect(screen.getByText("AI Resume Tools")).toBeInTheDocument();
 
-    expect(screen.getByText("v1.1.1")).toBeInTheDocument();
-    expect(screen.getByText("Payment System")).toBeInTheDocument();
-
     expect(screen.getByText("v2.0.0")).toBeInTheDocument();
     expect(screen.getByText("Major Enhancements")).toBeInTheDocument();
+
+    expect(screen.getByText("v2.1.0")).toBeInTheDocument();
+    expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
   });
 
   it("renders quick access navigation buttons", () => {

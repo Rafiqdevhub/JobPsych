@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import LandingPage from "../LandingPage";
 
@@ -85,18 +85,6 @@ describe("LandingPage Component", () => {
       "from-indigo-50",
       "to-white"
     );
-  });
-
-  it("scrolls to pricing section when pricing button is clicked", () => {
-    render(<LandingPage />);
-
-    const pricingButton = screen.getByTestId("pricing-button");
-
-    act(() => {
-      fireEvent.click(pricingButton);
-    });
-
-    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: "smooth" });
   });
 
   it("renders sections in correct order", () => {

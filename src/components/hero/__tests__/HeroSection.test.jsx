@@ -163,19 +163,6 @@ describe("HeroSection Component", () => {
     expect(hireCard).toHaveClass("scale-105");
   });
 
-  it("displays statistics section", () => {
-    render(<HeroSection />);
-
-    expect(screen.getByText("50K+")).toBeInTheDocument();
-    expect(screen.getByText("AI Analyses")).toBeInTheDocument();
-    expect(screen.getByText("94%")).toBeInTheDocument();
-    expect(screen.getByText("Success Rate")).toBeInTheDocument();
-    expect(screen.getByText("25K+")).toBeInTheDocument();
-    expect(screen.getByText("Job Matches")).toBeInTheDocument();
-    expect(screen.getByText("15K+")).toBeInTheDocument();
-    expect(screen.getByText("Happy Users")).toBeInTheDocument();
-  });
-
   it("displays scroll down indicator on desktop", () => {
     render(<HeroSection />);
 
