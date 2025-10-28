@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  CheckCircleIcon,
-  SparklesIcon,
-  CpuChipIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
 import useToast from "@/hooks/useToast";
 
 const ATSAnalyzer = () => {

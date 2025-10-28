@@ -115,12 +115,7 @@ const Footer = () => {
                   date: "June 2025",
                   color: "emerald",
                 },
-                {
-                  version: "v1.1.1",
-                  title: "Payment System",
-                  date: "June 2025",
-                  color: "emerald",
-                },
+
                 {
                   version: "v2.0.0",
                   title: "Major Enhancements",

@@ -1,5 +1,81 @@
 @import "tailwindcss";
 
+/* Global Tinos Font Application */
+@font-face {
+  font-family: "Tinos";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.gstatic.com/s/tinos/v16/buEwpTfczT5H1H5Z1mIdx3s.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tinos";
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://fonts.gstatic.com/s/tinos/v16/buEvpTfczT5H1H5Z1mId_VvO6yB_.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tinos";
+  font-style: italic;
+  font-weight: 400;
+  src: url("https://fonts.gstatic.com/s/tinos/v16/buE1pTfczT5H1H5Z1mIdQVeKfzUN-Q.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tinos";
+  font-style: italic;
+  font-weight: 700;
+  src: url("https://fonts.gstatic.com/s/tinos/v16/buE3pTfczT5H1H5Z1mIdQVeKfzXR4Tz0.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+/* CSS Variables */
+:root {
+  --font-tinos: "Tinos", Georgia, serif;
+  --font-tinos-weight-regular: 400;
+  --font-tinos-weight-bold: 700;
+}
+
+/* Apply Tinos to all heading elements globally */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-tinos);
+  font-weight: var(--font-tinos-weight-bold);
+}
+
+/* Specific heading styles */
+h1 {
+  font-family: var(--font-tinos);
+  font-weight: 900;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-tinos);
+  font-weight: 700;
+}
+
+/* Optional: Apply to title and legend elements */
+title,
+[role="heading"] {
+  font-family: var(--font-tinos);
+}
+
 /* Ensure body has proper height in all browsers */
 html,
 body {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ArrowRightIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import TypewriterText from "@components/TypewriterText";
 
 const HeroSection = ({ resumeData }) => {
@@ -17,90 +17,140 @@ const HeroSection = ({ resumeData }) => {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900"
     >
+      {" "}
       <div className="absolute inset-0 bg-slate-900">
-        <div className="absolute inset-0 opacity-20">
-          <div className="h-full w-full bg-gradient-to-br from-indigo-500/10 to-blue-500/10"></div>
+        <div className="absolute inset-0 opacity-30">
+          <div className="h-full w-full bg-gradient-to-br from-indigo-500/20 via-slate-900 to-blue-500/20"></div>
+        </div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute top-1/2 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div className="absolute inset-0 opacity-5">
+          <div
+            style={{
+              backgroundImage: `linear-gradient(0deg, transparent 24%, rgba(148, 163, 184, .05) 25%, rgba(148, 163, 184, .05) 26%, transparent 27%, transparent 74%, rgba(148, 163, 184, .05) 75%, rgba(148, 163, 184, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(148, 163, 184, .05) 25%, rgba(148, 163, 184, .05) 26%, transparent 27%, transparent 74%, rgba(148, 163, 184, .05) 75%, rgba(148, 163, 184, .05) 76%, transparent 77%, transparent)`,
+              backgroundSize: "50px 50px",
+            }}
+            className="h-full w-full"
+          ></div>
         </div>
       </div>
-
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-8 sm:pt-24 sm:pb-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl text-center">
-          <div className="inline-flex items-center px-8 py-4 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium mb-8">
-            AI-Powered Career Intelligence Platform
+          <div className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 text-slate-300 text-sm font-medium mb-8 hover:border-indigo-500/60 transition-all duration-300 backdrop-blur-sm">
+            <SparklesIcon className="h-4 w-4 text-indigo-400" />
+            <span>AI-Powered Career Intelligence Platform</span>
+            <SparklesIcon className="h-4 w-4 text-indigo-400" />
           </div>
-
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 text-white leading-tight">
-            <div className="mb-4">Transform Your</div>
-            <TypewriterText
-              text="Career Journey with AI"
-              className="text-indigo-400"
-              loop={true}
-              delay={3}
-              eraseSpeed={50}
-              typeSpeed={80}
-            />
+          <h1
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-white leading-tight"
+            style={{ fontFamily: "'Tinos', serif" }}
+          >
+            <div className="mb-4 relative inline-block">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-white to-slate-100">
+                Transform Your
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+            </div>
+            <div className="relative">
+              <TypewriterText
+                text="Career Journey with AI"
+                className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 font-black"
+                loop={true}
+                delay={3}
+                eraseSpeed={50}
+                typeSpeed={80}
+              />
+              <div className="absolute -inset-4 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-lg blur-2xl -z-10"></div>
+            </div>
           </h1>
 
-          <p className="mt-8 text-xl sm:text-2xl md:text-3xl leading-relaxed text-gray-300 max-w-4xl mx-auto">
-            <span className="font-semibold text-indigo-400">
+          <p
+            className="mt-8 text-lg sm:text-xl md:text-2xl leading-relaxed text-slate-300 max-w-4xl mx-auto"
+            style={{ fontFamily: "'Tinos', serif" }}
+          >
+            <span className="font-bold text-indigo-300">
               Four Powerful AI Tools:
             </span>{" "}
-            Career role discovery, interview mastery, ATS optimization, and
-            intelligent hiring solutions.
+            <span className="bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent font-semibold">
+              Career role discovery, interview mastery, ATS optimization, and
+              intelligent hiring solutions.
+            </span>
           </p>
 
-          <div className="mt-16 p-8 bg-slate-800 rounded-3xl border border-slate-700 shadow-2xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+          <div className="mt-16 p-8 bg-gradient-to-b from-slate-800/50 to-slate-900/50 rounded-3xl border border-slate-700/50 shadow-2xl backdrop-blur-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 {
                   title: "Role Suggestions",
                   description: "AI-powered career matching",
                   color: "text-blue-400",
-                  bgColor: "bg-slate-700",
+                  bgGradient: "from-blue-500/10 to-blue-600/10",
                   borderColor: "border-blue-500/30",
+                  accentColor: "bg-blue-500/20",
                   index: 0,
                 },
                 {
                   title: "InterviewPrep AI",
                   description: "Master interviews with AI coaching",
                   color: "text-purple-400",
-                  bgColor: "bg-slate-700",
+                  bgGradient: "from-purple-500/10 to-purple-600/10",
                   borderColor: "border-purple-500/30",
+                  accentColor: "bg-purple-500/20",
                   index: 1,
                 },
                 {
                   title: "ATS Analyzer",
                   description: "Resume optimization for ATS systems",
                   color: "text-emerald-400",
-                  bgColor: "bg-slate-700",
+                  bgGradient: "from-emerald-500/10 to-emerald-600/10",
                   borderColor: "border-emerald-500/30",
+                  accentColor: "bg-emerald-500/20",
                   index: 2,
                 },
                 {
                   title: "HireDisk",
                   description: "AI hiring intelligence for recruiters",
                   color: "text-orange-400",
-                  bgColor: "bg-slate-700",
+                  bgGradient: "from-orange-500/10 to-orange-600/10",
                   borderColor: "border-orange-500/30",
+                  accentColor: "bg-orange-500/20",
                   index: 3,
                 },
               ].map((card) => (
                 <div
                   key={card.title}
-                  className={`group relative p-6 ${
-                    card.bgColor
+                  className={`group relative p-6 bg-gradient-to-br ${
+                    card.bgGradient
                   } rounded-2xl border ${
                     card.borderColor
-                  } transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer ${
-                    activeCard === card.index ? "scale-105 shadow-lg" : ""
+                  } transition-all duration-500 hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden backdrop-blur-sm ${
+                    activeCard === card.index
+                      ? "scale-105 shadow-2xl border-opacity-100"
+                      : "border-opacity-50"
                   }`}
                   onMouseEnter={() => setActiveCard(card.index)}
                 >
-                  <div className="text-center">
-                    <h3 className={`font-bold text-lg mb-3 ${card.color}`}>
+                  {" "}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                  <div className="relative z-10 text-center">
+                    <div
+                      className={`h-1 w-8 mx-auto mb-3 rounded-full ${card.accentColor} group-hover:w-16 transition-all duration-300`}
+                    ></div>
+                    <h3
+                      className={`font-bold text-lg mb-3 ${card.color} group-hover:text-lg transition-all duration-300`}
+                      style={{ fontFamily: "'Tinos', serif" }}
+                    >
                       {card.title}
                     </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed">
+                    <p className="text-slate-300 text-sm leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
                       {card.description}
                     </p>
                   </div>
@@ -109,7 +159,7 @@ const HeroSection = ({ resumeData }) => {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-row items-center justify-center gap-4 flex-wrap md:flex-nowrap">
+          <div className="mt-16 flex flex-row items-center justify-center gap-3 flex-wrap md:flex-nowrap px-2">
             {[
               {
                 label: "Role Suggestions",
@@ -147,7 +197,7 @@ const HeroSection = ({ resumeData }) => {
               <button
                 key={button.label}
                 onClick={() => (window.location.href = button.href)}
-                className={`group relative overflow-hidden px-6 py-4 min-w-[200px] flex-1 max-w-[240px] bg-gradient-to-r ${button.gradient} text-white font-bold rounded-2xl shadow-2xl ${button.glowColor} hover:shadow-3xl transform hover:scale-110 hover:-translate-y-1 transition-all duration-500 flex items-center justify-center space-x-2 border-2 ${button.borderColor} hover:border-white/50 cursor-pointer`}
+                className={`group relative overflow-hidden px-6 py-4 flex-1 max-w-[200px] bg-gradient-to-r ${button.gradient} text-white font-bold rounded-xl shadow-2xl ${button.glowColor} hover:shadow-3xl transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 border ${button.borderColor} hover:border-white/50 cursor-pointer backdrop-blur-sm`}
                 style={{
                   animationDelay: `${index * 0.1}s`,
                   backgroundSize: "200% 200%",
@@ -157,73 +207,85 @@ const HeroSection = ({ resumeData }) => {
                   className={`absolute inset-0 bg-gradient-to-r ${button.hoverGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 ></div>
 
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
 
                 <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${button.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
+                  className={`absolute inset-0 rounded-xl bg-gradient-to-r ${button.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
                 ></div>
 
-                <div className="absolute inset-0 overflow-hidden rounded-2xl">
-                  <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-100"></div>
-                  <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-300"></div>
-                  <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping animation-delay-500"></div>
-                </div>
-
                 <div className="relative z-10 flex items-center space-x-2">
-                  <span className="text-lg group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-xl group-hover:scale-125 transition-transform duration-300 drop-shadow-lg">
                     {button.icon}
                   </span>
-                  <span className="font-bold text-sm md:text-base tracking-wide group-hover:tracking-wider transition-all duration-300">
-                    {button.label}
-                  </span>
-                  <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" />
+                  <div className="flex flex-col items-start">
+                    <span className="font-bold text-xs md:text-sm tracking-wide group-hover:tracking-wider transition-all duration-300 leading-none">
+                      {button.label}
+                    </span>
+                  </div>
+                  <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-2 group-hover:scale-125 transition-all duration-300 ml-1" />
                 </div>
 
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-white/30 transition-all duration-500"></div>
+                <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-white/30 transition-all duration-500"></div>
               </button>
             ))}
           </div>
+
           {resumeData?.roleRecommendations?.length > 0 && (
-            <div className="mt-12 space-y-4">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">
-                Your Personalized Role Matches
-              </h3>
+            <div className="mt-16 space-y-6">
+              <div className="relative inline-block w-full">
+                <h3
+                  className="text-3xl md:text-4xl font-bold text-white mb-8 text-center"
+                  style={{ fontFamily: "'Tinos', serif" }}
+                >
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                    Your Personalized Role Matches
+                  </span>
+                </h3>
+              </div>
+
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {resumeData.roleRecommendations
                   .slice(0, 3)
                   .map((role, index) => (
                     <div
                       key={index}
-                      className="p-6 bg-slate-800 rounded-2xl border border-slate-700 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-lg"
+                      className="group relative p-6 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl border border-slate-700/50 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl hover:scale-105 backdrop-blur-sm overflow-hidden"
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-bold text-lg text-white">
-                          {role.roleName}
-                        </h4>
-                        <div className="flex items-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-purple-500/0 group-hover:from-indigo-500/5 group-hover:to-purple-500/5 transition-all duration-300"></div>
+
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4
+                            className="font-bold text-lg text-white group-hover:text-indigo-300 transition-colors duration-300"
+                            style={{ fontFamily: "'Tinos', serif" }}
+                          >
+                            {role.roleName}
+                          </h4>
                           <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                            className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg transform group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br ${
                               role.matchPercentage >= 80
-                                ? "bg-green-500"
+                                ? "from-green-500 to-emerald-600"
                                 : role.matchPercentage >= 60
-                                ? "bg-yellow-500"
-                                : "bg-orange-500"
+                                ? "from-yellow-500 to-orange-600"
+                                : "from-orange-500 to-red-600"
                             }`}
                           >
                             {role.matchPercentage}%
                           </div>
                         </div>
-                      </div>
-                      <p className="text-gray-300 text-sm leading-relaxed">
-                        {role.reasoning}
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium border border-blue-500/30">
-                          {role.careerLevel}
-                        </span>
-                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-medium border border-purple-500/30">
-                          {role.industryFit} Fit
-                        </span>
+
+                        <p className="text-slate-300 text-sm leading-relaxed group-hover:text-slate-200 transition-colors duration-300 mb-4">
+                          {role.reasoning}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30 group-hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm">
+                            {role.careerLevel}
+                          </span>
+                          <span className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-purple-600/20 text-purple-300 rounded-full text-xs font-medium border border-purple-500/30 group-hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm">
+                            {role.industryFit} Fit
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -231,32 +293,13 @@ const HeroSection = ({ resumeData }) => {
             </div>
           )}
 
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { label: "AI Analyses", value: "50K+" },
-              { label: "Success Rate", value: "94%" },
-              { label: "Job Matches", value: "25K+" },
-              { label: "Happy Users", value: "15K+" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center group">
-                <div className="text-3xl md:text-4xl font-bold text-indigo-400 mb-3">
-                  {stat.value}
-                </div>
-                <div className="text-gray-400 text-sm font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Scroll Down Indicator */}
           <div className="mt-20 hidden md:flex flex-col items-center justify-center">
-            <p className="text-gray-400 text-sm mb-6 font-medium">
+            <p className="text-slate-400 text-sm mb-6 font-medium">
               Discover More Features Below
             </p>
             <div className="flex flex-col items-center">
-              <div className="w-8 h-8 border-2 border-indigo-400 rounded-full flex items-center justify-center mb-3 animate-pulse">
-                <div className="w-3 h-3 bg-indigo-400 rounded-full"></div>
+              <div className="w-8 h-8 border-2 border-indigo-400/50 rounded-full flex items-center justify-center mb-3 group cursor-pointer hover:border-indigo-400 transition-all duration-300">
+                <div className="w-3 h-3 bg-indigo-400 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
               </div>
               <svg
                 className="w-6 h-6 text-indigo-400 animate-bounce"

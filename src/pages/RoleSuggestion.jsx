@@ -518,7 +518,10 @@ const RoleSuggestion = () => {
                       </div>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tight">
+                    <h1
+                      className="text-5xl md:text-7xl font-black tracking-tight"
+                      style={{ fontFamily: "'Tinos', serif" }}
+                    >
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-400 to-rose-400 animate-pulse">
                         Resume
                       </span>
