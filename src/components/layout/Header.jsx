@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
   roleSuggestionsFeatures,
   interviewPrepFeatures,
@@ -203,7 +202,6 @@ function Header() {
                       }}
                       className="flex items-center justify-center gap-3 px-4 py-3 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg border-2 border-emerald-400 transition-all duration-300"
                     >
-                      <span className="text-lg">🧩</span>
                       <span>Features</span>
                     </button>
                   </nav>
