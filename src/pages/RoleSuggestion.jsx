@@ -5,14 +5,7 @@ import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
-import ResumeRateLimitError from "@components/error/ResumeRateLimitError";
 import { ANALYZE_RESUME } from "../utils/api";
-import {
-  getResumeAnalysisRateLimit,
-  canMakeResumeAnalysisRequest,
-  incrementResumeAnalysisCount,
-  handleRateLimitHeaders,
-} from "../utils/resumeRateLimitService";
 
 const RoleSuggestion = () => {
   const [resumeData, setResumeData] = useState(null);
@@ -30,10 +23,8 @@ const RoleSuggestion = () => {
   });
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
-  const [rateLimitInfo, setRateLimitInfo] = useState(null);
-  const [showRateLimitModal, setShowRateLimitModal] = useState(false);
 
-  // Load persisted data and rate limit info on component mount
+  // Load persisted data on component mount
   useEffect(() => {
     const persistedData = localStorage.getItem("roleSuggestionData");
     if (persistedData) {
@@ -54,9 +45,6 @@ const RoleSuggestion = () => {
         console.warn("Failed to load persisted data:", error);
       }
     }
-
-    const rateLimitData = getResumeAnalysisRateLimit();
-    setRateLimitInfo(rateLimitData);
   }, []);
 
   const persistData = (data) => {
@@ -95,13 +83,6 @@ const RoleSuggestion = () => {
   const analyzeResume = async () => {
     if (!uploadedFile) return;
 
-    if (!canMakeResumeAnalysisRequest()) {
-      const rateLimitData = getResumeAnalysisRateLimit();
-      setRateLimitInfo(rateLimitData);
-      setShowRateLimitModal(true);
-      return;
-    }
-
     setIsLoading(true);
     setError({
       show: false,
@@ -136,31 +117,11 @@ const RoleSuggestion = () => {
         formData.append("job_description", jobDescription.trim());
       }
 
-      try {
-        incrementResumeAnalysisCount();
-      } catch (rateLimitError) {
-        setError({
-          show: true,
-          message: rateLimitError.message,
-          type: "error",
-          category: "rate_limit",
-          originalError: rateLimitError,
-        });
-        setIsLoading(false);
-        return;
-      }
-
       const response = await fetch(ANALYZE_RESUME, {
         method: "POST",
         body: formData,
         mode: "cors",
       });
-
-      // Handle server-side rate limiting headers
-      const serverRateLimit = handleRateLimitHeaders(response);
-      if (serverRateLimit) {
-        setRateLimitInfo(serverRateLimit);
-      }
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -172,11 +133,17 @@ const RoleSuggestion = () => {
           error = { message: errorText || "Unknown error occurred" };
         }
 
-        // Special handling for rate limit errors
+        // Special handling for rate limit errors (server-side)
         if (response.status === 429) {
-          const rateLimitData = getResumeAnalysisRateLimit();
-          setRateLimitInfo(rateLimitData);
-          setShowRateLimitModal(true);
+          setError({
+            show: true,
+            message:
+              error.message ||
+              "Daily limit reached. Please try again tomorrow.",
+            type: "error",
+            category: "rate_limit",
+            originalError: error,
+          });
           setIsLoading(false);
           return;
         }
@@ -234,9 +201,6 @@ const RoleSuggestion = () => {
         timestamp: new Date().toISOString(),
       });
 
-      const updatedRateLimit = getResumeAnalysisRateLimit();
-      setRateLimitInfo(updatedRateLimit);
-
       setIsLoading(false);
     } catch (error) {
       const errorCategory = getErrorCategory(error);
@@ -282,10 +246,6 @@ const RoleSuggestion = () => {
     setAlertType("");
   };
 
-  const handleRateLimitModalClose = () => {
-    setShowRateLimitModal(false);
-  };
-
   return (
     <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-x-hidden">
       <div className="absolute inset-0">
@@ -319,126 +279,7 @@ const RoleSuggestion = () => {
             </NavigationButton>
 
             <div className="flex items-center gap-3">
-              {rateLimitInfo && (
-                <div className="relative group">
-                  <div
-                    className={`absolute inset-0 ${
-                      rateLimitInfo.remaining > 3
-                        ? "bg-gradient-to-r from-emerald-600/20 to-emerald-500/20"
-                        : rateLimitInfo.remaining > 1
-                        ? "bg-gradient-to-r from-amber-600/20 to-amber-500/20"
-                        : "bg-gradient-to-r from-red-600/20 to-red-500/20"
-                    } rounded-xl blur opacity-75`}
-                  ></div>
-                  <div
-                    className={`relative bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-xl border ${
-                      rateLimitInfo.remaining > 3
-                        ? "border-emerald-500/30"
-                        : rateLimitInfo.remaining > 1
-                        ? "border-amber-500/30"
-                        : "border-red-500/30"
-                    } transition-all duration-300`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={`w-2 h-2 rounded-full animate-pulse ${
-                          rateLimitInfo.remaining > 3
-                            ? "bg-emerald-400"
-                            : rateLimitInfo.remaining > 1
-                            ? "bg-amber-400"
-                            : "bg-red-400"
-                        }`}
-                      ></div>
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="h-4 w-4 text-slate-400"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                        <span className="text-white font-semibold text-sm">
-                          <span
-                            className={
-                              rateLimitInfo.remaining > 3
-                                ? "text-emerald-400"
-                                : rateLimitInfo.remaining > 1
-                                ? "text-amber-400"
-                                : "text-red-400"
-                            }
-                          >
-                            {rateLimitInfo.remaining}
-                          </span>
-                          <span className="text-slate-400">/5</span>
-                        </span>
-                        <span className="hidden md:inline text-slate-300 text-xs">
-                          analyses left
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute top-full right-0 mt-2 w-64 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
-                    <div className="bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl p-3 shadow-2xl">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-white">
-                          Daily Analysis Quota
-                        </span>
-                        <span className="text-xs text-slate-400">
-                          {(() => {
-                            const now = Date.now();
-                            const timeRemaining = rateLimitInfo.resetTime - now;
-                            if (timeRemaining <= 0) return "Resets soon";
-                            const hours = Math.floor(
-                              timeRemaining / (1000 * 60 * 60)
-                            );
-                            const minutes = Math.floor(
-                              (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-                            );
-                            return hours > 0
-                              ? `Resets in ${hours}h ${minutes}m`
-                              : `Resets in ${minutes}m`;
-                          })()}
-                        </span>
-                      </div>
-                      <div className="w-full bg-slate-700/50 rounded-full h-1.5 mb-2">
-                        <div
-                          className={`h-1.5 rounded-full transition-all duration-500 ${
-                            rateLimitInfo.remaining > 3
-                              ? "bg-gradient-to-r from-emerald-500 to-emerald-400"
-                              : rateLimitInfo.remaining > 1
-                              ? "bg-gradient-to-r from-amber-500 to-amber-400"
-                              : "bg-gradient-to-r from-red-500 to-red-400"
-                          }`}
-                          style={{
-                            width: `${(rateLimitInfo.remaining / 5) * 100}%`,
-                          }}
-                        ></div>
-                      </div>
-                      <p className="text-xs text-slate-300">
-                        {rateLimitInfo.remaining > 0
-                          ? `You have ${rateLimitInfo.remaining} resume ${
-                              rateLimitInfo.remaining === 1
-                                ? "analysis"
-                                : "analyses"
-                            } remaining today`
-                          : "Daily limit reached. Upgrade for unlimited access"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div
-                className={`relative ${
-                  rateLimitInfo ? "hidden lg:block" : "hidden md:block"
-                }`}
-              >
+              <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-cyan-500 rounded-full blur opacity-75 animate-pulse"></div>
                 <div className="relative bg-slate-800/90 backdrop-blur-sm px-6 py-2 rounded-full border border-slate-600/50">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 font-bold text-sm">
@@ -2119,10 +1960,7 @@ const RoleSuggestion = () => {
 
                       <button
                         onClick={analyzeResume}
-                        disabled={
-                          isLoading ||
-                          (rateLimitInfo && rateLimitInfo.remaining <= 0)
-                        }
+                        disabled={isLoading}
                         className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-12 py-4 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -2149,23 +1987,6 @@ const RoleSuggestion = () => {
                                 ></path>
                               </svg>
                               <span>Analyzing Resume...</span>
-                            </>
-                          ) : rateLimitInfo && rateLimitInfo.remaining <= 0 ? (
-                            <>
-                              <svg
-                                className="h-6 w-6 text-red-400"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
-                                />
-                              </svg>
-                              <span>Daily Limit Reached</span>
                             </>
                           ) : (
                             <>
@@ -2292,13 +2113,6 @@ const RoleSuggestion = () => {
           </div>
         )}
       </main>
-
-      {showRateLimitModal && (
-        <ResumeRateLimitError
-          onClose={handleRateLimitModalClose}
-          resetTime={rateLimitInfo?.resetTime}
-        />
-      )}
     </div>
   );
 };

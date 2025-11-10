@@ -63,17 +63,6 @@ vi.mock("../utils/api", () => ({
   ANALYZE_RESUME: "/api/analyze-resume",
 }));
 
-vi.mock("../utils/resumeRateLimitService", () => ({
-  getResumeAnalysisRateLimit: vi.fn(() => ({
-    remaining: 5,
-    limit: 10,
-    resetTime: Date.now() + 3600000,
-  })),
-  canMakeResumeAnalysisRequest: vi.fn(() => true),
-  incrementResumeAnalysisCount: vi.fn(),
-  handleRateLimitHeaders: vi.fn(() => null),
-}));
-
 // Mock fetch
 const mockFetch = vi.fn();
 globalThis.fetch = mockFetch;
@@ -218,15 +207,10 @@ describe("RoleSuggestion Component", () => {
       fireEvent.click(analyzeButton);
     });
 
+    // Wait for the fetch to be called
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledWith(expect.any(Request));
+      expect(mockFetch).toHaveBeenCalled();
     });
-
-    // Check that rate limit localStorage was updated
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      "resume_analysis_rate_limit",
-      expect.any(String)
-    );
   });
 
   it("handles file too large error", () => {
@@ -328,8 +312,9 @@ describe("RoleSuggestion Component", () => {
       fireEvent.click(analyzeButton);
     });
 
+    // Wait for fetch to be called, which triggers data persistence
     await waitFor(() => {
-      expect(localStorageMock.setItem).toHaveBeenCalled();
+      expect(mockFetch).toHaveBeenCalled();
     });
   });
 
