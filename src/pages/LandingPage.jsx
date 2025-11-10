@@ -14,7 +14,6 @@ const LandingPage = () => {
       <FeaturesSection />
       <FAQSection />
       <TestimonialsSection />
-
       <Footer />
     </div>
   );

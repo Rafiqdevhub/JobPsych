@@ -304,8 +304,8 @@ const RoleSuggestion = () => {
                       setAlertType("");
                     }, 3000);
                   }}
-                  className="group relative overflow-hidden px-4 py-2 text-sm font-bold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 bg-slate-800/60 border border-slate-600/50 hover:border-rose-500/50 text-rose-400 hover:text-rose-300"
-                  title="Clear all analysis data cursor-pointer"
+                  className="group relative overflow-hidden px-4 py-2 text-sm font-bold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 bg-slate-800/60 border border-slate-600/50 hover:border-rose-500/50 text-rose-400 hover:text-rose-300 cursor-pointer"
+                  title="Clear all analysis data"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-rose-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative flex items-center gap-2">
