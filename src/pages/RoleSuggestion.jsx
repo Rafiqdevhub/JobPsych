@@ -11,6 +11,8 @@ const RoleSuggestion = () => {
   const [resumeData, setResumeData] = useState(null);
   const [roleRecommendations, setRoleRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState("");
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [targetRole, setTargetRole] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -84,6 +86,8 @@ const RoleSuggestion = () => {
     if (!uploadedFile) return;
 
     setIsLoading(true);
+    setLoadingStage("Preparing your resume for analysis...");
+    setLoadingProgress(10);
     setError({
       show: false,
       message: "",
@@ -103,10 +107,16 @@ const RoleSuggestion = () => {
         originalError: "File too large",
       });
       setIsLoading(false);
+      setLoadingStage("");
+      setLoadingProgress(0);
       return;
     }
 
     try {
+      // Stage 1: Preparing data
+      setLoadingStage("🔍 Scanning resume structure and content...");
+      setLoadingProgress(20);
+
       const formData = new FormData();
       formData.append("file", uploadedFile);
 
@@ -117,11 +127,19 @@ const RoleSuggestion = () => {
         formData.append("job_description", jobDescription.trim());
       }
 
+      // Stage 2: AI Analysis begins
+      setLoadingStage("🤖 AI is analyzing your skills and experience...");
+      setLoadingProgress(40);
+
       const response = await fetch(ANALYZE_RESUME, {
         method: "POST",
         body: formData,
         mode: "cors",
       });
+
+      // Stage 3: Processing response
+      setLoadingStage("⚡ Processing career insights and recommendations...");
+      setLoadingProgress(60);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -145,11 +163,17 @@ const RoleSuggestion = () => {
             originalError: error,
           });
           setIsLoading(false);
+          setLoadingStage("");
+          setLoadingProgress(0);
           return;
         }
 
         throw new Error(error.message || "Failed to analyze resume");
       }
+
+      // Stage 4: Finalizing results
+      setLoadingStage("✨ Finalizing your personalized career roadmap...");
+      setLoadingProgress(80);
 
       let responseData;
       try {
@@ -165,6 +189,10 @@ const RoleSuggestion = () => {
         throw new Error("No data returned from API");
       }
 
+      // Stage 5: Completing analysis
+      setLoadingStage("🎯 Generating role matches and success strategies...");
+      setLoadingProgress(95);
+
       const resumeDataFromResponse = {
         ...(responseData.resumeData || responseData),
         // Flatten preparationPlan nested fields to top level for easier access
@@ -178,12 +206,22 @@ const RoleSuggestion = () => {
       const roleRecommendationsFromResponse =
         responseData.roleRecommendations || [];
 
+      // Final stage: Success
+      setLoadingStage("🎉 Analysis complete! Preparing your results...");
+      setLoadingProgress(100);
+
       const successMessage = targetRole
         ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
         : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
 
-      setAlertMessage(successMessage);
-      setAlertType("success");
+      // Small delay to show completion message
+      setTimeout(() => {
+        setAlertMessage(successMessage);
+        setAlertType("success");
+        setIsLoading(false);
+        setLoadingStage("");
+        setLoadingProgress(0);
+      }, 800);
 
       setTimeout(() => {
         setAlertMessage("");
@@ -200,8 +238,6 @@ const RoleSuggestion = () => {
         jobDescription,
         timestamp: new Date().toISOString(),
       });
-
-      setIsLoading(false);
     } catch (error) {
       const errorCategory = getErrorCategory(error);
 
@@ -214,6 +250,8 @@ const RoleSuggestion = () => {
           originalError: error,
         });
         setIsLoading(false);
+        setLoadingStage("");
+        setLoadingProgress(0);
         return;
       }
 
@@ -227,6 +265,8 @@ const RoleSuggestion = () => {
       setAlertMessage(formatErrorMessage(error));
       setAlertType("error");
       setIsLoading(false);
+      setLoadingStage("");
+      setLoadingProgress(0);
     }
   };
 
@@ -1967,25 +2007,28 @@ const RoleSuggestion = () => {
                         <div className="relative flex items-center gap-3">
                           {isLoading ? (
                             <>
-                              <svg
-                                className="animate-spin h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <circle
-                                  className="opacity-25"
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                  stroke="currentColor"
-                                  strokeWidth="4"
-                                ></circle>
-                                <path
-                                  className="opacity-75"
-                                  fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                ></path>
-                              </svg>
+                              <div className="relative">
+                                <svg
+                                  className="animate-spin h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  ></circle>
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  ></path>
+                                </svg>
+                                <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-60 animate-pulse"></div>
+                              </div>
                               <span>Analyzing Resume...</span>
                             </>
                           ) : (
@@ -2009,17 +2052,84 @@ const RoleSuggestion = () => {
                         </div>
                       </button>
 
-                      <div className="mt-6 flex justify-center gap-2">
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <div
-                          className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
-                          style={{ animationDelay: "0.2s" }}
-                        ></div>
-                        <div
-                          className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"
-                          style={{ animationDelay: "0.4s" }}
-                        ></div>
-                      </div>
+                      {isLoading && (
+                        <div className="mt-8 space-y-6">
+                          <div className="relative">
+                            <div className="flex items-center justify-between text-sm text-slate-400 mb-2">
+                              <span>Analysis Progress</span>
+                              <span>{loadingProgress}%</span>
+                            </div>
+                            <div className="w-full bg-slate-700/50 rounded-full h-3 overflow-hidden">
+                              <div
+                                className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 h-full rounded-full transition-all duration-1000 ease-out relative"
+                                style={{ width: `${loadingProgress}%` }}
+                              >
+                                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse"></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {loadingStage && (
+                            <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-xl p-6">
+                              <div className="flex items-center gap-4">
+                                <div className="relative">
+                                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full opacity-30 animate-ping"></div>
+                                </div>
+                                <div className="flex-1">
+                                  <p className="text-white font-medium text-lg">
+                                    {loadingStage}
+                                  </p>
+                                  <p className="text-slate-400 text-sm mt-1">
+                                    Our AI is working hard to provide you with
+                                    the best insights
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex justify-center gap-3">
+                            <div className="w-3 h-3 bg-emerald-400 rounded-full animate-bounce"></div>
+                            <div
+                              className="w-3 h-3 bg-teal-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.1s" }}
+                            ></div>
+                            <div
+                              className="w-3 h-3 bg-cyan-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.2s" }}
+                            ></div>
+                          </div>
+
+                          <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border border-purple-500/20 rounded-xl p-6">
+                            <div className="flex items-start gap-4">
+                              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg
+                                  className="w-5 h-5 text-white"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <h4 className="text-purple-200 font-semibold mb-2">
+                                  Did you know?
+                                </h4>
+                                <p className="text-purple-100/80 text-sm leading-relaxed">
+                                  Our AI analyzes over 50+ career factors
+                                  including skills, experience patterns,
+                                  industry trends, and role compatibility to
+                                  give you the most accurate career guidance.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -119,7 +119,6 @@ function Header() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-500"></div>
 
                 <span className="hidden sm:inline relative z-10">Features</span>
-                <span className="sm:hidden relative z-10">🧩</span>
               </button>
 
               {scrolled && (
