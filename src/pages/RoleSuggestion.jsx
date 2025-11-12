@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { formatErrorMessage, getErrorCategory } from "@utils/errorHandler";
 import { generalTips } from "@data/candidateTips";
 import ResumeUpload from "@components/resume/ResumeUpload";
 import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
+import { ToastContext } from "@components/toast/ToastContext";
 import { ANALYZE_RESUME } from "../utils/api";
 
 const RoleSuggestion = () => {
@@ -25,6 +26,7 @@ const RoleSuggestion = () => {
   });
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
+  const { showWarning, showInfo } = useContext(ToastContext);
 
   // Load persisted data on component mount
   useEffect(() => {
@@ -114,7 +116,7 @@ const RoleSuggestion = () => {
 
     try {
       // Stage 1: Preparing data
-      setLoadingStage("🔍 Scanning resume structure and content...");
+      setLoadingStage("Scanning resume structure and content...");
       setLoadingProgress(20);
 
       const formData = new FormData();
@@ -128,7 +130,7 @@ const RoleSuggestion = () => {
       }
 
       // Stage 2: AI Analysis begins
-      setLoadingStage("🤖 AI is analyzing your skills and experience...");
+      setLoadingStage("AI is analyzing your skills and experience...");
       setLoadingProgress(40);
 
       const response = await fetch(ANALYZE_RESUME, {
@@ -138,7 +140,7 @@ const RoleSuggestion = () => {
       });
 
       // Stage 3: Processing response
-      setLoadingStage("⚡ Processing career insights and recommendations...");
+      setLoadingStage("Processing career insights and recommendations...");
       setLoadingProgress(60);
 
       if (!response.ok) {
@@ -153,11 +155,60 @@ const RoleSuggestion = () => {
 
         // Special handling for rate limit errors (server-side)
         if (response.status === 429) {
+          // Show enhanced toast for rate limit
+          showWarning(
+            "You've reached your daily limit of 5 resume analyses. This helps us maintain quality service for everyone.",
+            {
+              title: "Daily Limit Reached",
+              duration: 8000,
+              actions: [
+                {
+                  label: "Learn More",
+                  action: () => {
+                    showInfo(
+                      "Our daily limits ensure fair access for all users and help maintain our AI processing quality. Limits reset at midnight UTC (7 PM EST).",
+                      {
+                        title: "Why Daily Limits?",
+                        duration: 10000,
+                        actions: [
+                          {
+                            label: "Check Reset Time",
+                            action: () => {
+                              const now = new Date();
+                              const utcMidnight = new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate() + 1,
+                                0,
+                                0,
+                                0
+                              );
+                              const timeLeft =
+                                utcMidnight.getTime() - now.getTime();
+                              const hoursLeft = Math.ceil(
+                                timeLeft / (1000 * 60 * 60)
+                              );
+                              showInfo(
+                                `Your limit will reset in approximately ${hoursLeft} hours. Meanwhile, you can use our AI chatbot for career advice!`,
+                                {
+                                  title: "Time Until Reset",
+                                  duration: 6000,
+                                }
+                              );
+                            },
+                          },
+                        ],
+                      }
+                    );
+                  },
+                },
+              ],
+            }
+          );
+
           setError({
             show: true,
-            message:
-              error.message ||
-              "Daily limit reached. Please try again tomorrow.",
+            message: "Daily limit reached. Please try again tomorrow.",
             type: "error",
             category: "rate_limit",
             originalError: error,
@@ -172,7 +223,7 @@ const RoleSuggestion = () => {
       }
 
       // Stage 4: Finalizing results
-      setLoadingStage("✨ Finalizing your personalized career roadmap...");
+      setLoadingStage("Finalizing your personalized career roadmap...");
       setLoadingProgress(80);
 
       let responseData;
@@ -190,7 +241,7 @@ const RoleSuggestion = () => {
       }
 
       // Stage 5: Completing analysis
-      setLoadingStage("🎯 Generating role matches and success strategies...");
+      setLoadingStage("Generating role matches and success strategies...");
       setLoadingProgress(95);
 
       const resumeDataFromResponse = {
@@ -207,7 +258,7 @@ const RoleSuggestion = () => {
         responseData.roleRecommendations || [];
 
       // Final stage: Success
-      setLoadingStage("🎉 Analysis complete! Preparing your results...");
+      setLoadingStage("Analysis complete! Preparing your results...");
       setLoadingProgress(100);
 
       const successMessage = targetRole
@@ -2088,7 +2139,83 @@ const RoleSuggestion = () => {
                             </div>
                           )}
 
-                          <div className="flex justify-center gap-3">
+                          {/* Chatbot Encouragement Message */}
+                          <div className="bg-gradient-to-r from-indigo-800/30 via-purple-800/20 to-pink-800/30 border border-indigo-500/30 rounded-xl p-6 mt-6 animate-pulse">
+                            <div className="flex items-start gap-4">
+                              <div className="flex-shrink-0">
+                                <div className="relative">
+                                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                                    <svg
+                                      className="w-6 h-6 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                      />
+                                    </svg>
+                                  </div>
+                                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-ping"></div>
+                                </div>
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="text-white font-semibold text-lg mb-2 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent">
+                                  While You Wait - Chat with our AI Assistant!
+                                </h3>
+                                <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                                  Analysis takes 2-3 minutes. Don't just wait -
+                                  make the most of this time! Chat with our AI
+                                  assistant about your career goals, get
+                                  interview tips, or discuss your job search
+                                  strategy.
+                                </p>
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-500/30 transition-colors">
+                                    Career advice
+                                  </span>
+                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:bg-purple-500/30 transition-colors">
+                                    Interview tips
+                                  </span>
+                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-pink-500/20 text-pink-300 border border-pink-500/30 hover:bg-pink-500/30 transition-colors">
+                                    Job search help
+                                  </span>
+                                </div>
+                                <div className="p-4 bg-gradient-to-r from-slate-700/60 via-slate-600/40 to-slate-700/60 rounded-lg border border-indigo-400/50 shadow-lg">
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex-shrink-0">
+                                      <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full flex items-center justify-center animate-pulse">
+                                        <svg
+                                          className="w-4 h-4 text-white"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                        >
+                                          <path
+                                            fillRule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clipRule="evenodd"
+                                          />
+                                        </svg>
+                                      </div>
+                                    </div>
+                                    <p className="text-slate-300 text-sm font-medium">
+                                      Look for the{" "}
+                                      <span className="text-purple-300 font-semibold">
+                                        colorful chat bubble
+                                      </span>{" "}
+                                      in the bottom-right corner to start
+                                      chatting!
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex justify-center gap-3 mt-6">
                             <div className="w-3 h-3 bg-emerald-400 rounded-full animate-bounce"></div>
                             <div
                               className="w-3 h-3 bg-teal-400 rounded-full animate-bounce"
