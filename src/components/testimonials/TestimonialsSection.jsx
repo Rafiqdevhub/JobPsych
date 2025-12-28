@@ -29,11 +29,12 @@ const TestimonialsSection = () => {
             <div className="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-full shadow-lg border border-emerald-500/30 transition-all duration-300">
               Role Suggestions
             </div>
-            <div className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow-lg border border-blue-500/30 transition-all duration-300">
-              InterviewPrep AI
-            </div>
+
             <div className="inline-flex items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-full shadow-lg border border-orange-500/30 transition-all duration-300">
               ATS Analyzer
+            </div>
+            <div className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow-lg border border-blue-500/30 transition-all duration-300">
+              InterviewPrep AI
             </div>
             <div className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-full shadow-lg border border-purple-500/30 transition-all duration-300">
               HireDisk

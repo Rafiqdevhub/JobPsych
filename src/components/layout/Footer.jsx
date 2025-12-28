@@ -13,34 +13,6 @@ const Footer = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl overflow-hidden px-6 py-16 sm:py-20 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center p-6 bg-gradient-to-r from-slate-800/80 to-slate-700/80 rounded-2xl border border-slate-600/50 backdrop-blur-sm shadow-2xl mb-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 bg-clip-text text-transparent mb-3">
-                JobPsych
-              </h2>
-              <p className="text-gray-300 text-sm max-w-md">
-                Transforming careers with AI-powered intelligence
-              </p>
-              <div className="mt-4 flex items-center justify-center space-x-1">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <div
-                  className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.2s" }}
-                ></div>
-                <div
-                  className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.4s" }}
-                ></div>
-                <div
-                  className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.6s" }}
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 mb-16">
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10">
             <div className="flex items-center mb-4">
@@ -69,85 +41,19 @@ const Footer = () => {
                 Personality & Skills Fit
               </li>
               <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>
-                AI Interview Practice
-              </li>
-              <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-orange-400 rounded-full mr-3"></span>
-                Tailored Interview Questions
-              </li>
-              <li className="flex items-center">
                 <span className="w-1.5 h-1.5 bg-pink-400 rounded-full mr-3"></span>
                 ATS Compatibility Analysis
               </li>
+              <li className="flex items-center">
+                <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>
+                AI Interview Practice
+              </li>
+
               <li className="flex items-center">
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>
                 Recruiter-Friendly Summaries
               </li>
             </ul>
-          </div>
-          <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-purple-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
-            <div className="flex items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">
-                Release Timeline
-              </h3>
-            </div>
-            <div className="space-y-3">
-              {[
-                {
-                  version: "v1.0.0",
-                  title: "Initial Launch",
-                  date: "May 2025",
-                  color: "indigo",
-                },
-                {
-                  version: "v1.1.0",
-                  title: "AI Resume Tools",
-                  date: "June 2025",
-                  color: "emerald",
-                },
-
-                {
-                  version: "v2.0.0",
-                  title: "Major Enhancements",
-                  date: "August 2025",
-                  color: "purple",
-                },
-                {
-                  version: "v2.1.0",
-                  title: "InterviewPrep AI",
-                  date: "September 2025",
-                  color: "blue",
-                },
-                {
-                  version: "v2.2.0",
-                  title: "ATS Analyzer",
-                  date: "September 2025",
-                  color: "orange",
-                },
-              ]
-                .slice(0, 4)
-                .map((release, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-2 bg-slate-700/30 rounded-lg border border-slate-600/30"
-                  >
-                    <div className="flex items-center">
-                      <span
-                        className={`px-2 py-1 bg-${release.color}-500/20 border border-${release.color}-500/30 rounded text-xs text-${release.color}-400 font-medium mr-3`}
-                      >
-                        {release.version}
-                      </span>
-                      <div>
-                        <p className="text-gray-300 text-xs font-medium">
-                          {release.title}
-                        </p>
-                        <p className="text-gray-400 text-xs">{release.date}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="flex items-center mb-4">
@@ -160,13 +66,14 @@ const Footer = () => {
                   to: "/role-suggestions",
                 },
                 {
-                  label: "Try InterviewPrep AI",
-                  to: "/interview-prepai",
-                },
-                {
                   label: "Analyze Resume with ATS",
                   to: "/ats-analyzer",
                 },
+                {
+                  label: "Try InterviewPrep AI",
+                  to: "/interview-prepai",
+                },
+
                 {
                   label: "HireDisk",
                   to: "/hiredisk",

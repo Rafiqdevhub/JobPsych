@@ -55,7 +55,7 @@ const HeroSection = ({ resumeData }) => {
               Four Powerful AI Tools:
             </span>{" "}
             <span className="bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent font-semibold">
-              Career role discovery, interview mastery, ATS optimization, and
+              Career role discovery, ATS optimization, interview mastery, , and
               intelligent hiring solutions.
             </span>
           </p>
@@ -73,21 +73,21 @@ const HeroSection = ({ resumeData }) => {
                   index: 0,
                 },
                 {
-                  title: "InterviewPrep AI",
-                  description: "Master interviews with AI coaching",
-                  color: "text-purple-400",
-                  bgGradient: "from-purple-500/10 to-purple-600/10",
-                  borderColor: "border-purple-500/30",
-                  accentColor: "bg-purple-500/20",
-                  index: 1,
-                },
-                {
                   title: "ATS Analyzer",
                   description: "Resume optimization for ATS systems",
                   color: "text-emerald-400",
                   bgGradient: "from-emerald-500/10 to-emerald-600/10",
                   borderColor: "border-emerald-500/30",
                   accentColor: "bg-emerald-500/20",
+                  index: 1,
+                },
+                {
+                  title: "InterviewPrep AI",
+                  description: "Master interviews with AI coaching",
+                  color: "text-purple-400",
+                  bgGradient: "from-purple-500/10 to-purple-600/10",
+                  borderColor: "border-purple-500/30",
+                  accentColor: "bg-purple-500/20",
                   index: 2,
                 },
                 {
@@ -146,20 +146,20 @@ const HeroSection = ({ resumeData }) => {
                 borderColor: "border-blue-400/50",
               },
               {
-                label: "InterviewPrep AI",
-                href: "/interview-prepai",
-                gradient: "from-purple-500 via-purple-600 to-pink-600",
-                hoverGradient: "from-purple-600 via-purple-700 to-pink-700",
-                glowColor: "shadow-purple-500/50",
-                borderColor: "border-purple-400/50",
-              },
-              {
                 label: "ATS Analyzer",
                 href: "/ats-analyzer",
                 gradient: "from-emerald-500 via-emerald-600 to-teal-600",
                 hoverGradient: "from-emerald-600 via-emerald-700 to-teal-700",
                 glowColor: "shadow-emerald-500/50",
                 borderColor: "border-emerald-400/50",
+              },
+              {
+                label: "InterviewPrep AI",
+                href: "/interview-prepai",
+                gradient: "from-purple-500 via-purple-600 to-pink-600",
+                hoverGradient: "from-purple-600 via-purple-700 to-pink-700",
+                glowColor: "shadow-purple-500/50",
+                borderColor: "border-purple-400/50",
               },
               {
                 label: "HireDisk",
