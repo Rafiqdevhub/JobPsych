@@ -54,22 +54,4 @@ export const enhancedPlans = [
       "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700",
     popular: false,
   },
-  {
-    name: "HireDisk",
-    description: "Advanced AI hiring intelligence for HR teams",
-
-    features: [
-      "Everything in Role Suggestions",
-      "Advanced AI-powered screening",
-      "Dynamic interview questions",
-      "Deep candidate insights",
-      "Skills assessment reports",
-      "Advanced analytics dashboard",
-    ],
-
-    buttonText: "Start HireDisk Trial",
-    buttonStyle:
-      "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700",
-    popular: false,
-  },
 ];

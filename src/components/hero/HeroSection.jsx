@@ -7,7 +7,7 @@ const HeroSection = ({ resumeData }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveCard((prev) => (prev + 1) % 4);
+      setActiveCard((prev) => (prev + 1) % 3);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -52,16 +52,15 @@ const HeroSection = ({ resumeData }) => {
             style={{ fontFamily: "'Tinos', serif" }}
           >
             <span className="font-bold text-indigo-300">
-              Four Powerful AI Tools:
+              Three Powerful AI Tools:
             </span>{" "}
             <span className="bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent font-semibold">
-              Career role discovery, ATS optimization, interview mastery, , and
-              intelligent hiring solutions.
+              Career role discovery, ATS optimization, and interview mastery.
             </span>
           </p>
 
           <div className="mt-16 p-8 bg-gradient-to-b from-slate-800/50 to-slate-900/50 rounded-3xl border border-slate-700/50 shadow-2xl backdrop-blur-xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 {
                   title: "Role Suggestions",
@@ -89,15 +88,6 @@ const HeroSection = ({ resumeData }) => {
                   borderColor: "border-purple-500/30",
                   accentColor: "bg-purple-500/20",
                   index: 2,
-                },
-                {
-                  title: "HireDisk",
-                  description: "AI hiring intelligence for recruiters",
-                  color: "text-orange-400",
-                  bgGradient: "from-orange-500/10 to-orange-600/10",
-                  borderColor: "border-orange-500/30",
-                  accentColor: "bg-orange-500/20",
-                  index: 3,
                 },
               ].map((card) => (
                 <div
@@ -160,14 +150,6 @@ const HeroSection = ({ resumeData }) => {
                 hoverGradient: "from-purple-600 via-purple-700 to-pink-700",
                 glowColor: "shadow-purple-500/50",
                 borderColor: "border-purple-400/50",
-              },
-              {
-                label: "HireDisk",
-                href: "/hiredisk",
-                gradient: "from-orange-500 via-orange-600 to-red-600",
-                hoverGradient: "from-orange-600 via-orange-700 to-red-700",
-                glowColor: "shadow-orange-500/50",
-                borderColor: "border-orange-400/50",
               },
             ].map((button, index) => (
               <button

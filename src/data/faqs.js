@@ -1,9 +1,9 @@
 export const faqs = [
   {
     question:
-      "What's the differences among Role Suggestions, InterviewPrep AI, ATS Analyzer, and HireDisk?",
+      "What's the differences among Role Suggestions, InterviewPrep AI, and ATS Analyzer?",
     answer:
-      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI helps you practice interviews with AI feedback. ATS Analyzer optimizes your resume to beat Applicant Tracking Systems. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
+      "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI helps you practice interviews with AI feedback. ATS Analyzer optimizes your resume to beat Applicant Tracking Systems.",
     type: "general",
   },
   {

@@ -75,7 +75,6 @@ const TermsOfService = () => {
                       <li>Resume analysis and ATS optimization</li>
                       <li>Interview preparation and practice</li>
                       <li>AI-powered career guidance and coaching</li>
-                      <li>Recruitment tools for HR professionals (HireDisk)</li>
                     </ul>
                     <p>
                       The Service is provided "as is" and we reserve the right

@@ -18,7 +18,6 @@ test.describe("Stress Testing Suite", () => {
       "/role-suggestions",
       "/ats-analyzer",
       "/interview-prepai",
-      "/hiredisk",
       "/security-audit",
     ];
 

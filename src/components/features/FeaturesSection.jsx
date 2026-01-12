@@ -19,7 +19,7 @@ const FeaturesSection = () => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6">
-            Four Powerful Tools for
+            Three Powerful Tools for
             <br />
             <span className="text-indigo-400">
               Career Success & Smart Hiring
@@ -86,25 +86,6 @@ const FeaturesSection = () => {
             </div>
           </div>
 
-          <div className="group relative bg-slate-800 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-orange-500/50 hover:-translate-y-1">
-            <div className="absolute inset-0 bg-orange-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-            <div className="relative z-10">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-orange-800/70 text-orange-300 text-xs font-medium mb-4">
-                HireDisk
-              </div>
-
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors duration-300">
-                AI-Powered Hiring Tool
-              </h3>
-
-              <p className="text-gray-300 leading-relaxed">
-                Advanced AI resume screening, candidate insights, and interview
-                question generation for HR teams and recruiters.
-              </p>
-            </div>
-          </div>
-
           <div className="group relative bg-slate-800 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700 hover:border-indigo-500/50 hover:-translate-y-1">
             <div className="absolute inset-0 bg-indigo-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
@@ -158,9 +139,6 @@ const FeaturesSection = () => {
               practicing real interview questions with instant feedback.
             </p>
             <p className="mb-2">
-              HireDisk is our AI hiring tool for HR teams and recruiters.
-            </p>
-            <p className="mb-2">
               ATS Analyzer helps you optimize your resume to beat Applicant
               Tracking Systems and land more interviews.
             </p>
@@ -175,11 +153,10 @@ const FeaturesSection = () => {
               <span className="text-purple-400 font-bold">ATS Analyzer</span> to
               optimize your resume, or try{" "}
               <span className="text-blue-400 font-bold">InterviewPrep AI</span>{" "}
-              for interview practice. If you're an HR team or recruiter, start
-              with <span className="text-orange-400 font-bold">HireDisk</span>.
+              for interview practice.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-12 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-12 max-w-6xl mx-auto">
             {/* Role Suggestions Flow */}
             <div className="bg-slate-700/50 border border-slate-600 rounded-2xl p-4 sm:p-6">
               <h4 className="text-xl font-bold mb-6 text-yellow-400">
@@ -269,39 +246,6 @@ const FeaturesSection = () => {
                   </div>
                   <span className="text-gray-300">
                     Receive optimization recommendations
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* HireDisk Flow */}
-            <div className="bg-slate-700/50 border border-slate-600 rounded-2xl p-4 sm:p-6">
-              <h4 className="text-xl font-bold mb-6 text-emerald-400">
-                HireDisk
-              </h4>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
-                    1
-                  </div>
-                  <span className="text-gray-300">
-                    AI-powered resume screening
-                  </span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
-                    2
-                  </div>
-                  <span className="text-gray-300">
-                    Generate interview questions
-                  </span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
-                    3
-                  </div>
-                  <span className="text-gray-300">
-                    Advanced candidate insights & analytics
                   </span>
                 </div>
               </div>

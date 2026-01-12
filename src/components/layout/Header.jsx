@@ -3,7 +3,6 @@ import {
   roleSuggestionsFeatures,
   interviewPrepFeatures,
 } from "@data/roleSuggetionsFeatures";
-import { hrSuggestions } from "@data/hireSuggestions";
 import { atsAnalyzerFeatures } from "@data/atsAnalyzerFeatures";
 import NavigationButton from "@components/buttons/NavigationButton";
 
@@ -228,7 +227,7 @@ function Header() {
             <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-center mb-4 xs:mb-6 sm:mb-8 bg-gradient-to-r from-indigo-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent relative z-10">
               JobPsych Tools & Features
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 sm:gap-4 lg:gap-6 relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-4 lg:gap-6 relative z-10">
               <div className="bg-gradient-to-br from-emerald-900/60 via-emerald-800/60 to-green-900/60 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-emerald-700/60 flex flex-col transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/20 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/10 to-green-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl xs:rounded-2xl"></div>
 
@@ -300,33 +299,6 @@ function Header() {
                       </span>
                       <div>
                         <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-blue-200 group-hover/item:text-blue-100 transition-colors duration-300">
-                          {f.title}
-                        </div>
-                        <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight group-hover/item:text-slate-200 transition-colors duration-300">
-                          {f.description}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-gradient-to-br from-yellow-900/60 via-orange-800/60 to-red-900/60 rounded-xl xs:rounded-2xl p-3 xs:p-4 sm:p-4 lg:p-6 shadow-xl border border-yellow-700/60 flex flex-col transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-yellow-500/20 group relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl xs:rounded-2xl"></div>
-
-                <h3 className="text-sm xs:text-base sm:text-base lg:text-lg font-bold text-yellow-300 mb-2 xs:mb-3 sm:mb-3 lg:mb-4 flex items-center gap-1 xs:gap-2 relative z-10">
-                  HireDisk
-                </h3>
-                <ul className="space-y-1 xs:space-y-2 sm:space-y-2 lg:space-y-3 relative z-10">
-                  {hrSuggestions.slice(0, 4).map((f, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 xs:gap-3 group/item"
-                    >
-                      <span className="text-sm xs:text-base sm:text-base lg:text-lg flex-shrink-0 transition-transform duration-300 group-hover/item:scale-110">
-                        {f.icon}
-                      </span>
-                      <div>
-                        <div className="font-semibold text-xs xs:text-sm sm:text-sm lg:text-sm text-yellow-200 group-hover/item:text-yellow-100 transition-colors duration-300">
                           {f.title}
                         </div>
                         <div className="text-slate-300 text-xs xs:text-xs sm:text-xs lg:text-xs leading-tight group-hover/item:text-slate-200 transition-colors duration-300">

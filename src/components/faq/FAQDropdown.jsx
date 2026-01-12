@@ -152,17 +152,6 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
                   </p>
                 </div>
               )}
-              {type === "hiring" && (
-                <div className="mt-4 p-3 bg-purple-900/30 rounded-lg border border-purple-500/30">
-                  <p className="text-sm text-purple-300 font-medium mb-1">
-                    Pro Tip:
-                  </p>
-                  <p className="text-sm text-purple-200">
-                    HireDisk Pro offers advanced AI screening to help you find
-                    the perfect candidates faster!
-                  </p>
-                </div>
-              )}
               {type === "general" && (
                 <div className="mt-4 p-3 bg-indigo-900/30 rounded-lg border border-indigo-500/30">
                   <p className="text-sm text-indigo-300 font-medium mb-1">

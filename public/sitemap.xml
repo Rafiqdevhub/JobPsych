@@ -36,14 +36,6 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- HireDisk -->
-  <url>
-    <loc>https://jobpsych.vercel.app/hiredisk</loc>
-    <lastmod>2025-10-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <!-- Privacy Policy -->
   <url>
     <loc>https://jobpsych.vercel.app/privacy-policy</loc>

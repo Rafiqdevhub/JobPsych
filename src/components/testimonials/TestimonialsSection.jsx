@@ -36,9 +36,6 @@ const TestimonialsSection = () => {
             <div className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow-lg border border-blue-500/30 transition-all duration-300">
               InterviewPrep AI
             </div>
-            <div className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-full shadow-lg border border-purple-500/30 transition-all duration-300">
-              HireDisk
-            </div>
           </div>
         </div>
 

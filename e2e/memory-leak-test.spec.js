@@ -20,7 +20,6 @@ test.describe("Memory Leak Detection", () => {
       "/role-suggestions",
       "/ats-analyzer",
       "/interview-prepai",
-      "/hiredisk",
       "/security-audit",
     ];
 
@@ -445,9 +444,6 @@ test.describe("Long-Running Session Stability", () => {
             await page.goto("/interview-prepai");
             break;
           case 4:
-            await page.goto("/hiredisk");
-            break;
-          case 5:
             // Scroll instead of navigating to security-audit
             await page.evaluate(() =>
               window.scrollTo(0, document.body.scrollHeight)

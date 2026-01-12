@@ -56,7 +56,6 @@ const ATSAnalyzer = lazy(() => import("@pages/ATSAnalyzer.jsx"));
 const LandingPage = lazy(() => import("@pages/LandingPage.jsx"));
 const RoleSuggestion = lazy(() => import("@pages/RoleSuggestion.jsx"));
 const InterviewPrepAI = lazy(() => import("@pages/InterviewPrepAI.jsx"));
-const HireDisk = lazy(() => import("@pages/HireDisk"));
 const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("@pages/TermsOfService.jsx"));
 const SecurityAuditDashboard = lazy(() =>
@@ -98,14 +97,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <ATSAnalyzer />
-          </Suspense>
-        ),
-      },
-      {
-        path: "hiredisk",
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <HireDisk />
           </Suspense>
         ),
       },

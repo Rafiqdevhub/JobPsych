@@ -20,18 +20,6 @@ vi.mock("@/data/testimonials", () => ({
       highlight: "85% role match score",
     },
     {
-      category: "HR Professionals",
-      name: "Abu Bakar",
-      role: "HR Director",
-      company: "TechCorp Solutions",
-      image:
-        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%234F46E5'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Arial'%3EAB%3C/text%3E%3C/svg%3E",
-      quote:
-        "HireDisk cut our hiring time in half. The AI-generated interview questions are incredibly insightful and role-specific.",
-      result: "50% faster hiring",
-      highlight: "98% candidate satisfaction",
-    },
-    {
       category: "Enterprise",
       name: "Ihtesham Ullah",
       role: "Talent Acquisition Head",
@@ -65,7 +53,6 @@ describe("TestimonialsSection", () => {
     expect(screen.getByText("Role Suggestions")).toBeInTheDocument();
     expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
     expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
-    expect(screen.getByText("HireDisk")).toBeInTheDocument();
   });
 
   it("renders all testimonials correctly", () => {
@@ -73,19 +60,16 @@ describe("TestimonialsSection", () => {
 
     // Check all testimonial names
     expect(screen.getByText("Ali Ahmed")).toBeInTheDocument();
-    expect(screen.getByText("Abu Bakar")).toBeInTheDocument();
     expect(screen.getByText("Ihtesham Ullah")).toBeInTheDocument();
 
     // Check all roles
     expect(screen.getByText("Software Developer")).toBeInTheDocument();
-    expect(screen.getByText("HR Director")).toBeInTheDocument();
     expect(screen.getByText("Talent Acquisition Head")).toBeInTheDocument();
 
     // Check all companies
     expect(
       screen.getByText("Successfully transitioned from Marketing")
     ).toBeInTheDocument();
-    expect(screen.getByText("TechCorp Solutions")).toBeInTheDocument();
     expect(screen.getByText("Global Innovations Inc")).toBeInTheDocument();
   });
 
@@ -96,9 +80,6 @@ describe("TestimonialsSection", () => {
       screen.getByText(
         /Role Suggestions helped me identify the perfect career switch/
       )
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/HireDisk cut our hiring time in half/)
     ).toBeInTheDocument();
     expect(
       screen.getByText(

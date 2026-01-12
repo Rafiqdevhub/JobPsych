@@ -191,18 +191,6 @@ describe("FAQDropdown", () => {
     ).toBeInTheDocument();
   });
 
-  it("displays pro tip for hiring type", () => {
-    render(<FAQDropdown {...defaultProps} type="hiring" />);
-
-    const button = screen.getByRole("button");
-    fireEvent.click(button);
-
-    expect(screen.getByText("Pro Tip:")).toBeInTheDocument();
-    expect(
-      screen.getByText(/HireDisk Pro offers advanced AI screening/)
-    ).toBeInTheDocument();
-  });
-
   it("displays pro tip for general type", () => {
     render(<FAQDropdown {...defaultProps} type="general" />);
 

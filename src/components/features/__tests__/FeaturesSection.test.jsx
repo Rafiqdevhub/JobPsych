@@ -130,11 +130,6 @@ describe("FeaturesSection", () => {
       selector: "span.text-purple-400",
     });
     expect(purpleText).toHaveClass("text-purple-400");
-
-    const orangeText = screen.getByText("HireDisk", {
-      selector: "span.text-orange-400",
-    });
-    expect(orangeText).toHaveClass("text-orange-400");
   });
 
   it("displays feature badges with correct colors", () => {
@@ -165,11 +160,6 @@ describe("FeaturesSection", () => {
       "text-emerald-300"
     );
 
-    const hireDiskBadge = screen.getByText("HireDisk", {
-      selector: "div.inline-flex",
-    });
-    expect(hireDiskBadge).toHaveClass("bg-orange-800/70", "text-orange-300");
-
     const smartAnalysisBadge = screen.getByText("Smart Analysis", {
       selector: "div.inline-flex",
     });
@@ -191,7 +181,7 @@ describe("FeaturesSection", () => {
     const { container } = renderFeaturesSection();
 
     const cards = container.querySelectorAll('[class*="hover:shadow-xl"]');
-    expect(cards).toHaveLength(6); // 6 feature cards
+    expect(cards).toHaveLength(5); // 5 feature cards
 
     cards.forEach((card) => {
       expect(card).toHaveClass("hover:shadow-xl");
@@ -218,14 +208,9 @@ describe("FeaturesSection", () => {
     });
     expect(atsAnalyzerHeading).toBeInTheDocument();
 
-    const hireDiskHeading = screen.getByText("HireDisk", {
-      selector: "h4.text-emerald-400",
-    });
-    expect(hireDiskHeading).toBeInTheDocument();
-
-    // Check for numbered steps (should be 12 total: 3 per tool × 4 tools)
+    // Check for numbered steps (should be 9 total: 3 per tool × 3 tools)
     const steps = document.querySelectorAll('[class*="bg-slate-600"]');
-    expect(steps).toHaveLength(12);
+    expect(steps).toHaveLength(9);
   });
 
   it("displays proper responsive grid layout", () => {
@@ -236,11 +221,11 @@ describe("FeaturesSection", () => {
     expect(mainGrid).toHaveClass("sm:grid-cols-2", "lg:grid-cols-3");
 
     // Check workflow grid
-    const workflowGrid = container.querySelector('[class*="lg:grid-cols-4"]');
+    const workflowGrid = container.querySelector('[class*="lg:grid-cols-3"]');
     expect(workflowGrid).toHaveClass(
       "grid-cols-1",
       "sm:grid-cols-2",
-      "lg:grid-cols-4"
+      "lg:grid-cols-3"
     );
   });
 
@@ -338,15 +323,6 @@ describe("FeaturesSection", () => {
     expect(
       screen.getByText("Receive optimization recommendations")
     ).toBeInTheDocument();
-
-    // HireDisk steps
-    expect(screen.getByText("AI-powered resume screening")).toBeInTheDocument();
-    expect(
-      screen.getByText("Generate interview questions")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Advanced candidate insights & analytics")
-    ).toBeInTheDocument();
   });
 
   it("applies proper color coding for workflow headings", () => {
@@ -367,11 +343,6 @@ describe("FeaturesSection", () => {
       selector: "h4.text-purple-400",
     });
     expect(atsAnalyzerHeading).toHaveClass("text-purple-400");
-
-    const hireDiskHeading = screen.getByText("HireDisk", {
-      selector: "h4.text-emerald-400",
-    });
-    expect(hireDiskHeading).toHaveClass("text-emerald-400");
   });
 
   it("renders all required sections and subsections", () => {

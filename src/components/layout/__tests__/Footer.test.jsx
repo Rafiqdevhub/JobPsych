@@ -58,7 +58,6 @@ describe("Footer Component", () => {
     expect(aboutText.textContent).toContain("Role Suggestions");
     expect(aboutText.textContent).toContain("InterviewPrep AI");
     expect(aboutText.textContent).toContain("ATS Analyzer");
-    expect(aboutText.textContent).toContain("HireDisk");
   });
 
   it("displays key features list", () => {
@@ -103,7 +102,6 @@ describe("Footer Component", () => {
       screen.getByTestId("nav-button-/interview-prepai")
     ).toBeInTheDocument();
     expect(screen.getByTestId("nav-button-/ats-analyzer")).toBeInTheDocument();
-    expect(screen.getByTestId("nav-button-/hiredisk")).toBeInTheDocument();
   });
 
   it("displays quick access button labels", () => {
@@ -112,7 +110,6 @@ describe("Footer Component", () => {
     expect(screen.getByText("Explore Role Suggestions")).toBeInTheDocument();
     expect(screen.getByText("Try InterviewPrep AI")).toBeInTheDocument();
     expect(screen.getByText("Analyze Resume with ATS")).toBeInTheDocument();
-    expect(screen.getByText("HireDisk")).toBeInTheDocument();
   });
 
   it("displays platform statistics", () => {

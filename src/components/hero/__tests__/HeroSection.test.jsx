@@ -55,9 +55,6 @@ describe("HeroSection Component", () => {
     expect(
       screen.getByRole("heading", { name: "ATS Analyzer" })
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "HireDisk" })
-    ).toBeInTheDocument();
   });
 
   it("displays feature card descriptions", () => {
@@ -70,12 +67,9 @@ describe("HeroSection Component", () => {
     expect(
       screen.getByText("Resume optimization for ATS systems")
     ).toBeInTheDocument();
-    expect(
-      screen.getByText("AI hiring intelligence for recruiters")
-    ).toBeInTheDocument();
   });
 
-  it("renders all four navigation buttons", () => {
+  it("renders all three navigation buttons", () => {
     render(<HeroSection />);
 
     // Check that buttons exist with the correct names
@@ -88,9 +82,6 @@ describe("HeroSection Component", () => {
     expect(
       screen.getByRole("button", { name: /ATS Analyzer/ })
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /HireDisk/ })
-    ).toBeInTheDocument();
   });
 
   it("navigates to correct routes when buttons are clicked", () => {
@@ -102,7 +93,6 @@ describe("HeroSection Component", () => {
       name: /InterviewPrep AI/,
     });
     const atsButton = screen.getByRole("button", { name: /ATS Analyzer/ });
-    const hireButton = screen.getByRole("button", { name: /HireDisk/ });
 
     fireEvent.click(roleButton);
     expect(window.location.href).toBe("/role-suggestions");
@@ -112,9 +102,6 @@ describe("HeroSection Component", () => {
 
     fireEvent.click(atsButton);
     expect(window.location.href).toBe("/ats-analyzer");
-
-    fireEvent.click(hireButton);
-    expect(window.location.href).toBe("/hiredisk");
   });
 
   it("rotates active card every 3 seconds", () => {
@@ -149,18 +136,6 @@ describe("HeroSection Component", () => {
     });
     const thirdCard = thirdCardTitle.closest("div.group");
     expect(thirdCard).toHaveClass("scale-105");
-  });
-
-  it("changes active card on mouse hover", () => {
-    render(<HeroSection />);
-
-    const hireCardTitle = screen.getByRole("heading", { name: "HireDisk" });
-    const hireCard = hireCardTitle.closest("div.group");
-
-    fireEvent.mouseEnter(hireCard);
-
-    // The HireDisk card should now be active
-    expect(hireCard).toHaveClass("scale-105");
   });
 
   it("displays scroll down indicator on desktop", () => {

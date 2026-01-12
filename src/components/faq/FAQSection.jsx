@@ -32,8 +32,8 @@ const FAQSection = () => {
             Everything you need to know about JobPsych
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Get answers to common questions about our four powerful tools: Role
-            Suggestions, InterviewPrep AI, ATS Analyzer, and HireDisk.
+            Get answers to common questions about our three powerful tools: Role
+            Suggestions, InterviewPrep AI, and ATS Analyzer.
           </p>
         </div>
         <div className="mx-auto max-w-4xl">

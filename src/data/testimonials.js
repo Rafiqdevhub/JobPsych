@@ -12,18 +12,6 @@ export const testimonials = [
     highlight: "85% role match score",
   },
   {
-    category: "HR Professionals",
-    name: "Abu Bakar",
-    role: "HR Director",
-    company: "TechCorp Solutions",
-    image:
-      "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%234F46E5'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Arial'%3EAB%3C/text%3E%3C/svg%3E",
-    quote:
-      "HireDisk cut our hiring time in half. The AI-generated interview questions are incredibly insightful and role-specific.",
-    result: "50% faster hiring",
-    highlight: "98% candidate satisfaction",
-  },
-  {
     category: "Enterprise",
     name: "Ihtesham Ullah",
     role: "Talent Acquisition Head",

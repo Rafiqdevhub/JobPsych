@@ -118,7 +118,6 @@ describe("Header Component", () => {
     expect(screen.getByText("Role Suggestions")).toBeInTheDocument();
     expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
     expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
-    expect(screen.getByText("HireDisk")).toBeInTheDocument();
   });
 
   test("closes features modal when close button is clicked", () => {

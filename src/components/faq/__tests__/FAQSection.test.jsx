@@ -8,9 +8,9 @@ vi.mock("@/data/faqs", () => ({
   faqs: [
     {
       question:
-        "What's the differences among Role Suggestions, InterviewPrep AI, ATS Analyzer, and HireDisk?",
+        "What's the differences among Role Suggestions, InterviewPrep AI, and ATS Analyzer?",
       answer:
-        "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI helps you practice interviews with AI feedback. ATS Analyzer optimizes your resume to beat Applicant Tracking Systems. HireDisk is a premium AI hiring tool designed for HR teams with advanced features like interview question generation and candidate screening.",
+        "Role Suggestions is completely free for job seekers to get career guidance and role recommendations. InterviewPrep AI helps you practice interviews with AI feedback. ATS Analyzer optimizes your resume to beat Applicant Tracking Systems.",
       type: "general",
     },
     {
@@ -51,7 +51,7 @@ describe("FAQSection", () => {
     // Check description
     expect(
       screen.getByText(
-        /Get answers to common questions about our four powerful tools/
+        /Get answers to common questions about our three powerful tools/
       )
     ).toBeInTheDocument();
   });
@@ -96,7 +96,7 @@ describe("FAQSection", () => {
     // Check that the mocked components receive the correct content
     expect(
       screen.getByText(
-        "What's the differences among Role Suggestions, InterviewPrep AI, ATS Analyzer, and HireDisk?"
+        "What's the differences among Role Suggestions, InterviewPrep AI, and ATS Analyzer?"
       )
     ).toBeInTheDocument();
     expect(screen.getByText("What is InterviewPrep AI?")).toBeInTheDocument();

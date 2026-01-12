@@ -23,8 +23,7 @@ const Footer = () => {
             <p className="text-gray-300 text-sm leading-relaxed">
               A unified platform offering smart career direction for individuals
               through Role Suggestions, AI-powered interview practice with
-              InterviewPrep AI, resume optimization with ATS Analyzer, and
-              advanced recruitment tools for HR with HireDisk.
+              InterviewPrep AI, and resume optimization with ATS Analyzer.
             </p>
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
@@ -72,11 +71,6 @@ const Footer = () => {
                 {
                   label: "Try InterviewPrep AI",
                   to: "/interview-prepai",
-                },
-
-                {
-                  label: "HireDisk",
-                  to: "/hiredisk",
                 },
               ].map((item, index) => (
                 <NavigationButton
