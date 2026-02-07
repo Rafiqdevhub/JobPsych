@@ -1,11 +1,11 @@
 import React from "react";
 import useToast from "@/hooks/useToast";
 
-const ATSAnalyzer = () => {
+const DocumentQualityAnalyzer = () => {
   const { showSuccess } = useToast();
 
-  const handleStartATS = () => {
-    showSuccess("Redirecting to ATS Cracker in a new tab...");
+  const handleStartAnalysis = () => {
+    showSuccess("Redirecting to Document Analysis platform...");
     setTimeout(() => {
       window.open("https://ats-cracker.vercel.app/", "_blank");
     }, 1000);
@@ -18,7 +18,7 @@ const ATSAnalyzer = () => {
     >
       <div className="absolute inset-0 bg-slate-900">
         <div className="absolute inset-0 opacity-20">
-          <div className="h-full w-full bg-gradient-to-br from-indigo-500/10 to-blue-500/10"></div>
+          <div className="h-full w-full bg-gradient-to-br from-emerald-500/10 to-teal-500/10"></div>
         </div>
       </div>
 
@@ -31,7 +31,7 @@ const ATSAnalyzer = () => {
             <div className="flex-shrink-0 mb-4 sm:mb-0">
               <button
                 onClick={() => (window.location.href = "/")}
-                className="inline-flex items-center gap-2 bg-indigo-600 px-6 py-3 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-emerald-600 px-6 py-3 text-white font-semibold rounded-xl shadow-lg hover:bg-emerald-700 transition-all duration-300 transform hover:scale-105 cursor-pointer"
                 style={{
                   pointerEvents: "auto",
                   zIndex: 10,
@@ -57,7 +57,7 @@ const ATSAnalyzer = () => {
             <div className="flex-1 text-center px-4 sm:px-8 mb-4 sm:mb-0">
               <div className="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 px-6 py-3 rounded-full">
                 <blockquote className="text-sm sm:text-base font-medium text-slate-300 italic">
-                  Beat ATS systems and land more interviews
+                  Optimize your documents for maximum impact and clarity
                 </blockquote>
               </div>
             </div>
@@ -66,7 +66,7 @@ const ATSAnalyzer = () => {
               <div className="flex items-center justify-center sm:justify-end space-x-3">
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    ATS Analyzer
+                    Document Quality Analyzer
                   </h1>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const ATSAnalyzer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 max-h-none lg:max-h-[75vh]">
           <div className="lg:col-span-3">
             <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-700 overflow-hidden h-auto min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex flex-col">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 sm:px-6 py-3 sm:py-4 text-center">
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-4 sm:px-6 py-3 sm:py-4 text-center">
                 <h2 className="text-lg sm:text-xl font-bold text-white flex items-center justify-center gap-2 sm:gap-3">
                   <svg
                     className="h-5 w-5 sm:h-6 sm:w-6"
@@ -94,7 +94,7 @@ const ATSAnalyzer = () => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  ATS Resume Analyzer
+                  Professional Document Analyzer
                 </h2>
               </div>
 
@@ -103,8 +103,8 @@ const ATSAnalyzer = () => {
                   <div className="text-center max-w-xl mx-auto px-2">
                     <div className="mb-4 sm:mb-6">
                       <div className="relative mb-3 sm:mb-4">
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur-xl opacity-20"></div>
-                        <div className="relative bg-gradient-to-r from-indigo-600 to-purple-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl inline-block">
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full blur-xl opacity-20"></div>
+                        <div className="relative bg-gradient-to-r from-emerald-600 to-teal-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl inline-block">
                           <svg
                             className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white"
                             fill="none"
@@ -122,32 +122,32 @@ const ATSAnalyzer = () => {
                       </div>
 
                       <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 sm:mb-3 leading-tight">
-                        Ready to Beat
+                        Perfect Your
                         <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-                          ATS Systems?
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                          Document Quality?
                         </span>
                       </h3>
 
                       <p className="text-slate-300 text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed px-2">
-                        Experience our cutting-edge AI platform with real-time
-                        optimization, keyword analysis, and compatibility
-                        scoring.
+                        Experience our AI-powered document analysis platform
+                        with content optimization, clarity enhancement, and
+                        impact scoring to ensure your documents shine.
                       </p>
                     </div>
 
                     <button
-                      onClick={handleStartATS}
-                      className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 text-white font-bold rounded-lg sm:rounded-xl shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 transform hover:scale-105 cursor-pointer text-base sm:text-lg w-full sm:w-auto"
+                      onClick={handleStartAnalysis}
+                      className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 text-white font-bold rounded-lg sm:rounded-xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 transform hover:scale-105 cursor-pointer text-base sm:text-lg w-full sm:w-auto"
                       style={{
                         pointerEvents: "auto",
                         zIndex: 10,
                         position: "relative",
                       }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="relative flex items-center justify-center gap-2 sm:gap-3">
-                        <span>Start ATS Analysis</span>
+                        <span>Start Document Analysis</span>
                         <svg
                           className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300"
                           fill="none"
@@ -165,7 +165,7 @@ const ATSAnalyzer = () => {
                     </button>
 
                     <p className="text-slate-400 mt-3 sm:mt-4 text-xs sm:text-sm">
-                      Opens in a new tab • Advanced ATS optimization platform
+                      Opens in a new tab • Advanced Document Analysis platform
                     </p>
                   </div>
                 </div>
@@ -174,35 +174,35 @@ const ATSAnalyzer = () => {
           </div>
 
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
-            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-indigo-500/30 transition-all duration-300">
-              <h3 className="text-sm sm:text-md font-bold text-indigo-400 mb-2 sm:mb-3 flex items-center gap-2">
-                Why Our ATS Platform?
+            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-emerald-500/30 transition-all duration-300">
+              <h3 className="text-sm sm:text-md font-bold text-emerald-400 mb-2 sm:mb-3 flex items-center gap-2">
+                Why Our Document Analysis Platform?
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 transition-all duration-300">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">1</span>
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Real-time Analysis
+                      Content Analysis
                     </h4>
                     <p className="text-slate-300 text-xs">
-                      Instant resume compatibility score
+                      Real-time quality and clarity scoring
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all duration-300">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-teal-500/10 border border-teal-500/20 hover:bg-teal-500/20 transition-all duration-300">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">2</span>
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Keyword Optimization
+                      Gap Identification
                     </h4>
                     <p className="text-slate-300 text-xs">
-                      Match job description keywords
+                      Spot missing or weak content areas
                     </p>
                   </div>
                 </div>
@@ -213,23 +213,23 @@ const ATSAnalyzer = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Multi-ATS Support
+                      Impact Enhancement
                     </h4>
                     <p className="text-slate-300 text-xs">
-                      Works with all major ATS systems
+                      Maximize document effectiveness
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-purple-500/30 transition-all duration-300">
-              <h3 className="text-sm sm:text-md font-bold text-purple-400 mb-2 sm:mb-3 flex items-center gap-2">
-                ATS Tips & Best Practices
+            <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-emerald-500/30 transition-all duration-300">
+              <h3 className="text-sm sm:text-md font-bold text-emerald-400 mb-2 sm:mb-3 flex items-center gap-2">
+                Document Quality Tips & Best Practices
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20 transition-all duration-300">
-                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg
                       className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white"
                       fill="none"
@@ -246,16 +246,16 @@ const ATSAnalyzer = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Standard Headers
+                      Clear Structure
                     </h4>
                     <p className="text-slate-300 text-xs">
-                      Use clear section formatting
+                      Organize content logically
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 transition-all duration-300">
-                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start space-x-2 p-1.5 sm:p-2 rounded-lg bg-teal-500/10 border border-teal-500/20 hover:bg-teal-500/20 transition-all duration-300">
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg
                       className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white"
                       fill="none"
@@ -272,10 +272,10 @@ const ATSAnalyzer = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Quantifiable Results
+                      Impact-Driven Content
                     </h4>
                     <p className="text-slate-300 text-xs">
-                      Use metrics and numbers
+                      Highlight achievements clearly
                     </p>
                   </div>
                 </div>
@@ -308,13 +308,13 @@ const ATSAnalyzer = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4">
+            <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4">
               <div className="text-center">
                 <p className="text-white font-semibold text-xs sm:text-sm mb-1 sm:mb-2">
-                  Beat Every ATS System!
+                  Optimize Your Documents!
                 </p>
                 <p className="text-slate-300 text-xs">
-                  Join thousands who landed more interviews
+                  Join thousands with interview-ready resumed
                 </p>
               </div>
             </div>
@@ -323,20 +323,20 @@ const ATSAnalyzer = () => {
               <div className="flex items-start space-x-3">
                 <div className="flex-1">
                   <h4 className="text-xs sm:text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2">
-                    ATS Analysis Integrated
+                    Document Analysis Integrated
                   </h4>
                   <p className="text-xs text-slate-300 leading-relaxed mb-3">
-                    Click the "Start ATS Analysis" button to open our advanced
-                    ATS optimization platform in a new tab. Get real-time
-                    analysis and keyword recommendations for maximum ATS
-                    compatibility.
+                    Click the "Start Document Analysis" button to open our
+                    advanced document optimization platform in a new tab. Get
+                    real-time analysis, clarity scoring, and enhancement
+                    recommendations for maximum impact.
                   </p>
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
                       Real-time Analysis
                     </span>
                     <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                      Keyword Optimized
+                      Quality Optimized
                     </span>
                   </div>
                 </div>
@@ -349,17 +349,18 @@ const ATSAnalyzer = () => {
           <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-xl p-4">
             <div className="text-center">
               <h4 className="text-sm font-bold text-emerald-400 mb-2">
-                ATS Analysis Ready?
+                Document Analysis Ready?
               </h4>
               <p className="text-xs text-slate-300 mb-3">
-                Tap the button above to optimize your resume for ATS systems
+                Tap the button above to optimize your document quality and
+                clarity
               </p>
               <div className="flex justify-center gap-2">
                 <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
                   Real-time Analysis
                 </span>
                 <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                  ATS Compatible
+                  Quality Focused
                 </span>
               </div>
             </div>
@@ -370,4 +371,4 @@ const ATSAnalyzer = () => {
   );
 };
 
-export default ATSAnalyzer;
+export default DocumentQualityAnalyzer;

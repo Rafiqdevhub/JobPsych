@@ -40,7 +40,7 @@ const HeroSection = ({ resumeData }) => {
               className="h-4 w-4 text-indigo-400 animate-spin"
               style={{ animationDuration: "3s" }}
             />
-            <span>AI-Powered Career Intelligence</span>
+            <span>Career Readiness & Interview Success</span>
             <SparklesIcon
               className="h-4 w-4 text-indigo-400 animate-spin"
               style={{ animationDuration: "3s", animationDirection: "reverse" }}
@@ -49,31 +49,32 @@ const HeroSection = ({ resumeData }) => {
 
           <h1 className="relative mb-8 text-6xl sm:text-7xl md:text-8xl font-black tracking-tighter leading-tight">
             <div className="relative inline-block">
-              <span className="text-white">Your AI-Powered </span>
+              <span className="text-white">AI-Based </span>
               <span className="relative inline-block text-indigo-300 ml-2">
-                Career Revolution
+                Career Readiness and Interview Preparation System
                 <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent rounded-full"></div>
               </span>
             </div>
             <div className="mt-4 text-slate-300 text-3xl sm:text-4xl md:text-5xl font-light">
-              Discover roles, optimize resumes, and master interviews
+              Discover roles, documents quality improvement, and master
+              interviews
             </div>
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            JobPsych combines advanced AI analysis with personalized career
-            guidance. Get matched with your ideal roles, prepare for success,
-            and advance your career faster.
+            Our comprehensive AI-based system ensures you're fully prepared for
+            every stage of your career journey. From role discovery and
+            documents quality improvement to interview mastery get ready to
+            succeed with confidence.
           </p>
 
-          <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                title: "Smart Role Finder",
+                title: "Career Path Exploration Module",
                 description:
-                  "AI discovers roles matching your unique skills and career goals with precision matching",
+                  "Prepare for your career transition with AI-guided role discovery that matches your skills and aspirations",
 
-                color: "from-blue-500 to-cyan-500",
                 borderColor: "border-blue-500/30",
                 hoverBorder: "hover:border-blue-500/60",
                 accentBg: "bg-blue-500/20",
@@ -81,11 +82,11 @@ const HeroSection = ({ resumeData }) => {
                 index: 0,
               },
               {
-                title: "ATS Resume Optimizer",
+                title:
+                  "Professional Document Structure and Content Analysis Module",
                 description:
-                  "Transform your resume to pass ATS screening and catch recruiter attention instantly",
+                  "Ensure interview readiness with resume optimization that identifies gaps and enhances content for maximum impact",
 
-                color: "from-emerald-500 to-teal-500",
                 borderColor: "border-emerald-500/30",
                 hoverBorder: "hover:border-emerald-500/60",
                 accentBg: "bg-emerald-500/20",
@@ -93,11 +94,10 @@ const HeroSection = ({ resumeData }) => {
                 index: 1,
               },
               {
-                title: "AI Interview Coach",
+                title: "AI-Assisted Interview Practice Module",
                 description:
-                  "Practice with intelligent feedback, master techniques, and interview with confidence",
+                  "Build complete interview readiness through AI-powered practice, intelligent feedback, and confidence-building preparation",
 
-                color: "from-purple-500 to-pink-500",
                 borderColor: "border-purple-500/30",
                 hoverBorder: "hover:border-purple-500/60",
                 accentBg: "bg-purple-500/20",
@@ -105,7 +105,6 @@ const HeroSection = ({ resumeData }) => {
                 index: 2,
               },
             ].map((card) => {
-              const Icon = card.icon;
               return (
                 <div
                   key={card.title}
@@ -125,7 +124,7 @@ const HeroSection = ({ resumeData }) => {
                   ></div>
 
                   <div
-                    className={`relative z-10 mb-4 inline-flex p-3 rounded-lg bg-gradient-to-br ${card.color} text-white/20 group-hover:text-white/40 transition-all duration-300`}
+                    className={`relative z-10 mb-0 inline-flex p-3 rounded-lg bg-gradient-to-br ${card.color} text-white/20 group-hover:text-white/40 transition-all duration-300`}
                   ></div>
 
                   <div className="relative z-10">
@@ -147,7 +146,7 @@ const HeroSection = ({ resumeData }) => {
           <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-4 flex-wrap">
             {[
               {
-                label: "Discover Your Roles",
+                label: "Discover Your Ideal Roles",
                 href: "/role-suggestions",
                 icon: RocketLaunchIcon,
                 color: "from-blue-600 to-cyan-600",
@@ -156,7 +155,7 @@ const HeroSection = ({ resumeData }) => {
                 borderColor: "border-blue-400/40",
               },
               {
-                label: "Optimize Resume Now",
+                label: "Improve Document Clarity",
                 href: "/ats-analyzer",
                 icon: DocumentCheckIcon,
                 color: "from-emerald-600 to-teal-600",
@@ -206,13 +205,15 @@ const HeroSection = ({ resumeData }) => {
             <div className="mt-24 space-y-8">
               <div className="relative">
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center">
-                  <span className="text-indigo-300">Your AI-Recommended</span>
+                  <span className="text-indigo-300">
+                    Roles You're Ready For
+                  </span>
                   <br />
-                  Career Opportunities
+                  Career Opportunities Matched to Your Profile
                 </h2>
                 <p className="text-center text-slate-300 mt-4 text-lg max-w-2xl mx-auto">
-                  Personalized roles perfectly matched to your profile and
-                  career aspirations
+                  AI-analyzed career paths aligned with your skills, experience,
+                  and readiness level
                 </p>
               </div>
 
@@ -230,8 +231,8 @@ const HeroSection = ({ resumeData }) => {
                             role.matchPercentage >= 80
                               ? "from-emerald-500 to-green-600"
                               : role.matchPercentage >= 60
-                              ? "from-yellow-500 to-amber-600"
-                              : "from-orange-500 to-red-600"
+                                ? "from-yellow-500 to-amber-600"
+                                : "from-orange-500 to-red-600"
                           }`}
                         >
                           <span>{role.matchPercentage}</span>

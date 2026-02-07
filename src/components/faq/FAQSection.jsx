@@ -5,7 +5,6 @@ import FAQDropdown from "@components/faq/FAQDropdown";
 const FAQSection = () => {
   return (
     <section className="relative pt-6 pb-10 sm:pt-10 sm:pb-24 bg-slate-900">
-      {/* Dark Background with Gradient */}
       <div className="absolute inset-0 bg-slate-900">
         <div className="absolute inset-0 opacity-20">
           <div className="h-full w-full bg-gradient-to-br from-indigo-500/10 to-blue-500/10"></div>
@@ -19,7 +18,7 @@ const FAQSection = () => {
             <div className="relative z-10 flex items-center">
               <div className="w-2 h-2 bg-cyan-300 rounded-full mr-3 animate-bounce"></div>
               <span className="bg-gradient-to-r from-white via-cyan-200 to-indigo-200 bg-clip-text text-transparent font-bold tracking-wide">
-                Frequently Asked Questions
+                Common Questions
               </span>
               <div
                 className="w-2 h-2 bg-cyan-300 rounded-full ml-3 animate-bounce"
@@ -29,11 +28,17 @@ const FAQSection = () => {
           </div>
 
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Everything you need to know about JobPsych
+            Everything you need to know about
+            <br />
+            <span className="text-indigo-400">
+              AI-Based Career Readiness and Interview Preparation
+            </span>
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Get answers to common questions about our three powerful tools: Role
-            Suggestions, InterviewPrep AI, and ATS Analyzer.
+            Get answers to common questions about our comprehensive system:
+            <br />
+            Career Path Exploration, Professional Document Analysis, and
+            AI-Assisted Interview Practice.
           </p>
         </div>
         <div className="mx-auto max-w-4xl">

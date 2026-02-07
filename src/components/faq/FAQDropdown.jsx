@@ -5,29 +5,23 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
 
   const getTypeStyles = () => {
     switch (type) {
-      case "interview":
+      case "career":
         return {
           bgColor: "bg-blue-900/30 hover:bg-blue-800/40",
           borderColor: "border-blue-500/30",
           accentColor: "bg-blue-500",
         };
-      case "career":
+      case "document":
         return {
           bgColor: "bg-emerald-900/30 hover:bg-emerald-800/40",
           borderColor: "border-emerald-500/30",
           accentColor: "bg-emerald-500",
         };
-      case "hiring":
+      case "interview":
         return {
           bgColor: "bg-purple-900/30 hover:bg-purple-800/40",
           borderColor: "border-purple-500/30",
           accentColor: "bg-purple-500",
-        };
-      case "ats":
-        return {
-          bgColor: "bg-orange-900/30 hover:bg-orange-800/40",
-          borderColor: "border-orange-500/30",
-          accentColor: "bg-orange-500",
         };
       default:
         return {
@@ -57,24 +51,19 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
           </span>
         </div>
         <div className="flex items-center space-x-2 ml-4">
-          {type === "ats" && (
-            <span className="px-2 py-1 bg-orange-800/70 text-orange-300 text-xs font-medium rounded-full">
-              ATS Analyzer
+          {type === "career" && (
+            <span className="px-2 py-1 bg-blue-800/70 text-blue-300 text-xs font-medium rounded-full">
+              Career Path Exploration
+            </span>
+          )}
+          {type === "document" && (
+            <span className="px-2 py-1 bg-emerald-800/70 text-emerald-300 text-xs font-medium rounded-full">
+              Professional Document Analysis
             </span>
           )}
           {type === "interview" && (
-            <span className="px-2 py-1 bg-blue-800/70 text-blue-300 text-xs font-medium rounded-full">
-              InterviewPrep AI
-            </span>
-          )}
-          {type === "career" && (
-            <span className="px-2 py-1 bg-emerald-800/70 text-emerald-300 text-xs font-medium rounded-full">
-              Career Guidance
-            </span>
-          )}
-          {type === "hiring" && (
             <span className="px-2 py-1 bg-purple-800/70 text-purple-300 text-xs font-medium rounded-full">
-              Hiring Tools
+              Interview Practice
             </span>
           )}
           {type === "general" && (
@@ -112,43 +101,47 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
             <div className="pt-4">
               {type === "interview" && (
                 <div className="mb-3 flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium text-blue-400">
-                    InterviewPrep AI Feature
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium text-purple-400">
+                    Interview Practice Feature
                   </span>
                 </div>
               )}
               <div className="prose prose-sm max-w-none">{answer}</div>
-              {type === "ats" && (
-                <div className="mt-4 p-3 bg-orange-900/30 rounded-lg border border-orange-500/30">
-                  <p className="text-sm text-orange-300 font-medium mb-1">
-                    Pro Tip:
-                  </p>
-                  <p className="text-sm text-orange-200">
-                    Use ATS Analyzer to optimize your resume and increase your
-                    chances of getting past automated screening systems!
-                  </p>
-                </div>
-              )}
-              {type === "interview" && (
+              {type === "career" && (
                 <div className="mt-4 p-3 bg-blue-900/30 rounded-lg border border-blue-500/30">
                   <p className="text-sm text-blue-300 font-medium mb-1">
                     Pro Tip:
                   </p>
                   <p className="text-sm text-blue-200">
-                    Practice regularly with InterviewPrep AI to build confidence
-                    and improve your interview performance!
+                    Use Career Path Exploration Module to get AI-guided role
+                    discovery that prepares you for your career transition and
+                    matches your skills and aspirations!
                   </p>
                 </div>
               )}
-              {type === "career" && (
+              {type === "document" && (
                 <div className="mt-4 p-3 bg-emerald-900/30 rounded-lg border border-emerald-500/30">
                   <p className="text-sm text-emerald-300 font-medium mb-1">
                     Pro Tip:
                   </p>
                   <p className="text-sm text-emerald-200">
-                    Upload your resume to Role Suggestions for personalized
-                    career recommendations tailored to your experience!
+                    Use the Professional Document Structure and Content Analysis
+                    Module to ensure interview readiness with resume
+                    optimization that identifies gaps and enhances content for
+                    maximum impact!
+                  </p>
+                </div>
+              )}
+              {type === "interview" && (
+                <div className="mt-4 p-3 bg-purple-900/30 rounded-lg border border-purple-500/30">
+                  <p className="text-sm text-purple-300 font-medium mb-1">
+                    Pro Tip:
+                  </p>
+                  <p className="text-sm text-purple-200">
+                    Use the AI-Assisted Interview Practice Module to build
+                    complete interview readiness through AI-powered practice,
+                    intelligent feedback, and confidence-building preparation!
                   </p>
                 </div>
               )}
@@ -158,8 +151,10 @@ const FAQDropdown = ({ question, answer, type = "general" }) => {
                     Pro Tip:
                   </p>
                   <p className="text-sm text-indigo-200">
-                    Explore all JobPsych tools from free career guidance to
-                    premium hiring intelligence!
+                    Our comprehensive AI-Based Career Readiness and Interview
+                    Preparation System ensures you're fully prepared for every
+                    stage of your career journey: discover roles, improve
+                    documents quality, and master interviews with confidence!
                   </p>
                 </div>
               )}

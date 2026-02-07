@@ -13,7 +13,7 @@ const Footer = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl overflow-hidden px-6 py-16 sm:py-20 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4 mb-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-16">
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10">
             <div className="flex items-center mb-4">
               <h3 className="text-lg font-semibold text-white">
@@ -21,55 +21,56 @@ const Footer = () => {
               </h3>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              A unified platform offering smart career direction for individuals
-              through Role Suggestions, AI-powered interview practice with
-              InterviewPrep AI, and resume optimization with ATS Analyzer.
+              An AI-Based Career Readiness and Interview Preparation System
+              offering comprehensive solutions through:
+              <span className="block mt-2">
+                • Career Path Exploration Module
+              </span>
+              <span className="block">
+                • Professional Document Analysis Module
+              </span>
+              <span className="block">
+                • AI-Assisted Interview Practice Module
+              </span>
             </p>
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
             <div className="flex items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">Key Features</h3>
+              <h3 className="text-lg font-semibold text-white">Core Modules</h3>
             </div>
             <ul className="text-gray-300 space-y-3 text-sm">
               <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-3"></span>
-                Career Role Matching
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-3"></span>
+                Career Path Exploration
               </li>
               <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-3"></span>
-                Personality & Skills Fit
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-3"></span>
+                Professional Document Analysis
               </li>
               <li className="flex items-center">
                 <span className="w-1.5 h-1.5 bg-pink-400 rounded-full mr-3"></span>
-                ATS Compatibility Analysis
-              </li>
-              <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>
-                AI Interview Practice
-              </li>
-
-              <li className="flex items-center">
-                <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>
-                Recruiter-Friendly Summaries
+                AI-Powered Interview Simulation
               </li>
             </ul>
           </div>
           <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="flex items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">Quick Access</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Explore Modules
+              </h3>
             </div>
             <div className="space-y-3">
               {[
                 {
-                  label: "Explore Role Suggestions",
+                  label: "Career Path Exploration",
                   to: "/role-suggestions",
                 },
                 {
-                  label: "Analyze Resume with ATS",
+                  label: "Document Analysis",
                   to: "/ats-analyzer",
                 },
                 {
-                  label: "Try InterviewPrep AI",
+                  label: "Interview Practice",
                   to: "/interview-prepai",
                 },
               ].map((item, index) => (
