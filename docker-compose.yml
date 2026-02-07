@@ -1,17 +1,54 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  frontend:
+  # Production service with Nginx
+  jobpsych-prod:
     build:
       context: .
+      target: production
       dockerfile: Dockerfile
+    image: jobpsych-frontend:prod
+    container_name: jobpsych-prod
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - jobpsych-network
 
+  # Development service with Vite hot-reload
+  jobpsych-dev:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    image: jobpsych-frontend:dev
+    container_name: jobpsych-dev
     ports:
       - "3000:3000"
-
     volumes:
-      - .:/app
+      # Mount source code for hot-reload
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./index.html:/app/index.html
+      - ./vite.config.js:/app/vite.config.js
+      - ./tailwind.config.js:/app/tailwind.config.js
+      # Preserve node_modules (don't overwrite with host)
       - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true
+    networks:
+      - jobpsych-network
 
-    env_file:
-      - .env
+networks:
+  jobpsych-network:
+    driver: bridge
