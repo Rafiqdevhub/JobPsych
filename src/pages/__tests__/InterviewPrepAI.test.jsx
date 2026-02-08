@@ -7,7 +7,7 @@ import InterviewPrepAI from "../InterviewPrepAI";
 const mockUseToast = {
   showSuccess: vi.fn(),
 };
-vi.mock("@hooks/useToast", () => ({
+vi.mock("@/hooks/useToast", () => ({
   default: () => mockUseToast,
 }));
 
@@ -43,7 +43,7 @@ describe("InterviewPrepAI Component", () => {
 
     // Check main content
     expect(screen.getByText("Back to Home")).toBeInTheDocument();
-    expect(screen.getByText("Start AI Interview")).toBeInTheDocument();
+    expect(screen.getByText("Start Interview Practice")).toBeInTheDocument();
   });
 
   it("navigates back to home when Back to Home button is clicked", () => {
@@ -58,15 +58,13 @@ describe("InterviewPrepAI Component", () => {
     expect(mockLocation.href).toBe("/");
   });
 
-  it("shows success toast and opens new window when Start AI Interview is clicked", () => {
+  it("shows success toast and opens new window when Start Interview Practice is clicked", () => {
     vi.useFakeTimers();
 
     render(<InterviewPrepAI />);
 
-    const startButton = screen.getByText("Start AI Interview");
-
     act(() => {
-      fireEvent.click(startButton);
+      fireEvent.click(screen.getByText("Start Interview Practice"));
     });
 
     // Check that success toast was shown
@@ -86,7 +84,7 @@ describe("InterviewPrepAI Component", () => {
     render(<InterviewPrepAI />);
 
     // Check component renders
-    expect(screen.getByText("Start AI Interview")).toBeInTheDocument();
+    expect(screen.getByText("Start Interview Practice")).toBeInTheDocument();
   });
 
   it("displays the correct help text under the start button", () => {
@@ -101,19 +99,19 @@ describe("InterviewPrepAI Component", () => {
     render(<InterviewPrepAI />);
 
     // Check if component renders without error
-    expect(screen.getByText("Start AI Interview")).toBeInTheDocument();
+    expect(screen.getByText("Start Interview Practice")).toBeInTheDocument();
   });
 
   it("maintains component stability during re-renders", () => {
     const { rerender } = render(<InterviewPrepAI />);
 
     // Check initial render
-    expect(screen.getByText("Start AI Interview")).toBeInTheDocument();
+    expect(screen.getByText("Start Interview Practice")).toBeInTheDocument();
 
     // Re-render
     rerender(<InterviewPrepAI />);
 
     // Check still renders correctly
-    expect(screen.getByText("Start AI Interview")).toBeInTheDocument();
+    expect(screen.getByText("Start Interview Practice")).toBeInTheDocument();
   });
 });
