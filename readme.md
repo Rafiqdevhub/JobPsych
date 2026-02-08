@@ -1,4 +1,4 @@
-# JobPsych Frontend
+# JobPsych
 
 **AI-powered career development platform** helping candidates explore roles, optimize resumes, and prepare interviews. Production-ready with enterprise-grade security, comprehensive testing, and scalable architecture.
 
