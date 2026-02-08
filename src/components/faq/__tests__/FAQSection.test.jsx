@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@test/test-utils";
 import FAQSection from "../FAQSection";
 
 // Mock the FAQ data and FAQDropdown component
@@ -43,16 +43,18 @@ describe("FAQSection", () => {
     render(<FAQSection />);
 
     // Check main heading
-    expect(screen.getByText("Frequently Asked Questions")).toBeInTheDocument();
     expect(
-      screen.getByText("Everything you need to know about JobPsych")
+      screen.getByText("Everything you need to know about"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("AI-Based Career Readiness and Interview Preparation"),
     ).toBeInTheDocument();
 
     // Check description
     expect(
       screen.getByText(
-        /Get answers to common questions about our three powerful tools/
-      )
+        /Get answers to common questions about our comprehensive system/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -64,7 +66,7 @@ describe("FAQSection", () => {
     expect(badge).toHaveClass(
       "from-indigo-600",
       "via-purple-600",
-      "to-blue-600"
+      "to-blue-600",
     );
     expect(badge).toHaveClass("hover:scale-110");
   });
@@ -73,7 +75,7 @@ describe("FAQSection", () => {
     const { container } = render(<FAQSection />);
 
     const bouncingDots = container.querySelectorAll(
-      '[class*="animate-bounce"]'
+      '[class*="animate-bounce"]',
     );
     expect(bouncingDots).toHaveLength(2);
 
@@ -96,8 +98,8 @@ describe("FAQSection", () => {
     // Check that the mocked components receive the correct content
     expect(
       screen.getByText(
-        "What's the differences among Role Suggestions, InterviewPrep AI, and ATS Analyzer?"
-      )
+        "What's the differences among Role Suggestions, InterviewPrep AI, and ATS Analyzer?",
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText("What is InterviewPrep AI?")).toBeInTheDocument();
     expect(screen.getByText("What is ATS Analyzer?")).toBeInTheDocument();
@@ -113,12 +115,12 @@ describe("FAQSection", () => {
       "pb-10",
       "sm:pt-10",
       "sm:pb-24",
-      "bg-slate-900"
+      "bg-slate-900",
     );
 
     // Check main container
     const mainContainer = container.querySelector(
-      '[class*="mx-auto max-w-7xl"]'
+      '[class*="mx-auto max-w-7xl"]',
     );
     expect(mainContainer).toHaveClass(
       "relative",
@@ -128,7 +130,7 @@ describe("FAQSection", () => {
       "px-2",
       "sm:px-4",
       "md:px-6",
-      "lg:px-8"
+      "lg:px-8",
     );
   });
 
@@ -146,22 +148,20 @@ describe("FAQSection", () => {
     expect(gradientDiv).toHaveClass(
       "bg-gradient-to-br",
       "from-indigo-500/10",
-      "to-blue-500/10"
+      "to-blue-500/10",
     );
   });
 
   it("renders the FAQ section title with correct styling", () => {
     render(<FAQSection />);
 
-    const title = screen.getByText(
-      "Everything you need to know about JobPsych"
-    );
+    const title = screen.getByText("Everything you need to know about");
     expect(title).toHaveClass(
       "text-3xl",
       "font-bold",
       "tracking-tight",
       "text-white",
-      "sm:text-4xl"
+      "sm:text-4xl",
     );
   });
 
@@ -169,13 +169,13 @@ describe("FAQSection", () => {
     render(<FAQSection />);
 
     const description = screen.getByText(
-      /Get answers to common questions about our four powerful tools/
+      /Get answers to common questions about our comprehensive system/,
     );
     expect(description).toHaveClass(
       "mt-6",
       "text-lg",
       "leading-8",
-      "text-gray-300"
+      "text-gray-300",
     );
   });
 
@@ -183,14 +183,14 @@ describe("FAQSection", () => {
     const { container } = render(<FAQSection />);
 
     const textCenter = container.querySelector(
-      '[class*="mx-auto max-w-3xl text-center"]'
+      '[class*="mx-auto max-w-3xl text-center"]',
     );
     expect(textCenter).toHaveClass(
       "mx-auto",
       "max-w-3xl",
       "text-center",
       "mb-10",
-      "sm:mb-16"
+      "sm:mb-16",
     );
   });
 
@@ -198,7 +198,7 @@ describe("FAQSection", () => {
     const { container } = render(<FAQSection />);
 
     const faqContainer = container.querySelector(
-      '[class*="mx-auto max-w-4xl"]'
+      '[class*="mx-auto max-w-4xl"]',
     );
     expect(faqContainer).toHaveClass("mx-auto", "max-w-4xl");
   });
@@ -221,7 +221,7 @@ describe("FAQSection", () => {
     const { container } = render(<FAQSection />);
 
     const gradientText = container.querySelector(
-      '[class*="bg-gradient-to-r"][class*="bg-clip-text"]'
+      '[class*="bg-gradient-to-r"][class*="bg-clip-text"]',
     );
     expect(gradientText).toBeInTheDocument();
     expect(gradientText).toHaveClass(
@@ -229,7 +229,7 @@ describe("FAQSection", () => {
       "via-cyan-200",
       "to-indigo-200",
       "bg-clip-text",
-      "text-transparent"
+      "text-transparent",
     );
   });
 
@@ -246,7 +246,7 @@ describe("FAQSection", () => {
     const shadowElement = container.querySelector('[class*="shadow-2xl"]');
     expect(shadowElement).toHaveClass(
       "shadow-2xl",
-      "hover:shadow-indigo-500/25"
+      "hover:shadow-indigo-500/25",
     );
   });
 
@@ -258,7 +258,7 @@ describe("FAQSection", () => {
 
     // Check background structure
     const absoluteInset = container.querySelector(
-      '[class*="absolute inset-0"]'
+      '[class*="absolute inset-0"]',
     );
     expect(absoluteInset).toBeInTheDocument();
   });
@@ -267,7 +267,7 @@ describe("FAQSection", () => {
     const { container } = render(<FAQSection />);
 
     const transitionElement = container.querySelector(
-      '[class*="transition-all duration-500"]'
+      '[class*="transition-all duration-500"]',
     );
     expect(transitionElement).toHaveClass("transition-all", "duration-500");
   });

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@test/test-utils";
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import RateLimitError from "../RateLimitError";
 
@@ -47,8 +47,8 @@ describe("RateLimitError Component", () => {
 
     expect(
       screen.getByText(
-        "You've reached the maximum number of resume analyses allowed (2 per 24 hours)."
-      )
+        "You've reached the maximum number of resume analyses allowed (2 per 24 hours).",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -199,19 +199,19 @@ describe("RateLimitError Component", () => {
     expect(screen.getByText("💡 Tips while you wait:")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Review and refine your resume based on previous feedback"
-      )
+        "Review and refine your resume based on previous feedback",
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Research the company and position you're applying for")
+      screen.getByText("Research the company and position you're applying for"),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Prepare thoughtful answers to common interview questions"
-      )
+        "Prepare thoughtful answers to common interview questions",
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Practice your elevator pitch and professional summary")
+      screen.getByText("Practice your elevator pitch and professional summary"),
     ).toBeInTheDocument();
   });
 
@@ -260,7 +260,7 @@ describe("RateLimitError Component", () => {
 
     // Find the main modal card by its classes
     const modalCard = document.querySelector(
-      ".bg-white.rounded-3xl.shadow-2xl"
+      ".bg-white.rounded-3xl.shadow-2xl",
     );
     expect(modalCard).toHaveClass("hover:scale-[1.02]");
 
@@ -325,22 +325,22 @@ describe("RateLimitError Component", () => {
     render(<RateLimitError {...defaultProps} />);
 
     const gradientBg = document.querySelector(
-      ".bg-gradient-to-br.from-pink-50\\/90"
+      ".bg-gradient-to-br.from-pink-50\\/90",
     );
     expect(gradientBg).toHaveClass(
       "bg-gradient-to-br",
       "from-pink-50/90",
       "via-white",
-      "to-purple-50/90"
+      "to-purple-50/90",
     );
 
     const resetInfoBox = document.querySelector(
-      ".bg-gradient-to-r.from-blue-50"
+      ".bg-gradient-to-r.from-blue-50",
     );
     expect(resetInfoBox).toHaveClass(
       "bg-gradient-to-r",
       "from-blue-50",
-      "to-indigo-50"
+      "to-indigo-50",
     );
   });
 

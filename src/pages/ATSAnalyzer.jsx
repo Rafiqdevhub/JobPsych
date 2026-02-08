@@ -1,7 +1,7 @@
 import React from "react";
 import useToast from "@/hooks/useToast";
 
-const DocumentQualityAnalyzer = () => {
+const ATSAnalyzer = () => {
   const { showSuccess } = useToast();
 
   const handleStartAnalysis = () => {
@@ -66,7 +66,7 @@ const DocumentQualityAnalyzer = () => {
               <div className="flex items-center justify-center sm:justify-end space-x-3">
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    Document Quality Analyzer
+                    ATS Analyzer
                   </h1>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const DocumentQualityAnalyzer = () => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Professional Document Analyzer
+                  ATS Analyzer
                 </h2>
               </div>
 
@@ -122,10 +122,10 @@ const DocumentQualityAnalyzer = () => {
                       </div>
 
                       <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 sm:mb-3 leading-tight">
-                        Perfect Your
+                        Beat ATS systems and land more
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                          Document Quality?
+                          interviews
                         </span>
                       </h3>
 
@@ -147,7 +147,7 @@ const DocumentQualityAnalyzer = () => {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="relative flex items-center justify-center gap-2 sm:gap-3">
-                        <span>Start Document Analysis</span>
+                        <span>Start ATS Analysis</span>
                         <svg
                           className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300"
                           fill="none"
@@ -165,7 +165,7 @@ const DocumentQualityAnalyzer = () => {
                     </button>
 
                     <p className="text-slate-400 mt-3 sm:mt-4 text-xs sm:text-sm">
-                      Opens in a new tab • Advanced Document Analysis platform
+                      Opens in a new tab • Advanced ATS optimization platform
                     </p>
                   </div>
                 </div>
@@ -176,7 +176,7 @@ const DocumentQualityAnalyzer = () => {
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
             <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-emerald-500/30 transition-all duration-300">
               <h3 className="text-sm sm:text-md font-bold text-emerald-400 mb-2 sm:mb-3 flex items-center gap-2">
-                Why Our Document Analysis Platform?
+                Why Our ATS Platform?
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
@@ -326,17 +326,17 @@ const DocumentQualityAnalyzer = () => {
                     Document Analysis Integrated
                   </h4>
                   <p className="text-xs text-slate-300 leading-relaxed mb-3">
-                    Click the "Start Document Analysis" button to open our
-                    advanced document optimization platform in a new tab. Get
-                    real-time analysis, clarity scoring, and enhancement
-                    recommendations for maximum impact.
+                    Click the "Start ATS Analysis" button to open our advanced
+                    document optimization platform in a new tab. Get real-time
+                    analysis, clarity scoring, and enhancement recommendations
+                    for maximum impact.
                   </p>
                   <div className="flex flex-wrap gap-1 sm:gap-2">
                     <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
                       Real-time Analysis
                     </span>
                     <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                      Quality Optimized
+                      Multi-ATS Support
                     </span>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ const DocumentQualityAnalyzer = () => {
                   Real-time Analysis
                 </span>
                 <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                  Quality Focused
+                  Multi-ATS Support
                 </span>
               </div>
             </div>
@@ -371,4 +371,4 @@ const DocumentQualityAnalyzer = () => {
   );
 };
 
-export default DocumentQualityAnalyzer;
+export default ATSAnalyzer;

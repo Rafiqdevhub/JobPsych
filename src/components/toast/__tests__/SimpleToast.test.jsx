@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import SimpleToast from "../SimpleToast";
 
@@ -90,7 +90,7 @@ describe("SimpleToast Component", () => {
   it("auto-dismisses after 5 seconds when onClose is provided", async () => {
     const mockOnClose = vi.fn();
     render(
-      <SimpleToast message="Auto-dismiss message" onClose={mockOnClose} />
+      <SimpleToast message="Auto-dismiss message" onClose={mockOnClose} />,
     );
 
     // Initially visible
@@ -120,7 +120,7 @@ describe("SimpleToast Component", () => {
   it("clears timeout on unmount", () => {
     const mockOnClose = vi.fn();
     const { unmount } = render(
-      <SimpleToast message="Unmount test" onClose={mockOnClose} />
+      <SimpleToast message="Unmount test" onClose={mockOnClose} />,
     );
 
     unmount();
@@ -193,7 +193,7 @@ describe("SimpleToast Component", () => {
 
   it("handles type prop changes correctly", () => {
     const { rerender } = render(
-      <SimpleToast message="Type change test" type="success" />
+      <SimpleToast message="Type change test" type="success" />,
     );
 
     // Initially success styling

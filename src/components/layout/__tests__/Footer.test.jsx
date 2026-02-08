@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@test/test-utils";
 import { vi, describe, it, expect } from "vitest";
 import Footer from "../Footer";
 
@@ -21,9 +21,11 @@ describe("Footer Component", () => {
   it("renders the footer with correct branding", () => {
     render(<Footer />);
 
-    expect(screen.getByText("JobPsych")).toBeInTheDocument();
+    expect(screen.getByText("About JobPsych")).toBeInTheDocument();
     expect(
-      screen.getByText("Transforming careers with AI-powered intelligence")
+      screen.getByText(
+        /An AI-Based Career Readiness and Interview Preparation System/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -35,81 +37,76 @@ describe("Footer Component", () => {
     expect(animatedDots.length).toBeGreaterThan(0);
   });
 
-  it("renders all four main sections", () => {
+  it("renders all three main sections", () => {
     render(<Footer />);
 
     expect(screen.getByText("About JobPsych")).toBeInTheDocument();
-    expect(screen.getByText("Key Features")).toBeInTheDocument();
-    expect(screen.getByText("Release Timeline")).toBeInTheDocument();
-    expect(screen.getByText("Quick Access")).toBeInTheDocument();
+    expect(screen.getByText("Core Modules")).toBeInTheDocument();
+    expect(screen.getByText("Explore Modules")).toBeInTheDocument();
   });
 
   it("displays about section content", () => {
     render(<Footer />);
 
     expect(
-      screen.getByText(/A unified platform offering smart career direction/)
+      screen.getByText(
+        /An AI-Based Career Readiness and Interview Preparation System/,
+      ),
     ).toBeInTheDocument();
 
-    // Check that the description contains the feature names
+    // Check that the description contains the module names
     const aboutText = screen.getByText(
-      /A unified platform offering smart career direction/
+      /An AI-Based Career Readiness and Interview Preparation System/,
     );
-    expect(aboutText.textContent).toContain("Role Suggestions");
-    expect(aboutText.textContent).toContain("InterviewPrep AI");
-    expect(aboutText.textContent).toContain("ATS Analyzer");
+    expect(aboutText.textContent).toContain("Career Path Exploration Module");
+    expect(aboutText.textContent).toContain(
+      "Professional Document Analysis Module",
+    );
+    expect(aboutText.textContent).toContain(
+      "AI-Assisted Interview Practice Module",
+    );
   });
 
-  it("displays key features list", () => {
+  it("displays core modules list", () => {
     render(<Footer />);
 
-    expect(screen.getByText("Career Role Matching")).toBeInTheDocument();
-    expect(screen.getByText("Personality & Skills Fit")).toBeInTheDocument();
-    expect(screen.getByText("AI Interview Practice")).toBeInTheDocument();
-    expect(
-      screen.getByText("Tailored Interview Questions")
-    ).toBeInTheDocument();
-    expect(screen.getByText("ATS Compatibility Analysis")).toBeInTheDocument();
-    expect(
-      screen.getByText("Recruiter-Friendly Summaries")
-    ).toBeInTheDocument();
+    const moduleNames = [
+      "Career Path Exploration",
+      "Professional Document Analysis",
+      "AI-Powered Interview Simulation",
+    ];
+    moduleNames.forEach((name) => {
+      const elements = screen.getAllByText(name);
+      expect(elements.length).toBeGreaterThan(0);
+    });
   });
 
-  it("displays release timeline with version information", () => {
+  it("displays explore modules navigation buttons", () => {
     render(<Footer />);
 
-    expect(screen.getByText("v1.0.0")).toBeInTheDocument();
-    expect(screen.getByText("Initial Launch")).toBeInTheDocument();
-    expect(screen.getByText("May 2025")).toBeInTheDocument();
-
-    expect(screen.getByText("v1.1.0")).toBeInTheDocument();
-    expect(screen.getByText("AI Resume Tools")).toBeInTheDocument();
-
-    expect(screen.getByText("v2.0.0")).toBeInTheDocument();
-    expect(screen.getByText("Major Enhancements")).toBeInTheDocument();
-
-    expect(screen.getByText("v2.1.0")).toBeInTheDocument();
-    expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
+    const buttonPaths = [
+      "/role-suggestions",
+      "/ats-analyzer",
+      "/interview-prepai",
+    ];
+    buttonPaths.forEach((path) => {
+      expect(screen.getByTestId(`nav-button-${path}`)).toBeInTheDocument();
+    });
   });
 
-  it("renders quick access navigation buttons", () => {
+  it("displays module button labels", () => {
     render(<Footer />);
 
-    expect(
-      screen.getByTestId("nav-button-/role-suggestions")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId("nav-button-/interview-prepai")
-    ).toBeInTheDocument();
-    expect(screen.getByTestId("nav-button-/ats-analyzer")).toBeInTheDocument();
-  });
+    // Get all buttons with navigation
+    const buttons = screen.getAllByRole("button");
+    const buttonTexts = buttons.map((btn) => btn.textContent);
 
-  it("displays quick access button labels", () => {
-    render(<Footer />);
-
-    expect(screen.getByText("Explore Role Suggestions")).toBeInTheDocument();
-    expect(screen.getByText("Try InterviewPrep AI")).toBeInTheDocument();
-    expect(screen.getByText("Analyze Resume with ATS")).toBeInTheDocument();
+    expect(buttonTexts.some((text) => text.includes("Document Analysis"))).toBe(
+      true,
+    );
+    expect(
+      buttonTexts.some((text) => text.includes("Interview Practice")),
+    ).toBe(true);
   });
 
   it("displays platform statistics", () => {
@@ -137,15 +134,16 @@ describe("Footer Component", () => {
 
     const currentYear = new Date().getFullYear().toString();
     expect(
-      screen.getByText(new RegExp(`© ${currentYear} JobPsych`))
+      screen.getByText(new RegExp(`© ${currentYear} JobPsych`)),
     ).toBeInTheDocument();
   });
 
-  it("displays privacy and terms links", () => {
+  it("displays privacy, terms, and security links", () => {
     render(<Footer />);
 
     expect(screen.getByText("Privacy Policy")).toBeInTheDocument();
     expect(screen.getByText("Terms of Service")).toBeInTheDocument();
+    expect(screen.getByText("Security Audit")).toBeInTheDocument();
   });
 
   it("displays data protection message", () => {
@@ -153,7 +151,7 @@ describe("Footer Component", () => {
 
     // Check that the data protection message exists in the footer text
     expect(
-      screen.getByText(/Your data remains private and protected/)
+      screen.getByText(/Your data remains private and protected/),
     ).toBeInTheDocument();
   });
 
@@ -164,7 +162,7 @@ describe("Footer Component", () => {
     expect(footer).toHaveClass(
       "relative",
       "bg-gradient-to-br",
-      "from-slate-900"
+      "from-slate-900",
     );
   });
 
@@ -175,9 +173,9 @@ describe("Footer Component", () => {
     const mainContainer = document.querySelector(".mx-auto.max-w-7xl");
     expect(mainContainer).toBeInTheDocument();
 
-    // Check for grid layout
+    // Check for grid layout (updated to 3 columns)
     const grid = document.querySelector(
-      ".grid.grid-cols-1.gap-8.md\\:grid-cols-4"
+      ".grid.grid-cols-1.gap-8.md\\:grid-cols-3",
     );
     expect(grid).toBeInTheDocument();
   });
@@ -186,13 +184,13 @@ describe("Footer Component", () => {
     const { rerender } = render(<Footer />);
 
     // Check initial render
-    expect(screen.getByText("JobPsych")).toBeInTheDocument();
+    expect(screen.getByText("About JobPsych")).toBeInTheDocument();
 
     // Re-render
     rerender(<Footer />);
 
     // Should still be there
-    expect(screen.getByText("JobPsych")).toBeInTheDocument();
     expect(screen.getByText("About JobPsych")).toBeInTheDocument();
+    expect(screen.getByText("Core Modules")).toBeInTheDocument();
   });
 });

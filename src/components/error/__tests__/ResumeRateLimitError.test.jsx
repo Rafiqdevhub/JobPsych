@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@test/test-utils";
 import { describe, it, expect, vi } from "vitest";
 import ResumeRateLimitError from "../ResumeRateLimitError";
 
@@ -51,7 +51,7 @@ describe("ResumeRateLimitError Component", () => {
   it("formats reset time correctly for hours and minutes", () => {
     const twoHoursFromNow = Date.now() + 2 * 60 * 60 * 1000; // 2 hours from now
     render(
-      <ResumeRateLimitError onClose={vi.fn()} resetTime={twoHoursFromNow} />
+      <ResumeRateLimitError onClose={vi.fn()} resetTime={twoHoursFromNow} />,
     );
 
     // Should display approximately 2h 0m (exact time depends on when test runs)
@@ -65,7 +65,7 @@ describe("ResumeRateLimitError Component", () => {
       <ResumeRateLimitError
         onClose={vi.fn()}
         resetTime={thirtyMinutesFromNow}
-      />
+      />,
     );
 
     // Should display approximately 30m (exact time depends on when test runs)
@@ -94,7 +94,7 @@ describe("ResumeRateLimitError Component", () => {
 
     // Find the progress bar by its gradient background classes
     const progressBar = document.querySelector(
-      ".bg-gradient-to-r.from-red-500.to-rose-500"
+      ".bg-gradient-to-r.from-red-500.to-rose-500",
     );
     expect(progressBar).toHaveStyle({ width: "100%" });
   });
@@ -105,8 +105,8 @@ describe("ResumeRateLimitError Component", () => {
     expect(screen.getByText("Need More Analyses?")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Upgrade to our Pro plan for unlimited resume analysis and advanced features"
-      )
+        "Upgrade to our Pro plan for unlimited resume analysis and advanced features",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -122,7 +122,7 @@ describe("ResumeRateLimitError Component", () => {
       "flex",
       "items-center",
       "justify-center",
-      "z-50"
+      "z-50",
     );
   });
 
@@ -139,7 +139,7 @@ describe("ResumeRateLimitError Component", () => {
       "border-red-500/30",
       "rounded-3xl",
       "p-8",
-      "shadow-2xl"
+      "shadow-2xl",
     );
   });
 
@@ -194,7 +194,7 @@ describe("ResumeRateLimitError Component", () => {
     expect(gradientBg).toHaveClass(
       "bg-gradient-to-r",
       "from-red-600",
-      "to-rose-600"
+      "to-rose-600",
     );
 
     const upgradeSection = screen
@@ -203,7 +203,7 @@ describe("ResumeRateLimitError Component", () => {
     expect(upgradeSection).toHaveClass(
       "bg-gradient-to-r",
       "from-violet-600/10",
-      "to-cyan-600/10"
+      "to-cyan-600/10",
     );
   });
 
@@ -214,7 +214,7 @@ describe("ResumeRateLimitError Component", () => {
     expect(upgradeButton).toHaveClass(
       "bg-gradient-to-r",
       "from-violet-600",
-      "to-purple-600"
+      "to-purple-600",
     );
 
     const learnMoreButton = screen.getByText("Learn More");
@@ -231,7 +231,7 @@ describe("ResumeRateLimitError Component", () => {
       "flex",
       "items-center",
       "justify-center",
-      "gap-4"
+      "gap-4",
     );
 
     const divider = screen.getByText("5").parentElement?.nextElementSibling;
@@ -262,7 +262,7 @@ describe("ResumeRateLimitError Component", () => {
       "items-center",
       "gap-2",
       "bg-slate-800/60",
-      "backdrop-blur-sm"
+      "backdrop-blur-sm",
     );
 
     const resetText = screen.getByText("1h 59m");
@@ -299,7 +299,7 @@ describe("ResumeRateLimitError Component", () => {
     expect(screen.getByText("Daily Limit Reached")).toBeInTheDocument();
     expect(screen.getByText("5")).toBeInTheDocument();
     expect(
-      screen.getByText("Your daily limit will reset in:")
+      screen.getByText("Your daily limit will reset in:"),
     ).toBeInTheDocument();
     expect(screen.getByText("Need More Analyses?")).toBeInTheDocument();
   });
