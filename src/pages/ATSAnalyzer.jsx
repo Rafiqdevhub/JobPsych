@@ -1,11 +1,11 @@
 import React from "react";
 import useToast from "@/hooks/useToast";
 
-const ATSAnalyzer = () => {
+const DocumentQualityAnalyzer = () => {
   const { showSuccess } = useToast();
 
   const handleStartAnalysis = () => {
-    showSuccess("Redirecting to Document Structure & Content Analysis...");
+    showSuccess("Redirecting to Document Analysis platform...");
     setTimeout(() => {
       window.open("https://ats-cracker.vercel.app/", "_blank");
     }, 1000);
@@ -66,7 +66,7 @@ const ATSAnalyzer = () => {
               <div className="flex items-center justify-center sm:justify-end space-x-3">
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    Document Structure & Content Analysis
+                    Document Quality Analyzer
                   </h1>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const ATSAnalyzer = () => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Document Structure & Content Analysis
+                  Professional Document Analyzer
                 </h2>
               </div>
 
@@ -122,17 +122,17 @@ const ATSAnalyzer = () => {
                       </div>
 
                       <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 sm:mb-3 leading-tight">
-                        Strengthen document quality and unlock more
+                        Perfect Your
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                          interviews
+                          Document Quality?
                         </span>
                       </h3>
 
                       <p className="text-slate-300 text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed px-2">
-                        Experience our AI-powered document analysis with
-                        structure checks, clarity improvements, and impact
-                        scoring to ensure your documents are interview-ready.
+                        Experience our AI-powered document analysis platform
+                        with content optimization, clarity enhancement, and
+                        impact scoring to ensure your documents shine.
                       </p>
                     </div>
 
@@ -165,7 +165,7 @@ const ATSAnalyzer = () => {
                     </button>
 
                     <p className="text-slate-400 mt-3 sm:mt-4 text-xs sm:text-sm">
-                      Opens in a new tab • Professional document optimization
+                      Opens in a new tab • Advanced Document Analysis platform
                     </p>
                   </div>
                 </div>
@@ -176,7 +176,7 @@ const ATSAnalyzer = () => {
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
             <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-emerald-500/30 transition-all duration-300">
               <h3 className="text-sm sm:text-md font-bold text-emerald-400 mb-2 sm:mb-3 flex items-center gap-2">
-                Why This Analysis Module?
+                Why Our Document Analysis Platform?
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300">
@@ -185,7 +185,7 @@ const ATSAnalyzer = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-xs mb-0.5 sm:mb-1">
-                      Structure & Content Review
+                      Content Analysis
                     </h4>
                     <p className="text-slate-300 text-xs">
                       Real-time quality and clarity scoring
@@ -314,7 +314,7 @@ const ATSAnalyzer = () => {
                   Optimize Your Documents!
                 </p>
                 <p className="text-slate-300 text-xs">
-                  Join thousands with interview-ready documents
+                  Join thousands with interview-ready resumed
                 </p>
               </div>
             </div>
@@ -336,7 +336,7 @@ const ATSAnalyzer = () => {
                       Real-time Analysis
                     </span>
                     <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                      Multi-ATS Support
+                      Quality Optimized
                     </span>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ const ATSAnalyzer = () => {
                   Real-time Analysis
                 </span>
                 <span className="px-2 py-1 bg-emerald-500/20 text-emerald-300 text-xs rounded-full border border-emerald-500/30">
-                  Multi-ATS Support
+                  Quality Focused
                 </span>
               </div>
             </div>
@@ -371,4 +371,4 @@ const ATSAnalyzer = () => {
   );
 };
 
-export default ATSAnalyzer;
+export default DocumentQualityAnalyzer;
