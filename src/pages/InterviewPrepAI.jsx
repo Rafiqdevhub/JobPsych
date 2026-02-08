@@ -5,7 +5,7 @@ const InterviewPrepAI = () => {
   const { showSuccess } = useToast();
 
   const handleStartInterview = () => {
-    showSuccess("Redirecting to AI-Assisted Interview Practice...");
+    showSuccess("Redirecting to AI Interview in a new tab...");
     setTimeout(() => {
       window.open(
         "https://ai-mock-interview-preparation-seven.vercel.app",
@@ -69,7 +69,7 @@ const InterviewPrepAI = () => {
               <div className="flex items-center justify-center sm:justify-end space-x-3">
                 <div className="flex items-center gap-2">
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    AI-Assisted Interview Practice Module
+                    AI-Assisted Interview Practice
                   </h1>
                 </div>
               </div>
@@ -97,7 +97,7 @@ const InterviewPrepAI = () => {
                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                     />
                   </svg>
-                  AI-Assisted Interview Practice Module
+                  AI-Assisted Interview Practice
                 </h2>
               </div>
 
@@ -125,10 +125,10 @@ const InterviewPrepAI = () => {
                       </div>
 
                       <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 sm:mb-3 leading-tight">
-                        Build complete
+                        Build Complete
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                          interview readiness
+                          Interview Readiness?
                         </span>
                       </h3>
 
@@ -150,7 +150,7 @@ const InterviewPrepAI = () => {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="relative flex items-center justify-center gap-2 sm:gap-3">
-                        <span>Start Interview Practice</span>
+                        <span>Start AI Interview</span>
                         <svg
                           className="h-4 w-4 sm:h-5 sm:w-5"
                           fill="none"
@@ -168,7 +168,7 @@ const InterviewPrepAI = () => {
                     </button>
 
                     <p className="text-slate-400 mt-3 sm:mt-4 text-xs sm:text-sm">
-                      Opens in a new tab • AI-assisted interview readiness
+                      Opens in a new tab • Complete interview readiness platform
                     </p>
                   </div>
                 </div>
@@ -179,7 +179,7 @@ const InterviewPrepAI = () => {
           <div className="space-y-3 sm:space-y-4 max-h-none lg:max-h-[70vh] lg:overflow-y-auto">
             <div className="bg-slate-800/60 rounded-xl sm:rounded-2xl shadow-xl border border-slate-700 p-3 sm:p-4 hover:shadow-2xl hover:border-purple-500/30">
               <h3 className="text-sm sm:text-md font-bold text-purple-400 mb-2 sm:mb-3 flex items-center gap-2">
-                Why This Practice Module?
+                Why Our Interview Practice Platform?
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-start gap-2 p-1.5 sm:p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 hover:bg-purple-500/20">
@@ -329,7 +329,7 @@ const InterviewPrepAI = () => {
                     Interview Practice Integrated
                   </h4>
                   <p className="text-xs text-slate-300 leading-relaxed mb-3">
-                    Click the "Start Interview Practice" button to open our
+                    Click the "Start AI Interview" button to open our
                     AI-assisted interview practice platform in a new tab. Build
                     complete interview readiness through AI-powered practice,
                     intelligent feedback, and confidence-building preparation.
