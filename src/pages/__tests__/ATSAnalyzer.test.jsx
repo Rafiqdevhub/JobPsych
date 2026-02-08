@@ -36,7 +36,7 @@ describe("ATSAnalyzer Component", () => {
 
     // Just check component renders without error
     expect(screen.getByText("Back to Home")).toBeInTheDocument();
-    expect(screen.getByText("Start ATS Analysis")).toBeInTheDocument();
+    expect(screen.getByText("Start Document Analysis")).toBeInTheDocument();
   });
 
   it("has correct background and styling structure", () => {
@@ -63,7 +63,7 @@ describe("ATSAnalyzer Component", () => {
     render(<ATSAnalyzer />);
 
     // Check component renders
-    expect(screen.getByText("Start ATS Analysis")).toBeInTheDocument();
+    expect(screen.getByText("Start Document Analysis")).toBeInTheDocument();
   });
 
   it("shows feature highlights in sidebar", () => {
@@ -78,7 +78,7 @@ describe("ATSAnalyzer Component", () => {
     render(<ATSAnalyzer />);
 
     const startButton = screen.getByRole("button", {
-      name: /start ats analysis/i,
+      name: /start document analysis/i,
     });
 
     act(() => {
@@ -106,7 +106,7 @@ describe("ATSAnalyzer Component", () => {
 
     // Check for responsive grid classes
     const gridContainer = screen
-      .getByText("Start ATS Analysis")
+      .getByText("Start Document Analysis")
       .closest(".grid");
     expect(gridContainer).toHaveClass("grid-cols-1", "lg:grid-cols-4");
   });
@@ -115,7 +115,7 @@ describe("ATSAnalyzer Component", () => {
     render(<ATSAnalyzer />);
 
     const startButton = screen.getByRole("button", {
-      name: /start ats analysis/i,
+      name: /start document analysis/i,
     });
     expect(startButton.tagName).toBe("BUTTON");
     expect(startButton).toHaveStyle({
@@ -143,18 +143,18 @@ describe("ATSAnalyzer Component", () => {
   it("maintains component stability during re-renders", () => {
     const { rerender } = render(<ATSAnalyzer />);
 
-    expect(screen.getByText("Start ATS Analysis")).toBeInTheDocument();
+    expect(screen.getByText("Start Document Analysis")).toBeInTheDocument();
 
     rerender(<ATSAnalyzer />);
 
-    expect(screen.getByText("Start ATS Analysis")).toBeInTheDocument();
+    expect(screen.getByText("Start Document Analysis")).toBeInTheDocument();
     expect(screen.getByText("Back to Home")).toBeInTheDocument();
   });
 
   it("handles multiple button clicks appropriately", () => {
     render(<ATSAnalyzer />);
 
-    const startButton = screen.getByText("Start ATS Analysis");
+    const startButton = screen.getByText("Start Document Analysis");
 
     act(() => {
       fireEvent.click(startButton);
