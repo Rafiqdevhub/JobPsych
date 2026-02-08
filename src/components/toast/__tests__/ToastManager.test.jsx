@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import { ToastProvider } from "../ToastManager";
 import { useToast } from "../../../hooks/useToast";
@@ -87,7 +87,7 @@ describe("ToastProvider", () => {
     expect(screen.getByTestId("toast-count")).toHaveTextContent("1");
     // Check that the error appears in the actual toast (not just test component)
     expect(screen.getAllByText(/Test error|Mock error message/)).toHaveLength(
-      2
+      2,
     );
   });
 

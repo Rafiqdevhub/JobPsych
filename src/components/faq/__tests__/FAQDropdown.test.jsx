@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@test/test-utils";
 import FAQDropdown from "../FAQDropdown";
 
 describe("FAQDropdown", () => {
@@ -21,7 +21,7 @@ describe("FAQDropdown", () => {
     render(<FAQDropdown {...defaultProps} />);
 
     expect(
-      screen.queryByText(/JobPsych is an AI-powered career platform/)
+      screen.queryByText(/JobPsych is an AI-powered career platform/),
     ).not.toBeInTheDocument();
   });
 
@@ -32,12 +32,12 @@ describe("FAQDropdown", () => {
     fireEvent.click(button);
 
     expect(
-      screen.getByText(/JobPsych is an AI-powered career platform/)
+      screen.getByText(/JobPsych is an AI-powered career platform/),
     ).toBeInTheDocument();
 
     fireEvent.click(button);
     expect(
-      screen.queryByText(/JobPsych is an AI-powered career platform/)
+      screen.queryByText(/JobPsych is an AI-powered career platform/),
     ).not.toBeInTheDocument();
   });
 
@@ -50,36 +50,38 @@ describe("FAQDropdown", () => {
 
   it("applies correct styling for interview type", () => {
     const { container } = render(
-      <FAQDropdown {...defaultProps} type="interview" />
-    );
-
-    const dropdown = container.firstChild;
-    expect(dropdown).toHaveClass("bg-slate-800", "border-blue-500/30");
-  });
-
-  it("applies correct styling for career type", () => {
-    const { container } = render(
-      <FAQDropdown {...defaultProps} type="career" />
-    );
-
-    const dropdown = container.firstChild;
-    expect(dropdown).toHaveClass("bg-slate-800", "border-emerald-500/30");
-  });
-
-  it("applies correct styling for hiring type", () => {
-    const { container } = render(
-      <FAQDropdown {...defaultProps} type="hiring" />
+      <FAQDropdown {...defaultProps} type="interview" />,
     );
 
     const dropdown = container.firstChild;
     expect(dropdown).toHaveClass("bg-slate-800", "border-purple-500/30");
   });
 
-  it("applies correct styling for ats type", () => {
-    const { container } = render(<FAQDropdown {...defaultProps} type="ats" />);
+  it("applies correct styling for career type", () => {
+    const { container } = render(
+      <FAQDropdown {...defaultProps} type="career" />,
+    );
 
     const dropdown = container.firstChild;
-    expect(dropdown).toHaveClass("bg-slate-800", "border-orange-500/30");
+    expect(dropdown).toHaveClass("bg-slate-800", "border-blue-500/30");
+  });
+
+  it("applies correct styling for hiring type", () => {
+    const { container } = render(
+      <FAQDropdown {...defaultProps} type="document" />,
+    );
+
+    const dropdown = container.firstChild;
+    expect(dropdown).toHaveClass("bg-slate-800", "border-emerald-500/30");
+  });
+
+  it("applies correct styling for ats type", () => {
+    const { container } = render(
+      <FAQDropdown {...defaultProps} type="interview" />,
+    );
+
+    const dropdown = container.firstChild;
+    expect(dropdown).toHaveClass("bg-slate-800", "border-purple-500/30");
   });
 
   it("displays type badge for general", () => {
@@ -91,25 +93,27 @@ describe("FAQDropdown", () => {
   it("displays type badge for interview", () => {
     render(<FAQDropdown {...defaultProps} type="interview" />);
 
-    expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
+    expect(screen.getByText("Interview Practice")).toBeInTheDocument();
   });
 
   it("displays type badge for career", () => {
     render(<FAQDropdown {...defaultProps} type="career" />);
 
-    expect(screen.getByText("Career Guidance")).toBeInTheDocument();
+    expect(screen.getByText("Career Path Exploration")).toBeInTheDocument();
   });
 
   it("displays type badge for hiring", () => {
-    render(<FAQDropdown {...defaultProps} type="hiring" />);
+    render(<FAQDropdown {...defaultProps} type="document" />);
 
-    expect(screen.getByText("Hiring Tools")).toBeInTheDocument();
+    expect(
+      screen.getByText("Professional Document Analysis"),
+    ).toBeInTheDocument();
   });
 
   it("displays type badge for ats", () => {
-    render(<FAQDropdown {...defaultProps} type="ats" />);
+    render(<FAQDropdown {...defaultProps} type="interview" />);
 
-    expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
+    expect(screen.getByText("Interview Practice")).toBeInTheDocument();
   });
 
   it("rotates chevron icon when expanded", () => {
@@ -141,7 +145,7 @@ describe("FAQDropdown", () => {
     expect(button).toHaveClass(
       "transition-all",
       "duration-300",
-      "cursor-pointer"
+      "cursor-pointer",
     );
   });
 
@@ -156,14 +160,14 @@ describe("FAQDropdown", () => {
   });
 
   it("displays pro tip for ats type", () => {
-    render(<FAQDropdown {...defaultProps} type="ats" />);
+    render(<FAQDropdown {...defaultProps} type="interview" />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
     expect(screen.getByText("Pro Tip:")).toBeInTheDocument();
     expect(
-      screen.getByText(/Use ATS Analyzer to optimize your resume/)
+      screen.getByText(/Use the AI-Assisted Interview Practice Module/),
     ).toBeInTheDocument();
   });
 
@@ -175,7 +179,7 @@ describe("FAQDropdown", () => {
 
     expect(screen.getByText("Pro Tip:")).toBeInTheDocument();
     expect(
-      screen.getByText(/Practice regularly with InterviewPrep AI/)
+      screen.getByText(/Use the AI-Assisted Interview Practice Module/),
     ).toBeInTheDocument();
   });
 
@@ -187,7 +191,7 @@ describe("FAQDropdown", () => {
 
     expect(screen.getByText("Pro Tip:")).toBeInTheDocument();
     expect(
-      screen.getByText(/Upload your resume to Role Suggestions/)
+      screen.getByText(/Use Career Path Exploration Module/),
     ).toBeInTheDocument();
   });
 
@@ -198,19 +202,21 @@ describe("FAQDropdown", () => {
     fireEvent.click(button);
 
     expect(screen.getByText("Pro Tip:")).toBeInTheDocument();
-    expect(screen.getByText(/Explore all JobPsych tools/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Our comprehensive AI-Based Career Readiness/),
+    ).toBeInTheDocument();
   });
 
   it("applies correct pro tip styling for ats", () => {
-    render(<FAQDropdown {...defaultProps} type="ats" />);
+    render(<FAQDropdown {...defaultProps} type="interview" />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
     const proTipBox = screen
       .getByText("Pro Tip:")
-      .closest('[class*="bg-orange-900/30"]');
-    expect(proTipBox).toHaveClass("bg-orange-900/30", "border-orange-500/30");
+      .closest('[class*="bg-purple-900/30"]');
+    expect(proTipBox).toHaveClass("bg-purple-900/30", "border-purple-500/30");
   });
 
   it("applies correct pro tip styling for interview", () => {
@@ -221,8 +227,8 @@ describe("FAQDropdown", () => {
 
     const proTipBox = screen
       .getByText("Pro Tip:")
-      .closest('[class*="bg-blue-900/30"]');
-    expect(proTipBox).toHaveClass("bg-blue-900/30", "border-blue-500/30");
+      .closest('[class*="bg-purple-900/30"]');
+    expect(proTipBox).toHaveClass("bg-purple-900/30", "border-purple-500/30");
   });
 
   it("applies correct pro tip styling for career", () => {
@@ -233,20 +239,20 @@ describe("FAQDropdown", () => {
 
     const proTipBox = screen
       .getByText("Pro Tip:")
-      .closest('[class*="bg-emerald-900/30"]');
-    expect(proTipBox).toHaveClass("bg-emerald-900/30", "border-emerald-500/30");
+      .closest('[class*="bg-blue-900/30"]');
+    expect(proTipBox).toHaveClass("bg-blue-900/30", "border-blue-500/30");
   });
 
   it("applies correct pro tip styling for hiring", () => {
-    render(<FAQDropdown {...defaultProps} type="hiring" />);
+    render(<FAQDropdown {...defaultProps} type="document" />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
     const proTipBox = screen
       .getByText("Pro Tip:")
-      .closest('[class*="bg-purple-900/30"]');
-    expect(proTipBox).toHaveClass("bg-purple-900/30", "border-purple-500/30");
+      .closest('[class*="bg-emerald-900/30"]');
+    expect(proTipBox).toHaveClass("bg-emerald-900/30", "border-emerald-500/30");
   });
 
   it("applies correct pro tip styling for general", () => {
@@ -268,17 +274,17 @@ describe("FAQDropdown", () => {
     expect(content).toHaveClass(
       "transition-all",
       "duration-500",
-      "overflow-hidden"
+      "overflow-hidden",
     );
     expect(content).toHaveAttribute(
       "style",
-      "transition-property: max-height, opacity;"
+      "transition-property: max-height, opacity;",
     );
   });
 
   it("displays animated indicator for interview type", () => {
     const { container } = render(
-      <FAQDropdown {...defaultProps} type="interview" />
+      <FAQDropdown {...defaultProps} type="interview" />,
     );
 
     const button = screen.getByRole("button");
@@ -286,7 +292,7 @@ describe("FAQDropdown", () => {
 
     const animatedDot = container.querySelector('[class*="animate-pulse"]');
     expect(animatedDot).toBeInTheDocument();
-    expect(screen.getByText("InterviewPrep AI Feature")).toBeInTheDocument();
+    expect(screen.getByText("Interview Practice Feature")).toBeInTheDocument();
   });
 
   it("renders answer with proper formatting", () => {
@@ -296,7 +302,7 @@ describe("FAQDropdown", () => {
     fireEvent.click(button);
 
     const answerDiv = screen.getByText(
-      /JobPsych is an AI-powered career platform/
+      /JobPsych is an AI-powered career platform/,
     );
     expect(answerDiv).toHaveClass("prose", "prose-sm", "max-w-none");
   });
@@ -309,19 +315,19 @@ describe("FAQDropdown", () => {
     // Click to open
     fireEvent.click(button);
     expect(
-      screen.getByText(/JobPsych is an AI-powered career platform/)
+      screen.getByText(/JobPsych is an AI-powered career platform/),
     ).toBeInTheDocument();
 
     // Click to close
     fireEvent.click(button);
     expect(
-      screen.queryByText(/JobPsych is an AI-powered career platform/)
+      screen.queryByText(/JobPsych is an AI-powered career platform/),
     ).not.toBeInTheDocument();
 
     // Click to open again
     fireEvent.click(button);
     expect(
-      screen.getByText(/JobPsych is an AI-powered career platform/)
+      screen.getByText(/JobPsych is an AI-powered career platform/),
     ).toBeInTheDocument();
   });
 

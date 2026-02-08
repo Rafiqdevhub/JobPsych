@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import LandingPage from "../LandingPage";
 
@@ -83,7 +83,7 @@ describe("LandingPage Component", () => {
       "min-h-screen",
       "bg-gradient-to-b",
       "from-indigo-50",
-      "to-white"
+      "to-white",
     );
   });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import HeroSection from "../HeroSection";
 
@@ -34,38 +34,51 @@ describe("HeroSection Component", () => {
     render(<HeroSection />);
 
     // Check main elements
+    expect(screen.getByText(/AI-Based/)).toBeInTheDocument();
     expect(
-      screen.getByText("AI-Powered Career Intelligence Platform")
+      screen.getByText(/Career Readiness and Interview Preparation System/),
     ).toBeInTheDocument();
-    expect(screen.getByText("Transform Your")).toBeInTheDocument();
-    expect(screen.getByTestId("typewriter-text")).toBeInTheDocument();
-    expect(screen.getByText("Four Powerful AI Tools:")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Discover roles, documents quality improvement, and master interviews/,
+      ),
+    ).toBeInTheDocument();
   });
 
-  it("displays all four feature cards", () => {
+  it("displays all three module cards", () => {
     render(<HeroSection />);
 
-    // Check that feature names appear in h3 elements (cards)
+    // Check that module names appear in h3 elements (cards)
     expect(
-      screen.getByRole("heading", { name: "Role Suggestions" })
+      screen.getByRole("heading", { name: "Career Path Exploration Module" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "InterviewPrep AI" })
+      screen.getByRole("heading", {
+        name: /Professional Document Structure and Content Analysis Module/,
+      }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "ATS Analyzer" })
+      screen.getByRole("heading", {
+        name: "AI-Assisted Interview Practice Module",
+      }),
     ).toBeInTheDocument();
   });
 
   it("displays feature card descriptions", () => {
     render(<HeroSection />);
 
-    expect(screen.getByText("AI-powered career matching")).toBeInTheDocument();
     expect(
-      screen.getByText("Master interviews with AI coaching")
+      screen.getByText(
+        /Prepare for your career transition with AI-guided role discovery/,
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Resume optimization for ATS systems")
+      screen.getByText(/Ensure interview readiness with resume optimization/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Build complete interview readiness through AI-powered practice/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -74,13 +87,13 @@ describe("HeroSection Component", () => {
 
     // Check that buttons exist with the correct names
     expect(
-      screen.getByRole("button", { name: /Role Suggestions/ })
+      screen.getByRole("button", { name: /Discover Your Ideal Roles/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /InterviewPrep AI/ })
+      screen.getByRole("button", { name: /Improve Document Clarity/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /ATS Analyzer/ })
+      screen.getByRole("button", { name: /Ace Your Interview/ }),
     ).toBeInTheDocument();
   });
 
@@ -88,20 +101,24 @@ describe("HeroSection Component", () => {
     render(<HeroSection />);
 
     // Get buttons by their text within button elements
-    const roleButton = screen.getByRole("button", { name: /Role Suggestions/ });
-    const interviewButton = screen.getByRole("button", {
-      name: /InterviewPrep AI/,
+    const roleButton = screen.getByRole("button", {
+      name: /Discover Your Ideal Roles/,
     });
-    const atsButton = screen.getByRole("button", { name: /ATS Analyzer/ });
+    const atsButton = screen.getByRole("button", {
+      name: /Improve Document Clarity/,
+    });
+    const interviewButton = screen.getByRole("button", {
+      name: /Ace Your Interview/,
+    });
 
     fireEvent.click(roleButton);
     expect(window.location.href).toBe("/role-suggestions");
 
-    fireEvent.click(interviewButton);
-    expect(window.location.href).toBe("/interview-prepai");
-
     fireEvent.click(atsButton);
     expect(window.location.href).toBe("/ats-analyzer");
+
+    fireEvent.click(interviewButton);
+    expect(window.location.href).toBe("/interview-prepai");
   });
 
   it("rotates active card every 3 seconds", () => {
@@ -109,7 +126,7 @@ describe("HeroSection Component", () => {
 
     // Initially first card should be active
     const firstCardTitle = screen.getByRole("heading", {
-      name: "Role Suggestions",
+      name: "Career Path Exploration Module",
     });
     const firstCard = firstCardTitle.closest("div.group");
     expect(firstCard).toHaveClass("scale-105");
@@ -121,7 +138,7 @@ describe("HeroSection Component", () => {
 
     // Force a re-render by triggering state update
     const secondCardTitle = screen.getByRole("heading", {
-      name: "InterviewPrep AI",
+      name: /Professional Document Structure and Content Analysis Module/,
     });
     const secondCard = secondCardTitle.closest("div.group");
     expect(secondCard).toHaveClass("scale-105");
@@ -132,18 +149,19 @@ describe("HeroSection Component", () => {
     });
 
     const thirdCardTitle = screen.getByRole("heading", {
-      name: "ATS Analyzer",
+      name: "AI-Assisted Interview Practice Module",
     });
     const thirdCard = thirdCardTitle.closest("div.group");
     expect(thirdCard).toHaveClass("scale-105");
   });
 
-  it("displays scroll down indicator on desktop", () => {
+  it("does not display scroll down indicator text (component doesn't have it)", () => {
     render(<HeroSection />);
 
+    // The component doesn't display "Discover More Features Below" text
     expect(
-      screen.getByText("Discover More Features Below")
-    ).toBeInTheDocument();
+      screen.queryByText("Discover More Features Below"),
+    ).not.toBeInTheDocument();
   });
 
   it("renders role recommendations when resumeData is provided", () => {
@@ -168,20 +186,18 @@ describe("HeroSection Component", () => {
 
     render(<HeroSection resumeData={mockResumeData} />);
 
-    expect(
-      screen.getByText("Your Personalized Role Matches")
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Roles You're Ready For/)).toBeInTheDocument();
     expect(screen.getByText("Software Engineer")).toBeInTheDocument();
     expect(screen.getByText("Frontend Developer")).toBeInTheDocument();
-    expect(screen.getByText("85%")).toBeInTheDocument();
-    expect(screen.getByText("78%")).toBeInTheDocument();
+    expect(screen.getByText("85")).toBeInTheDocument();
+    expect(screen.getByText("78")).toBeInTheDocument();
   });
 
   it("does not render role recommendations when no resumeData", () => {
     render(<HeroSection />);
 
     expect(
-      screen.queryByText("Your Personalized Role Matches")
+      screen.queryByText(/Roles You're Ready For/),
     ).not.toBeInTheDocument();
   });
 
@@ -193,7 +209,7 @@ describe("HeroSection Component", () => {
     render(<HeroSection resumeData={mockResumeData} />);
 
     expect(
-      screen.queryByText("Your Personalized Role Matches")
+      screen.queryByText(/Roles You're Ready For/),
     ).not.toBeInTheDocument();
   });
 
@@ -268,10 +284,10 @@ describe("HeroSection Component", () => {
 
     render(<HeroSection resumeData={mockResumeData} />);
 
-    // Check that percentage badges have correct background colors
-    const highMatchBadge = screen.getByText("85%");
-    const mediumMatchBadge = screen.getByText("65%");
-    const lowMatchBadge = screen.getByText("45%");
+    // Check that percentage badges have correct content (display number without %)
+    const highMatchBadge = screen.getByText("85");
+    const mediumMatchBadge = screen.getByText("65");
+    const lowMatchBadge = screen.getByText("45");
 
     expect(highMatchBadge).toBeInTheDocument();
     expect(mediumMatchBadge).toBeInTheDocument();
@@ -282,15 +298,21 @@ describe("HeroSection Component", () => {
     const { rerender } = render(<HeroSection />);
 
     // Check initial render
-    expect(screen.getByText("Transform Your")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Discover roles, documents quality improvement, and master interviews/,
+      ),
+    ).toBeInTheDocument();
 
     // Re-render
     rerender(<HeroSection />);
 
     // Should still be there
-    expect(screen.getByText("Transform Your")).toBeInTheDocument();
     expect(
-      screen.getByText("AI-Powered Career Intelligence Platform")
+      screen.getByText(
+        /Discover roles, documents quality improvement, and master interviews/,
+      ),
     ).toBeInTheDocument();
+    expect(screen.getByText(/AI-Based/)).toBeInTheDocument();
   });
 });

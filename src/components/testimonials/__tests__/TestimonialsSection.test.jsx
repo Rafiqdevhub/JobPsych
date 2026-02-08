@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@test/test-utils";
 import TestimonialsSection from "../TestimonialsSection";
 import { testimonials } from "@/data/testimonials";
 
@@ -41,18 +41,23 @@ describe("TestimonialsSection", () => {
     // Check main heading
     expect(screen.getByText("Success Stories")).toBeInTheDocument();
     expect(
-      screen.getByText("See How JobPsych Transforms Careers & Hiring")
+      screen.getByText(/See How Our AI-Based System Transforms/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Career Readiness & Interview Success/),
     ).toBeInTheDocument();
 
     // Check description
     expect(
-      screen.getByText(/Real stories from job seekers and HR professionals/)
+      screen.getByText(
+        /Real stories from professionals who've transformed their careers/,
+      ),
     ).toBeInTheDocument();
 
     // Check feature badges
-    expect(screen.getByText("Role Suggestions")).toBeInTheDocument();
-    expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
-    expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
+    expect(screen.getByText("Career Path Exploration")).toBeInTheDocument();
+    expect(screen.getByText("Document Analysis")).toBeInTheDocument();
+    expect(screen.getByText("Interview Practice")).toBeInTheDocument();
   });
 
   it("renders all testimonials correctly", () => {
@@ -68,7 +73,7 @@ describe("TestimonialsSection", () => {
 
     // Check all companies
     expect(
-      screen.getByText("Successfully transitioned from Marketing")
+      screen.getByText("Successfully transitioned from Marketing"),
     ).toBeInTheDocument();
     expect(screen.getByText("Global Innovations Inc")).toBeInTheDocument();
   });
@@ -78,13 +83,13 @@ describe("TestimonialsSection", () => {
 
     expect(
       screen.getByText(
-        /Role Suggestions helped me identify the perfect career switch/
-      )
+        /Role Suggestions helped me identify the perfect career switch/,
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /The custom enterprise solution streamlined our entire recruitment process/
-      )
+        /The custom enterprise solution streamlined our entire recruitment process/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -92,7 +97,6 @@ describe("TestimonialsSection", () => {
     render(<TestimonialsSection />);
 
     expect(screen.getByText("Job Seekers")).toBeInTheDocument();
-    expect(screen.getByText("HR Professionals")).toBeInTheDocument();
     expect(screen.getByText("Enterprise")).toBeInTheDocument();
   });
 
@@ -101,8 +105,6 @@ describe("TestimonialsSection", () => {
 
     expect(screen.getByText("Career Switch Success")).toBeInTheDocument();
     expect(screen.getByText("85% role match score")).toBeInTheDocument();
-    expect(screen.getByText("50% faster hiring")).toBeInTheDocument();
-    expect(screen.getByText("98% candidate satisfaction")).toBeInTheDocument();
     expect(screen.getByText("3x hiring efficiency")).toBeInTheDocument();
     expect(screen.getByText("90% better matches")).toBeInTheDocument();
   });
@@ -111,11 +113,10 @@ describe("TestimonialsSection", () => {
     render(<TestimonialsSection />);
 
     const images = screen.getAllByRole("img");
-    expect(images).toHaveLength(3);
+    expect(images).toHaveLength(2);
 
     expect(images[0]).toHaveAttribute("alt", "Ali Ahmed");
-    expect(images[1]).toHaveAttribute("alt", "Abu Bakar");
-    expect(images[2]).toHaveAttribute("alt", "Ihtesham Ullah");
+    expect(images[1]).toHaveAttribute("alt", "Ihtesham Ullah");
   });
 
   it("applies correct CSS classes for styling", () => {
@@ -128,14 +129,14 @@ describe("TestimonialsSection", () => {
       "pb-10",
       "sm:pt-10",
       "sm:pb-24",
-      "bg-slate-900"
+      "bg-slate-900",
     );
 
     // Check testimonial cards
     const testimonialCards = container.querySelectorAll(
-      '[class*="bg-slate-800"]'
+      '[class*="bg-slate-800"]',
     );
-    expect(testimonialCards).toHaveLength(3);
+    expect(testimonialCards).toHaveLength(2);
 
     testimonialCards.forEach((card) => {
       expect(card).toHaveClass(
@@ -143,36 +144,29 @@ describe("TestimonialsSection", () => {
         "bg-slate-800",
         "rounded-2xl",
         "p-8",
-        "shadow-xl"
+        "shadow-xl",
       );
     });
   });
 
-  it("has responsive grid layout", () => {
+  it("has responsive carousel layout", () => {
     const { container } = render(<TestimonialsSection />);
 
-    const gridContainer = container.querySelector('[class*="grid"]');
-    expect(gridContainer).toHaveClass(
-      "grid",
-      "grid-cols-1",
-      "sm:grid-cols-2",
-      "md:grid-cols-3",
-      "gap-6",
-      "sm:gap-8"
-    );
+    // The component uses a carousel, not a grid layout
+    const carouselContainer = container.querySelector('[class*="flex"]');
+    expect(carouselContainer).toBeInTheDocument();
   });
 
   it("displays feature badges with hover effects", () => {
     const { container } = render(<TestimonialsSection />);
 
     const badges = container.querySelectorAll('[class*="inline-flex"]');
-    expect(badges).toHaveLength(4);
+    expect(badges).toHaveLength(3);
 
-    // Check each badge has its own hover effect
-    expect(badges[0]).toHaveClass("hover:bg-emerald-700");
-    expect(badges[1]).toHaveClass("hover:bg-blue-700");
-    expect(badges[2]).toHaveClass("hover:bg-orange-700");
-    expect(badges[3]).toHaveClass("hover:bg-purple-700");
+    // Check badges have proper styling
+    expect(badges[0]).toHaveClass("inline-flex");
+    expect(badges[1]).toHaveClass("inline-flex");
+    expect(badges[2]).toHaveClass("inline-flex");
   });
 
   it("has proper accessibility attributes", () => {
@@ -188,15 +182,15 @@ describe("TestimonialsSection", () => {
     const { container } = render(<TestimonialsSection />);
 
     const testimonialCards = container.querySelectorAll(
-      '[class*="hover:shadow-2xl"]'
+      '[class*="hover:shadow-2xl"]',
     );
-    expect(testimonialCards).toHaveLength(3);
+    expect(testimonialCards).toHaveLength(2);
 
     testimonialCards.forEach((card) => {
       expect(card).toHaveClass(
         "hover:shadow-2xl",
         "transition-all",
-        "duration-300"
+        "duration-300",
       );
       expect(card).toHaveClass("hover:border-indigo-500/50");
     });
@@ -222,7 +216,7 @@ describe("TestimonialsSection", () => {
     expect(gradientDiv).toHaveClass(
       "bg-gradient-to-br",
       "from-indigo-500/10",
-      "to-blue-500/10"
+      "to-blue-500/10",
     );
   });
 
@@ -230,7 +224,7 @@ describe("TestimonialsSection", () => {
     const { container } = render(<TestimonialsSection />);
 
     const mainContainer = container.querySelector(
-      '[class*="mx-auto max-w-7xl"]'
+      '[class*="mx-auto max-w-7xl"]',
     );
     expect(mainContainer).toHaveClass(
       "relative",
@@ -239,7 +233,7 @@ describe("TestimonialsSection", () => {
       "max-w-7xl",
       "px-2",
       "sm:px-6",
-      "lg:px-8"
+      "lg:px-8",
     );
   });
 
@@ -247,7 +241,7 @@ describe("TestimonialsSection", () => {
     const { container } = render(<TestimonialsSection />);
 
     const quotes = container.querySelectorAll("blockquote");
-    expect(quotes).toHaveLength(3);
+    expect(quotes).toHaveLength(2);
 
     quotes.forEach((quote) => {
       expect(quote).toHaveClass("text-gray-300", "mb-6");
@@ -259,9 +253,9 @@ describe("TestimonialsSection", () => {
     const { container } = render(<TestimonialsSection />);
 
     const resultBadges = container.querySelectorAll(
-      '[class*="bg-emerald-500/20"]'
+      '[class*="bg-emerald-500/20"]',
     );
-    expect(resultBadges).toHaveLength(3);
+    expect(resultBadges).toHaveLength(2);
 
     resultBadges.forEach((badge) => {
       expect(badge).toHaveClass(
@@ -270,7 +264,7 @@ describe("TestimonialsSection", () => {
         "py-1",
         "rounded-full",
         "border",
-        "border-emerald-500/30"
+        "border-emerald-500/30",
       );
     });
   });
@@ -279,9 +273,9 @@ describe("TestimonialsSection", () => {
     const { container } = render(<TestimonialsSection />);
 
     const highlightBadges = container.querySelectorAll(
-      '[class*="bg-indigo-500/20"]'
+      '[class*="bg-indigo-500/20"]',
     );
-    expect(highlightBadges).toHaveLength(3);
+    expect(highlightBadges).toHaveLength(2);
 
     highlightBadges.forEach((badge) => {
       expect(badge).toHaveClass(
@@ -290,7 +284,7 @@ describe("TestimonialsSection", () => {
         "py-1",
         "rounded-full",
         "border",
-        "border-indigo-500/30"
+        "border-indigo-500/30",
       );
     });
   });

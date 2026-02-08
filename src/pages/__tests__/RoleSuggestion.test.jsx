@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import RoleSuggestion from "../RoleSuggestion";
 
@@ -161,7 +155,7 @@ describe("RoleSuggestion Component", () => {
 
     await waitFor(() => {
       const successMessages = screen.getAllByText(
-        "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis."
+        "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis.",
       );
       expect(successMessages.length).toBeGreaterThan(0);
     });
@@ -181,7 +175,7 @@ describe("RoleSuggestion Component", () => {
 
     expect(screen.getByText("Ready to Analyze")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /analyze resume/i })
+      screen.getByRole("button", { name: /analyze resume/i }),
     ).toBeInTheDocument();
   });
 
@@ -338,7 +332,7 @@ describe("RoleSuggestion Component", () => {
     });
 
     expect(localStorageMock.removeItem).toHaveBeenCalledWith(
-      "roleSuggestionData"
+      "roleSuggestionData",
     );
   });
 
@@ -379,7 +373,7 @@ describe("RoleSuggestion Component", () => {
       () => {
         expect(mockFetch).toHaveBeenCalledWith(expect.any(Request));
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
   });
 

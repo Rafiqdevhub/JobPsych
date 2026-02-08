@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@test/test-utils";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import Toast from "../Toast";
 
@@ -100,7 +100,7 @@ describe("Toast Component", () => {
         message="Auto-dismiss message"
         onClose={mockOnClose}
         duration={3000}
-      />
+      />,
     );
 
     // Initially visible
@@ -123,7 +123,7 @@ describe("Toast Component", () => {
         show={true}
         onClose={mockOnClose}
         duration={0}
-      />
+      />,
     );
 
     // Advance timer by 5 seconds
@@ -145,7 +145,7 @@ describe("Toast Component", () => {
 
   it("hides progress bar when showProgress is false", () => {
     render(
-      <Toast message="No progress test" show={true} showProgress={false} />
+      <Toast message="No progress test" show={true} showProgress={false} />,
     );
 
     const progressBar = document.querySelector(".h-full");
@@ -154,18 +154,18 @@ describe("Toast Component", () => {
 
   it("renders in different positions", () => {
     const { rerender } = render(
-      <Toast message="Position test" show={true} position="top-left" />
+      <Toast message="Position test" show={true} position="top-left" />,
     );
 
     expect(document.querySelector(".top-4.left-4")).toBeInTheDocument();
 
     rerender(
-      <Toast message="Position test" show={true} position="bottom-right" />
+      <Toast message="Position test" show={true} position="bottom-right" />,
     );
     expect(document.querySelector(".bottom-4.right-4")).toBeInTheDocument();
 
     rerender(
-      <Toast message="Position test" show={true} position="top-center" />
+      <Toast message="Position test" show={true} position="top-center" />,
     );
     expect(document.querySelector(".top-4.left-1\\/2")).toBeInTheDocument();
   });

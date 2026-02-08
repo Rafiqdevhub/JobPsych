@@ -19,15 +19,6 @@ vi.mock("@data/roleSuggetionsFeatures", () => ({
   ],
 }));
 
-vi.mock("@data/hireSuggestions", () => ({
-  hrSuggestions: [
-    { icon: "👥", title: "HR 1", description: "HR desc 1" },
-    { icon: "📈", title: "HR 2", description: "HR desc 2" },
-    { icon: "🎯", title: "HR 3", description: "HR desc 3" },
-    { icon: "💼", title: "HR 4", description: "HR desc 4" },
-  ],
-}));
-
 vi.mock("@data/atsAnalyzerFeatures", () => ({
   atsAnalyzerFeatures: [
     { icon: "🔍", title: "ATS 1", description: "ATS desc 1" },
@@ -77,7 +68,7 @@ describe("Header Component", () => {
 
     // Initially not visible
     expect(
-      screen.queryByRole("button", { name: /scroll to top/i })
+      screen.queryByRole("button", { name: /scroll to top/i }),
     ).not.toBeInTheDocument();
 
     // Simulate scroll
@@ -85,7 +76,7 @@ describe("Header Component", () => {
     fireEvent.scroll(window);
 
     expect(
-      screen.getByRole("button", { name: /scroll to top/i })
+      screen.getByRole("button", { name: /scroll to top/i }),
     ).toBeInTheDocument();
   });
 
@@ -136,7 +127,7 @@ describe("Header Component", () => {
     fireEvent.click(closeButton);
 
     expect(
-      screen.queryByText("JobPsych Tools & Features")
+      screen.queryByText("JobPsych Tools & Features"),
     ).not.toBeInTheDocument();
   });
 
@@ -153,7 +144,7 @@ describe("Header Component", () => {
     const mobileFeaturesButton = screen
       .getAllByText("Features")
       .find(
-        (el) => el.closest("nav") && el.closest('[id="mobile-nav-dropdown"]')
+        (el) => el.closest("nav") && el.closest('[id="mobile-nav-dropdown"]'),
       )
       .closest("button");
     expect(mobileFeaturesButton).toBeInTheDocument();
@@ -209,12 +200,10 @@ describe("Header Component", () => {
     const roleFeatures = screen.getAllByText(/Feature \d/);
     const interviewFeatures = screen.getAllByText(/Interview \d/);
     const atsFeatures = screen.getAllByText(/ATS \d/);
-    const hrFeatures = screen.getAllByText(/HR \d/);
 
     expect(roleFeatures).toHaveLength(4);
     expect(interviewFeatures).toHaveLength(4);
     expect(atsFeatures).toHaveLength(4);
-    expect(hrFeatures).toHaveLength(4);
   });
 
   test("header changes styling when scrolled", () => {
@@ -273,7 +262,7 @@ describe("Header Component", () => {
 
     // Check for animated background dots
     const animatedElements = document.querySelectorAll(
-      ".animate-pulse, .animate-bounce, .animate-ping"
+      ".animate-pulse, .animate-bounce, .animate-ping",
     );
     expect(animatedElements.length).toBeGreaterThan(0);
   });

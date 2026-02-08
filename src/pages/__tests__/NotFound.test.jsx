@@ -1,6 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { render, screen, fireEvent } from "@test/test-utils";
 import { describe, it, expect } from "vitest";
 import NotFound from "../NotFound";
 
@@ -11,13 +10,9 @@ Object.defineProperty(window, "location", {
   writable: true,
 });
 
-const renderWithRouter = (component) => {
-  return render(<BrowserRouter>{component}</BrowserRouter>);
-};
-
 describe("NotFound Component", () => {
   it("renders the 404 page correctly", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     // Check main elements
     expect(screen.getByText("404")).toBeInTheDocument();
@@ -26,15 +21,17 @@ describe("NotFound Component", () => {
 
     // Check descriptive text
     expect(
-      screen.getByText(/The page you are looking for seems to have vanished/)
+      screen.getByText(/The page you are looking for seems to have vanished/),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/our AI-powered platform has plenty of amazing features/)
+      screen.getByText(
+        /our AI-powered platform has plenty of amazing features/,
+      ),
     ).toBeInTheDocument();
   });
 
   it("navigates to home when Go to Home button is clicked", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     const homeButton = screen.getByText("Go to Home");
     fireEvent.click(homeButton);
@@ -45,7 +42,7 @@ describe("NotFound Component", () => {
   });
 
   it("displays the correct 404 styling and layout", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     // Check for main container with proper classes
     const mainElement = screen.getByRole("main");
@@ -54,7 +51,7 @@ describe("NotFound Component", () => {
       "min-h-screen",
       "flex",
       "items-center",
-      "justify-center"
+      "justify-center",
     );
 
     // Check for background elements
@@ -62,24 +59,24 @@ describe("NotFound Component", () => {
   });
 
   it("displays the error message correctly", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     const errorMessage = screen.getByText(
-      /The page you are looking for seems to have vanished/
+      /The page you are looking for seems to have vanished/,
     );
     expect(errorMessage).toBeInTheDocument();
     expect(errorMessage).toHaveClass("text-lg", "sm:text-xl", "text-slate-300");
   });
 
   it("displays the call-to-action section", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     const ctaSection = screen.getByText("Go to Home").closest("div");
     expect(ctaSection).toBeInTheDocument();
   });
 
   it("has proper accessibility attributes", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     // Check for semantic HTML
     expect(screen.getByRole("main")).toBeInTheDocument();
@@ -91,7 +88,7 @@ describe("NotFound Component", () => {
   });
 
   it("displays animated background elements", () => {
-    renderWithRouter(<NotFound />);
+    render(<NotFound />);
 
     // Check for animated elements (they have animate-pulse class)
     const animatedElements = document.querySelectorAll(".animate-pulse");
@@ -99,17 +96,13 @@ describe("NotFound Component", () => {
   });
 
   it("maintains component stability during re-renders", () => {
-    const { rerender } = renderWithRouter(<NotFound />);
+    const { rerender } = render(<NotFound />);
 
     // Check initial render
     expect(screen.getByText("404")).toBeInTheDocument();
 
     // Re-render and check again
-    rerender(
-      <BrowserRouter>
-        <NotFound />
-      </BrowserRouter>
-    );
+    rerender(<NotFound />);
 
     // Should still be there
     expect(screen.getByText("404")).toBeInTheDocument();
