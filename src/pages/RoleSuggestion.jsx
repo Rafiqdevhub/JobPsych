@@ -74,7 +74,7 @@ const RoleSuggestion = () => {
 
     setUploadedFile(file);
     setAlertMessage(
-      "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis."
+      "Resume uploaded successfully! Click 'Analyze Role Fit' to start the analysis.",
     );
     setAlertType("success");
 
@@ -88,7 +88,7 @@ const RoleSuggestion = () => {
     if (!uploadedFile) return;
 
     setIsLoading(true);
-    setLoadingStage("Preparing your resume for analysis...");
+    setLoadingStage("Preparing your profile for role analysis...");
     setLoadingProgress(10);
     setError({
       show: false,
@@ -116,7 +116,7 @@ const RoleSuggestion = () => {
 
     try {
       // Stage 1: Preparing data
-      setLoadingStage("Scanning resume structure and content...");
+      setLoadingStage("Scanning experience and skills...");
       setLoadingProgress(20);
 
       const formData = new FormData();
@@ -157,7 +157,7 @@ const RoleSuggestion = () => {
         if (response.status === 429) {
           // Show enhanced toast for rate limit
           showWarning(
-            "You've reached your daily limit of 5 resume analyses. This helps us maintain quality service for everyone.",
+            "You've reached your daily limit of 5 role analyses. This helps us maintain quality service for everyone.",
             {
               title: "Daily Limit Reached",
               duration: 8000,
@@ -181,29 +181,29 @@ const RoleSuggestion = () => {
                                 now.getDate() + 1,
                                 0,
                                 0,
-                                0
+                                0,
                               );
                               const timeLeft =
                                 utcMidnight.getTime() - now.getTime();
                               const hoursLeft = Math.ceil(
-                                timeLeft / (1000 * 60 * 60)
+                                timeLeft / (1000 * 60 * 60),
                               );
                               showInfo(
                                 `Your limit will reset in approximately ${hoursLeft} hours. Meanwhile, you can use our AI chatbot for career advice!`,
                                 {
                                   title: "Time Until Reset",
                                   duration: 6000,
-                                }
+                                },
                               );
                             },
                           },
                         ],
-                      }
+                      },
                     );
                   },
                 },
               ],
-            }
+            },
           );
 
           setError({
@@ -219,7 +219,7 @@ const RoleSuggestion = () => {
           return;
         }
 
-        throw new Error(error.message || "Failed to analyze resume");
+        throw new Error(error.message || "Failed to analyze role fit");
       }
 
       // Stage 4: Finalizing results
@@ -232,7 +232,7 @@ const RoleSuggestion = () => {
       } catch (jsonError) {
         throw new Error(
           "Failed to parse API response. The server may have returned invalid data.",
-          jsonError
+          jsonError,
         );
       }
 
@@ -262,8 +262,8 @@ const RoleSuggestion = () => {
       setLoadingProgress(100);
 
       const successMessage = targetRole
-        ? `Resume analyzed for ${targetRole} position! Scroll down to see your role fit analysis and recommendations.`
-        : "Resume uploaded successfully! Scroll down to see the analysis of your resume.";
+        ? `Role fit analysis for ${targetRole} is complete! Scroll down to see your matches and recommendations.`
+        : "Profile analysis complete! Scroll down to see your role matches and insights.";
 
       // Small delay to show completion message
       setTimeout(() => {
@@ -455,10 +455,10 @@ const RoleSuggestion = () => {
                       style={{ fontFamily: "'Tinos', serif" }}
                     >
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-400 to-rose-400 animate-pulse">
-                        Resume
+                        Career Path
                       </span>
                       <br />
-                      <span className="text-white">Intelligence Hub</span>
+                      <span className="text-white">Exploration Hub</span>
                     </h1>
 
                     <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
@@ -466,7 +466,7 @@ const RoleSuggestion = () => {
                       <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">
                         AI-powered
                       </span>{" "}
-                      resume analysis. Get instant role recommendations, skill
+                      role discovery. Get instant role recommendations, skill
                       gap analysis, and personalized career insights.
                     </p>
                   </div>
@@ -493,12 +493,12 @@ const RoleSuggestion = () => {
                     />
                   </svg>
                   <h2 className="text-2xl font-bold text-white">
-                    Expert Resume Tips
+                    Career Exploration Tips
                   </h2>
                 </div>
                 <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-                  Boost your resume's impact with these proven strategies from
-                  top career experts
+                  Boost your role discovery with proven strategies from top
+                  career experts
                 </p>
               </div>
 
@@ -627,11 +627,11 @@ const RoleSuggestion = () => {
                       />
                     </svg>
                     <h2 className="text-3xl font-bold text-white">
-                      Resume Score
+                      Career Readiness Score
                     </h2>
                   </div>
                   <p className="text-slate-300 text-lg">
-                    Your resume performance breakdown
+                    Your role fit readiness breakdown
                   </p>
                 </div>
 
@@ -708,7 +708,7 @@ const RoleSuggestion = () => {
                               </span>
                               <span>{strength}</span>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -733,7 +733,7 @@ const RoleSuggestion = () => {
                               </span>
                               <span>{weakness}</span>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -758,7 +758,7 @@ const RoleSuggestion = () => {
                               </span>
                               <span>{suggestion}</span>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -814,7 +814,7 @@ const RoleSuggestion = () => {
                             ></div>
                           </div>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 )}
@@ -845,7 +845,7 @@ const RoleSuggestion = () => {
                           <div className="text-3xl font-bold text-amber-400">
                             {Math.round(
                               resumeData.personalityInsights
-                                .leadership_potential
+                                .leadership_potential,
                             )}
                             %
                           </div>
@@ -871,7 +871,7 @@ const RoleSuggestion = () => {
                         <div className="flex items-center gap-4">
                           <div className="text-3xl font-bold text-teal-400">
                             {Math.round(
-                              resumeData.personalityInsights.team_player_score
+                              resumeData.personalityInsights.team_player_score,
                             )}
                             %
                           </div>
@@ -1002,8 +1002,8 @@ const RoleSuggestion = () => {
                                   role.matchPercentage >= 85
                                     ? "text-emerald-400"
                                     : role.matchPercentage >= 70
-                                    ? "text-cyan-400"
-                                    : "text-amber-400"
+                                      ? "text-cyan-400"
+                                      : "text-amber-400"
                                 }`}
                               >
                                 {Math.round(role.matchPercentage)}%
@@ -1218,7 +1218,7 @@ const RoleSuggestion = () => {
                               </span>
                               <span>{item}</span>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -1318,7 +1318,7 @@ const RoleSuggestion = () => {
                                 </div>
                               </div>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -1351,7 +1351,7 @@ const RoleSuggestion = () => {
                                     </span>
                                     <span>{trait}</span>
                                   </li>
-                                )
+                                ),
                               )}
                             </ul>
                           </div>
@@ -1376,7 +1376,7 @@ const RoleSuggestion = () => {
                                     </span>
                                     <span>{trait}</span>
                                   </li>
-                                )
+                                ),
                               )}
                             </ul>
                           </div>
@@ -1422,7 +1422,7 @@ const RoleSuggestion = () => {
                                 {strength.how_to_highlight}
                               </p>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -1449,7 +1449,7 @@ const RoleSuggestion = () => {
                                 <strong>Action Plan:</strong> {area.action_plan}
                               </p>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -1462,7 +1462,7 @@ const RoleSuggestion = () => {
                       Timeline
                     </h4>
                     {Object.entries(
-                      resumeData.preparationPlan.preparation_timeline
+                      resumeData.preparationPlan.preparation_timeline,
                     ).map(([phase, items]) => (
                       <div
                         key={phase}
@@ -1619,7 +1619,7 @@ const RoleSuggestion = () => {
                                 {point}
                               </p>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -1644,7 +1644,7 @@ const RoleSuggestion = () => {
                                 {idx + 1}. {question}
                               </p>
                             </div>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -1799,7 +1799,7 @@ const RoleSuggestion = () => {
                               </span>
                               <span>{item}</span>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
@@ -2038,14 +2038,14 @@ const RoleSuggestion = () => {
                           />
                         </svg>
                         <h3 className="text-2xl font-bold text-white">
-                          Ready to Analyze
+                          Ready to Explore Roles
                         </h3>
                       </div>
 
                       <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
                         Your resume "{uploadedFile.name}" has been uploaded
                         successfully. Click the button below to start the
-                        AI-powered analysis and get personalized career
+                        AI-powered role-fit analysis and get personalized career
                         insights.
                       </p>
 
@@ -2080,7 +2080,7 @@ const RoleSuggestion = () => {
                                 </svg>
                                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full opacity-60 animate-pulse"></div>
                               </div>
-                              <span>Analyzing Resume...</span>
+                              <span>Analyzing Role Fit...</span>
                             </>
                           ) : (
                             <>
@@ -2097,7 +2097,7 @@ const RoleSuggestion = () => {
                                   d="M13 10V3L4 14h7v7l9-11h-7z"
                                 />
                               </svg>
-                              <span>Analyze Resume</span>
+                              <span>Analyze Role Fit</span>
                             </>
                           )}
                         </div>

@@ -13,8 +13,11 @@ vi.mock("@/hooks/useToast", () => ({
 
 // Mock window.open and window.location
 const mockWindowOpen = vi.fn();
-delete window.location;
-window.location = { href: "" };
+const mockLocation = { href: "" };
+Object.defineProperty(window, "location", {
+  value: mockLocation,
+  writable: true,
+});
 Object.defineProperty(window, "open", {
   writable: true,
   value: mockWindowOpen,
@@ -24,6 +27,7 @@ describe("ATSAnalyzer Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    mockLocation.href = "";
   });
 
   afterEach(() => {
@@ -87,6 +91,15 @@ describe("ATSAnalyzer Component", () => {
 
     // Check that success method was called
     expect(mockShowSuccess).toHaveBeenCalled();
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(mockWindowOpen).toHaveBeenCalledWith(
+      "https://ats-cracker.vercel.app/",
+      "_blank",
+    );
   });
 
   it("handles Back to Home button click", () => {

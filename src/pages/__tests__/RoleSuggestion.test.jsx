@@ -117,7 +117,7 @@ describe("RoleSuggestion Component", () => {
   it("renders the main RoleSuggestion interface", () => {
     render(<RoleSuggestion />);
 
-    expect(screen.getByText("Intelligence Hub")).toBeInTheDocument();
+    expect(screen.getByText("Exploration Hub")).toBeInTheDocument();
     expect(screen.getByTestId("resume-upload")).toBeInTheDocument();
   });
 
@@ -155,7 +155,7 @@ describe("RoleSuggestion Component", () => {
 
     await waitFor(() => {
       const successMessages = screen.getAllByText(
-        "Resume uploaded successfully! Click 'Analyze Resume' to start the analysis.",
+        "Resume uploaded successfully! Click 'Analyze Role Fit' to start the analysis.",
       );
       expect(successMessages.length).toBeGreaterThan(0);
     });
@@ -173,9 +173,9 @@ describe("RoleSuggestion Component", () => {
       fireEvent.change(fileInput, { target: { files: [file] } });
     });
 
-    expect(screen.getByText("Ready to Analyze")).toBeInTheDocument();
+    expect(screen.getByText("Ready to Explore Roles")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /analyze resume/i }),
+      screen.getByRole("button", { name: /analyze role fit/i }),
     ).toBeInTheDocument();
   });
 
@@ -194,7 +194,7 @@ describe("RoleSuggestion Component", () => {
 
     // Click analyze button
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
@@ -223,7 +223,7 @@ describe("RoleSuggestion Component", () => {
 
     // The error should prevent analysis when the file is too large
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
@@ -250,7 +250,7 @@ describe("RoleSuggestion Component", () => {
     });
 
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
@@ -276,14 +276,14 @@ describe("RoleSuggestion Component", () => {
     });
 
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
       fireEvent.click(analyzeButton);
     });
 
-    expect(screen.getByText("Analyzing Resume...")).toBeInTheDocument();
+    expect(screen.getByText("Analyzing Role Fit...")).toBeInTheDocument();
   });
 
   it("persists data to localStorage", async () => {
@@ -299,7 +299,7 @@ describe("RoleSuggestion Component", () => {
     });
 
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
@@ -341,7 +341,7 @@ describe("RoleSuggestion Component", () => {
 
     // These inputs might be in a form or modal - test would depend on actual UI
     // For now, just verify the component renders without these inputs
-    expect(screen.getByText("Intelligence Hub")).toBeInTheDocument();
+    expect(screen.getByText("Exploration Hub")).toBeInTheDocument();
   });
 
   it("displays analysis results correctly", async () => {
@@ -357,7 +357,7 @@ describe("RoleSuggestion Component", () => {
     });
 
     const analyzeButton = screen.getByRole("button", {
-      name: /analyze resume/i,
+      name: /analyze role fit/i,
     });
 
     act(() => {
@@ -365,7 +365,7 @@ describe("RoleSuggestion Component", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Analyzing Resume...")).toBeInTheDocument();
+      expect(screen.getByText("Analyzing Role Fit...")).toBeInTheDocument();
     });
 
     // Wait for analysis to complete
@@ -380,10 +380,10 @@ describe("RoleSuggestion Component", () => {
   it("maintains component stability during re-renders", () => {
     const { rerender } = render(<RoleSuggestion />);
 
-    expect(screen.getByText("Intelligence Hub")).toBeInTheDocument();
+    expect(screen.getByText("Exploration Hub")).toBeInTheDocument();
 
     rerender(<RoleSuggestion />);
 
-    expect(screen.getByText("Intelligence Hub")).toBeInTheDocument();
+    expect(screen.getByText("Exploration Hub")).toBeInTheDocument();
   });
 });
