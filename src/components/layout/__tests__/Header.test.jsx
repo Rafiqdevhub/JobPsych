@@ -105,10 +105,20 @@ describe("Header Component", () => {
     const featuresButton = screen.getByRole("button", { name: /features/i });
     fireEvent.click(featuresButton);
 
-    expect(screen.getByText("JobPsych Tools & Features")).toBeInTheDocument();
-    expect(screen.getByText("Role Suggestions")).toBeInTheDocument();
-    expect(screen.getByText("InterviewPrep AI")).toBeInTheDocument();
-    expect(screen.getByText("ATS Analyzer")).toBeInTheDocument();
+    expect(
+      screen.getByText("Career Readiness & Interview Success"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Career Path Exploration Module"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("AI-Assisted Interview Practice Module"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Professional Document Structure and Content Analysis Module",
+      ),
+    ).toBeInTheDocument();
   });
 
   test("closes features modal when close button is clicked", () => {
@@ -118,7 +128,9 @@ describe("Header Component", () => {
     const featuresButton = screen.getByRole("button", { name: /features/i });
     fireEvent.click(featuresButton);
 
-    expect(screen.getByText("JobPsych Tools & Features")).toBeInTheDocument();
+    expect(
+      screen.getByText("Career Readiness & Interview Success"),
+    ).toBeInTheDocument();
 
     // Close modal
     const closeButton = screen.getByRole("button", {
@@ -127,7 +139,7 @@ describe("Header Component", () => {
     fireEvent.click(closeButton);
 
     expect(
-      screen.queryByText("JobPsych Tools & Features"),
+      screen.queryByText("Career Readiness & Interview Success"),
     ).not.toBeInTheDocument();
   });
 
@@ -186,7 +198,9 @@ describe("Header Component", () => {
 
     // Dropdown should close, modal should open
     expect(screen.queryByText("Mobile Menu")).not.toBeInTheDocument();
-    expect(screen.getByText("JobPsych Tools & Features")).toBeInTheDocument();
+    expect(
+      screen.getByText("Career Readiness & Interview Success"),
+    ).toBeInTheDocument();
   });
 
   test("displays correct number of features in each category", () => {
