@@ -8,7 +8,6 @@ import ErrorBoundary from "@components/error/ErrorBoundary.jsx";
 import PageLoader from "@components/loading/PageLoader.jsx";
 import "@utils/performanceMonitor.js";
 
-// Debug logging for WebKit issues
 const isWebKit =
   navigator.userAgent.includes("WebKit") &&
   !navigator.userAgent.includes("Chrome");
@@ -58,8 +57,8 @@ const RoleSuggestion = lazy(() => import("@pages/RoleSuggestion.jsx"));
 const InterviewPrepAI = lazy(() => import("@pages/InterviewPrepAI.jsx"));
 const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy.jsx"));
 const TermsOfService = lazy(() => import("@pages/TermsOfService.jsx"));
-const SecurityAuditDashboard = lazy(() =>
-  import("@components/security/SecurityAuditDashboard.jsx")
+const SecurityAuditDashboard = lazy(
+  () => import("@components/security/SecurityAuditDashboard.jsx"),
 );
 
 const router = createBrowserRouter([
@@ -144,5 +143,5 @@ root.render(
         <RouterProvider router={router} />
       </ToastProvider>
     </ErrorBoundary>
-  </StrictMode>
+  </StrictMode>,
 );
