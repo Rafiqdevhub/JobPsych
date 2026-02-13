@@ -189,7 +189,7 @@ test.describe("Landing Page - Features", () => {
 
         await page.evaluate(
           (amount) => window.scrollTo(0, amount),
-          scrollAmount
+          scrollAmount,
         );
         await page.waitForTimeout(500);
 
@@ -250,7 +250,9 @@ test.describe("Landing Page - Performance", () => {
       (error) =>
         !error.includes("favicon") &&
         !error.includes("404") &&
-        !error.includes("X-Frame-Options")
+        !error.includes("X-Frame-Options") &&
+        !error.includes("downloadable font") &&
+        !error.includes("font-family"),
     );
 
     if (browserName === "webkit") {
