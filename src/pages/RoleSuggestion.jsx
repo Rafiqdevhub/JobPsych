@@ -155,7 +155,6 @@ const RoleSuggestion = () => {
 
         // Special handling for rate limit errors (server-side)
         if (response.status === 429) {
-          // Show enhanced toast for rate limit
           showWarning(
             "You've reached your daily limit of 5 role analyses. This helps us maintain quality service for everyone.",
             {
