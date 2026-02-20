@@ -6,7 +6,7 @@ import NavigationButton from "@components/buttons/NavigationButton";
 import NetworkError from "@components/error/NetworkError";
 import LoadingError from "@components/error/LoadingError";
 import { ToastContext } from "@components/toast/ToastContext";
-import { ANALYZE_RESUME } from "../utils/api";
+import { ROLE_SUGGESTION } from "../utils/api";
 
 const RoleSuggestion = () => {
   const [resumeData, setResumeData] = useState(null);
@@ -133,7 +133,7 @@ const RoleSuggestion = () => {
       setLoadingStage("AI is analyzing your skills and experience...");
       setLoadingProgress(40);
 
-      const response = await fetch(ANALYZE_RESUME, {
+      const response = await fetch(ROLE_SUGGESTION, {
         method: "POST",
         body: formData,
         mode: "cors",

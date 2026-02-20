@@ -8,8 +8,8 @@ export const AI_API_BASE_URL = isTest
   ? `https://evaai-seven.vercel.app/api`
   : `http://localhost:5000/api`;
 
-export const ANALYZE_RESUME = isTest
-  ? `/api/analyze-resume`
+export const ROLE_SUGGESTION = isTest
+  ? `/api/role-suggestion`
   : isProduction
-  ? `https://hr-resume-analyzer-backend.vercel.app/api/analyze-resume`
-  : `http://localhost:8000/api/analyze-resume`;
+  ? `https://role-suggestion.vercel.app/api/role-suggestion`
+  : `http://localhost:8000/api/role-suggestion`;
