@@ -1,6 +1,3 @@
-// Performance monitoring utilities for JobPsych Frontend
-// Functional implementation for tracking bundle sizes, loading performance, and runtime metrics
-
 const isDevelopment = import.meta.env.DEV;
 
 // Global metrics store

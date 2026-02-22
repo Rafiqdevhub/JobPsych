@@ -1,13 +1,7 @@
 import { AI_API_BASE_URL } from "./api.js";
 
-/**
- * Generic request function with error handling
- * @param {string} endpoint - API endpoint
- * @param {RequestInit} options - Fetch options
- * @param {string} baseURL - Base URL override (optional)
- * @returns {Promise<any>} Response data
- */
-async function makeRequest(endpoint, options = {}, baseURL = AI_API_BASE_URL) {
+
+const makeRequest = async (endpoint, options = {}, baseURL = AI_API_BASE_URL) => {
   const url = `${baseURL}${endpoint}`;
 
   const config = {
@@ -55,22 +49,22 @@ async function makeRequest(endpoint, options = {}, baseURL = AI_API_BASE_URL) {
 }
 
 // Health check endpoints
-export async function getHealth(baseURL) {
+export const getHealth = async (baseURL) => {
   return makeRequest("/health", {}, baseURL);
-}
+};
 
-export async function getDetailedHealth(baseURL) {
+export const getDetailedHealth = async (baseURL) => {
   return makeRequest("/health/detailed", {}, baseURL);
-}
+};
 
 // AI endpoints
-export async function chat(
+export const chat = async (
   message,
   context = null,
   sessionType = "general",
   model = null,
   baseURL
-) {
+) => {
   const payload = {
     message: message.trim(),
     ...(context && { context: context.trim() }),
@@ -88,12 +82,12 @@ export async function chat(
   );
 }
 
-export async function coaching(
+export const coaching = async (
   query,
   sessionType = null,
   userContext = null,
   baseURL
-) {
+) => {
   const payload = {
     query: query.trim(),
     ...(sessionType && { sessionType }),
@@ -110,12 +104,12 @@ export async function coaching(
   );
 }
 
-export async function analyzeJob(
+export const analyzeJob = async (
   jobDescription,
   userProfile,
   analysisType,
   baseURL
-) {
+) => {
   const payload = {
     analysisType,
     ...(jobDescription && { jobDescription: jobDescription.trim() }),
@@ -132,7 +126,7 @@ export async function analyzeJob(
   );
 }
 
-export async function analyzeText(text, analysisType, baseURL) {
+export const analyzeText = async (text, analysisType, baseURL) => {
   return makeRequest(
     "/ai/analyze",
     {
@@ -146,13 +140,13 @@ export async function analyzeText(text, analysisType, baseURL) {
   );
 }
 
-export async function getCareerPath(
+export const getCareerPath = async (
   currentRole,
   experience,
   interests,
   goals,
   baseURL
-) {
+) => {
   return makeRequest(
     "/ai/career-path",
     {
@@ -168,12 +162,12 @@ export async function getCareerPath(
   );
 }
 
-export async function prepareInterview(
+export const prepareInterview = async (
   jobDescription,
   userProfile,
   interviewType = null,
   baseURL
-) {
+) => {
   const payload = {
     jobDescription: jobDescription.trim(),
     userProfile: userProfile.trim(),
@@ -190,12 +184,12 @@ export async function prepareInterview(
   );
 }
 
-export async function analyzeSkillGap(
+export const analyzeSkillGap = async (
   targetRole,
   currentSkills,
   desiredSkills,
   baseURL
-) {
+) => {
   return makeRequest(
     "/ai/skill-gap",
     {
@@ -210,13 +204,13 @@ export async function analyzeSkillGap(
   );
 }
 
-export async function getModels(baseURL) {
+export const getModels = async (baseURL) => {
   return makeRequest("/ai/models", {}, baseURL);
-}
+};
 
-export async function getStatus(baseURL) {
+export const getStatus = async (baseURL) => {
   return makeRequest("/ai/status", {}, baseURL);
-}
+};
 
 export default {
   getHealth,
