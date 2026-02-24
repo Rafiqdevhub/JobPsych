@@ -29,9 +29,9 @@ test.describe("ATS Analyzer - Page Load", () => {
         .isVisible();
       expect(fallbackVisible).toBe(true);
     } else {
-      // ATS Analyzer page has a "Start ATS Analysis" button, not a traditional upload
+      // ATS Analyzer page has a "Start Document Analysis" button, not a traditional upload
       const startButton = page.getByRole("button", {
-        name: /start ats analysis/i,
+        name: /start document analysis/i,
       });
 
       await expect(startButton).toBeVisible();
