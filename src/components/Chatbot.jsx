@@ -211,8 +211,8 @@ const Chatbot = () => {
                   message.sender === "user"
                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white ml-4"
                     : message.isError
-                    ? "bg-red-50 text-red-800 border border-red-200"
-                    : "bg-gray-50 text-gray-800 mr-4 border border-gray-200"
+                      ? "bg-red-50 text-red-800 border border-red-200"
+                      : "bg-gray-50 text-gray-800 mr-4 border border-gray-200"
                 }`}
               >
                 <p className="text-sm leading-relaxed">{message.text}</p>
@@ -221,8 +221,8 @@ const Chatbot = () => {
                     message.sender === "user"
                       ? "text-indigo-100"
                       : message.isError
-                      ? "text-red-500"
-                      : "text-gray-500"
+                        ? "text-red-500"
+                        : "text-gray-500"
                   }`}
                 >
                   {message.timestamp.toLocaleTimeString([], {
@@ -234,7 +234,6 @@ const Chatbot = () => {
             </div>
           ))}
 
-          {/* Typing Indicator */}
           {isLoading && (
             <div className="flex justify-start">
               <div className="bg-gray-50 p-3 rounded-2xl shadow-sm border border-gray-200 mr-4">
@@ -258,7 +257,6 @@ const Chatbot = () => {
             </div>
           )}
 
-          {/* Error Message */}
           {error && (
             <div className="flex justify-center">
               <div className="bg-red-50 text-red-800 p-3 rounded-2xl shadow-sm border border-red-200 text-sm max-w-[85%]">
@@ -291,7 +289,6 @@ const Chatbot = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area */}
         <div className="bg-white/95 backdrop-blur-sm p-4 rounded-b-2xl shadow-xl border-x border-b border-gray-200/50">
           <div className="flex space-x-3">
             <div className="flex-1 relative">
@@ -353,7 +350,6 @@ const Chatbot = () => {
         </div>
       </div>
 
-      {/* Backdrop */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm transition-opacity duration-300"
