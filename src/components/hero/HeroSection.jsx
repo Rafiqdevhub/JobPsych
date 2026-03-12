@@ -266,21 +266,6 @@ const HeroSection = ({ resumeData }) => {
               </div>
             </div>
           )}
-
-          <div className="mt-24 hidden md:flex flex-col items-center justify-center animate-fade-in-up">
-            <p className="text-slate-400 text-sm mb-8 font-medium tracking-widest uppercase">
-              Scroll to Explore
-            </p>
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-6 h-10 border-2 border-indigo-400/50 rounded-full flex items-center justify-center group hover:border-indigo-400 transition-colors duration-300">
-                <div className="w-1 h-2 bg-indigo-400 rounded-full animate-bounce group-hover:scale-125 transition-transform duration-300"></div>
-              </div>
-              <ArrowRightIcon
-                className="h-5 w-5 text-indigo-400/50 animate-bounce rotate-90"
-                style={{ animationDelay: "0.2s" }}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </section>
